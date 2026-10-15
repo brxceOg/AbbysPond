@@ -422,7 +422,23 @@ function draw(now){
  ellipse(cx,cy,rx+1,ry+2,'#8bb58a');
  const water=ctx.createRadialGradient(cx-rx*.28,cy-ry*.4,4,cx,cy,Math.max(rx,ry)*1.2);water.addColorStop(0,'#b5e6d5');water.addColorStop(.48,'#83c9c4');water.addColorStop(1,'#4e9da0');ellipse(cx,cy,rx*.98,ry*.98,water);
  ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx*.947,ry*.947,0,0,Math.PI*2);ctx.clip();
- for(let i=0;i<34;i++){const a=rand(i,3)*Math.PI*2,r=Math.sqrt(rand(i,7))*.91;const wave=now*.00034+i*1.37;const x=cx+Math.cos(a)*rx*r+Math.sin(wave)*2.1;const y=cy+Math.sin(a)*ry*r+Math.sin(now*.00027+i*1.91)*1.05;ctx.globalAlpha=.17+rand(i,9)*.16+(Math.sin(now*.00048+i*1.6)+1)*.035;ctx.strokeStyle=i%2?'#e5fff0':'#3e9294';ctx.lineWidth=.7+rand(i,11)*1.2;ctx.beginPath();ctx.ellipse(x,y,4+rand(i,12)*7,1.5+rand(i,13)*2,a*.08+Math.sin(now*.00031+i*.83)*.11,Math.PI*.1,Math.PI*.9);ctx.stroke()}ctx.globalAlpha=1;
+ // These are the pond's free-floating surface texture marks (not duck ripples).
+ // Give each mark a clear, slow lateral-and-vertical wave drift so the texture visibly flows.
+ for(let i=0;i<34;i++){
+  const a=rand(i,3)*Math.PI*2,r=Math.sqrt(rand(i,7))*.91;
+  const phase=now*.00072+i*1.37;
+  const crossWave=now*.00046+i*1.91;
+  const x=cx+Math.cos(a)*rx*r+Math.sin(phase)*5.2+Math.sin(crossWave)*1.4;
+  const y=cy+Math.sin(a)*ry*r+Math.sin(crossWave)*3.1;
+  const breathe=(Math.sin(now*.00062+i*1.6)+1)*.5;
+  ctx.globalAlpha=.16+rand(i,9)*.17+breathe*.09;
+  ctx.strokeStyle=i%2?'#e5fff0':'#3e9294';
+  ctx.lineWidth=.7+rand(i,11)*1.2;
+  ctx.beginPath();
+  ctx.ellipse(x,y,4+rand(i,12)*7,1.5+rand(i,13)*2,a*.08+Math.sin(phase)*.28,Math.PI*.1,Math.PI*.9);
+  ctx.stroke();
+ }
+ ctx.globalAlpha=1;
  // Lily pads, gentle veins, and garden flowers.
  for(let i=0;i<6;i++){let a=i*.97+.25,x=cx+Math.cos(a)*rx*.72,y=cy+Math.sin(a)*ry*.68;ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(a)*.24);ellipse(0,1,13,6,'#367e68');ellipse(-1,-1,10,5,i%2?'#70b77e':'#8bc78a');ctx.strokeStyle='#b3dda0';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(-1,0);ctx.lineTo(6,-2);ctx.stroke();if(i===1||i===4)flower(6,-5,4,i===1?['#f2a5bd','#fff0cf']:['#fff2cf','#efb3c3']);ctx.restore()}
  for(let i=0;i<4;i++){let x=cx+(i-1.5)*rx*.39,y=cy+(i%2?1:-1)*ry*.74;ctx.strokeStyle='#528a68';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+7);ctx.quadraticCurveTo(x-4,y-2,x-2,y-9);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y+3);ctx.quadraticCurveTo(x+5,y-2,x+6,y-6);ctx.stroke();}
