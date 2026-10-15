@@ -260,3 +260,9 @@ The first anatomy pass was too subtle at the live pond scale. Body proportions n
 
 Tail placement is derived from each body's width so tails stay attached to both stubby and elongated bodies. Keep body/head proportions and tail attachment data-driven, preserve existing markings and wing designs, and do not change movement, collisions, species stats, economy, progression, saves, or any other gameplay. Syntax validation alone does not prove visual quality: the live pond still needs a visual pass on mobile across all twelve species and both swimming directions.
 
+### Follow-up: distinct species build archetypes (2026-10-15)
+
+The previous changes still read too much like one generic duck with decorations. The renderer now gives species separate contour profiles rather than relying on ellipses alone: compact round Puddle; plush high-backed Peaches; scalloped Clover; streamlined, long-low Bluebell; soft layered Lavender; sleek Moonbeam; tapered Wish; petal-edged Rosie; deep-bodied Heartsong; broad Sunpetal; airy long Stardust; and balanced Meadow. Species also have more distinct neck profiles, more separated head proportions, species-scaled wing silhouettes, and different bill profiles. Existing species IDs, palettes, body markings, gameplay, movement, collision avoidance, economy, and save data remain unchanged.
+
+Validation so far: the inline JavaScript passes syntax compilation. This is not a substitute for visual testing; the latest build still needs inspection in the live pond on mobile at normal scale, including ducks swimming both directions, to catch contour overlaps and verify that each archetype reads distinctly.
+
