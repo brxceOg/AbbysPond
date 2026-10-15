@@ -544,8 +544,23 @@ function draw(now){
   else if(species==='rosie')path([[0,-2],[-1,-5],[1,-8],[4,-9],[7,-7],[7,-4],[5,-1],[3,1]],v.c,'#75594b',.85);
   else if(species==='peaches'||species==='puddle')path([[0,-1],[0,-4],[2,-7],[5,-8],[8,-6],[7,-3],[5,0],[3,1]],v.c,'#75594b',.8);
   else path([[0,-2],[0,-5],[2,-8],[4,-9],[7,-7],[6,-4],[5,-1],[3,1]],v.c,'#75594b',.8);
-  // The head scale now reinforces each species' build archetype.
-  ellipse(5,-7,anatomy.head[0],anatomy.head[1],v.c,'#75594b',1);
+  // Species-specific head silhouettes: the forehead, cheek and nape change shape, not only size.
+  ctx.save();ctx.translate(5,-7);ctx.scale(anatomy.head[0]/6.2,anatomy.head[1]/6.4);
+  ctx.beginPath();
+  if(species==='puddle'){ctx.moveTo(-5.5,1);ctx.bezierCurveTo(-7,-2,-5,-6,0,-6.2);ctx.bezierCurveTo(5.4,-6.2,7,-2,6,1.5);ctx.bezierCurveTo(5,5.2,1.8,6,-1,5.4);ctx.bezierCurveTo(-4.5,5,-6,3.8,-5.5,1)}
+  else if(species==='clover'){ctx.moveTo(-5.7,1);ctx.bezierCurveTo(-7,-2,-4.5,-5.7,-1,-5.7);ctx.bezierCurveTo(1,-7,4,-5.5,5,-3.7);ctx.bezierCurveTo(7,-1,6.5,2,4.5,4);ctx.bezierCurveTo(1.5,6,-3.5,5.7,-5.7,1)}
+  else if(species==='bluebell'){ctx.moveTo(-5.7,1);ctx.bezierCurveTo(-6,-2,-3.8,-5.5,0,-5.6);ctx.bezierCurveTo(4,-5.6,6,-2.5,5.5,.5);ctx.bezierCurveTo(5,3.5,2.5,5,-1,4.5);ctx.bezierCurveTo(-4,4,-5.5,2.8,-5.7,1)}
+  else if(species==='peaches'){ctx.moveTo(-5.8,1);ctx.bezierCurveTo(-7,-2,-5.5,-5.5,-2.5,-5.7);ctx.bezierCurveTo(-.5,-7,3.8,-5.8,4.5,-3.7);ctx.bezierCurveTo(7,-1.5,6.5,2.8,3.5,4.8);ctx.bezierCurveTo(0,6.5,-4.5,5.5,-5.8,1)}
+  else if(species==='lavender'){ctx.moveTo(-5.5,1);ctx.bezierCurveTo(-6.5,-2,-4.5,-5.4,-1.5,-5.7);ctx.bezierCurveTo(0,-6.8,2,-5.7,2.7,-4.8);ctx.bezierCurveTo(5.5,-5,6.5,-1.5,5.5,1.5);ctx.bezierCurveTo(4.5,4.8,1,5.5,-2,5);ctx.bezierCurveTo(-4.5,4.5,-5.7,3,-5.5,1)}
+  else if(species==='moonbeam'){ctx.moveTo(-5.8,1);ctx.bezierCurveTo(-5.5,-2.5,-2.8,-5.8,.5,-5.8);ctx.bezierCurveTo(4,-5.5,6,-2.3,5.5,.5);ctx.bezierCurveTo(4.7,3.5,2,5,-1.5,4.4);ctx.bezierCurveTo(-4.5,3.8,-5.7,2.6,-5.8,1)}
+  else if(species==='wish'){ctx.moveTo(-5.7,1);ctx.bezierCurveTo(-5.6,-2,-3.5,-5.2,-.5,-5.8);ctx.bezierCurveTo(2.8,-6.2,5.8,-3.2,5.7,-.2);ctx.bezierCurveTo(5.5,2.5,2.8,4.7,-.8,4.4);ctx.bezierCurveTo(-3.8,4.2,-5.4,2.7,-5.7,1)}
+  else if(species==='rosie'){ctx.moveTo(-5.8,1);ctx.bezierCurveTo(-7,-1.2,-5.2,-4.5,-3.2,-4.8);ctx.bezierCurveTo(-2.5,-6.6,.2,-6.3,1,-4.8);ctx.bezierCurveTo(4,-6,6.5,-3.3,5.3,-.8);ctx.bezierCurveTo(7,1.7,4.5,4.8,1.8,4.8);ctx.bezierCurveTo(-1,6.3,-4.8,4.5,-5.8,1)}
+  else if(species==='heartsong'){ctx.moveTo(-5.8,1);ctx.bezierCurveTo(-7,-2,-4.5,-5.7,-1.5,-5.6);ctx.bezierCurveTo(1,-7,4.5,-5.2,5.3,-2.5);ctx.bezierCurveTo(7,0,5.8,3.8,2.8,5);ctx.bezierCurveTo(-.5,6.5,-4.5,5,-5.8,1)}
+  else if(species==='sunpetal'){ctx.moveTo(-5.7,1);ctx.bezierCurveTo(-6.5,-2,-4,-5.4,-1,-5.5);ctx.bezierCurveTo(1,-6.2,3.8,-4.7,4.5,-2.5);ctx.bezierCurveTo(6.5,-.5,5.5,3.5,2,4.7);ctx.bezierCurveTo(-1,5.8,-4.8,4.7,-5.7,1)}
+  else if(species==='stardust'){ctx.moveTo(-5.8,1);ctx.bezierCurveTo(-5.5,-2,-2.8,-5.6,.5,-5.7);ctx.bezierCurveTo(4.2,-5.4,6,-2.4,5.5,.2);ctx.bezierCurveTo(5,3,2.4,4.8,-1,4.5);ctx.bezierCurveTo(-4,4,-5.6,2.6,-5.8,1)}
+  else{ctx.moveTo(-5.8,1);ctx.bezierCurveTo(-6.5,-2,-4.5,-5.5,-1,-5.7);ctx.bezierCurveTo(2.5,-6.3,5.8,-3.2,5.7,0);ctx.bezierCurveTo(5.7,3.5,2.5,5.2,-1,4.8);ctx.bezierCurveTo(-4.3,4.5,-5.8,2.8,-5.8,1)}
+  ctx.closePath();ctx.fillStyle=v.c;ctx.fill();ctx.strokeStyle='#75594b';ctx.lineWidth=.9;ctx.stroke();ctx.restore();
+  // Small forehead sheen follows the unique crown placement.
   ellipse(3,-10,3.2,1.5,'rgba(255,255,255,.42)');
   // Species-specific cheek, crown, and wing patterns.
   if(species==='puddle'){ellipse(-5,-1,4,2.8,'#f8e8a3');ellipse(5,-12,2.4,1.5,'#fff1b5')}
@@ -626,28 +641,56 @@ function draw(now){
    ctx.strokeStyle=feather;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(-6,-.5);ctx.quadraticCurveTo(-2,-2.8,3,-1.1);ctx.moveTo(-5,1.2);ctx.quadraticCurveTo(-1,-.3,3,1);ctx.stroke();
   }
   ctx.restore();
-  // Eye shapes vary by species while remaining consistent within each species.
-  if(species==='clover'){
+  // Faces have their own expression language: eye style, mask/eyebrow, and bill silhouette.
+  if(species==='puddle'){
+   ellipse(7,-8,1.65,1.8,'#fff9ed');ellipse(7.35,-8,1,1.2,'#4a4135');ellipse(7.55,-8.5,.3,.35,'#fff');
+   ellipse(4.8,-5.4,2.1,1.1,'#f7bd83');
+  }else if(species==='clover'){
    ctx.strokeStyle='#433b36';ctx.lineWidth=1.35;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(5.2,-8);ctx.quadraticCurveTo(7.2,-10.2,9.1,-8);ctx.stroke();
+   path([[5,-10],[7,-11],[9,-10]],'#719767',null,.4);
   }else if(species==='bluebell'){
-   ellipse(7,-8,2.5,2.2,'#fff9ed');ellipse(7.6,-8,1.35,1.55,'#4c6570');ellipse(7.9,-8.6,.45,.5,'#fff');
+   ellipse(7,-8,2.3,2.15,'#fff9ed');ellipse(7.65,-8,1.05,1.5,'#4c6570');ellipse(7.9,-8.6,.4,.5,'#fff');
+   ctx.strokeStyle='#587e8b';ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(5.2,-10.4);ctx.quadraticCurveTo(7,-11.3,9.2,-10.2);ctx.stroke();
   }else if(species==='peaches'){
-   ellipse(7,-8,2.05,2.05,'#fff9ed');ellipse(7.5,-8,1.05,1.25,'#7e4b43');ellipse(7.8,-8.5,.35,.4,'#fff');ctx.strokeStyle='#75594b';ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(5.2,-10.2);ctx.lineTo(8.7,-10.5);ctx.stroke();
+   ellipse(7,-8,2.05,2.05,'#fff9ed');ellipse(7.5,-8,1.05,1.25,'#7e4b43');ellipse(7.8,-8.5,.35,.4,'#fff');
+   ctx.strokeStyle='#75594b';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(5.2,-10.2);ctx.quadraticCurveTo(7,-11.1,8.9,-10.5);ctx.stroke();ellipse(4.6,-5.3,2.2,1.3,'#f6c3a9');
   }else if(species==='lavender'){
    ellipse(7,-8,2.1,2.1,'#fff9ed');ellipse(7.5,-8,1.05,1.25,'#67517e');ellipse(7.8,-8.5,.35,.4,'#fff');ellipse(4.8,-10.5,1.2,.65,'#a995c7');
-  }else if(species==='moonbeam'||species==='wish'||species==='stardust'){
-   ellipse(7,-8,2.1,2.1,'#fffdf0');ellipse(7.5,-8,1.05,1.25,'#53677d');ellipse(7.8,-8.5,.35,.4,'#fff');ellipse(7,-5.2,1.5,.55,'#f1dca5');
-  }else if(species==='rosie'||species==='heartsong'){
-   ellipse(7,-8,2.05,2.05,'#fff1f3');ellipse(7.5,-8,1.05,1.25,'#69424d');ellipse(7.8,-8.5,.35,.4,'#fff');ellipse(4.7,-10.5,1.15,.65,'#f0a6b7');
+   ctx.strokeStyle='#75618f';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(5,-10.8);ctx.quadraticCurveTo(7,-11.7,9,-10.5);ctx.stroke();
+  }else if(species==='moonbeam'){
+   ellipse(7,-8,2.05,2.15,'#fffdf0');ellipse(7.45,-8,1,'#53677d');ellipse(7.75,-8.6,.35,.45,'#fff');
+   ctx.strokeStyle='#b5b9cf';ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(5,-10.5);ctx.quadraticCurveTo(7,-11.2,9,-10.4);ctx.stroke();
+   path([[5,-5.5],[7,-4.8],[9,-5.4]],'#e8e1c6',null,.4);
+  }else if(species==='wish'){
+   ellipse(7,-8,1.8,2,'#fffdf0');ellipse(7.4,-8, .85,1.2,'#53677d');ellipse(7.7,-8.5,.3,.4,'#fff');
+   ctx.strokeStyle='#aa8d58';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(5.3,-10.2);ctx.lineTo(8.7,-10.8);ctx.stroke();
+  }else if(species==='rosie'){
+   ellipse(7,-8,2.05,2.05,'#fff1f3');ellipse(7.5,-8,1.05,1.25,'#69424d');ellipse(7.8,-8.5,.35,.4,'#fff');ellipse(4.7,-5.3,2.2,1.2,'#f6c9d5');
+   ctx.strokeStyle='#a96c83';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(5,-10.5);ctx.quadraticCurveTo(7,-11.3,9,-10.4);ctx.stroke();
+  }else if(species==='heartsong'){
+   ellipse(7,-8,2.15,2.05,'#fff1f3');ellipse(7.5,-8,1.05,1.25,'#69424d');ellipse(7.8,-8.5,.35,.4,'#fff');
+   ellipse(4.8,-5.3,2.5,1.5,'#f6c9d5');path([[5,-10.5],[7,-11.1],[9,-10.5]],'#d9829e',null,.4);
   }else if(species==='sunpetal'){
-   ellipse(7,-8,2.2,2.2,'#fff8d9');ellipse(7.5,-8,1.05,1.25,'#76542e');ellipse(7.8,-8.5,.35,.4,'#fff');ctx.strokeStyle='#9c773e';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(5,-10.1);ctx.lineTo(9,-10.1);ctx.stroke();
+   ellipse(7,-8,2.2,2.2,'#fff8d9');ellipse(7.5,-8,1.05,1.25,'#76542e');ellipse(7.8,-8.5,.35,.4,'#fff');
+   ctx.strokeStyle='#9c773e';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(5,-10.2);ctx.quadraticCurveTo(7,-11,9,-10.2);ctx.stroke();
+  }else if(species==='stardust'){
+   ellipse(7,-8,2.1,2.1,'#f4fbff');ellipse(7.45,-8,1,'#53677d');ellipse(7.8,-8.6,.35,.4,'#fff');
+   ellipse(5,-5.4,1.6,.6,'#e6f3ff');ellipse(9,-10.1,.6,.6,'#f4df9e');
   }else{
    ellipse(7,-8,2.05,2.05,'#fff9ed');ellipse(7.5,-8,1.05,1.25,'#433b36');ellipse(7.8,-8.5,.35,.4,'#fff');
   }
-  if(species==='bluebell'||species==='moonbeam'||species==='wish'||species==='stardust')path([[10,-6],[16,-5.2],[10,-4]],'#d4a66a','#9a6b4d',.55);
-  else if(species==='puddle'||species==='peaches')path([[10,-6],[14,-5],[11,-2.7],[9,-3.5]],'#df9a5f','#9a6b4d',.7);
-  else if(species==='clover'||species==='lavender')path([[10,-6],[14,-5],[11,-3]],'#d99b61','#9a6b4d',.6);
-  else if(species==='sunpetal')path([[10,-6],[14.5,-5],[10,-2.8]],'#e6b05b','#9a6b4d',.65);
+  // Bills are species-shaped: tiny chick wedge, broad dabbling bill, or long tapered waterfowl bill.
+  if(species==='bluebell')path([[9.5,-6.2],[17,-5.1],[12,-4.5],[9.5,-4.2]],'#d4a66a','#9a6b4d',.55);
+  else if(species==='moonbeam')path([[10,-6.1],[16.5,-5.3],[10.5,-4.7]],'#d8c9a2','#92856a',.5);
+  else if(species==='wish')path([[10,-6],[15.5,-5.2],[10.3,-4.4]],'#e4c987','#aa8d58',.5);
+  else if(species==='stardust')path([[10,-6],[16,-5.1],[10.2,-4.5]],'#c7d9e7','#8eb8d0',.5);
+  else if(species==='puddle')path([[9.5,-6],[13,-5.4],[12,-3.6],[9,-3.5]],'#df9a5f','#9a6b4d',.65);
+  else if(species==='peaches')path([[10,-6],[14.5,-5.3],[13,-3.7],[10,-4]],'#df9a5f','#9a6b4d',.65);
+  else if(species==='clover')path([[10,-6],[14.2,-5.2],[11.2,-4.7],[10,-4]],'#d99b61','#9a6b4d',.6);
+  else if(species==='lavender')path([[10,-6],[14,-5.3],[11.5,-4.2],[10,-4]],'#c6a0c9','#75618f',.6);
+  else if(species==='sunpetal')path([[10,-6],[14.5,-5.1],[10.5,-3.9]],'#e6b05b','#9c773e',.65);
+  else if(species==='rosie')path([[10,-6],[14,-5.1],[11.2,-3.8],[9.8,-4]],'#e9a0b5','#a96c83',.65);
+  else if(species==='heartsong')path([[10,-6],[14.3,-5.2],[11,-3.8],[9.8,-4]],'#e68eaa','#9e5d76',.65);
   else path([[10,-6],[15,-5],[10,-3]],'#df9a5f','#9a6b4d',.65);
   ellipse(4,-5.2,1.7,1.1,'#e8a8a7');
   ctx.strokeStyle='rgba(92,72,58,.35)';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-8,-1);ctx.quadraticCurveTo(-4,-5,0,-2);ctx.stroke();
