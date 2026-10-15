@@ -419,9 +419,9 @@ function draw(now){
  duckPositions=[];
  const duckLimit=Math.min(s.ducks.length,14);
  for(let i=0;i<duckLimit;i++){
-  let d=s.ducks[i],v=def(d),a=i*2.399+now*.000022*(i%2?1:-1);
-  let x=cx+Math.cos(a)*rx*.53,y=cy+Math.sin(a)*ry*.48+Math.sin(now*.0017+i*1.7)*.65;
-  const dir=Math.cos(a)>=0?1:-1, bob=Math.sin(now*.0014+i*2.1)*.35;
+  let d=s.ducks[i],v=def(d),a=i*2.399+now*.000032*(i%2?1:-1);
+  let x=cx+Math.cos(a)*rx*.53,y=cy+Math.sin(a)*ry*.48+Math.sin(now*.0025+i*1.7)*.65;
+  const dir=Math.cos(a)>=0?1:-1, bob=Math.sin(now*.0021+i*2.1)*.35;
   duckPositions.push({x,y,d});
   ctx.globalAlpha=.2;ctx.fillStyle='#315f60';ctx.beginPath();ctx.ellipse(x,y+6,8,2.5,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
   // Short broken wake segments rather than long, frantic wave lines.
@@ -436,7 +436,7 @@ function draw(now){
   // Cheek, bright eye, tiny pupil and beak highlight give each duck a readable face.
   px(4,-7,3,2,'#e8b1a9');px(7,-8,2,2,'#fff8e7');px(8,-8,1,1,'#433f3a');
   px(10,-6,4,2,['moonbeam','stardust','wish'].includes(d.species)?'#d4a66a':'#d99a65');px(11,-6,2,1,'#f2c18a');
-  const paddle=Math.sin(now*.0018+i*1.5)*.3;
+  const paddle=Math.sin(now*.0027+i*1.5)*.3;
   px(-3,5,3,1,'#c58b62');px(3+paddle,5,3,1,'#c58b62');
   // Species markings remain distinct while using the same clean pixel silhouette.
   switch(d.species){
