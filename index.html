@@ -84,6 +84,77 @@ h2{font-size:26px;font-weight:600;color:#704b4e}
 @media(prefers-reduced-motion:reduce){button,.modal{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 .action:not(:first-child) .chev{display:none}.action:not(:first-child)>span:nth-child(2){flex:0 1 auto}.action:not(:first-child) small{max-width:100%;overflow-wrap:anywhere}.primary-action{min-height:46px}
+
+/* Storybook UI pass: every menu element is styled as an object from the pond world */
+:root{--wood:#c6a47f;--wood-dark:#9c785e;--moss:#6f8765;--petal:#d99aa0;--paper-edge:#dfc7a7;--panel-shadow:0 4px 0 #cdb49766,0 9px 18px #80634612}
+body{background-image:radial-gradient(ellipse at 4% 17%,#fff9e9 0,transparent 25%),radial-gradient(ellipse at 97% 65%,#dfe7d1 0,transparent 27%),repeating-linear-gradient(135deg,#f3e5d2 0,#f3e5d2 18px,#f0e0cb 18px,#f0e0cb 19px)}
+.top{position:relative}
+.top:after{content:"";position:absolute;left:7px;right:7px;bottom:4px;height:1px;background:linear-gradient(90deg,transparent,#d9bea0 15%,#d9bea0 85%,transparent);opacity:.8}
+.flower{position:relative}
+.flower:after{content:"";position:absolute;inset:4px;border:1px dashed #d6b49c;border-radius:50%;pointer-events:none}
+.hud .stat{position:relative;overflow:hidden}
+.hud .stat:before{content:"";position:absolute;width:44px;height:44px;right:-13px;top:-15px;border:1px solid #e7d0b8;border-radius:50%;box-shadow:0 0 0 5px #f6e7d44d,0 0 0 10px #f6e7d42b}
+.hud .stat:after{content:"✿";position:absolute;right:9px;top:7px;color:#d7b6a0;font-size:12px;opacity:.8}
+.stat label,.stat strong,.stat small{position:relative;z-index:1}
+.pond{outline:1px solid #cdb08e;outline-offset:3px}
+.actions{position:relative;padding-top:4px}
+.actions:before{content:"A LITTLE PLACE TO WANDER";display:block;grid-column:1/-1;text-align:center;font:700 15px Caveat,cursive;letter-spacing:.8px;color:#a17e68;margin:0 0 1px}
+.action{overflow:hidden;isolation:isolate;transition:transform .16s ease,filter .16s ease}
+.action:before{content:"";position:absolute;z-index:-1;inset:5px;border:1px dashed #ddc5a8;border-radius:inherit;opacity:.8;pointer-events:none}
+.action:after{content:"✧";position:absolute;right:10px;top:7px;font-size:11px;color:#c5a17f;opacity:.8;pointer-events:none}
+.action:first-child:after{content:"♡";right:15px;top:9px;font-size:17px;color:#c27e87}
+.action:hover{filter:brightness(1.015)}
+.action:active{transform:translateY(2px)}
+.tile{position:relative;border:1px solid #e3c5b0}
+.action:first-child .tile{border:1.5px solid #e1b9b1}
+.action:first-child{position:relative}
+.event{padding:3px 10px 0;position:relative}
+.event:before,.event:after{content:"❧";color:#c5a184;font-size:16px;position:relative;margin:0 7px}
+.footer{border-top:1px dashed #d9c3a9;margin-top:8px}
+.backdrop{background:radial-gradient(ellipse at 50% 20%,#6b51434f,#3f302c9c);backdrop-filter:blur(7px) saturate(.85)}
+.modal{position:relative;border:2px solid #d8bb98;border-radius:24px 24px 19px 19px;background:linear-gradient(145deg,#fffaf0,#fff4e2);box-shadow:0 0 0 4px #fff4e1,0 0 0 6px #cdb18e,0 10px 0 #b99d7b66,0 28px 70px #38262245}
+.modal:before{content:"";position:absolute;inset:6px;z-index:0;border:1px dashed #dfc9aa;border-radius:17px 17px 13px 13px;pointer-events:none}
+.mhead,.content{position:relative;z-index:1}
+.mhead{min-height:94px;padding:20px 20px 15px 22px;border-bottom:2px solid #e5ceb1;background:radial-gradient(circle at 7% 25%,#f1d7d0 0 3px,transparent 4px),radial-gradient(circle at 11% 18%,#dce5d0 0 3px,transparent 4px),radial-gradient(ellipse at 0 0,#f6e0d5 0,transparent 48%),linear-gradient(115deg,#fff9ed,#f8ead7 72%,#f2e2cf)}
+.mhead:after{content:"";position:absolute;bottom:-5px;left:18px;right:18px;height:7px;background:radial-gradient(circle at 4px 0,#d8bb98 3px,transparent 3.5px) 0 0/12px 7px repeat-x;opacity:.7}
+.mhead .eyebrow{font-size:17px}
+h2{font-size:27px;text-shadow:0 1px #fff}
+.close{position:relative;z-index:2;width:42px;height:42px;min-width:42px;border-radius:50%;background:linear-gradient(#fffaf0,#f5e3d0);border:1.5px solid #dfc3a3;box-shadow:0 3px 0 #cdb08d;color:#966d62}
+.content{padding:20px 18px max(24px,env(safe-area-inset-bottom))}
+.intro{padding:12px 14px 13px;margin-bottom:16px;border:1px solid #e6d1b5;border-radius:4px 16px 5px 15px;background:linear-gradient(120deg,#f7edda,#fff8e9);box-shadow:inset 3px 0 #b6c39d,0 2px 0 #e3cfb4;font-size:13px;color:#7e6b5e}
+.list{gap:13px}
+.card{position:relative;isolation:isolate;overflow:hidden;padding:15px 14px;border:1.5px solid #d9c09e;border-radius:7px 18px 8px 18px;background:linear-gradient(135deg,#fffaf0 0%,#fff7e8 72%,#f7ecd9 100%);box-shadow:inset 0 0 0 3px #fffaf0,inset 0 0 0 4px #ead8bd,0 4px 0 #d5bea0a8,0 8px 15px #8063460b}
+.card:before{content:"";position:absolute;z-index:-1;left:0;top:12px;bottom:12px;width:4px;background:linear-gradient(#c3cfae,#d9b6a3,#d8c29a);border-radius:0 4px 4px 0}
+.card:after{content:"❧";position:absolute;right:9px;bottom:-6px;color:#c7a586;font:26px Caveat,cursive;opacity:.52;pointer-events:none}
+.card .row{position:relative;z-index:1}
+.card .mtitle{padding-right:13px}
+.card .primary,.card .secondary{flex:0 0 auto;max-width:46%;box-shadow:0 3px 0 #d3bca0}
+.card .primary{background:linear-gradient(180deg,#c78389,#a95f6e);box-shadow:0 3px 0 #92515d}
+.card .secondary{background:linear-gradient(#eef0df,#dfe8d3);border-color:#c5d3b7;box-shadow:0 3px 0 #c5d3b7}
+.section{display:flex;align-items:center;gap:9px;margin:22px 0 10px;font-size:20px;color:#98705f}
+.section:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#d8bfa0,transparent)}
+.track{height:10px;border:1px solid #dfc9a8;padding:2px;background:#f2e6d1;box-shadow:inset 0 1px 2px #b79c7b33}
+.track span{border-radius:99px}
+.wheel-card{position:relative;border:2px solid #d9bc98;border-radius:25px 17px 26px 18px;background:radial-gradient(ellipse at 50% 0,#fffaf0,#f8e7d8 90%);box-shadow:inset 0 0 0 4px #fff7e8,inset 0 0 0 5px #e7d0b0,0 5px 0 #d0b391}
+.wheel-card:before{content:"✿  CHOOSE YOUR LITTLE FRIEND  ✿";display:block;font:700 17px Caveat,cursive;letter-spacing:.7px;color:#a67d6a;margin:2px 0 8px}
+.wheel-wrap{width:min(100%,310px);padding:3px;border:2px solid #dfc5a5;border-radius:50%;background:#fff5e4;box-shadow:0 4px 0 #d2b18c,0 0 0 5px #f8e7d2}
+.wheel-result{margin-top:5px;padding:12px 11px;border:1.5px dashed #d7b69c;background:linear-gradient(110deg,#fff9ed,#f8e8de);box-shadow:inset 0 0 0 3px #fffaf0}
+.wheel-note{max-width:330px;margin:11px auto 1px}
+.wheel-odds{padding:4px 12px;border:1px dashed #d9c3a6;border-radius:14px 5px 15px 6px;background:#f8efdf}
+.wheel-odds .setting{border-bottom:1px dashed #e0cdb2}
+.setting{position:relative;gap:10px;padding:13px 10px;border-bottom:1px dashed #dfcdb5;background:linear-gradient(90deg,#fff8eb99,transparent);border-radius:5px;color:#786354}
+.setting strong{font-size:14px}
+.select{appearance:auto;box-shadow:inset 0 2px 3px #b79c7b18,0 2px 0 #dfc8aa;background-color:#fffaf0}
+.avatar{border:1.5px solid #c9d9c6;box-shadow:inset 0 0 0 3px #f5f4e5,0 3px 0 #c7d3bb}
+.empty{position:relative;border:1.5px dashed #d4b999;border-radius:22px 8px 23px 9px;background:linear-gradient(145deg,#fff8e9,#f6ead6);box-shadow:inset 0 0 0 4px #fff8eb;padding:34px 19px}
+.empty:before{content:"✿";display:block;font-size:28px;color:#c88d91;margin-bottom:6px}
+.empty strong{display:block}
+.offline{border:1.5px solid #c6d5b8;border-radius:6px 18px 7px 18px;box-shadow:inset 0 0 0 3px #f5f5e7,0 3px 0 #d0d9bf}
+.toast{border:2px solid #f7e7d0;box-shadow:0 4px 0 #49333035,0 0 0 4px #76565b55,0 12px 25px #4d2e2e30}
+.primary,.secondary,.danger{min-height:46px;border-radius:13px 10px 14px 10px}
+@media(max-width:390px){.content{padding-left:15px;padding-right:15px}.card{padding:13px 11px}.card .primary,.card .secondary{max-width:43%;padding:10px 9px;font-size:11px}.mhead{padding-left:18px;padding-right:15px}.modal{border-radius:22px 22px 17px 17px}}
+@media(prefers-reduced-motion:reduce){.action,.card,.modal,.primary,.secondary{transition:none!important}}
+
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond"><div class="ribbon"><span>♡</span> your own little corner of the world <span>♡</span></div><canvas id="water" aria-label="Animated pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span><button class="tiny" id="love">Send a little love ♡</button></div></section>
