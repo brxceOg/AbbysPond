@@ -200,6 +200,78 @@ body{padding:0;background:#9fc6b8}
 @media(max-height:700px){.top{top:calc(env(safe-area-inset-top) + 5px)}.hud{top:calc(env(safe-area-inset-top) + 62px)}.actions{bottom:calc(env(safe-area-inset-bottom) + 5px);padding:6px}.action,.action:not(:first-child){min-height:49px}.action:first-child{min-height:48px}.action .tile{width:25px;height:25px;flex-basis:25px}.action:first-child .tile{width:32px;height:32px;flex-basis:32px}.event{bottom:calc(env(safe-area-inset-bottom) + 142px)}}
 @media(prefers-reduced-motion:reduce){.top,.hud .stat,.actions,.event{backdrop-filter:none;-webkit-backdrop-filter:none}}
 
+
+/* Layout refinement: compact, clearly separated overlays for phone-sized screens. */
+html,body{height:100%;min-height:0;overflow:hidden}
+body{padding:0;overscroll-behavior:none}
+.app{height:100dvh;min-height:0;padding:0;margin:0;overflow:hidden}
+.top{top:calc(env(safe-area-inset-top) + 7px);left:10px;right:10px;min-height:48px;gap:7px;padding:5px 7px;border-radius:20px 18px 21px 17px}
+.top .flower{width:34px;height:34px;flex:0 0 34px;font-size:20px}
+.brand h1{font-size:clamp(18px,5vw,23px);line-height:1.1}
+.brand .eyebrow{font-size:8px;letter-spacing:.8px;line-height:1.2}
+.top .icon{width:34px;height:34px;min-width:34px;flex:0 0 34px;font-size:20px}
+.hud{top:calc(env(safe-area-inset-top) + 62px);left:10px;right:10px;gap:7px}
+.hud .stat{padding:7px 10px 6px;border-radius:15px 17px 14px 16px}
+.stat label{font-size:9px;line-height:1.2}
+.stat strong{font-size:clamp(17px,4.8vw,21px);line-height:1.25;white-space:nowrap}
+.stat small{font-size:9px;line-height:1.2}
+.event{top:calc(env(safe-area-inset-top) + 133px);bottom:auto;left:12px;right:12px;margin:0 auto;width:fit-content;max-width:calc(100% - 24px);min-height:0;padding:3px 9px;font-size:15px;line-height:1.2;background:#fff8e9c9;border:1px solid #dfc7a985;border-radius:999px;box-shadow:0 2px 7px #5b574012;white-space:normal}
+.actions{left:9px;right:9px;bottom:calc(env(safe-area-inset-bottom) + 7px);grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:0;padding:7px;border-radius:20px 18px 21px 17px}
+.actions:before{font-size:12px;line-height:14px;margin:0 0 2px}
+.action,.action:not(:first-child){min-height:53px;padding:5px 3px;gap:3px;border-radius:13px 11px 14px 11px}
+.action:first-child{min-height:48px;padding:5px 9px;gap:8px;border-radius:15px 17px 14px 16px}
+.action .tile{width:25px;height:25px;flex-basis:25px;font-size:15px;box-shadow:none}
+.action:first-child .tile{width:31px;height:31px;flex-basis:31px;font-size:19px}
+.action strong{font-size:10px;line-height:1.15;overflow-wrap:anywhere}
+.action:first-child strong{font-size:13px}
+.action small{font-size:8px;line-height:1.15;margin-top:1px}
+.action:first-child small{font-size:9px}
+.action:not(:first-child)>span:nth-child(2){flex:0 1 auto}
+.action:not(:first-child) .chev{display:none}
+.pond{z-index:-1}
+.pond canvas#water{height:100dvh;max-height:none}
+.pond .pondfoot{display:none}
+.footer{display:none}
+@media(max-width:390px){
+ .top{left:8px;right:8px;gap:5px;padding:4px 6px}
+ .top .flower{width:31px;height:31px;flex-basis:31px;font-size:18px}
+ .top .icon{width:31px;height:31px;min-width:31px;flex-basis:31px;font-size:18px}
+ .brand h1{font-size:19px}.brand .eyebrow{font-size:7px;letter-spacing:.55px}
+ .hud{top:calc(env(safe-area-inset-top) + 57px);left:8px;right:8px;gap:5px}
+ .hud .stat{padding:6px 8px 5px}
+ .stat label{font-size:8px}.stat strong{font-size:17px}.stat small{font-size:8px}
+ .event{top:calc(env(safe-area-inset-top) + 121px);font-size:14px;max-width:calc(100% - 18px);padding:2px 7px}
+ .actions{left:7px;right:7px;padding:6px;gap:4px;bottom:calc(env(safe-area-inset-bottom) + 5px)}
+ .actions:before{font-size:11px;line-height:13px}
+ .action,.action:not(:first-child){min-height:48px;padding:4px 2px}
+ .action:first-child{min-height:44px;padding:4px 7px;gap:6px}
+ .action .tile{width:22px;height:22px;flex-basis:22px;font-size:13px}
+ .action:first-child .tile{width:27px;height:27px;flex-basis:27px;font-size:17px}
+ .action strong{font-size:9px}.action:first-child strong{font-size:12px}
+ .action small{font-size:7px}.action:first-child small{font-size:8px}
+}
+@media(max-height:700px){
+ .top{top:calc(env(safe-area-inset-top) + 4px)}
+ .hud{top:calc(env(safe-area-inset-top) + 53px)}
+ .hud .stat{padding:5px 9px 4px}
+ .event{top:calc(env(safe-area-inset-top) + 111px);font-size:13px}
+ .actions{bottom:calc(env(safe-area-inset-bottom) + 4px);padding:5px;gap:4px}
+ .actions:before{font-size:11px;line-height:12px;margin-bottom:1px}
+ .action,.action:not(:first-child){min-height:43px;padding:3px 2px}
+ .action:first-child{min-height:40px;padding:3px 7px}
+ .action .tile{width:21px;height:21px;flex-basis:21px;font-size:13px}
+ .action:first-child .tile{width:25px;height:25px;flex-basis:25px}
+ .action small{display:none}
+ .action:first-child small{display:block}
+}
+@media(max-height:600px){
+ .hud .stat small{display:none}
+ .event{top:calc(env(safe-area-inset-top) + 101px)}
+ .actions:before{display:none}
+ .action,.action:not(:first-child){min-height:37px}
+ .action:first-child{min-height:37px}
+}
+
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon love-icon" id="love" aria-label="Send a little love" title="Send a little love">♡</button><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
