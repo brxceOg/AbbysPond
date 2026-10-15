@@ -281,3 +281,9 @@ Validation: inline JavaScript syntax compilation passed. Visual verification at 
 The small decorative surface strokes across the pond now drift subtly in a slow, overlapping wave pattern. Each mark keeps its stable, deterministic placement and original short, broken shape, while its position, angle, and brightness shift gently over time so the texture reads as flowing water rather than debris sitting on the surface. The texture remains clipped to the pond and avoids long rushing streaks. This is presentation-only; duck movement, duck ripples, gameplay, progression, and saves are unchanged.
 
 Validation: the full inline JavaScript syntax compilation passed. The effect still needs visual confirmation in the live mobile build; deployment status has not been independently verified.
+
+### Follow-up: more visible slow drift in surface texture marks (2026-10-15)
+
+Clarified and strengthened the animation specifically for the short decorative texture strokes distributed across the pond surface, separate from the duck wake/ripple effects. Each mark now has a more noticeable but still gentle lateral drift, a slower vertical wave, a small rotation change, and soft brightness breathing. Marks remain short and broken, with no long rushing wave streaks. Presentation-only; gameplay and saves are unchanged.
+
+Validation: full inline JavaScript syntax compilation passed. Live mobile visual verification and deployment status still need confirmation.
