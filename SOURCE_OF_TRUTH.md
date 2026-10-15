@@ -42,6 +42,8 @@ The loop should be understandable within the first minute, with new systems intr
 - Keep important UI overlaid on the scene in calm, organized panels with clear spacing and hierarchy. Avoid covering the pond with permanent opaque UI.
 - Use a custom-feeling type pairing: a friendly display face for headings and a highly legible face for numbers/body text. Bundle or load fonts robustly; provide fallbacks and avoid layout shifts.
 - Visual tone: tender, playful, storybook-like, polished, and cozy. The affectionate identity should feel sincere rather than overly saccharine.
+- **Chosen art direction — Romantic cottagecore:** use a warm, gentle palette of blush pink, cream, soft sage, muted rose, and pond blue. Pair cozy floral details and rounded, lovingly crafted UI with lush, detailed pixel-art nature. Keep the pond readable and the overall presentation elegant rather than cluttered.
+- **Chosen romantic approach — hidden personal surprises:** include small, discoverable affectionate details for Abby, such as rare heart-shaped ripples, tiny paired flowers, a tucked-away note or keepsake, or a special duck-related surprise. These should be optional discoveries woven naturally into the world, not constant large heart graphics or intrusive pop-ups. Keep the exact surprises tasteful and delightful; don't include private personal information unless explicitly supplied for the game.
 - Use reduced-motion preferences where practical and avoid rapid flashing or unnecessarily intense effects.
 
 ## 4. Core screens and menus
