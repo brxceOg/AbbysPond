@@ -459,17 +459,17 @@ function draw(now){
   // Deliberately broad body-proportion range: these should read as different duck silhouettes at pond scale.
   const anatomy={
    meadow:{body:[12,7.7],head:[6.2,6.4],wing:'round'},
-   puddle:{body:[9.4,9.1],head:[6.5,6.6],wing:'tucked'},
+   puddle:{body:[9.4,9.1],head:[6.8,6.8],wing:'tucked'},
    clover:{body:[12.5,8.8],head:[6.1,6.3],wing:'leaf'},
-   bluebell:{body:[17,6.2],head:[5.7,6.1],wing:'long'},
-   peaches:{body:[11.2,10.2],head:[6.8,6.8],wing:'puff'},
+   bluebell:{body:[17,6.2],head:[5.2,5.7],wing:'long'},
+   peaches:{body:[11.2,10.2],head:[7.2,7.1],wing:'puff'},
    lavender:{body:[13.3,8.2],head:[6.2,6.4],wing:'layered'},
-   moonbeam:{body:[16.1,6.1],head:[5.8,6.1],wing:'crescent'},
-   wish:{body:[14.6,6.3],head:[5.9,6.2],wing:'pointed'},
+   moonbeam:{body:[16.1,6.1],head:[5.2,5.7],wing:'crescent'},
+   wish:{body:[14.6,6.3],head:[5.7,5.9],wing:'pointed'},
    rosie:{body:[10.6,8.9],head:[6.3,6.5],wing:'petal'},
-   heartsong:{body:[13.7,9.3],head:[6.4,6.6],wing:'heart'},
+   heartsong:{body:[13.7,9.3],head:[6.8,6.9],wing:'heart'},
    sunpetal:{body:[14.4,7.8],head:[6.3,6.4],wing:'fan'},
-   stardust:{body:[15.7,6.8],head:[5.8,6.2],wing:'airy'}
+   stardust:{body:[15.7,6.8],head:[5.4,5.9],wing:'airy'}
   }[species]||{body:[12,7.7],head:[6.2,6.4],wing:'round'};
   // Keep each tail attached to the back of its own body instead of one fixed coordinate.
   ctx.save();ctx.translate((-3-anatomy.body[0]*.82)+12,0);
@@ -533,7 +533,18 @@ function draw(now){
    path([[-9,-2],[-7,-4],[-4,-3],[-3,0],[-6,1]],'#f8e8b5');
    ctx.strokeStyle='#c6a15e';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-10,1);ctx.quadraticCurveTo(-8,2.2,-6,1.5);ctx.moveTo(-8,3);ctx.quadraticCurveTo(-6,3.8,-4.5,2.7);ctx.stroke();
   }
-  // Neck and round head are slightly overlapped for a friendly silhouette.
+  // Neck profiles distinguish stocky dabblers from long-necked, streamlined swimmers.
+  if(species==='bluebell')path([[0,-2],[1,-6],[2,-10],[4,-11],[7,-9],[6,-6],[4,-3],[3,0]],v.c,'#75594b',.85);
+  else if(species==='moonbeam')path([[0,-2],[1,-6],[2,-10],[4,-10],[6,-8],[5,-5],[4,-2],[3,0]],v.c,'#75594b',.8);
+  else if(species==='wish')path([[0,-2],[1,-6],[2,-9],[4,-10],[6,-8],[5,-5],[4,-2],[3,0]],v.c,'#75594b',.8);
+  else if(species==='stardust')path([[0,-2],[1,-6],[2,-10],[4,-10],[6,-8],[5,-5],[4,-2],[3,0]],v.c,'#75594b',.8);
+  else if(species==='heartsong')path([[-1,-1],[0,-5],[2,-8],[5,-9],[8,-7],[7,-4],[5,-1],[4,1]],v.c,'#75594b',.9);
+  else if(species==='clover'||species==='lavender')path([[0,-2],[0,-5],[2,-8],[4,-9],[7,-7],[7,-4],[5,-1],[3,1]],v.c,'#75594b',.85);
+  else if(species==='sunpetal')path([[0,-2],[1,-5],[2,-8],[4,-9],[7,-7],[6,-4],[5,-1],[3,1]],v.c,'#75594b',.85);
+  else if(species==='rosie')path([[0,-2],[-1,-5],[1,-8],[4,-9],[7,-7],[7,-4],[5,-1],[3,1]],v.c,'#75594b',.85);
+  else if(species==='peaches'||species==='puddle')path([[0,-1],[0,-4],[2,-7],[5,-8],[8,-6],[7,-3],[5,0],[3,1]],v.c,'#75594b',.8);
+  else path([[0,-2],[0,-5],[2,-8],[4,-9],[7,-7],[6,-4],[5,-1],[3,1]],v.c,'#75594b',.8);
+  // The head scale now reinforces each species' build archetype.
   ellipse(5,-7,anatomy.head[0],anatomy.head[1],v.c,'#75594b',1);
   ellipse(3,-10,3.2,1.5,'rgba(255,255,255,.42)');
   // Species-specific cheek, crown, and wing patterns.
@@ -633,7 +644,11 @@ function draw(now){
   }else{
    ellipse(7,-8,2.05,2.05,'#fff9ed');ellipse(7.5,-8,1.05,1.25,'#433b36');ellipse(7.8,-8.5,.35,.4,'#fff');
   }
-  path([[10,-6],[15,-5],[10,-3]],['moonbeam','stardust','wish'].includes(species)?'#d4a66a':'#df9a5f','#9a6b4d',.65);
+  if(species==='bluebell'||species==='moonbeam'||species==='wish'||species==='stardust')path([[10,-6],[16,-5.2],[10,-4]],'#d4a66a','#9a6b4d',.55);
+  else if(species==='puddle'||species==='peaches')path([[10,-6],[14,-5],[11,-2.7],[9,-3.5]],'#df9a5f','#9a6b4d',.7);
+  else if(species==='clover'||species==='lavender')path([[10,-6],[14,-5],[11,-3]],'#d99b61','#9a6b4d',.6);
+  else if(species==='sunpetal')path([[10,-6],[14.5,-5],[10,-2.8]],'#e6b05b','#9a6b4d',.65);
+  else path([[10,-6],[15,-5],[10,-3]],'#df9a5f','#9a6b4d',.65);
   ellipse(4,-5.2,1.7,1.1,'#e8a8a7');
   ctx.strokeStyle='rgba(92,72,58,.35)';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-8,-1);ctx.quadraticCurveTo(-4,-5,0,-2);ctx.stroke();
   ctx.restore();
