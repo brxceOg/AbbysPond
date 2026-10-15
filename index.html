@@ -376,17 +376,18 @@ function draw(now){
  ctx.fillStyle='#80c4c8';ctx.beginPath();ctx.ellipse(pondCx,pondCy,pondRx*.96,pondRy*.96,0,0,Math.PI*2);ctx.fill();
  ctx.fillStyle='#91d0d0';ctx.beginPath();ctx.ellipse(pondCx,pondCy+3,pondRx*.85,pondRy*.85,0,0,Math.PI*2);ctx.fill();
  ctx.save();ctx.beginPath();ctx.ellipse(pondCx,pondCy,pondRx*.98,pondRy*.98,0,0,Math.PI*2);ctx.clip();
- // Moving bands and glints create a gentle, continuous water shimmer.
- for(let i=0;i<42;i++){
-  let phase=now*.00032+i*1.71,x=((i*47+now*.012*(i%2?1:-.7))%(W+42)+W+42)%(W+42)-21;
-  let y=pondCy+Math.sin(now*.00065+i*1.37)*pondRy*.76+Math.cos(i*2.4)*pondRy*.08;
-  if(((x-pondCx)/(pondRx*.98))**2+((y-pondCy)/(pondRy*.98))**2<.91){
-   let len=5+(i%5)*2;ctx.globalAlpha=.12+.12*(.5+.5*Math.sin(phase));ctx.strokeStyle=i%4===0?'#fff4dc':i%3===0?'#d7f0e5':'#5faaa9';ctx.lineWidth=i%6===0?2:1;
-   ctx.beginPath();ctx.moveTo(x-len,y);ctx.quadraticCurveTo(x,y+Math.sin(phase)*2,x+len,y+Math.cos(phase)*1.5);ctx.stroke();
+ // Calm pond surface: sparse, mostly still pixel highlights with only a faint light shift.
+ // The water stays visually quiet; movement is concentrated around swimming ducks.
+ for(let i=0;i<34;i++){
+  let x=rand(i,12)*W,y=rand(i,22)*H;
+  if(((x-pondCx)/pondRx)**2+((y-pondCy)/pondRy)**2<.90){
+   let size=i%7===0?3:2;
+   ctx.globalAlpha=i%4===0?.30:.16;
+   ctx.fillStyle=i%3===0?'#e2f0d8':i%2===0?'#d1e9dc':'#70b4b4';
+   ctx.fillRect(Math.round(x),Math.round(y),size,1);
+   if(i%8===0){ctx.fillStyle='#f4f0d6';ctx.globalAlpha=.22;ctx.fillRect(Math.round(x+3),Math.round(y+1),2,1)}
   }
  }
- ctx.globalAlpha=1;
- for(let i=0;i<24;i++){let x=rand(i,12)*W,y=rand(i,22)*H;if(((x-pondCx)/pondRx)**2+((y-pondCy)/pondRy)**2<.92){ctx.globalAlpha=.35+.25*Math.sin(now*.001+i*1.8);ctx.fillStyle=i%3?'#b8e5dc':'#e1f1d9';ctx.fillRect(x+Math.sin(now*.00035+i)*3,y,rand(i,4)*9+3,1.5);if(i%4===0){ctx.fillStyle='#f7f4db';ctx.fillRect(x+4,y-2+Math.sin(now*.001+i),2,2)}}}
  ctx.globalAlpha=1;
  for(let i=0;i<6;i++){let a=i*2.4+.5+Math.sin(now*.00025+i)*.025,x=pondCx+Math.cos(a)*pondRx*.68,y=pondCy+Math.sin(a)*pondRy*.68;ctx.fillStyle='#6f9e78';ctx.beginPath();ctx.ellipse(x,y,11,6,Math.sin(a)+Math.sin(now*.001+i)*.05,0,Math.PI*2);ctx.fill();ctx.fillStyle='#94bd85';ctx.fillRect(x-3,y-2,5,2);if(i%2===0){ctx.fillStyle='#f1c2ca';ctx.fillRect(x+3,y-5,3,3);ctx.fillStyle='#fff0ce';ctx.fillRect(x+4,y-4,1,1)}}
  // Predator encounter: creature advances from the bank, the flock startles, then it retreats.
@@ -407,7 +408,20 @@ function draw(now){
   let bob=Math.sin(now*.006+i*2.1)*1.6,waddle=Math.sin(now*.008+i*1.3)*.11,wing=Math.sin(now*.013+i*2)*.8;
   if(encounterAnim&&(now-encounterAnim.start)<1100){let flee=Math.sin((now-encounterAnim.start)*.012+i)*Math.max(0,1-(now-encounterAnim.start)/1100)*5;x+=Math.cos(a)*flee;y+=Math.sin(a)*flee}
   duckPositions.push({x,y,d});
-  for(let r=0;r<2;r++){let pulse=(now*.00055+i*.19+r*.5)%1;ctx.globalAlpha=(1-pulse)*.35;ctx.strokeStyle='#e4f5e8';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(x-Math.cos(a)*9,y-Math.sin(a)*5,4+pulse*9,2+pulse*4,Math.sin(a)*.15,0,Math.PI*2);ctx.stroke()}
+  // Short, broken pixel arcs trail each duck instead of smooth, fast-moving lines.
+  for(let ring=0;ring<2;ring++){
+   let pulse=(now*.00019+i*.23+ring*.48)%1,rx=5+pulse*8,ry=2+pulse*3.5;
+   ctx.globalAlpha=(1-pulse)*.32;
+   ctx.fillStyle=ring===0?'#e8f4dc':'#bde2d9';
+   let cx=x-Math.cos(a)*10,cy=y-Math.sin(a)*5+7;
+   for(let seg=0;seg<12;seg++){
+    let ang=seg*Math.PI/6;
+    if(seg%3===1)continue;
+    let px=Math.round(cx+Math.cos(ang)*rx),py=Math.round(cy+Math.sin(ang)*ry);
+    ctx.fillRect(px,py,2,1);
+   }
+  }
+  ctx.globalAlpha=1;
   ctx.globalAlpha=.18;ctx.fillStyle='#3e7777';ctx.beginPath();ctx.ellipse(x+2,y+9,9,3,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
   ctx.save();ctx.translate(x,y+bob);ctx.rotate(waddle+Math.sin(a)*.035);
   ctx.fillStyle=v.c;ctx.beginPath();ctx.ellipse(-7,1,4,3,-.25+wing*.12,0,Math.PI*2);ctx.fill();
