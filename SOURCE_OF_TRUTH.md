@@ -223,3 +223,8 @@ These details can be finalized during design and early implementation, but must 
 - Exact font choices and asset sourcing/licensing.
 
 No open decision authorizes placeholder code. A system should not ship until its required decisions are resolved and its implementation is complete.
+
+
+## 11. Duck collection wheel (2026-10-15)
+
+The duck invitation interaction uses a cozy animated prize wheel to reveal the result. The wheel shows every currently collectible duck, with slice sizes proportional to the actual per-duck probability derived from the existing rarity weights and the number of ducks in each rarity. The displayed rarity odds remain visible before spinning. Resolve the winning duck with the existing weighted rarity roll and within-rarity species selection before the animation starts; the wheel must land on that already-determined result and never alter odds or award a different duck. Deduct the invitation cost once, prevent duplicate spins while an animation is active, and award the existing new-duck or duplicate compensation only after the wheel finishes. Keep the wheel responsive on iPhone Safari, provide a reduced-motion-friendly shorter reveal, and make the final result clear. Preserve all existing economy, save, collection, and luck-upgrade behavior.
