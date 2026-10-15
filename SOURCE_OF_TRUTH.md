@@ -275,3 +275,9 @@ Validation: full inline JavaScript syntax compilation passed. The live pond stil
 Added subtle, continuously animated concentric surface ripples around every swimming duck, with slightly offset ring timing and soft broken highlights. Ripples render behind the duck sprites so the duck bodies interrupt the lines naturally at the waterline; the existing close wake lines and tap/heart/predator ripple effects remain intact. The effect is presentation-only and does not alter swimming paths, collision avoidance, economy, progression, or saves.
 
 Validation: inline JavaScript syntax compilation passed. Visual verification at live mobile pond scale and deployment status still need confirmation.
+
+### Follow-up: slow wave motion in pond surface texture (2026-10-15)
+
+The small decorative surface strokes across the pond now drift subtly in a slow, overlapping wave pattern. Each mark keeps its stable, deterministic placement and original short, broken shape, while its position, angle, and brightness shift gently over time so the texture reads as flowing water rather than debris sitting on the surface. The texture remains clipped to the pond and avoids long rushing streaks. This is presentation-only; duck movement, duck ripples, gameplay, progression, and saves are unchanged.
+
+Validation: the full inline JavaScript syntax compilation passed. The effect still needs visual confirmation in the live mobile build; deployment status has not been independently verified.
