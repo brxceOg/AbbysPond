@@ -83,6 +83,7 @@ h2{font-size:26px;font-weight:600;color:#704b4e}
 @media(min-width:600px){.app{padding-bottom:26px}.pond{border-width:7px}.action{min-height:104px}.action:first-child{min-height:82px}.backdrop{align-items:center}}
 @media(prefers-reduced-motion:reduce){button,.modal{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
+.action:not(:first-child) .chev{display:none}.action:not(:first-child)>span:nth-child(2){flex:0 1 auto}.action:not(:first-child) small{max-width:100%;overflow-wrap:anywhere}.primary-action{min-height:46px}
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond"><div class="ribbon"><span>♡</span> your own little corner of the world <span>♡</span></div><canvas id="water" aria-label="Animated pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span><button class="tiny" id="love">Send a little love ♡</button></div></section>
