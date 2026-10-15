@@ -253,3 +253,10 @@ Duck identity must be expressed through the duck's actual silhouette and feather
 - Keep wing motion gentle and species-appropriate, with no frantic flapping. Ensure every shape is drawn within the duck's visual layer and does not break eye, bill, head-decoration, wake, or body-marking legibility.
 - Do not change species IDs, rarity, stats, income, collection odds, roll outcomes, save schema, movement paths, collision avoidance, predator logic, or UI/gameplay. Treat this as a presentation-only change.
 - Before calling this complete, syntax-check the full script and inspect all twelve species at actual pond scale and mirrored swimming directions; check mobile performance and verify the pond and saves still work.
+
+### Follow-up: stronger body silhouette contrast (2026-10-15)
+
+The first anatomy pass was too subtle at the live pond scale. Body proportions now use a clearly wider range: Puddle is compact and nearly round; Peaches is short and plush; Rosie is compact with a rounded body; Bluebell is distinctly long and low; Moonbeam is sleek and elongated; Wish is narrow and graceful; Stardust is long with a slightly fuller profile; Heartsong is fuller and rounded; Clover and Lavender have medium-full bodies; Sunpetal is long-medium and broad enough to support its fan identity; Meadow remains the balanced baseline.
+
+Tail placement is derived from each body's width so tails stay attached to both stubby and elongated bodies. Keep body/head proportions and tail attachment data-driven, preserve existing markings and wing designs, and do not change movement, collisions, species stats, economy, progression, saves, or any other gameplay. Syntax validation alone does not prove visual quality: the live pond still needs a visual pass on mobile across all twelve species and both swimming directions.
+
