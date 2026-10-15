@@ -293,3 +293,7 @@ Validation: full inline JavaScript syntax compilation passed. Live mobile visual
 Lily pads now have a more clearly visible, enlarged buoyant drift path intended to read at normal mobile screen scale. Each pad moves independently with layered horizontal and vertical motion and a more noticeable gentle rotation; the movement remains slow and organic rather than circular or synchronized. Existing pad shapes, veins, flowers, and pond clipping remain unchanged. Presentation-only; gameplay, duck movement, economy, and saves are unchanged.
 
 Validation: full inline JavaScript syntax compilation passed. Live mobile visual verification and deployment status still need confirmation.
+
+### Follow-up: lily pad water-contact shadows (2026-10-15)
+
+Added a soft, offset translucent shadow beneath each drifting lily pad, plus a slightly darker underside/contact edge to give the pads a sense of thickness and help them feel seated on the water rather than pasted on top. The shadow follows each pad's position while retaining a small offset. Presentation-only; gameplay and save data are unchanged. Inline JavaScript syntax compilation passed; live mobile visual verification and deployment status have not been independently confirmed.
