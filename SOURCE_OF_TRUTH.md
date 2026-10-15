@@ -290,6 +290,6 @@ Validation: full inline JavaScript syntax compilation passed. Live mobile visual
 
 ### Follow-up: gently drifting lily pads (2026-10-15)
 
-Lily pads now drift slowly and independently with the pond's implied current. Each pad has a small layered horizontal/vertical drift and subtle rotation, with different timing per pad so they do not move in lockstep. Existing pad shapes, veins, flowers, and pond clipping remain unchanged. Presentation-only; gameplay, duck movement, economy, and saves are unchanged.
+Lily pads now have a more clearly visible, enlarged buoyant drift path intended to read at normal mobile screen scale. Each pad moves independently with layered horizontal and vertical motion and a more noticeable gentle rotation; the movement remains slow and organic rather than circular or synchronized. Existing pad shapes, veins, flowers, and pond clipping remain unchanged. Presentation-only; gameplay, duck movement, economy, and saves are unchanged.
 
 Validation: full inline JavaScript syntax compilation passed. Live mobile visual verification and deployment status still need confirmation.
