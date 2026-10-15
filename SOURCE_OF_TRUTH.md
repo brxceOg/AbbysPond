@@ -297,3 +297,7 @@ Validation: full inline JavaScript syntax compilation passed. Live mobile visual
 ### Follow-up: lily pad water-contact shadows (2026-10-15)
 
 Added a soft, offset translucent shadow beneath each drifting lily pad, plus a slightly darker underside/contact edge to give the pads a sense of thickness and help them feel seated on the water rather than pasted on top. The shadow follows each pad's position while retaining a small offset. Presentation-only; gameplay and save data are unchanged. Inline JavaScript syntax compilation passed; live mobile visual verification and deployment status have not been independently confirmed.
+
+## 18. Lily pad shadows follow the leaf (2026-10-15)
+
+Each lily pad casts a soft, translucent shadow that uses a matching notched leaf silhouette rather than a generic oval. The shadow is offset slightly down and to the side, with softened edges, and is drawn in the same local transform as the pad so it moves and rotates with that pad's independent drift. A slim darker underside adds water-contact depth. This is visual-only and must not change pond or duck gameplay. JavaScript syntax validation passed after the update; live mobile rendering and Pages deployment were not independently verified.
