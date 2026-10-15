@@ -155,9 +155,54 @@ h2{font-size:27px;text-shadow:0 1px #fff}
 @media(max-width:390px){.content{padding-left:15px;padding-right:15px}.card{padding:13px 11px}.card .primary,.card .secondary{max-width:43%;padding:10px 9px;font-size:11px}.mhead{padding-left:18px;padding-right:15px}.modal{border-radius:22px 22px 17px 17px}}
 @media(prefers-reduced-motion:reduce){.action,.card,.modal,.primary,.secondary{transition:none!important}}
 
-</style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
+
+/* Full-bleed pond: the world fills the viewport and the interface floats above it. */
+html,body{width:100%;height:100%;min-height:100%;overflow:hidden}
+body{padding:0;background:#9fc6b8}
+.app{position:relative;isolation:isolate;width:100%;max-width:none;height:100dvh;min-height:0;margin:0;padding:0;overflow:hidden}
+.pond{position:fixed;inset:0;z-index:-1;width:100vw;height:100dvh;overflow:hidden;border:0;border-radius:0;outline:0;background:#9fc6b8;box-shadow:none}
+.pond:before{display:none}
+.pond .ribbon,.pond .pondfoot{display:none}
+.pond canvas#water{position:absolute;inset:0;display:block;width:100%;height:100dvh;max-height:none;image-rendering:pixelated;touch-action:manipulation}
+.top{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 10px);left:12px;right:12px;gap:8px;padding:7px 8px 9px;border:1px solid #dfc6a7d9;border-radius:25px 22px 24px 20px;background:linear-gradient(120deg,#fff8e9ef,#fff1dfd9);box-shadow:0 4px 0 #cdb49766,0 8px 20px #5b574021;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.top:after{left:9px;right:9px;bottom:3px}
+.top .flower{width:39px;height:39px;flex:0 0 39px;font-size:23px}
+.brand h1{font-size:clamp(20px,5.5vw,26px);white-space:nowrap}
+.brand .eyebrow{font-size:9px;letter-spacing:1px}
+.top .icon{width:40px;height:40px;min-width:40px;flex:0 0 40px;background:#fff8ebed}
+.top .love-icon{font-size:23px;color:#b46c79}
+.hud{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 72px);left:14px;right:14px;gap:8px;margin:0}
+.hud .stat{padding:9px 12px 8px;background:linear-gradient(145deg,#fffaf0e8,#fff4e3d9);border-color:#e9d4bdcc;box-shadow:0 3px 0 #d9c4ad55,0 6px 14px #80634612;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.hud .stat:before{opacity:.55}
+.hud .stat:after{right:7px;top:5px;font-size:10px}
+.stat label{font-size:10px}
+.stat strong{font-size:clamp(19px,5.5vw,24px);line-height:1.25}
+.stat small{font-size:10px}
+.actions{position:absolute;z-index:2;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 9px);grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0;padding:9px;border:1px solid #e2c9a9cc;border-radius:24px 20px 25px 19px;background:linear-gradient(145deg,#fff8e9dc,#fff1dfc9);box-shadow:0 4px 0 #cdb49766,0 10px 24px #5b57401f;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.actions:before{font-size:14px;line-height:17px;margin:0}
+.action{min-height:61px;padding:7px 4px 6px;gap:4px;border-radius:15px 12px 16px 12px;background:linear-gradient(150deg,#fffaf0e8,#fdf0dfd9);box-shadow:0 2px 0 #d9c1a688;border-color:#e6d0b8d9}
+.action:before{inset:3px}
+.action:after{right:6px;top:4px;font-size:9px}
+.action:not(:first-child){min-height:61px;background:linear-gradient(150deg,#fffaf0e8,#fdf0dfd9)}
+.action:first-child{grid-column:1/-1;min-height:59px;padding:7px 12px;gap:10px;background:linear-gradient(115deg,#f5d8d4f2,#f9e7d9ee 65%,#f8e8c9e8);box-shadow:0 3px 0 #d6b3a8cc,0 5px 12px #9b6c5e10}
+.action:first-child .tile{width:39px;height:39px;flex-basis:39px;font-size:23px}
+.action .tile{width:28px;height:28px;flex-basis:28px;font-size:17px}
+.action strong{font-size:11px;line-height:1.2}
+.action:first-child strong{font-size:14px}
+.action small{font-size:9px;line-height:1.25;margin-top:2px}
+.action:first-child small{font-size:10px}
+.action:not(:first-child)>span:nth-child(2){flex:1 1 auto;min-width:0}
+.action:not(:first-child) .chev{display:none}
+.event{position:absolute;z-index:2;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 177px);margin:0;padding:5px 10px;text-align:center;border:1px solid #dfc7a9a8;border-radius:999px;background:#fff8e9cf;color:#745b50;font:600 15px Caveat,cursive;line-height:1.25;min-height:0;box-shadow:0 2px 8px #5b574015;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.event:before,.event:after{display:none}
+.footer{display:none}
+@media(max-width:390px){.top{left:9px;right:9px;gap:6px;padding:6px 7px 8px}.top .flower{width:35px;height:35px;flex-basis:35px}.top .icon{width:37px;height:37px;min-width:37px;flex-basis:37px}.brand h1{font-size:21px}.brand .eyebrow{font-size:8px;letter-spacing:.7px}.hud{left:10px;right:10px;top:calc(env(safe-area-inset-top) + 67px);gap:7px}.hud .stat{padding:8px 9px 7px}.stat label{font-size:9px}.stat strong{font-size:20px}.stat small{font-size:9px}.actions{left:9px;right:9px;padding:7px;gap:6px;bottom:calc(env(safe-area-inset-bottom) + 7px)}.actions:before{font-size:13px}.action,.action:not(:first-child){min-height:56px}.action:first-child{min-height:55px;padding:6px 9px}.action .tile{width:25px;height:25px;flex-basis:25px;font-size:15px}.action:first-child .tile{width:35px;height:35px;flex-basis:35px}.action strong{font-size:10px}.action:first-child strong{font-size:13px}.action small{font-size:8px}.action:first-child small{font-size:9px}.event{bottom:calc(env(safe-area-inset-bottom) + 157px);font-size:14px;padding:4px 8px}}
+@media(max-height:700px){.top{top:calc(env(safe-area-inset-top) + 5px)}.hud{top:calc(env(safe-area-inset-top) + 62px)}.actions{bottom:calc(env(safe-area-inset-bottom) + 5px);padding:6px}.action,.action:not(:first-child){min-height:49px}.action:first-child{min-height:48px}.action .tile{width:25px;height:25px;flex-basis:25px}.action:first-child .tile{width:32px;height:32px;flex-basis:32px}.event{bottom:calc(env(safe-area-inset-bottom) + 142px)}}
+@media(prefers-reduced-motion:reduce){.top,.hud .stat,.actions,.event{backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+</style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon love-icon" id="love" aria-label="Send a little love" title="Send a little love">♡</button><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
-<section class="pond"><div class="ribbon"><span>♡</span> your own little corner of the world <span>♡</span></div><canvas id="water" aria-label="Animated pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span><button class="tiny" id="love">Send a little love ♡</button></div></section>
+<section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
 <section class="actions"><button class="action" data-menu="roll"><span class="tile">✿</span><span><strong>Find a duck</strong><small>A little surprise is waiting for you</small></span><span class="chev">›</span></button><button class="action" data-menu="upgrades"><span class="tile sage">❀</span><span><strong>Pond upgrades</strong><small>Help your little world grow</small></span><span class="chev">›</span></button><button class="action" data-menu="flock"><span class="tile blue">♡</span><span><strong>Your flock</strong><small>Care for each duck</small></span><span class="chev">›</span></button><button class="action" data-menu="inventory"><span class="tile gold">✧</span><span><strong>Keepsakes</strong><small>Little treasures you've found</small></span><span class="chev">›</span></button></section>
 <div class="event" id="event" role="status">The reeds rustle softly. All is peaceful.</div><footer class="footer">made with a little extra love <span style="color:#c87e8c">♡</span></footer></main>
 <div class="backdrop" id="backdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="title"><header class="mhead"><div><p class="eyebrow" id="kicker">YOUR POND</p><h2 id="title">A little menu</h2></div><button class="icon close" id="close" aria-label="Close menu">×</button></header><div class="content" id="content"></div></section></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
