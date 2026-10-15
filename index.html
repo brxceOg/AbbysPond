@@ -398,8 +398,9 @@ function draw(now){
  // Keep the complete pond comfortably inside the playfield with a visible garden border.
  px(0,0,W,H,'#78956c');
  for(let y=0;y<H;y+=9)for(let x=0;x<W;x+=14){let q=rand(x,y);px(x+q*4,y,3+q*5,2,q>.72?'#8da77a':q<.15?'#68865f':'#7f9a70')}
- const top=Math.max(25,H*.075),bottom=Math.max(27,H*.085),cx=W*.5,cy=top+(H-top-bottom)*.51;
- const rx=Math.min(W*.405,(W-36)*.5),ry=Math.min((H-top-bottom)*.425,Math.max(65,H*.36));
+ const top=Math.max(28,H*.10),bottom=Math.max(30,H*.11),cx=W*.5,cy=top+(H-top-bottom)*.50;
+ // A deliberately smaller oval leaves a generous, visible garden margin on every side.
+ const rx=Math.min(W*.335,(W-64)*.5),ry=Math.min((H-top-bottom)*.345,Math.max(58,H*.30));
  // Distinct layered shoreline; every ellipse remains inside the canvas with breathing room.
  ctx.fillStyle='#456f56';ctx.beginPath();ctx.ellipse(cx,cy+3,rx+7,ry+7,0,0,Math.PI*2);ctx.fill();
  ctx.fillStyle='#c7b391';ctx.beginPath();ctx.ellipse(cx,cy,rx+3,ry+3,0,0,Math.PI*2);ctx.fill();
