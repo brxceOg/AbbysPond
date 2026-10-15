@@ -270,3 +270,8 @@ Validation so far: the inline JavaScript passes syntax compilation. This is not 
 The next renderer pass moves species identity into the face itself instead of relying on color and head accessories alone. Heads now use individual contour paths with different crown, forehead, cheek, and nape shapes. Eye treatments are more varied (including Clover's curved closed eye, Bluebell's focused eye, and distinct softer, brighter, or more angular eye styling across other species), while bills vary in length, width, taper, and color by species. Subtle cheek accents and brow/face markings further distinguish several types. This remains a presentation-only pass: species IDs, palette definitions, stats, income, odds, progression, movement, collision avoidance, predator logic, and save data are unchanged.
 
 Validation: full inline JavaScript syntax compilation passed. The live pond still needs a visual check on mobile at normal scale and while ducks swim in both directions; syntax validation does not verify final appearance or deployment status.
+### Follow-up: animated ripples around swimming ducks (2026-10-15)
+
+Added subtle, continuously animated concentric surface ripples around every swimming duck, with slightly offset ring timing and soft broken highlights. Ripples render behind the duck sprites so the duck bodies interrupt the lines naturally at the waterline; the existing close wake lines and tap/heart/predator ripple effects remain intact. The effect is presentation-only and does not alter swimming paths, collision avoidance, economy, progression, or saves.
+
+Validation: inline JavaScript syntax compilation passed. Visual verification at live mobile pond scale and deployment status still need confirmation.
