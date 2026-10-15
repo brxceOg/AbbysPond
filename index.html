@@ -456,7 +456,23 @@ function draw(now){
   const paddle=Math.sin(now*.0037+i*1.5)*1.2;ellipse(-3,5+paddle*.25,3.2,1.5,'#d99465');ellipse(4,5-paddle*.25,3.2,1.5,'#d99465');
   // Tail and plump body, each with warm outline and a soft highlight.
   const species=d.species;
-  // Each species has its own small tail silhouette, visible behind the rounded body.
+  // Deliberately broad body-proportion range: these should read as different duck silhouettes at pond scale.
+  const anatomy={
+   meadow:{body:[12,7.7],head:[6.2,6.4],wing:'round'},
+   puddle:{body:[9.4,9.1],head:[6.5,6.6],wing:'tucked'},
+   clover:{body:[12.5,8.8],head:[6.1,6.3],wing:'leaf'},
+   bluebell:{body:[17,6.2],head:[5.7,6.1],wing:'long'},
+   peaches:{body:[11.2,10.2],head:[6.8,6.8],wing:'puff'},
+   lavender:{body:[13.3,8.2],head:[6.2,6.4],wing:'layered'},
+   moonbeam:{body:[16.1,6.1],head:[5.8,6.1],wing:'crescent'},
+   wish:{body:[14.6,6.3],head:[5.9,6.2],wing:'pointed'},
+   rosie:{body:[10.6,8.9],head:[6.3,6.5],wing:'petal'},
+   heartsong:{body:[13.7,9.3],head:[6.4,6.6],wing:'heart'},
+   sunpetal:{body:[14.4,7.8],head:[6.3,6.4],wing:'fan'},
+   stardust:{body:[15.7,6.8],head:[5.8,6.2],wing:'airy'}
+  }[species]||{body:[12,7.7],head:[6.2,6.4],wing:'round'};
+  // Keep each tail attached to the back of its own body instead of one fixed coordinate.
+  ctx.save();ctx.translate((-3-anatomy.body[0]*.82)+12,0);
   if(species==='meadow')path([[-12,-1],[-17,-5],[-16,-2],[-19,0],[-15,2],[-12,3]],'#d5b16c','#82634f',.8);
   else if(species==='puddle')path([[-12,-1],[-18,-5],[-16,1],[-12,3]],'#b8a078','#82634f',.8);
   else if(species==='clover')path([[-12,-1],[-17,-6],[-15,-1],[-19,1],[-13,3]],'#8eb77c','#527b59',.7);
@@ -470,21 +486,7 @@ function draw(now){
   else if(species==='sunpetal')path([[-12,-1],[-18,-6],[-16,-1],[-18,2],[-12,3]],'#f1d16f','#c99b43',.7);
   else if(species==='stardust')path([[-12,-1],[-18,-5],[-16,0],[-14,3],[-12,2]],'#b8d9eb','#8eb8d0',.7);
   else path([[-12,-1],[-17,-5],[-15,1],[-12,3]],'#b8a078','#82634f',.8);
-  // Small, intentional body-proportion differences make the silhouette species-specific.
-  const anatomy={
-   meadow:{body:[12,7.7],head:[6.2,6.4],wing:'round'},
-   puddle:{body:[10.9,7.1],head:[5.8,6.1],wing:'tucked'},
-   clover:{body:[12.1,7.8],head:[6.1,6.3],wing:'leaf'},
-   bluebell:{body:[12.7,7.1],head:[5.9,6.5],wing:'long'},
-   peaches:{body:[12.4,8.2],head:[6.3,6.5],wing:'puff'},
-   lavender:{body:[12.2,7.6],head:[6.1,6.3],wing:'layered'},
-   moonbeam:{body:[13,6.9],head:[5.9,6.4],wing:'crescent'},
-   wish:{body:[12.8,7.1],head:[6,6.5],wing:'pointed'},
-   rosie:{body:[12,8],head:[6.2,6.4],wing:'petal'},
-   heartsong:{body:[12.2,7.9],head:[6.2,6.5],wing:'heart'},
-   sunpetal:{body:[12.4,7.5],head:[6.2,6.4],wing:'fan'},
-   stardust:{body:[12.8,7.1],head:[5.9,6.5],wing:'airy'}
-  }[species]||{body:[12,7.7],head:[6.2,6.4],wing:'round'};
+  ctx.restore();
   ellipse(-3,0,anatomy.body[0],anatomy.body[1],v.c,'#75594b',1.05);
   ellipse(-5,-2.4,anatomy.body[0]*.60,anatomy.body[1]*.40,v.b||'#fff0d6');
   ellipse(-1,2,anatomy.body[0]*.46,anatomy.body[1]*.43,v.c);
