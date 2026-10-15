@@ -1,0 +1,223 @@
+# Abby's Pond — Source of Truth
+Version: 1.0
+Status: Canonical design and implementation contract before gameplay coding
+Repository: https://github.com/brxceOg/AbbysPond
+Primary target: iPhone Safari, with responsive support for desktop browsers
+Product intent: A cozy, cute, polished 2D pixel-art idle/incremental duck-collecting game made as a personal gift for Abby.
+
+This is the canonical reference for game design, presentation, architecture, and delivery. Before changing an established decision, update this document first. If implementation and this document disagree, treat this document as authoritative until deliberately revised.
+
+## 1. Core fantasy and design pillars
+
+The player tends a beautiful pond, collects increasingly special ducks, watches each duck paddle around the water, and earns money from the flock. The pond should feel like a tiny living place worth opening just to watch. Beneath the cozy surface, a light auto-battler loop lets ducks protect their home from realistic duck predators.
+
+Pillars:
+1. **Cozy and affectionate:** soft colors, gentle motion, rounded UI, warm details, and a thoughtful romantic tone without overwhelming the play area.
+2. **A pond that feels alive:** the pond is the main play space; ducks visibly swim, bob, turn, idle, and react. Reeds, lily pads, flowers, ripples, reflections, and flowy shoreline grass make the scene feel hand-crafted.
+3. **Every duck matters:** every owned duck has its own identity, rarity, income contribution, and combat contribution. Collecting is meaningful rather than just increasing a single number.
+4. **Idle progression with choices:** money grows over time, upgrades improve efficiency and luck, rolls unlock new ducks, and equipment/duck upgrades let the player shape their flock.
+5. **Predators make ecological sense:** enemies are animals that plausibly threaten ducks, with stronger threats introduced as the flock and its capabilities progress.
+6. **Mobile-first comfort:** usable with one thumb on iPhone Safari, with safe-area padding, legible text, generous touch targets, and no essential hover interactions.
+7. **Finished, reliable implementation:** no placeholder code, fake buttons, unfinished systems, or knowingly broken mechanics in committed work.
+
+## 2. Main gameplay loop
+
+1. Ducks swim around the pond and generate money individually over time.
+2. The player spends money on general upgrades, duck collection rolls, duck-specific improvements, and equipment.
+3. The collection grows in variety, rarity, income, and defensive strength.
+4. Predators occasionally invade the pond. The player's ducks automatically defend it.
+5. Successful defense grants a reward appropriate to the threat; losing a fight has a fair, non-destructive consequence and must not delete ducks or erase earned progression.
+6. Stronger flock progression raises the threat level over time, introducing tougher but ecologically appropriate predators.
+7. The player returns later to find offline earnings, calculated safely and transparently.
+
+The loop should be understandable within the first minute, with new systems introduced progressively rather than dumping every menu and mechanic on the player at once.
+
+## 3. Pond and visual presentation
+
+- The pond occupies the dominant play area and is the visual heart of the game.
+- Use a cohesive 2D pixel-art aesthetic with a deliberate palette, readable silhouettes, consistent pixel scale, and subtle animation.
+- Water should feel gently animated through layered color, drifting highlights, small ripples, and duck wake trails; effects must remain performant on mobile.
+- Shoreline and surrounding details should include naturally varied, flowy grass, reeds, cattails, small flowers, stones, lily pads, and occasional decorative surprises. Avoid clutter that competes with ducks.
+- Ducks should visibly float/swim around the pond rather than act as static icons. Give them gentle bobbing, turning, movement variation, and appropriate reactions to events.
+- Keep important UI overlaid on the scene in calm, organized panels with clear spacing and hierarchy. Avoid covering the pond with permanent opaque UI.
+- Use a custom-feeling type pairing: a friendly display face for headings and a highly legible face for numbers/body text. Bundle or load fonts robustly; provide fallbacks and avoid layout shifts.
+- Visual tone: tender, playful, storybook-like, polished, and cozy. The affectionate identity should feel sincere rather than overly saccharine.
+- Use reduced-motion preferences where practical and avoid rapid flashing or unnecessarily intense effects.
+
+## 4. Core screens and menus
+
+### Pond / Home
+- Main animated pond scene.
+- Current money and income rate.
+- Duck count / collection progress.
+- Clear access to the main menus.
+- A compact event/status indicator for predator encounters.
+- Controls must not obscure the main flock or overlap on iPhone.
+
+### General Upgrades
+A dedicated menu for economy and account-wide stats, including:
+- **Income / efficiency:** increases earnings or improves economic scaling.
+- **Luck:** improves roll odds for higher rarity ducks, with understandable probabilities and diminishing or capped effects where needed.
+- **Defense / strength:** improves the flock's ability to repel predators.
+- **Collection / roll improvements:** reduces roll costs or improves collection convenience as balance allows.
+- **Offline earnings:** increases the portion or duration of idle earnings collected while away.
+
+Every upgrade needs a clear effect, current level, next-level benefit, and cost. Purchase controls must validate affordability and update state immediately and consistently.
+
+### Duck Upgrades & Equipment
+A separate menu focused on individual ducks and the flock:
+- Select an owned duck to inspect it.
+- Display its name, species/variant, rarity, income, combat stats, and equipped items.
+- Allow duck-specific upgrades such as income, health, attack, or defense where supported by the duck's role.
+- Equip and remove valid items with clear slot compatibility and stat changes.
+- Show equipped effects clearly; do not silently replace valuable equipment.
+- Duck upgrades and equipment must persist in the save.
+
+### Inventory
+A separate inventory menu:
+- Lists owned equipment, consumables (if introduced), and collectible items.
+- Shows item rarity, effects, quantity, and whether/how it can be equipped or used.
+- Clearly distinguishes an item in inventory from an item currently equipped.
+- No dead-end items or UI controls that imply unsupported functionality.
+
+### Duck Collection / Roll
+- A dedicated, readable roll/recruitment interaction to unlock ducks.
+- Show odds before the roll; luck upgrades may change odds but must not make displayed odds misleading.
+- Each roll resolves to a real duck with defined stats, income, rarity, and appearance.
+- Duplicate results must have a defined outcome before duplicate mechanics are implemented.
+- Animation can add delight but must remain skippable/brief and must not delay access to the result.
+
+### Predator encounter
+- A readable, short event presentation that does not permanently cover the pond.
+- Predators enter the pond/shore in a way appropriate to the species.
+- Ducks automatically fight using their stats and equipment.
+- Show enough feedback to understand the outcome and rewards without requiring manual combat.
+- Encounters must not cause data loss or trap the player in a modal.
+
+## 5. Ducks, rarity, and rolling
+
+- Ducks are distinct collectible entities, not only a count.
+- Each duck has a stable unique instance ID, a species/variant ID, rarity, income value, combat stats, upgrade levels, and equipment slots/loadout.
+- Species/variants should have distinct silhouettes and palettes that remain readable at small iPhone screen sizes.
+- Rarity names, colors, roll weights, base stats, and income values must be data-driven rather than scattered across UI code.
+- The roll system must use a reliable weighted-random implementation and testable odds.
+- Luck changes probabilities according to one documented formula. It must not make rare outcomes guaranteed unless a deliberate endgame mechanic says so.
+- Avoid presenting random outcomes as guaranteed. Show the chance for each rarity and, where practical, a pity/anti-streak rule if one is introduced.
+- Balance the economy so new ducks feel exciting while older ducks remain useful through upgrades, equipment, or synergy.
+
+Initial rarity ladder (proposed starting point; tune only with a documented balance change):
+- Common
+- Uncommon
+- Rare
+- Epic
+- Legendary
+- Mythic
+
+Initial species and exact odds are content decisions to finalize alongside the first playable implementation; do not ship fake or unimplemented entries in a roll table.
+
+## 6. Predator ecology and progression
+
+Predators must be plausible threats to ducks and scale with player progression. Candidate roster:
+- **Snapping turtle:** an early, pond-native threat; dangerous at close range.
+- **Water snake:** a stealthy, quick threat around reeds and shallow edges.
+- **Large fish:** only use if the game includes a plausible vulnerability such as ducklings; otherwise choose a better-fitting threat.
+- **Raccoon:** raids the shoreline and may attempt to snatch food or pressure the flock.
+- **Fox:** a stronger land-based threat approaching from the bank.
+- **Bird of prey (such as a hawk):** an aerial threat with a brief telegraphed dive.
+- **Coyote:** a rare, high-tier shoreline threat, introduced only at high progression.
+
+These are candidates, not a requirement to implement all at once. Each predator needs a clear behavior, stats, encounter weight, unlock threshold, and reward/penalty. Avoid nonsensical matchups or enemies that appear before the player can reasonably handle them.
+
+Encounter rules:
+- Encounters are random but governed by documented probability and a cooldown/anti-back-to-back rule so they feel exciting, not oppressive.
+- Threat strength scales from a defined progression measure, such as total flock power and/or account progression, not simply duck count alone.
+- Communicate the danger level before or as an encounter begins.
+- A defeat must be fair: no permanent loss of collected ducks, currency, or equipment.
+- Reward success with money and/or defined materials; keep rewards proportionate to risk.
+- Combat resolves automatically using transparent, consistent rules. No placeholder combat outcomes.
+
+## 7. Economy, idle time, and saves
+
+- All ducks contribute income individually; total income is the sum of current ducks' effective income after upgrades/equipment.
+- Use a consistent currency model and display both current balance and earnings rate.
+- Costs and earnings must be data-driven and balanceable.
+- Offline earnings use elapsed time since the last valid save, with a defined maximum offline duration and a clear summary when returning.
+- Clamp elapsed time and validate persisted data to avoid absurd gains from clock changes or malformed saves.
+- Save automatically after meaningful changes and periodically while active, using browser storage suitable for GitHub Pages and Safari.
+- Include a deliberate reset-save flow with confirmation; never reset progression accidentally.
+- Save schema must be versioned. Future changes need safe migration/defaulting for older saves.
+- Handle missing, malformed, or inaccessible storage gracefully with a useful message rather than crashing.
+- The game must be fully playable without an account or server. Do not introduce paid mechanics, tracking, or network-dependent core gameplay.
+
+## 8. Mobile and accessibility requirements
+
+- iPhone Safari is the primary acceptance target.
+- Responsive layout must account for iOS safe areas and both portrait and landscape where practical.
+- Use touch targets of comfortable size, adequate contrast, readable text, and clear pressed/selected states.
+- No critical control may rely on hover, keyboard-only input, or precision tapping.
+- Avoid page scrolling, zoom traps, accidental text selection, and overscroll where the game surface is intended to be app-like; do not disable normal browser behavior more broadly than necessary.
+- Respect safe-area insets and dynamic viewport changes.
+- Keep animation and particle counts efficient for mobile performance.
+- Check that menus fit small screens and can be opened, scrolled, and dismissed reliably.
+
+## 9. Technical direction
+
+- Static browser game that can be hosted on GitHub Pages.
+- No backend required for core play, saves, rolls, combat, or offline earnings.
+- Keep gameplay data, simulation, rendering, and UI concerns separated enough to make systems testable and expandable.
+- Prefer a lightweight implementation that is easy to maintain and fast on iPhone Safari. Choose the final rendering/framework approach after inspecting repository needs; avoid unnecessary dependencies.
+- Use deterministic/testable functions for economy calculations, weighted rolls, upgrade pricing, encounter scaling, combat resolution, and save migration.
+- Keep content definitions (ducks, rarities, equipment, upgrades, predators) in structured data.
+- Do not rely on remote images or fonts for core functionality unless local/system fallbacks are complete.
+- Do not commit secrets, private tokens, or personal information about Abby.
+- Do not mix prototype experiments or unused alternate implementations into production paths.
+
+## 10. Quality bar and definition of done
+
+A change is not complete merely because code was written. Before committing:
+- Check syntax/build output and fix all errors.
+- Test the actual game flow affected by the change.
+- Verify the main pond still renders, ducks move, income accrues, and menus open correctly.
+- Verify saves persist after refresh and offline earnings are sane when relevant.
+- Verify layout and controls on iPhone-sized viewports and Safari-specific behavior where testable.
+- Verify no existing mechanic regressed.
+- Ensure all visible buttons and menu entries perform a real, finished action.
+- Ensure no placeholder code, TODO-driven unfinished feature, fake data path, or inert control is introduced.
+- Make sure content, odds, stat effects, costs, and displayed descriptions agree.
+- Distinguish what was tested directly from what could not be tested in the available environment.
+
+## 11. GitHub workflow and release contract
+
+- Repository: brxceOg/AbbysPond.
+- This document is the canonical source of truth and should be updated before deliberate design changes are implemented.
+- Work incrementally, with focused changes and a clear commit message.
+- Preserve established behavior unless a design change is explicitly agreed upon.
+- Every commit that changes the game should be followed by a playable GitHub Pages URL and a concise explanation of what changed and what was verified.
+- Do not claim a build is live or playable until GitHub Pages deployment has been checked. If Pages is not configured yet, configure/verify it before promising a live URL; until then, report the actual status.
+- Never invent a playable URL, commit hash, test result, or deployment status.
+- Keep the project separate from Idle Mining. Decisions and code from that game do not automatically apply here.
+
+## 12. Initial implementation milestones
+
+1. **Foundation:** inspect the existing repository, establish the static app structure, responsive scene, save schema, and visual style; get a genuinely playable pond online.
+2. **Duck economy:** add moving ducks, individual income, currency display, and persistence.
+3. **Collection:** add the roll system, rarity odds, collection UI, and initial fully implemented duck roster.
+4. **Progression menus:** implement general upgrades, duck upgrades/equipment, and inventory as separate functional menus.
+5. **Predator encounters:** implement a small, complete initial predator roster and automatic combat; test fairness and scaling.
+6. **Polish and balance:** enrich the pixel-art pond, add sound/motion settings if included, tune the economy, test offline earnings, and validate iPhone Safari.
+7. **Release verification:** check the live GitHub Pages build, persistence after refresh, mobile layout, and all core flows before calling the milestone done.
+
+Each milestone should be fully implemented and verified to its stated scope before moving on. Do not create fake placeholders for future milestones.
+
+## 13. Open balance/design decisions
+
+These details can be finalized during design and early implementation, but must be explicitly decided and documented before their affected systems ship:
+- Initial duck roster, species variants, base stats, rarity weights, and exact roll costs.
+- Exact formula for luck and probability redistribution.
+- Equipment slot types, item roster, and duplicate-duck outcome.
+- Encounter chance/cooldown, threat scaling formula, combat timing, and reward tables.
+- Offline earnings cap and rate.
+- Whether audio is included in the first release; if included, provide mute controls and avoid requiring sound.
+- Exact font choices and asset sourcing/licensing.
+
+No open decision authorizes placeholder code. A system should not ship until its required decisions are resolved and its implementation is complete.
