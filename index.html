@@ -446,6 +446,21 @@ function draw(now){
    }
   }
  }
+ // Gentle concentric rings travel outward from each floating duck. Draw them before
+ // the duck sprites so the body naturally interrupts the rings at the waterline.
+ for(let i=0;i<duckLimit;i++){
+  const swimmer=swimmers[i],phase=(now*.00115+i*1.73)%(Math.PI*2);
+  const pulse=(Math.sin(phase)+1)*.5,second=(Math.sin(phase-1.7)+1)*.5;
+  ctx.save();ctx.translate(swimmer.x,swimmer.y+5);
+  ctx.globalAlpha=.24+pulse*.16;ctx.strokeStyle='#eafff5';ctx.lineWidth=.85;
+  ctx.beginPath();ctx.ellipse(0,0,7+pulse*5,2.1+pulse*1.5,Math.sin(swimmer.angle)*.08,Math.PI*.08,Math.PI*.92);ctx.stroke();
+  ctx.globalAlpha=.13+second*.13;ctx.lineWidth=.7;
+  ctx.beginPath();ctx.ellipse(0,0,11+second*6,3+second*1.8,Math.sin(swimmer.angle)*.08,Math.PI*1.08,Math.PI*1.92);ctx.stroke();
+  // A tiny broken highlight gives the surface a soft, pixel-water shimmer.
+  ctx.globalAlpha=.14+second*.12;ctx.fillStyle='#f5fff1';
+  ctx.fillRect(Math.round(-8-second*3),Math.round(4+Math.sin(phase)*.7),2,1);
+  ctx.restore();ctx.globalAlpha=1;
+ }
  for(let i=0;i<duckLimit;i++){
   const d=swimmers[i].d,v=def(d),x=swimmers[i].x,y=swimmers[i].y,dir=(-Math.sin(swimmers[i].angle)*swimmers[i].swimDir)>=0?1:-1,bob=Math.sin(now*.0029+i*2.1)*.65;
   duckPositions.push({x,y,d});
