@@ -287,3 +287,9 @@ Validation: the full inline JavaScript syntax compilation passed. The effect sti
 Clarified and strengthened the animation specifically for the short decorative texture strokes distributed across the pond surface, separate from the duck wake/ripple effects. Each mark now has a more noticeable but still gentle lateral drift, a slower vertical wave, a small rotation change, and soft brightness breathing. Marks remain short and broken, with no long rushing wave streaks. Presentation-only; gameplay and saves are unchanged.
 
 Validation: full inline JavaScript syntax compilation passed. Live mobile visual verification and deployment status still need confirmation.
+
+### Follow-up: gently drifting lily pads (2026-10-15)
+
+Lily pads now drift slowly and independently with the pond's implied current. Each pad has a small layered horizontal/vertical drift and subtle rotation, with different timing per pad so they do not move in lockstep. Existing pad shapes, veins, flowers, and pond clipping remain unchanged. Presentation-only; gameplay, duck movement, economy, and saves are unchanged.
+
+Validation: full inline JavaScript syntax compilation passed. Live mobile visual verification and deployment status still need confirmation.
