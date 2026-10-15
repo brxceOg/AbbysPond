@@ -455,14 +455,50 @@ function draw(now){
   // Tiny paddling feet beneath the surface.
   const paddle=Math.sin(now*.0037+i*1.5)*1.2;ellipse(-3,5+paddle*.25,3.2,1.5,'#d99465');ellipse(4,5-paddle*.25,3.2,1.5,'#d99465');
   // Tail and plump body, each with warm outline and a soft highlight.
-  path([[-12,-1],[-17,-5],[-15,1],[-12,3]],'#b8a078','#82634f',.8);
+  const species=d.species;
+  // Each species has its own small tail silhouette, visible behind the rounded body.
+  if(species==='puddle')path([[-12,-1],[-18,-5],[-16,1],[-12,3]],'#b8a078','#82634f',.8);
+  else if(species==='clover')path([[-12,-1],[-17,-6],[-15,-1],[-19,1],[-13,3]],'#8eb77c','#527b59',.7);
+  else if(species==='bluebell')path([[-12,-1],[-18,-4],[-17,0],[-15,3],[-12,3]],'#a9d0d7','#587e8b',.7);
+  else if(species==='peaches')path([[-12,-1],[-17,-4],[-16,0],[-14,3],[-12,2]],'#e7a28e','#a96d60',.7);
+  else if(species==='lavender')path([[-12,-1],[-17,-6],[-15,-2],[-19,0],[-14,3]],'#b8a5d2','#75618f',.7);
+  else if(species==='moonbeam')path([[-12,-1],[-18,-4],[-16,0],[-14,3],[-12,2]],'#e8e1c6','#aaa17d',.7);
+  else if(species==='wish')path([[-12,-1],[-18,-5],[-15,-1],[-18,2],[-12,3]],'#e8ce91','#aa8d58',.7);
+  else if(species==='rosie')path([[-12,-1],[-17,-5],[-16,1],[-13,3]],'#e8a3b6','#a96c83',.7);
+  else if(species==='heartsong')path([[-12,-1],[-18,-4],[-16,1],[-12,3]],'#df91aa','#9e5d76',.7);
+  else if(species==='sunpetal')path([[-12,-1],[-18,-6],[-16,-1],[-18,2],[-12,3]],'#f1d16f','#c99b43',.7);
+  else if(species==='stardust')path([[-12,-1],[-18,-5],[-16,0],[-14,3],[-12,2]],'#b8d9eb','#8eb8d0',.7);
+  else path([[-12,-1],[-17,-5],[-15,1],[-12,3]],'#b8a078','#82634f',.8);
   ellipse(-3,0,12,7.7,v.c,'#75594b',1.05);
   ellipse(-5,-2.4,7.2,3.1,v.b||'#fff0d6');ellipse(-1,2,5.5,3.3,v.c);
+  // Species-specific body markings sit on the flank, below the head overlap.
+  if(species==='puddle'){
+   ellipse(-9,-.8,1.35,1.05,'#f8e8a3');ellipse(-7,2,1,.8,'#f8e8a3');ellipse(-3,-3.2,1.1,.8,'#f8e8a3');
+  }else if(species==='clover'){
+   ctx.save();ctx.translate(-6,-1);ellipse(-1,-1,1.8,2.3,'#79ad78');ellipse(1,-1,1.8,2.3,'#91c38a');ellipse(0,1,1.8,2.1,'#6e966d');ctx.restore();
+  }else if(species==='bluebell'){
+   path([[-9,-2],[-5,-4],[-2,-1],[-6,2]],'#d6e8e8');path([[-7,1],[-4,-1],[-1,1],[-5,3]],'#8fb8c6');
+  }else if(species==='peaches'){
+   ellipse(-9,-1,1.6,1.1,'#f6c3a9');ellipse(-5,1.8,1.25,.9,'#f6c3a9');ellipse(-2,-2.7,1.2,.8,'#cf8c7d');
+  }else if(species==='lavender'){
+   path([[-10,-1],[-7,-3],[-4,-1],[-7,1]],'#d8c5e4');path([[-7,2],[-4,0],[-1,2],[-4,3.5]],'#a38bbd');
+  }else if(species==='moonbeam'){
+   ctx.strokeStyle='#fff9ec';ctx.lineWidth=1.1;ctx.beginPath();ctx.arc(-5,0,3,-.9,1.1);ctx.stroke();ctx.strokeStyle='#dbe4ed';ctx.beginPath();ctx.arc(-4,0,1.7,-.8,1);ctx.stroke();
+  }else if(species==='wish'){
+   path([[-7,-3],[-6,-1.5],[-4.5,-1],[-6,-.4],[-7,1],[-7.6,-.4],[-9,-1],[-7.6,-1.5]],'#f3d78e');
+  }else if(species==='rosie'){
+   flower(-6,0,2,['#f1a5b8','#ffe2e8']);
+  }else if(species==='heartsong'){
+   ctx.fillStyle='#e889a5';ctx.beginPath();ctx.moveTo(-6,2);ctx.bezierCurveTo(-10,-.5,-8,-3,-6,-1.5);ctx.bezierCurveTo(-4,-3,-2,-.5,-6,2);ctx.fill();
+  }else if(species==='sunpetal'){
+   for(let q=0;q<3;q++){ctx.strokeStyle=q===1?'#fff0a8':'#e3aa48';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(-10+q*2,-2);ctx.quadraticCurveTo(-7+q*2,-.5,-5+q*2,1.5);ctx.stroke()}
+  }else if(species==='stardust'){
+   ellipse(-8,-2,1.1,1.1,'#eff9ff');ellipse(-5,1,1.3,1.3,'#f4df9e');ellipse(-2,-2, .8,.8,'#eff9ff');
+  }
   // Neck and round head are slightly overlapped for a friendly silhouette.
   ellipse(5,-7,6.2,6.4,v.c,'#75594b',1);
   ellipse(3,-10,3.2,1.5,'rgba(255,255,255,.42)');
   // Species-specific cheek, crown, and wing patterns.
-  const species=d.species;
   if(species==='puddle'){ellipse(-5,-1,4,2.8,'#f8e8a3');ellipse(5,-12,2.4,1.5,'#fff1b5')}
   else if(species==='clover'){ellipse(-5,-1,4,2.8,'#6e966d');ellipse(-1,1,2.7,1.7,'#d6e1b4');ellipse(5,-13,2,1.5,'#f1d8a1')}
   else if(species==='bluebell'){ellipse(-5,-1,4,2.8,'#d6e8e8');ellipse(-1,1,2.7,1.7,'#8fb8c6');ellipse(5,-13,2,1.5,'#f3eee1')}
