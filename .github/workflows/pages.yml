@@ -11,7 +11,15 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Validate embedded game JavaScript
+        run: node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const match=html.match(/<script>([\\s\\S]*?)<\\/script>/);if(!match)throw new Error('Game script missing');new Function(match[1]);if(!html.includes('SOURCE_OF_TRUTH.md') && !html.includes('Abby'))throw new Error('Unexpected app document');console.log('Embedded JavaScript syntax OK')"
   deploy:
+    needs: validate
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
