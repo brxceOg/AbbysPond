@@ -469,8 +469,24 @@ function draw(now){
   else if(species==='sunpetal')path([[-12,-1],[-18,-6],[-16,-1],[-18,2],[-12,3]],'#f1d16f','#c99b43',.7);
   else if(species==='stardust')path([[-12,-1],[-18,-5],[-16,0],[-14,3],[-12,2]],'#b8d9eb','#8eb8d0',.7);
   else path([[-12,-1],[-17,-5],[-15,1],[-12,3]],'#b8a078','#82634f',.8);
-  ellipse(-3,0,12,7.7,v.c,'#75594b',1.05);
-  ellipse(-5,-2.4,7.2,3.1,v.b||'#fff0d6');ellipse(-1,2,5.5,3.3,v.c);
+  // Small, intentional body-proportion differences make the silhouette species-specific.
+  const anatomy={
+   meadow:{body:[12,7.7],head:[6.2,6.4],wing:'round'},
+   puddle:{body:[10.9,7.1],head:[5.8,6.1],wing:'tucked'},
+   clover:{body:[12.1,7.8],head:[6.1,6.3],wing:'leaf'},
+   bluebell:{body:[12.7,7.1],head:[5.9,6.5],wing:'long'},
+   peaches:{body:[12.4,8.2],head:[6.3,6.5],wing:'puff'},
+   lavender:{body:[12.2,7.6],head:[6.1,6.3],wing:'layered'},
+   moonbeam:{body:[13,6.9],head:[5.9,6.4],wing:'crescent'},
+   wish:{body:[12.8,7.1],head:[6,6.5],wing:'pointed'},
+   rosie:{body:[12,8],head:[6.2,6.4],wing:'petal'},
+   heartsong:{body:[12.2,7.9],head:[6.2,6.5],wing:'heart'},
+   sunpetal:{body:[12.4,7.5],head:[6.2,6.4],wing:'fan'},
+   stardust:{body:[12.8,7.1],head:[5.9,6.5],wing:'airy'}
+  }[species]||{body:[12,7.7],head:[6.2,6.4],wing:'round'};
+  ellipse(-3,0,anatomy.body[0],anatomy.body[1],v.c,'#75594b',1.05);
+  ellipse(-5,-2.4,anatomy.body[0]*.60,anatomy.body[1]*.40,v.b||'#fff0d6');
+  ellipse(-1,2,anatomy.body[0]*.46,anatomy.body[1]*.43,v.c);
   // Species-specific body markings sit on the flank, below the head overlap.
   if(species==='puddle'){
    ellipse(-9,-.8,1.35,1.05,'#f8e8a3');ellipse(-7,2,1,.8,'#f8e8a3');ellipse(-3,-3.2,1.1,.8,'#f8e8a3');
@@ -496,7 +512,7 @@ function draw(now){
    ellipse(-8,-2,1.1,1.1,'#eff9ff');ellipse(-5,1,1.3,1.3,'#f4df9e');ellipse(-2,-2, .8,.8,'#eff9ff');
   }
   // Neck and round head are slightly overlapped for a friendly silhouette.
-  ellipse(5,-7,6.2,6.4,v.c,'#75594b',1);
+  ellipse(5,-7,anatomy.head[0],anatomy.head[1],v.c,'#75594b',1);
   ellipse(3,-10,3.2,1.5,'rgba(255,255,255,.42)');
   // Species-specific cheek, crown, and wing patterns.
   if(species==='puddle'){ellipse(-5,-1,4,2.8,'#f8e8a3');ellipse(5,-12,2.4,1.5,'#fff1b5')}
@@ -510,7 +526,9 @@ function draw(now){
   else if(species==='stardust'){ellipse(-5,-1,4.5,2.8,'#eff9ff');ellipse(-1,1,2.7,1.7,'#90bfd8');ellipse(5,-13,2,1.5,'#eff9ff');ellipse(-2,-5,1.5,1,'#f4df9e');ellipse(0,0,1,1,'#fffdf0')}
   else {ellipse(-5,-1,4,2.8,'#f4dba2');ellipse(-1,1,2.7,1.7,'#d8b56d')}
   // Compact, head-hugging species accessories. All stay within the head silhouette.
-  if(species==='puddle'){
+  if(species==='meadow'){
+   ctx.strokeStyle='#c99e57';ctx.lineWidth=1.25;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(2,-12.2);ctx.quadraticCurveTo(1,-15,4,-15.1);ctx.quadraticCurveTo(6,-14.8,5.4,-12.8);ctx.stroke();ellipse(2.4,-12.3,.65,.6,'#f0d58b');
+  }else if(species==='puddle'){
    path([[1,-12],[2,-15],[4,-13],[6,-15],[7,-11]],'#c89d58','#75594b',.55);
   }else if(species==='clover'){
    ctx.save();ctx.translate(2,-12.5);ctx.rotate(-.2);ellipse(-1.2,-1.1,1.6,2.3,'#79ad78','#527b59',.45);ctx.rotate(1.05);ellipse(1.4,-1.2,1.6,2.3,'#91c38a','#527b59',.45);ctx.restore();
@@ -534,14 +552,46 @@ function draw(now){
   }else if(species==='stardust'){
    path([[3,-16],[3.6,-14.6],[5,-14],[3.6,-13.4],[3,-12],[2.4,-13.4],[1,-14],[2.4,-14.6]],'#e6f3ff','#8eb8d0',.5);ellipse(6,-12,.65,.65,'#fff4c2');
   }
-  // Separate upper wing layer: a softly feathered shape pivots over the body.
-  // The small, slow motion keeps the ducks relaxed rather than frantic.
+  // Species-specific wing silhouettes with a slow, relaxed feather-layer bob.
   ctx.save();ctx.translate(-3,0);
-  const wingAngle=Math.sin(now*.0024+i*1.35)*.13;
+  const wingAngle=Math.sin(now*.0024+i*1.35)*(['long','airy','pointed'].includes(anatomy.wing)?.105:.13);
   ctx.rotate(wingAngle);
-  ellipse(-1,0,7.2,4.2,v.b||'#fff0d6','#75594b',.75);
-  ctx.strokeStyle='rgba(92,72,58,.42)';ctx.lineWidth=.65;
-  ctx.beginPath();ctx.moveTo(-6,-.5);ctx.quadraticCurveTo(-2,-2.8,3,-1.1);ctx.moveTo(-5,1.2);ctx.quadraticCurveTo(-1,-.3,3,1);ctx.stroke();
+  const wc=v.b||'#fff0d6', edge='#75594b', feather='rgba(92,72,58,.46)';
+  if(anatomy.wing==='tucked'){
+   path([[-7,-1],[-5,-3.5],[-1,-3.2],[3,-1],[1,2],[-4,2]],wc,edge,.7);
+   ctx.strokeStyle=feather;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-4,-1.8);ctx.quadraticCurveTo(-1,-2.5,1,-.5);ctx.stroke();
+  }else if(anatomy.wing==='leaf'){
+   path([[-7,1],[-6,-2.5],[-2,-4],[3,-1],[1,2],[-3,2.6]],wc,edge,.7);
+   ctx.strokeStyle=feather;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(-5,1);ctx.quadraticCurveTo(-1,-1,2,-1.2);ctx.moveTo(-3,1.4);ctx.quadraticCurveTo(-.5,.1,1,.2);ctx.stroke();
+  }else if(anatomy.wing==='long'){
+   path([[-7,-.5],[-5,-3],[-1,-3.1],[4,-.8],[2,1.5],[-4,2]],wc,edge,.7);
+   ctx.strokeStyle=feather;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(-5,-1);ctx.quadraticCurveTo(-1,-2.6,3,-.7);ctx.moveTo(-4,.5);ctx.quadraticCurveTo(0,-.6,2,1);ctx.stroke();
+  }else if(anatomy.wing==='puff'){
+   ellipse(-1,0,7.3,4.4,wc,edge,.7);ellipse(-4,-1.5,3.1,2.4,'rgba(255,255,255,.28)');
+   ctx.strokeStyle=feather;ctx.lineWidth=.6;ctx.beginPath();ctx.arc(-1,.2,3.9,-.8,.9);ctx.stroke();
+  }else if(anatomy.wing==='layered'){
+   path([[-7,0],[-5,-3],[-2,-3.5],[2,-1],[-1,1.2],[-5,2]],wc,edge,.65);
+   path([[-5,1],[-3,-1.2],[1,-.8],[3,1.1],[-1,2.3]],v.c,edge,.5);
+   ctx.strokeStyle=feather;ctx.lineWidth=.55;ctx.beginPath();ctx.moveTo(-4,-1.6);ctx.lineTo(-1,-2);ctx.moveTo(-3,.5);ctx.lineTo(0,.1);ctx.stroke();
+  }else if(anatomy.wing==='crescent'){
+   path([[-7,-1],[-4,-3.4],[1,-3.2],[4,-.2],[1,1.8],[-2,.8],[0,-.3],[-4,.4]],wc,edge,.65);
+   ctx.strokeStyle=feather;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-4,-1.3);ctx.quadraticCurveTo(-.3,-2.6,2,-.5);ctx.stroke();
+  }else if(anatomy.wing==='pointed'){
+   path([[-7,0],[-5,-3],[-1,-3.2],[4,-1],[1,0],[4,2],[-2,2.2]],wc,edge,.65);
+   ctx.strokeStyle=feather;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-4,-1.5);ctx.lineTo(2,-.8);ctx.moveTo(-3,.4);ctx.lineTo(2,1.3);ctx.stroke();
+  }else if(anatomy.wing==='petal'){
+   path([[-7,0],[-6,-2.8],[-3,-3.8],[-1,-2],[2,-2.5],[4,0],[1,2],[-3,2.4]],wc,edge,.65);
+   ctx.strokeStyle=feather;ctx.lineWidth=.55;ctx.beginPath();ctx.moveTo(-4,-1.7);ctx.quadraticCurveTo(-1,-.5,1,-1);ctx.moveTo(-3,.8);ctx.quadraticCurveTo(0,1.2,2,.5);ctx.stroke();
+  }else if(anatomy.wing==='heart'){
+   path([[-7,-.5],[-5,-3],[-2,-2.5],[0,-1],[2,-2.5],[4,-.3],[1,2],[-3,2.5]],wc,edge,.65);
+   ctx.strokeStyle=feather;ctx.lineWidth=.55;ctx.beginPath();ctx.moveTo(-4,-1.4);ctx.quadraticCurveTo(-2,-.2,0,-.3);ctx.moveTo(-2,1);ctx.quadraticCurveTo(0,.1,2,.3);ctx.stroke();
+  }else if(anatomy.wing==='fan'){
+   path([[-7,1],[-6,-2],[-4,-3.8],[-2,-2.2],[0,-4],[2,-1.8],[4,-.3],[1,2],[-3,2.2]],wc,edge,.65);
+   ctx.strokeStyle=feather;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-4,1);ctx.lineTo(-4,-2);ctx.moveTo(-1,1);ctx.lineTo(-1,-2.2);ctx.moveTo(2,.5);ctx.lineTo(2,-.8);ctx.stroke();
+  }else{
+   ellipse(-1,0,7.2,4.2,wc,edge,.75);
+   ctx.strokeStyle=feather;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(-6,-.5);ctx.quadraticCurveTo(-2,-2.8,3,-1.1);ctx.moveTo(-5,1.2);ctx.quadraticCurveTo(-1,-.3,3,1);ctx.stroke();
+  }
   ctx.restore();
   // Eye shapes vary by species while remaining consistent within each species.
   if(species==='clover'){
