@@ -457,7 +457,8 @@ function draw(now){
   // Tail and plump body, each with warm outline and a soft highlight.
   const species=d.species;
   // Each species has its own small tail silhouette, visible behind the rounded body.
-  if(species==='puddle')path([[-12,-1],[-18,-5],[-16,1],[-12,3]],'#b8a078','#82634f',.8);
+  if(species==='meadow')path([[-12,-1],[-17,-5],[-16,-2],[-19,0],[-15,2],[-12,3]],'#d5b16c','#82634f',.8);
+  else if(species==='puddle')path([[-12,-1],[-18,-5],[-16,1],[-12,3]],'#b8a078','#82634f',.8);
   else if(species==='clover')path([[-12,-1],[-17,-6],[-15,-1],[-19,1],[-13,3]],'#8eb77c','#527b59',.7);
   else if(species==='bluebell')path([[-12,-1],[-18,-4],[-17,0],[-15,3],[-12,3]],'#a9d0d7','#587e8b',.7);
   else if(species==='peaches')path([[-12,-1],[-17,-4],[-16,0],[-14,3],[-12,2]],'#e7a28e','#a96d60',.7);
@@ -510,6 +511,10 @@ function draw(now){
    for(let q=0;q<3;q++){ctx.strokeStyle=q===1?'#fff0a8':'#e3aa48';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(-10+q*2,-2);ctx.quadraticCurveTo(-7+q*2,-.5,-5+q*2,1.5);ctx.stroke()}
   }else if(species==='stardust'){
    ellipse(-8,-2,1.1,1.1,'#eff9ff');ellipse(-5,1,1.3,1.3,'#f4df9e');ellipse(-2,-2, .8,.8,'#eff9ff');
+  }else if(species==='meadow'){
+   // Meadow's classic downy bib and two short feather bars keep the baseline duck recognizable.
+   path([[-9,-2],[-7,-4],[-4,-3],[-3,0],[-6,1]],'#f8e8b5');
+   ctx.strokeStyle='#c6a15e';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-10,1);ctx.quadraticCurveTo(-8,2.2,-6,1.5);ctx.moveTo(-8,3);ctx.quadraticCurveTo(-6,3.8,-4.5,2.7);ctx.stroke();
   }
   // Neck and round head are slightly overlapped for a friendly silhouette.
   ellipse(5,-7,anatomy.head[0],anatomy.head[1],v.c,'#75594b',1);
