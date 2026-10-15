@@ -392,7 +392,7 @@ function tap(e){
 
  function drawPredatorSprite(p,x,y,phase,win,now){
   ctx.save();ctx.translate(Math.round(x),Math.round(y));ctx.scale(2,2);
-  const q=(a,b,w,h,col)=>px(a,b,w,h,col),blink=Math.sin(now*.018)>0.96;
+  const q=(a,b,w,h,col)=>{ctx.fillStyle=col;ctx.fillRect(Math.round(a),Math.round(b),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))},blink=Math.sin(now*.018)>0.96;
   // Individually shaped pixel-art silhouettes make each pond visitor recognizable.
   if(p.n==='Snapping turtle'){
    q(-12,-1,17,7,'#354f43');q(-10,-5,13,8,'#557b55');q(-8,-7,9,3,'#739866');q(-9,2,4,4,'#527a53');q(1,2,4,4,'#527a53');q(-12,5,4,2,'#344b3e');q(4,-2,7,5,'#77975a');q(8,-4,3,3,'#9db879');q(9,-3,1,1,blink?'#77975a':'#fff2c9');q(12,-1,4,2,'#d5a16a');q(14,0,2,1,'#6c4c3b');q(-8,-4,3,2,'#344f42');q(-4,-5,3,2,'#344f42');q(0,-4,3,2,'#344f42');
