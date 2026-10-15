@@ -473,6 +473,15 @@ function draw(now){
   else if(species==='sunpetal'){ellipse(-5,-1,4.5,2.8,'#fff0a8');ellipse(-1,1,2.7,1.7,'#e3aa48');flower(5,-14,2.4,['#fff0a8','#fff8da'])}
   else if(species==='stardust'){ellipse(-5,-1,4.5,2.8,'#eff9ff');ellipse(-1,1,2.7,1.7,'#90bfd8');ellipse(5,-13,2,1.5,'#eff9ff');ellipse(-2,-5,1.5,1,'#f4df9e');ellipse(0,0,1,1,'#fffdf0')}
   else {ellipse(-5,-1,4,2.8,'#f4dba2');ellipse(-1,1,2.7,1.7,'#d8b56d')}
+  // Separate upper wing layer: a softly feathered shape pivots over the body.
+  // The small, slow motion keeps the ducks relaxed rather than frantic.
+  ctx.save();ctx.translate(-3,0);
+  const wingAngle=Math.sin(now*.0024+i*1.35)*.13;
+  ctx.rotate(wingAngle);
+  ellipse(-1,0,7.2,4.2,v.b||'#fff0d6','#75594b',.75);
+  ctx.strokeStyle='rgba(92,72,58,.42)';ctx.lineWidth=.65;
+  ctx.beginPath();ctx.moveTo(-6,-.5);ctx.quadraticCurveTo(-2,-2.8,3,-1.1);ctx.moveTo(-5,1.2);ctx.quadraticCurveTo(-1,-.3,3,1);ctx.stroke();
+  ctx.restore();
   // Eye, tiny bill, rosy cheek, and feather detail.
   ellipse(7,-8,2.05,2.05,'#fff9ed');ellipse(7.5,-8,1.05,1.25,'#433b36');ellipse(7.8,-8.5,.35,.4,'#fff');
   path([[10,-6],[15,-5],[10,-3]],['moonbeam','stardust','wish'].includes(species)?'#d4a66a':'#df9a5f','#9a6b4d',.65);
