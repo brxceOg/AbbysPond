@@ -427,3 +427,10 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - “Find a duck” and “Pond upgrades” sit on the left; “Your flock” and “Keepsakes” sit on the right. Buttons use compact, touch-friendly organic plaques with clear labels and simple icon medallions. The center of the screen remains open so the pond and ducks stay the visual focus.
 - Removed the grouped bottom action tray for the main game screen while preserving all action button IDs/data-menu attributes, existing menus, settings, love action, queued event messaging, gameplay, and save data. Responsive rules shrink side buttons on small/short displays and expand them on larger screens.
 - Inline JavaScript syntax compilation passed. Live device layout and GitHub Pages deployment have not been independently verified.
+
+
+## 25. Header control spacing fix (2026-10-16)
+
+- Reserved a dedicated centered title lane between the upper-left heart control and upper-right settings control. The title scales down and wraps only as needed on narrow screens; the buttons remain independently anchored at the corners with their own tap targets.
+- Kept the sketch-led side-button layout and all game behavior unchanged.
+- Inline JavaScript syntax compilation passed. Live device visual verification has not been independently performed.
