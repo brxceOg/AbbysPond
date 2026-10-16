@@ -492,3 +492,12 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Styled it as a compact matching paper note and added shorter-screen responsive positions to keep the message clear of the HUD and controls.
 - Preserved the event queue, fade behavior, status semantics, gameplay, and save data.
 
+## 32. Live animal encounters, duck health, and rarity-based attack (2026-10-16)
+
+- Predator encounters are active real-time battles, not a preselected win/loss. The visitor loops quickly around the pond, reverses course on duck contact, and shows its own health bar.
+- Each owned duck receives a persistent, randomly rolled base attack stat when its combat data is first initialized: Common 1–10, Uncommon 10–20, Rare 20–35, Epic 35–50, Legendary 50–70, and Mythic 70–100. Level and equipped attack bonuses are added to that base roll.
+- Duck health uses each species' existing base-health value, with level and equipped health bonuses. Existing version-1 saves are migrated in place by filling in missing combat fields; the save version and species IDs remain unchanged.
+- On predator contact, the duck loses health and strikes back using its attack stat. Health bars appear while a fight is active or when a duck is injured. At zero health, a duck is exhausted and cannot damage the predator until a bug meal restores health; ducks are not permanently lost.
+- Successful insect meals restore up to 32% of that duck's maximum health (at least 4 points, capped at full health) while preserving the existing insect-eating and growth behavior. Healthy ducks can continue eating bugs for growth.
+- A defeated visitor fades away before the victory event/reward is queued. If the visitor lasts 22 seconds, it escapes and the flock receives a recovery message instead of a victory reward. Existing encounter cooldown, reward table, keepsakes, currency, and auto-save behavior remain in place.
+- Validation target: syntax checks, old-save migration, combat collision timing, health caps, bug healing, victory/escape reward gating, and iPhone Safari layout/animation behavior.
