@@ -673,6 +673,49 @@ body{
  .event{bottom:calc(env(safe-area-inset-bottom) + 79px)}
 }
 @media(prefers-reduced-motion:reduce){.action{transition:none!important}}
+
+/* Match the title and both HUD notes to the torn-paper action scraps. */
+.top{
+ border:0!important;border-radius:0!important;
+ clip-path:polygon(2% 9%,9% 5%,17% 8%,26% 4%,35% 7%,44% 3%,53% 7%,62% 4%,71% 7%,80% 4%,89% 7%,98% 9%,96% 22%,98% 36%,96% 50%,98% 64%,95% 77%,97% 90%,88% 94%,78% 91%,68% 95%,58% 92%,48% 96%,38% 92%,28% 95%,18% 91%,9% 94%,3% 89%,5% 76%,2% 63%,5% 49%,2% 35%,5% 22%);
+ background-color:#fff8e8!important;
+ background-image:repeating-linear-gradient(0deg,transparent 0 17px,#dfc9a955 17px 18px),linear-gradient(145deg,#fffdf4,#f5e5ca)!important;
+ box-shadow:none!important;filter:drop-shadow(0 3px 2px #624a4038);
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+.top:before{
+ left:14%;right:14%;top:7px;height:0;border-top:1px dashed #b99b7b;
+ background:none;opacity:.8;
+}
+.top .flower{
+ border:1px dashed #b99b7b!important;border-radius:0!important;
+ background:#f3dfc8!important;box-shadow:none!important;
+ clip-path:polygon(8% 4%,28% 7%,48% 2%,67% 7%,92% 4%,95% 25%,99% 47%,94% 69%,97% 92%,71% 95%,50% 98%,28% 93%,5% 96%,7% 72%,2% 49%,6% 25%);
+}
+.top .flower:after{display:none}
+.top .icon{
+ border:0!important;border-radius:0!important;clip-path:polygon(5% 9%,17% 4%,30% 7%,43% 3%,56% 7%,69% 4%,82% 8%,96% 6%,93% 27%,97% 48%,94% 70%,97% 91%,76% 94%,55% 91%,34% 96%,13% 92%,4% 95%,7% 72%,3% 50%,6% 28%);
+ background-color:#fff8e8!important;
+ background-image:repeating-linear-gradient(0deg,transparent 0 17px,#dfc9a955 17px 18px),linear-gradient(145deg,#fffdf4,#f5e5ca)!important;
+ box-shadow:none!important;filter:drop-shadow(0 3px 2px #624a4038);backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+.hud .stat{
+ border:0!important;border-radius:0!important;
+ clip-path:polygon(2% 8%,8% 5%,17% 7%,26% 3%,35% 6%,44% 3%,53% 7%,62% 4%,71% 7%,80% 3%,89% 6%,98% 8%,96% 22%,98% 36%,95% 50%,98% 64%,95% 78%,97% 90%,88% 94%,78% 91%,68% 95%,58% 92%,48% 96%,38% 92%,28% 95%,18% 91%,9% 94%,3% 90%,5% 77%,2% 63%,5% 49%,2% 35%,5% 21%);
+ background-color:#fff8e8!important;
+ background-image:repeating-linear-gradient(0deg,transparent 0 17px,#dfc9a955 17px 18px),linear-gradient(145deg,#fffdf4,#f5e5ca)!important;
+ box-shadow:none!important;filter:drop-shadow(0 3px 2px #624a4038);
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+.hud .stat:before{
+ top:7px;right:12px;width:32px;height:0;border-top:1px dashed #b99b7b;
+ border-radius:0;background:none;box-shadow:none;transform:rotate(2deg);
+}
+.hud .stat:after{display:none}
+@media(max-width:390px){
+ .top{min-height:48px}
+ .hud .stat{padding:7px 9px 6px}
+}
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
