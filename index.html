@@ -1034,9 +1034,9 @@ function draw(now){
  const formationNames=['circle','zigzag','vee','diamond','arc'];
  const formationPaths={
   zigzag:[[-.43,-.28],[.43,-.28],[-.43,.28],[.43,.28]],
-  vee:[[-.43,-.25],[0,.23],[.43,-.25]],
+  vee:[[-.52,-.30],[0,.29],[.52,-.30]],
   diamond:[[-.34,0],[0,-.29],[.34,0],[0,.29],[-.34,0]],
-  arc:[[-.43,.20],[-.34,-.02],[-.18,-.20],[0,-.27],[.18,-.20],[.34,-.02],[.43,.20]]
+  arc:[[-.51,.24],[-.40,-.03],[-.22,-.25],[0,-.32],[.22,-.25],[.40,-.03],[.51,.24]]
  };
  const easeFormation=t=>t*t*(3-2*t);
  function formationPoint(type,t,leaderAngle,centerX,centerY,routeX,routeY){
@@ -1119,8 +1119,8 @@ function draw(now){
   state.direction=1;state.lastTime=now;
   const slot=duckLimit>1?i/(duckLimit-1):.5;
   const circleSlot=duckLimit>1?i/duckLimit:0;
-  const fromPoint=formationPoint(fromType,fromType===0?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
-  const toPoint=formationPoint(targetType,targetType===0?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
+  const fromPoint=formationPoint(fromType,(fromType===0||fromType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
+  const toPoint=formationPoint(targetType,(targetType===0||targetType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
   const x=fromPoint.x+(toPoint.x-fromPoint.x)*blend;
   const y=fromPoint.y+(toPoint.y-fromPoint.y)*blend;
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y});
