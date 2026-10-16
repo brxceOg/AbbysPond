@@ -581,3 +581,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The swim paths remain continuous in position; no teleporting or save-data changes were introduced.
 - Kept the pond dimensions unchanged for now. The existing swim area should be evaluated with the improved avoidance before enlarging the pond, so the pond's visual balance is not changed without need.
 - Embedded JavaScript syntax compilation passed. Live flock behavior and crowded-pond performance still need an in-browser check.
+
+## 43. Stronger duck sprite separation (2026-10-16)
+
+- Increased the duck-to-duck center spacing threshold from 29 to 37 pixels, accounting for the actual width of the drawn duck sprites so bodies are less likely to overlap and visually cut across one another.
+- When ducks approach within that threshold, one duck yields and briefly increases its swim rate while moving away. The other duck keeps its continuous path, avoiding the previous synchronized bounce behavior and helping the pair clear one another faster.
+- The yielding boost lasts 1.1 seconds; both ducks have a 1-second collision-response cooldown. Spawn placement automatically uses the larger spacing threshold plus its existing 4-pixel margin.
+- No pond-size or save-format changes were needed. Embedded JavaScript syntax compilation passed; live crowded-flock visual testing remains necessary to confirm the sprite spacing on device.
