@@ -1039,10 +1039,18 @@ function draw(now){
   arc:[[-.51,.24],[-.40,-.03],[-.22,-.25],[0,-.32],[.22,-.25],[.40,-.03],[.51,.24]]
  };
  const easeFormation=t=>t*t*(3-2*t);
+ // Keep every formation target comfortably inside the visible water ellipse.
+ // A shared normalized-ellipse limit also accounts for sprite size near the shore.
+ function pondSafePoint(x,y,centerX,centerY,routeX,routeY){
+  const nx=(x-centerX)/Math.max(1,routeX*.947),ny=(y-centerY)/Math.max(1,routeY*.947);
+  const radius=Math.hypot(nx,ny),safeRadius=.82;
+  if(radius>safeRadius){const scale=safeRadius/radius;return {x:centerX+nx*scale*routeX*.947,y:centerY+ny*scale*routeY*.947};}
+  return {x,y};
+ }
  function formationPoint(type,t,leaderAngle,centerX,centerY,routeX,routeY){
   if(type===0){
    const a=leaderAngle+t*Math.PI*2;
-   return {x:centerX+Math.cos(a)*routeX*.53,y:centerY+Math.sin(a)*routeY*.48};
+   return pondSafePoint(centerX+Math.cos(a)*routeX*.53,centerY+Math.sin(a)*routeY*.48,centerX,centerY,routeX,routeY);
   }
   const points=formationPaths[formationNames[type]]||formationPaths.zigzag;
   const lengths=[];let total=0;
@@ -1061,7 +1069,7 @@ function draw(now){
   const turn=Math.sin(leaderAngle*.42)*.10;
   const rotX=(lx*Math.cos(turn)-ly*Math.sin(turn))*1.25,rotY=(lx*Math.sin(turn)+ly*Math.cos(turn))*1.25;
   const driftX=Math.cos(leaderAngle)*routeX*.19,driftY=Math.sin(leaderAngle)*routeY*.15;
-  return {x:centerX+driftX+rotX,y:centerY+driftY+rotY};
+  return pondSafePoint(centerX+driftX+rotX,centerY+driftY+rotY,centerX,centerY,routeX,routeY);
  }
  if(duckLimit>1){
   if(!duckFormation.nextSwitch){
