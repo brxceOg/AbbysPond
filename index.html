@@ -1083,7 +1083,7 @@ function draw(now){
   // flock along one large capital-Z path and translate that whole shape gently
   // across the pond; do not bend the Z around the circular swim ring.
   const circleX=cx+Math.cos(a)*rx*.53,circleY=cy+Math.sin(a)*ry*.48;
-  const slotT=duckLimit>1?i/(duckLimit-1):.5,scaledT=slotT*3,segment=Math.min(2,Math.floor(scaledT)),segmentT=segment===2?1:scaledT-segment;
+  const slotT=duckLimit>1?i/(duckLimit-1):.5,scaledT=slotT*3,segment=Math.min(2,Math.floor(scaledT)),segmentT=Math.min(1,scaledT-segment);
   const zPoints=[[-.32,-.20],[.32,-.20],[-.32,.20],[.32,.20]];
   const zStart=zPoints[segment],zEnd=zPoints[segment+1];
   const zLocalX=zStart[0]+(zEnd[0]-zStart[0])*segmentT,zLocalY=zStart[1]+(zEnd[1]-zStart[1])*segmentT;
