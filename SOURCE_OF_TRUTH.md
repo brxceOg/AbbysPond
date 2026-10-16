@@ -797,3 +797,5 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Styled flock section tabs as paper bookmarks with paperclip-like top loops and a lifted selected state. Tightened mobile breakpoints and kept modal content horizontally clipped to avoid side-scrolling.
 - The existing HTML layout is retained: .backdrop > .modal > .mhead + .content, with existing .card, .flock-tabs, .duck-choice, .wheel-card, and action button elements restyled through the inline stylesheet in index.html. No gameplay logic, duck data, economy, probabilities, or save schema changed.
 - Source-level CSS and structure review completed; live iPhone Safari visual verification remains pending.
+
+- Extracted the scrapbook skin into `scrapbook-ui.css` and linked it after the base inline stylesheet in `index.html`, so the complete new override stylesheet is independently readable/editable while GitHub Pages remains a single-page game.
