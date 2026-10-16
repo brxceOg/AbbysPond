@@ -825,7 +825,7 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 
 - Added 28px left padding to the Meadow modal content to keep text and cards clear of the scrapbook binder edge, with extra top spacing before the “THE LITTLE PICNIC” heading.
 - Restyled the meadow illustration as a rounded 18px window with a 3px sage-green border and clipped contents. The gingham blanket now has softer rounded corners and a cloth-like shadow.
-- Moved “a little snack, with love” into its own caption below the illustration. The idle scene contains only the meadow grass, flowers, water ripples, picnic blanket, and breadcrumbs; the lured duck is no longer duplicated inside the scene and appears only in its Polaroid reveal card.
+- Moved “a little snack, with love” into its own caption below the illustration. The idle scene is intentionally pared back to meadow grass, gentle water ripples, the picnic blanket, and scattered breadcrumbs; decorative flowers and the extra snack-leaf mark were removed, and the lured duck appears only in its Polaroid reveal card.
 - Refined the “VISITING FRIEND” / new-friend reveal card with a creamy #fffdfa paper surface, subtle shadow, taped top edge, and more breathing room around the duck, name, rarity, and stats.
 - Moved the primary “Place Breadcrumbs” action to the end of the scrollable content and made it sticky near the bottom while scrolling. The button uses a tactile wood gradient, engraved lower edge, press-down feedback, disabled styling, and reduced-motion support.
 - Updated the stylesheet cache-buster. Existing lure rewards, rarity odds, invitation cost, duplicate compensation, duck collection, and save schema are unchanged.
