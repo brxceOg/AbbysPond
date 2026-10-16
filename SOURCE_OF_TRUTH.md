@@ -345,3 +345,8 @@ The water-texture clipping region is now closed immediately after drawing the wa
 
 ## Water strider animation boundary safeguard
 After every water-strider movement or animation update, each strider is constrained to an inner safe-water ellipse with room for its legs and jump arc. If an animation reaches the boundary, its position is projected back inside and an outward heading is redirected inward. Takeoff targets are adjusted to avoid carrying a strider outside the pond.
+
+
+## Lily pad single-occupancy reservations (2026-10-16)
+
+A water strider reserves its selected lily pad as soon as its landing animation begins. Other striders skip pads reserved by a different strider during landing, resting, or takeoff, and search for another unoccupied nearby pad instead. The reservation is released when the strider finishes jumping off and returns to swimming, preventing two striders from landing on or resting on the same pad at once. Inline JavaScript syntax compilation passed; live animation and GitHub Pages deployment were not independently verified.
