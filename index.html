@@ -406,6 +406,7 @@ function drawPredatorSprite(p,x,y,win,now){
 const waterStriderStates=[null,null,null];let waterStriderLastTime=0;
 const pondBugs=Array.from({length:4},(_,i)=>({phase:i*1.57,offset:i,alive:true,respawnAt:0,lastChance:0,x:0,y:0}));
 const striderHearts=[];
+const duckFeeding=Object.create(null),nomTexts=[];
 const lilyPadMotion=Array.from({length:6},()=>({x:0,y:0,vx:0,vy:0}));
 function draw(now){
  const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2),w=Math.max(1,Math.floor(rect.width*dpr)),h=Math.max(1,Math.floor(rect.height*dpr));
@@ -538,6 +539,10 @@ function draw(now){
    const a=i*2.1;
    st=waterStriderStates[i]={x:cx+Math.sin(a)*rx*.42,y:cy+Math.cos(a*1.25)*ry*.46,heading:Math.atan2(-Math.sin(a*1.25),Math.cos(a)),mode:'water',padIndex:-1,modeStart:now,restDuration:1200+Math.random()*1500,nextPadTime:now+Math.random()*1800,jumpFromX:0,jumpFromY:0,jumpToX:0,jumpToY:0,bornAt:now,nextMateTime:now+2500+Math.random()*4500,pairIndex:-1};
   }
+  if(st.mode==='eaten'){
+   if(now-(st.eatenAt||now)>720){const a=Math.random()*Math.PI*2;st.x=cx+Math.cos(a)*rx*.38;st.y=cy+Math.sin(a)*ry*.38;st.heading=Math.random()*Math.PI*2;st.mode='water';st.padIndex=-1;st.pairIndex=-1;st.modeStart=now;st.nextMateTime=now+9000+Math.random()*9000;st.nextPadTime=now+3500;st.lastCatchCheck=now;}
+   else continue;
+  }
   let jumpHeight=0;
   if(st.mode==='water'){
    let targetHeading=st.heading,nearest=Infinity,awayX=0,awayY=0;
@@ -657,6 +662,11 @@ function draw(now){
     if(partner){partner.mode='water';partner.padIndex=-1;partner.pairIndex=-1;partner.nextPadTime=now+1600;}
    }
   }
+  if(st.mode==='water'&&now-(st.lastCatchCheck||0)>900){
+   st.lastCatchCheck=now;let catcher=null;
+   for(const swimmer of swimmers){if(Math.hypot(swimmer.x-st.x,swimmer.y-st.y)<16){catcher=swimmer;break;}}
+   if(catcher&&Math.random()<.18){st.mode='eaten';st.eatenAt=now;duckFeeding[catcher.key]={kind:'strider',start:now};nomTexts.push({key:catcher.key,t:now});ripples.push({x:st.x,y:st.y,t:now,heart:false,power:.85});continue;}
+  }
   const bx=st.x,by=st.y,drawY=by-jumpHeight;
   const growth=st.juvenile?Math.min(1,.32+(now-(st.bornAt||now))/45000*.68):1;
   ctx.save();ctx.translate(bx,drawY);ctx.scale(growth,growth);ctx.translate(-bx,-drawY);
@@ -696,6 +706,7 @@ function draw(now){
  }
  for(let i=0;i<duckLimit;i++){
   const d=swimmers[i].d,v=def(d),x=swimmers[i].x,y=swimmers[i].y,dir=(-Math.sin(swimmers[i].angle)*swimmers[i].swimDir)>=0?1:-1,bob=Math.sin(now*.0029+i*2.1)*.65;
+  if(duckFeeding[swimmers[i].key]&&now-duckFeeding[swimmers[i].key].start>720)delete duckFeeding[swimmers[i].key];
   duckPositions.push({x,y,d});
   ctx.globalAlpha=.18;ellipse(x,y+7,11,3,'#326e70');ctx.globalAlpha=1;
   ctx.strokeStyle='rgba(244,255,242,.78)';ctx.lineWidth=1.15;for(let k=0;k<2;k++){ctx.beginPath();ctx.ellipse(x-dir*(10+k*4),y+5,4+k*2,1.5,0,Math.PI*.12,Math.PI*.88);ctx.stroke()}
@@ -781,6 +792,10 @@ function draw(now){
    path([[-9,-2],[-7,-4],[-4,-3],[-3,0],[-6,1]],'#f8e8b5');
    ctx.strokeStyle='#c6a15e';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-10,1);ctx.quadraticCurveTo(-8,2.2,-6,1.5);ctx.moveTo(-8,3);ctx.quadraticCurveTo(-6,3.8,-4.5,2.7);ctx.stroke();
   }
+  // Eating animation: dab into the water for striders, or reach forward for flying insects.
+  const feeding=duckFeeding[swimmers[i].key],feedAge=feeding?Math.min(1,(now-feeding.start)/720):1,feedPulse=feeding?Math.sin(feedAge*Math.PI):0;
+  const dipAngle=feeding&&feeding.kind==='strider'?feedPulse*.52:0,reach=feeding&&feeding.kind==='fly'?feedPulse*.62:0;
+  ctx.save();ctx.translate(3,-1);ctx.rotate(dipAngle);ctx.scale(1+reach,1);ctx.translate(-3,1);
   // Neck profiles distinguish stocky dabblers from long-necked, streamlined swimmers.
   if(species==='bluebell')path([[0,-2],[1,-6],[2,-10],[4,-11],[7,-9],[6,-6],[4,-3],[3,0]],v.c,'#75594b',.85);
   else if(species==='moonbeam')path([[0,-2],[1,-6],[2,-10],[4,-10],[6,-8],[5,-5],[4,-2],[3,0]],v.c,'#75594b',.8);
@@ -943,6 +958,7 @@ function draw(now){
   ellipse(4,-5.2,1.7,1.1,'#e8a8a7');
   ctx.strokeStyle='rgba(92,72,58,.35)';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-8,-1);ctx.quadraticCurveTo(-4,-5,0,-2);ctx.stroke();
   ctx.restore();
+  ctx.restore();
  }
  // Living insect population: ducks can catch bugs, and each eaten insect
  // returns after a short respawn delay so the pond never becomes permanently empty.
@@ -960,6 +976,7 @@ function draw(now){
     bug.eatenAt=now;bug.eatenX=fx;bug.eatenY=fy;
     ripples.push({x:fx,y:fy,t:now,heart:false,power:.7});
     bug.catchDuck=caughtBy;
+    duckFeeding[caughtBy.key]={kind:'fly',start:now};nomTexts.push({key:caughtBy.key,t:now});
     continue;
    }
   }
@@ -969,6 +986,8 @@ function draw(now){
  }
  // Brief sparkle bursts mark successful catches with a soft, readable pop.
  for(const bug of pondBugs){if(bug.eatenAt&&now-bug.eatenAt<430){const age=(now-bug.eatenAt)/430;ctx.globalAlpha=1-age;ctx.strokeStyle='#fff1c5';ctx.lineWidth=1.2;for(let k=0;k<4;k++){const a=k*Math.PI/2;ctx.beginPath();ctx.moveTo(bug.eatenX+Math.cos(a)*2,bug.eatenY+Math.sin(a)*2);ctx.lineTo(bug.eatenX+Math.cos(a)*(3+age*8),bug.eatenY+Math.sin(a)*(3+age*8));ctx.stroke();}ctx.globalAlpha=1;}}
+ // A tiny speech bubble appears only after a successful catch.
+ for(let n=nomTexts.length-1;n>=0;n--){const note=nomTexts[n],age=(now-note.t)/1250;if(age>=1){nomTexts.splice(n,1);continue;}const duck=swimmers.find(item=>item.key===note.key);if(!duck)continue;const x=duck.x+8,y=duck.y-24-age*5;ctx.globalAlpha=Math.min(1,(1-age)*2.8);ctx.fillStyle='#fff9ec';ctx.strokeStyle='#c7ad91';ctx.lineWidth=.8;ctx.beginPath();ctx.roundRect(x-31,y-10,62,17,6);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(x-5,y+7);ctx.lineTo(x-1,y+11);ctx.lineTo(x+2,y+7);ctx.closePath();ctx.fill();ctx.stroke();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#7b6554';ctx.fillText('nom nom nom',x,y-1);ctx.globalAlpha=1;}
  // Animated ripples stay within the pond edge.
  ripples=ripples.filter(r=>now-r.t<2600);ripples.forEach(r=>{let age=Math.max(0,(now-r.t)/2600),power=r.power||1;for(let ring=0;ring<2;ring++){let p=(age+ring*.24)%1;ctx.globalAlpha=Math.max(0,1-p)*(.58-ring*.12);ctx.strokeStyle=r.heart?'#fff1f2':'#e8fff0';ctx.lineWidth=1.1;ctx.beginPath();ctx.ellipse(r.x,r.y,(4+p*20)*power,(2+p*9)*power,0,0,Math.PI*2);ctx.stroke()}if(r.heart){ctx.globalAlpha=1-age;ctx.font='13px serif';ctx.fillStyle='#fff4f1';ctx.fillText('♡',r.x-5,r.y-8-age*12)}ctx.globalAlpha=1});
  // Soft leaves and flowers around the shore complete the illustrated storybook garden.
