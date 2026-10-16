@@ -543,3 +543,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - While injured, ducks now close their visible eye into a soft wince, with small angled brow marks and a subtle downturned expression. Their normal species-specific eye details return automatically once they recover.
 - These are renderer-only visual changes. No health, recovery, save-data, combat, or flock-tab behavior changed.
 - Validation: embedded JavaScript syntax compilation passed. Live iPhone Safari rendering still needs an in-browser check.
+
+
+## 38. Centered injured-duck dizzy animation (2026-10-16)
+
+- Positioned the injured duck's dizzy stars and swoosh using the duck's facing direction and the same horizontal offset as its head, rather than centering them on the body.
+- This keeps the animation centered over the head whether the duck faces left or right.
+- No gameplay, save data, or recovery behavior changed. Embedded JavaScript syntax compilation passed; live browser rendering still needs confirmation.
