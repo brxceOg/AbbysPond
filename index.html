@@ -1477,6 +1477,20 @@ function draw(now){
   ctx.strokeStyle='rgba(92,72,58,.35)';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-8,-1);ctx.quadraticCurveTo(-4,-5,0,-2);ctx.stroke();
   ctx.restore();
   ctx.restore();
+  // After the brief knockout slump, little dizzy stars circle above the injured duck.
+  if(d.injured&&d.knockoutAt&&Date.now()-d.knockoutAt>=900){
+   const dizzyAge=now*.0034+i*1.1,orbit=7+Math.sin(now*.004+i)*1.2,headY=y+bob-22;
+   ctx.save();ctx.translate(x,headY);ctx.globalAlpha=.88;
+   for(let k=0;k<3;k++){
+    const a=dizzyAge+k*Math.PI*2/3, sx=Math.cos(a)*orbit, sy=Math.sin(a)*4.5-2;
+    ctx.save();ctx.translate(sx,sy);ctx.rotate(-a*.75);
+    ctx.fillStyle=k===1?'#f0c978':'#fff0bd';ctx.strokeStyle='#b28b54';ctx.lineWidth=.65;
+    ctx.beginPath();ctx.moveTo(0,-3.4);ctx.lineTo(.9,-.9);ctx.lineTo(3.2,0);ctx.lineTo(.9,.9);ctx.lineTo(0,3.4);ctx.lineTo(-.9,.9);ctx.lineTo(-3.2,0);ctx.lineTo(-.9,-.9);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.restore();
+   }
+   ctx.strokeStyle='#f8e8c0';ctx.lineWidth=.9;ctx.globalAlpha=.72;ctx.beginPath();ctx.arc(0,-2,5.1,dizzyAge*.7,dizzyAge*.7+Math.PI*1.15);ctx.stroke();
+   ctx.restore();ctx.globalAlpha=1;
+  }
  }
  // Tiny watercolor health slivers appear only when a duck is hurt or a visitor is attacking.
  for(const swimmer of swimmers){
