@@ -526,3 +526,12 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Injured ducks remain owned and present in the pond, but cannot deal damage to an enemy or repeatedly trigger enemy collisions while at zero health. A successful bug meal restores health and clears the injured status, moving the duck out of the injured tab automatically.
 - The injured flag is stored on the existing duck save object; no save-version bump or save reset is required. Existing duck IDs, rarity-based attack stats, health calculations, bug feeding, growth, enemy rewards, and equipment remain intact.
 - Validation: embedded JavaScript syntax compilation passed and the existing menu action wiring was retained. Live iPhone Safari animation behavior and GitHub Pages deployment still need an in-browser check.
+
+
+## 36. Animated dizzy indicator for injured ducks (2026-10-16)
+
+- Once the duck's short knockout slump finishes, an ongoing animated dizziness indicator appears above its head while it remains injured.
+- Three small warm-gold, hand-drawn sparkle stars orbit and rotate around a subtle curved swoosh. Their movement is tied to the existing pond animation frame, so the indicator animates naturally without timers or additional assets.
+- The indicator is drawn above the duck and remains distinct from the duck's health sliver. It disappears when the duck recovers and its injured status clears.
+- Preserved the existing knockout timing, injured-duck tab, duck save data, combat behavior, and game mechanics.
+- Validation: inline JavaScript syntax compilation passed and the indicator is gated to injured ducks after the 0.9-second knockout animation. Live iPhone Safari rendering still needs an in-browser check.
