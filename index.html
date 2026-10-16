@@ -1049,7 +1049,9 @@ function draw(now){
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
   // A duck that yields briefly swims away faster, so it clears its flock mate
   // before the pair can visually overlap or immediately collide again.
-  const swimRate=now<(state.avoidUntil||0)?.00013:.000048;
+  // During an encounter, ducks travel faster around the pond so the flock can
+  // spread out and more individuals can reach the visitor before it escapes.
+  const swimRate=now<(state.avoidUntil||0)?.0002:(encounterAnim&&encounterAnim.phase==='active'?.00012:.000048);
   state.angle+=dt*swimRate*state.direction;state.lastTime=now;
   const a=state.angle;
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x:cx+Math.cos(a)*rx*.53,y:cy+Math.sin(a)*ry*.48+Math.sin(now*.0034+i*1.7)*.65});
@@ -1581,8 +1583,11 @@ function draw(now){
   const step=Math.min(2.4,Math.max(0,(now-(battle.lastFrame||now))/16.67));battle.lastFrame=now;
   if(battle.phase==='active'){
    battle.angle+=battle.direction*step*p.speed;
-   battle.x=cx+Math.cos(battle.angle)*rx*.54;
-   battle.y=cy+Math.sin(battle.angle)*ry*.48;
+   // Sweep through the pond instead of orbiting on the ducks' outer swim ring.
+   // The changing radius carries the visitor across more of the flock over time.
+   const sweep=Math.sin(battle.angle*2.15+(now-battle.start)*.0011);
+   battle.x=cx+Math.cos(battle.angle)*rx*(.39+.15*sweep);
+   battle.y=cy+Math.sin(battle.angle)*ry*(.34+.14*sweep);
    for(const swimmer of swimmers){
     const d=ensureDuckCombat(swimmer.d),key=swimmer.key,dist=Math.hypot(swimmer.x-battle.x,swimmer.y-battle.y);
     if(dist<23&&d.health>0&&now-(battle.hitAt[key]||0)>720){
@@ -1593,7 +1598,9 @@ function draw(now){
       // If every owned duck is down, the visitor immediately abandons the fight.
       if(s.ducks.length>0&&s.ducks.every(duck=>ensureDuckCombat(duck).health<=0)){battle.flockDefeated=true;battle.phase='escaped';battle.phaseAt=now;}
      }
-     battle.hits++;battle.direction*=-1;
+     // Keep moving after a hit. Reversing at every duck caused the visitor
+     // to bounce repeatedly between the same two ducks on the pond's edge.
+     battle.hits++;
      ripples.push({x:swimmer.x,y:swimmer.y,t:now,kind:'combat-hit',power:1.15});
      if(battle.health<=0){battle.health=0;battle.phase='defeated';battle.phaseAt=now;break;}
      if(battle.flockDefeated)break;
