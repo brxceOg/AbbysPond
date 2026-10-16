@@ -610,10 +610,86 @@ body{
  .top,.hud .stat,.actions,.action,.event{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 
+
+/* Session 5 detail pass — each action is its own torn-paper illustration. */
+.actions{
+ background:transparent!important;border:0!important;box-shadow:none!important;
+ left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 7px);
+ width:100%;padding:0 5px;gap:0;
+}
+.actions:before,.actions:after{display:none!important}
+.action,.action:not(:first-child),.action:first-child{
+ position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ gap:1px;width:23%;max-width:112px;height:91px;min-height:91px;
+ bottom:0;padding:8px 4px 7px;border:0!important;border-radius:0!important;
+ clip-path:polygon(2% 8%,7% 5%,14% 7%,21% 3%,29% 6%,37% 3%,45% 6%,54% 3%,63% 6%,72% 3%,81% 6%,89% 3%,97% 7%,95% 17%,98% 27%,95% 37%,98% 47%,95% 57%,98% 68%,95% 78%,97% 89%,89% 93%,79% 90%,69% 95%,59% 91%,49% 95%,39% 91%,29% 95%,19% 91%,10% 94%,3% 90%,5% 79%,2% 69%,5% 58%,2% 48%,5% 38%,2% 27%,5% 17%);
+ background-color:#fff8e8!important;
+ background-image:repeating-linear-gradient(0deg,transparent 0 17px,#dfc9a955 17px 18px),linear-gradient(145deg,#fffdf4,#f5e5ca)!important;
+ box-shadow:none!important;filter:drop-shadow(0 3px 2px #624a4038);
+ transform:none!important;overflow:visible;
+}
+.action:nth-child(1){left:1%;background-color:#fff4e6!important;background-image:repeating-linear-gradient(0deg,transparent 0 17px,#dfb9a755 17px 18px),linear-gradient(145deg,#fff8ee,#f5dfcf)!important;transform:rotate(-1deg)!important}
+.action:nth-child(2){left:25%;background-image:repeating-linear-gradient(0deg,transparent 0 17px,#c7d5b755 17px 18px),linear-gradient(145deg,#fbfff2,#e8edda)!important;transform:rotate(1.2deg)!important}
+.action:nth-child(3){left:49%;background-image:repeating-linear-gradient(0deg,transparent 0 17px,#c3d6d455 17px 18px),linear-gradient(145deg,#f4fcfa,#dfeceb)!important;transform:rotate(-.8deg)!important}
+.action:nth-child(4){left:73%;background-image:repeating-linear-gradient(0deg,transparent 0 17px,#ddc89f55 17px 18px),linear-gradient(145deg,#fffbed,#f2e5c7)!important;transform:rotate(1deg)!important}
+.action:before{
+ content:"";position:absolute;inset:7px 8px 6px;border:1px dashed #b99b7b;
+ border-radius:0;opacity:.75;pointer-events:none;
+}
+.action:after{
+ content:"";position:absolute;right:13px;top:8px;width:8px;height:8px;
+ border-radius:50%;background:#e0c9a2;box-shadow:inset 0 0 0 1px #b99b7b;
+ opacity:.8;pointer-events:none;
+}
+.action:first-child:before{border-color:#c99b8f}
+.button-sketch{display:block;width:clamp(33px,10vw,46px);height:clamp(27px,7.8vw,35px);flex:none;overflow:visible;filter:drop-shadow(0 1px 0 #ffffff99)}
+.button-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:100%;position:relative;z-index:1}
+.action strong,.action:first-child strong{
+ font-family:Lora,Georgia,serif;font-size:clamp(8px,2.55vw,11px);line-height:1.08;
+ text-align:center;color:#674b40;letter-spacing:-.2px;
+}
+.action small,.action:first-child small{
+ display:block;font-family:Caveat,cursive;font-size:clamp(9px,2.8vw,12px);
+ line-height:1.05;text-align:center;color:#8e6f5b;white-space:normal;
+}
+.action .tile{display:none!important}
+.action:active,.action:nth-child(1):active,.action:nth-child(2):active,.action:nth-child(3):active,.action:nth-child(4):active{
+ filter:drop-shadow(0 1px 1px #624a4030) brightness(.98);
+}
+.event{bottom:calc(env(safe-area-inset-bottom) + 108px);max-width:calc(100% - 28px)}
+@media(max-width:390px){
+ .actions{padding:0 3px}
+ .action,.action:not(:first-child),.action:first-child{width:24%;height:84px;min-height:84px;padding:7px 2px 6px}
+ .action:nth-child(1){left:0}.action:nth-child(2){left:24.5%}.action:nth-child(3){left:49%}.action:nth-child(4){left:73.5%}
+ .button-sketch{width:34px;height:28px}
+ .action strong,.action:first-child strong{font-size:8px}
+ .action small,.action:first-child small{font-size:9px}
+ .event{bottom:calc(env(safe-area-inset-bottom) + 99px)}
+}
+@media(max-height:650px){
+ .action,.action:not(:first-child),.action:first-child{height:67px;min-height:67px;padding:5px 2px}
+ .button-sketch{width:28px;height:23px}
+ .action small,.action:first-child small{display:none}
+ .event{bottom:calc(env(safe-area-inset-bottom) + 79px)}
+}
+@media(prefers-reduced-motion:reduce){.action{transition:none!important}}
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
-<section class="actions"><button class="action" data-menu="roll"><span class="tile">✿</span><span><strong>Find a duck</strong><small>A little surprise is waiting for you</small></span><span class="chev">›</span></button><button class="action" data-menu="upgrades"><span class="tile sage">❀</span><span><strong>Pond upgrades</strong><small>Help your little world grow</small></span><span class="chev">›</span></button><button class="action" data-menu="flock"><span class="tile blue">♡</span><span><strong>Your flock</strong><small>Care for each duck</small></span><span class="chev">›</span></button><button class="action" data-menu="inventory"><span class="tile gold">✧</span><span><strong>Keepsakes</strong><small>Little treasures you've found</small></span><span class="chev">›</span></button></section>
+<section class="actions" aria-label="Pond journal">
+<button class="action find-paper" data-menu="roll" aria-label="Find a duck">
+<svg class="button-sketch" viewBox="0 0 64 48" role="img" aria-label="Hand-drawn magnifying glass with a duckling in view"><g fill="none" stroke="#75574a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"><circle cx="27" cy="19" r="14.5" fill="#f8e9cf" stroke-dasharray="2 2"/><circle cx="27" cy="19" r="10.5" stroke="#9c7860" stroke-width="1.3"/><path d="M37.5 29.5 52 42c2.2 1.9 5.2-1.3 3-3.2L41 25.5" fill="#c6a184"/><path d="M19 21c-1-5 2-9 7-9 4 0 7 3 7 7l-2 5-8 1z" fill="#e8c36d"/><path d="M20 19c2-3 5-4 8-2l3 5-4 3-7-2z" fill="#f1d98e"/><circle cx="28.5" cy="17.5" r="1.2" fill="#59453b" stroke="none"/><path d="m32 20 4 1-4 2" fill="#d58b55"/><path d="M14 7 11 4m30 10 4-2" stroke="#b47b76" stroke-width="1.5"/></g></svg>
+<span class="button-label"><strong>Find a duck</strong><small>Who's out there?</small></span></button>
+<button class="action upgrade-paper" data-menu="upgrades" aria-label="Pond upgrades">
+<svg class="button-sketch" viewBox="0 0 64 48" role="img" aria-label="Hand-drawn watering can nurturing a sprout"><g fill="none" stroke="#647c5a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 19h28l-3 19H14z" fill="#dce6ce"/><path d="M12 20c-1-9 16-12 18 0" stroke="#8ba17b"/><path d="M38 24 51 17l4 4-15 11" fill="#ead8ad" stroke="#8d7759"/><path d="m52 17 5-5" stroke="#8d7759"/><path d="M26 38v-9" stroke="#54784d"/><path d="M26 32c-9 0-11-7-10-10 7 0 11 3 10 10zm1-4c0-8 6-12 12-11 0 7-5 12-12 11z" fill="#9fbd85"/><path d="M9 27 5 24m4 9-4 1M44 8l-2-3m9 5 2-3" stroke="#8ba17b" stroke-width="1.5"/></g></svg>
+<span class="button-label"><strong>Pond upgrades</strong><small>Help it grow</small></span></button>
+<button class="action flock-paper" data-menu="flock" aria-label="Your flock">
+<svg class="button-sketch" viewBox="0 0 64 48" role="img" aria-label="Three little duck friends together"><g stroke="#77604e" stroke-width="1.7" stroke-linejoin="round"><path d="M6 33c1-6 8-10 14-7 4 2 5 7 3 11H9z" fill="#e9c978"/><path d="M11 25c-1-5 2-9 6-9 5 0 7 4 6 9l-4 4-7-1z" fill="#f1d98e"/><circle cx="19" cy="20" r="1" fill="#55453b" stroke="none"/><path d="m23 23 5 1-5 2" fill="#d58b55"/><path d="M23 37c1-7 8-12 15-8 4 2 5 7 3 11H25z" fill="#a8c5c8"/><path d="M28 28c-1-5 2-9 6-9 5 0 7 4 6 9l-4 4-7-1z" fill="#c9e0df"/><circle cx="36" cy="23" r="1" fill="#55453b" stroke="none"/><path d="m40 26 5 1-5 2" fill="#d58b55"/><path d="M39 35c1-5 7-8 12-5 3 2 4 5 3 8H41z" fill="#dca4ae"/><path d="M43 27c-1-4 1-7 5-7s6 3 5 7l-3 3-6-1z" fill="#f0c3c8"/><circle cx="49" cy="23" r="1" fill="#55453b" stroke="none"/><path d="m53 25 4 1-4 2" fill="#d58b55"/></g><path d="M8 41q20 4 46 0" fill="none" stroke="#b59c7d" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="2 3"/></svg>
+<span class="button-label"><strong>Your flock</strong><small>Meet your ducks</small></span></button>
+<button class="action keepsake-paper" data-menu="inventory" aria-label="Keepsakes">
+<svg class="button-sketch" viewBox="0 0 64 48" role="img" aria-label="A pressed flower and feather saved in a journal"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 8 49 5l4 34-38 3z" fill="#f2dfb9" stroke="#9b8064" stroke-width="1.6"/><path d="m16 13 31-2m-30 7 27-2m-25 7 24-2" stroke="#d0b28e" stroke-width="1.1" stroke-dasharray="2 3"/><path d="M28 36c-2-9 1-18 9-25-1 9-1 17-9 25z" fill="#e9d9c5" stroke="#9e846c" stroke-width="1.4"/><path d="m28 35 7-18" stroke="#9e846c" stroke-width="1.2"/><path d="M20 32c0-5 5-7 8-4 3-4 8-1 7 3 0 4-5 7-8 9-3-2-7-4-7-8z" fill="#d99e9e" stroke="#a96873" stroke-width="1.4"/><path d="M28 31v8m-4-5 4 2 4-4" stroke="#a96873" stroke-width="1.1"/><circle cx="46" cy="31" r="3" fill="#e7c96e" stroke="#a98a4d" stroke-width="1.2"/><path d="m46 25 1.5 3.5L51 30l-3.5 1.5L46 35l-1.5-3.5L41 30l3.5-1.5z" fill="#fff3c8" stroke="#a98a4d" stroke-width="1"/></g></svg>
+<span class="button-label"><strong>Keepsakes</strong><small>Little things to keep</small></span></button>
+</section>
 <div class="event" id="event" role="status">The reeds rustle softly. All is peaceful.</div><footer class="footer">made with a little extra love <span style="color:#c87e8c">♡</span></footer></main>
 <div class="backdrop" id="backdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="title"><header class="mhead"><div><p class="eyebrow" id="kicker">YOUR POND</p><h2 id="title">A little menu</h2></div><button class="icon close" id="close" aria-label="Close menu">×</button></header><div class="content" id="content"></div></section></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
