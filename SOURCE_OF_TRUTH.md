@@ -806,3 +806,9 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Enforced a global cozy font stack on all elements, including nested UI and browser-native controls, with explicit inherited font declarations for buttons, inputs, selects, options, textareas, role buttons, and tabs.
 - Applied Caveat to display headings, tab labels, and primary action labels; Patrick Hand to descriptions, helper notes, rarity tags, HUD labels, and numeric/stat text. Increased baseline UI text to 1.05rem and key stat values to 1.2rem for mobile readability.
 - Updated the stylesheet cache-buster. This is a typography-only change; gameplay, duck data, economy, probabilities, and save schema remain unchanged. Live iPhone Safari verification is still pending.
+
+
+## Font sizing and overflow safeguards (2026-10-16)
+- Added wrapping and responsive sizing safeguards for the cozy font update so longer button labels, descriptions, stats, rarity tags, and flock tabs wrap instead of being clipped on narrow screens.
+- Kept journal content vertically scrollable within the existing modal height cap, tightened mobile modal padding, and allowed action buttons to grow in height if their handwritten labels need a second line.
+- Updated the stylesheet cache-buster. These are presentation-only changes; gameplay behavior and saved data are untouched. Live device verification remains pending.
