@@ -350,3 +350,8 @@ After every water-strider movement or animation update, each strider is constrai
 ## Lily pad single-occupancy reservations (2026-10-16)
 
 A water strider reserves its selected lily pad as soon as its landing animation begins. Other striders skip pads reserved by a different strider during landing, resting, or takeoff, and search for another unoccupied nearby pad instead. The reservation is released when the strider finishes jumping off and returns to swimming, preventing two striders from landing on or resting on the same pad at once. Inline JavaScript syntax compilation passed; live animation and GitHub Pages deployment were not independently verified.
+
+
+## Lily pad collision for swimming water striders (2026-10-16)
+
+Swimming striders now treat lily pad leaves as solid obstacles instead of gliding through them. If a pad is available and the strider is ready to board, it reserves that pad and enters the existing landing hop. If the pad is occupied or boarding is on cooldown, the strider is kept outside the pad's collision radius and steered along the edge, preserving the single-strider reservation rule. Inline JavaScript syntax compilation passed; live animation and GitHub Pages deployment were not independently verified.
