@@ -850,3 +850,10 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Preserved the existing invitation cost, luck-upgrade rarity weights, 90% duck / 10% consolation split, duplicate petal and 15%-of-cost penny compensation, collection behavior, reward amounts, and save schema. No save migration was introduced.
 - Added responsive, handwritten-font styling, textured moss/grey seals, paper grain, torn journal edges, tactile feedback, and reduced-motion support. Removed the obsolete picnic-lure stylesheet block and refreshed the stylesheet cache key.
 - Source-level checks passed before commit; live iPhone Safari appearance and GitHub Pages propagation still need verification.
+
+
+## Scratch-off UI regression hotfix (2026-10-16)
+
+- Fixed a regression introduced during the Find a Duck replacement: the replacement block accidentally removed the shared `rolling`, `lureOutcome`, and `flockTab` state declarations used throughout the UI. Restored those shared variables so modal navigation and all menu actions can reference them safely.
+- Restored the `lureOutcomeMarkup` renderer used by the scratch-off reward panel so the selected note can display a duck Polaroid or consolation reward.
+- Existing scratch reward flow, economy, save schema, and other menus remain unchanged.
