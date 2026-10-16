@@ -1027,9 +1027,9 @@ function draw(now){
  for(let i=0;i<4;i++){let x=cx+(i-1.5)*rx*.39,y=cy+(i%2?1:-1)*ry*.74;ctx.strokeStyle='#528a68';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+7);ctx.quadraticCurveTo(x-4,y-2,x-2,y-9);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y+3);ctx.quadraticCurveTo(x+5,y-2,x+6,y-6);ctx.stroke();}
  // Ducks follow continuous swim paths. Collision only changes their direction;
  // each duck's angle is advanced incrementally so a turn never teleports it.
- duckPositions=[];const activeDucks=s.ducks.filter(d=>!d.injured||((Date.now()-(Number(d.knockoutAt)||0))<900)),duckLimit=Math.min(activeDucks.length,14),swimmers=[],minDuckGap=29;
+ duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=29;
  for(let i=0;i<duckLimit;i++){
-  const d=activeDucks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
+  const d=s.ducks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
   if(!duckAvoidance[key])duckAvoidance[key]={angle:i*2.399,direction:baseDir,lastTime:now,lastHit:-10000};
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
   state.angle+=dt*.000048*state.direction;state.lastTime=now;
