@@ -465,10 +465,16 @@ function draw(now){
   const vx=Math.cos(a)*rx*.42*.0002,vy=-Math.sin(a*1.25)*ry*.46*1.25*.0002;
   const maxSpeed=Math.hypot(rx*.42*.0002,ry*.46*1.25*.0002)||1;
   const movement=Math.min(1,Math.hypot(vx,vy)/maxSpeed);
-  // Turn the whole strider to face its travel direction, using the path tangent
-  // so its heading changes continuously through curves instead of snapping.
-  const heading=Math.atan2(vy,vx);
-  ctx.save();ctx.translate(bx,by);ctx.rotate(heading);ctx.translate(-bx,-by);
+  // Hold a steady heading between turns. Only rotate while the path direction
+  // crosses into a new heading sector, easing through the turn instead of
+  // continuously steering with every tiny change in the looping path.
+  const heading=(Math.atan2(vy,vx)+Math.PI*2)%(Math.PI*2);
+  const sector=Math.PI/4,headingStep=heading/sector,headingIndex=Math.floor(headingStep);
+  const turnProgress=headingStep-headingIndex,turnStart=.36,turnEnd=.64;
+  const turnBlend=Math.max(0,Math.min(1,(turnProgress-turnStart)/(turnEnd-turnStart)));
+  const easedTurn=turnBlend*turnBlend*(3-2*turnBlend);
+  const facing=(headingIndex+easedTurn)*sector;
+  ctx.save();ctx.translate(bx,by);ctx.rotate(facing);ctx.translate(-bx,-by);
   // All six legs begin at the thorax, so none appear detached from the body.
   // The middle pair work like oars: fore-and-aft sweeps, not circular rotations.
   const strokeLeft=Math.sin(now*.009*(.12+.88*movement)+i*2.4)*movement;
