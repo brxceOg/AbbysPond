@@ -921,8 +921,8 @@ canvas#water{display:block;width:100%;height:clamp(235px,59vw,340px);border-radi
  inset 0 2px 0 rgba(255,238,193,.58),inset 0 -3px 0 rgba(53,32,18,.3),inset 1px 0 0 rgba(255,255,255,.12)!important;
  transition:transform .11s ease,filter .14s ease,box-shadow .11s ease!important;
 }
-.action:before,.action:after{content:none!important;display:none!important}
-.action:after{content:"";display:block!important;position:absolute;inset:5px;pointer-events:none;border:1px solid rgba(255,239,202,.22);border-radius:8px}
+ .action:before{content:none!important;display:none!important}
+.action:after{content:""!important;display:block!important;position:absolute;inset:5px;pointer-events:none;border:1px solid rgba(255,239,202,.22);border-radius:8px}
 .action .button-sketch{
  display:block;width:29px;height:26px;flex:0 0 26px;max-width:100%;
  filter:drop-shadow(0 2px 0 rgba(44,30,19,.18));
@@ -952,9 +952,6 @@ canvas#water{display:block;width:100%;height:clamp(235px,59vw,340px);border-radi
 .mhead{background:linear-gradient(120deg,#faf0d9,#f0e3c9);border-bottom:1px solid #dfc9a8}
 .mhead .eyebrow{color:#718356}
 .mhead h2{color:#4e603b}
-.card,.wheel-card,.offline,.empty,.wheel-result,.flock-tab{
- clip-path:none!important;
-}
 @media(max-width:390px){
  .app{padding-top:8px}
  .top{padding-bottom:10px}
@@ -1822,7 +1819,6 @@ function draw(now){
  // Tiny watercolor health slivers appear only when a duck is hurt or a visitor is attacking.
  for(const swimmer of swimmers){
   const d=ensureDuckCombat(swimmer.d),ratio=d.maxHealth?d.health/d.maxHealth:1;
-  if(ratio>=.999&&(!encounterAnim||encounterAnim.phase!=='active'))continue;
   const rawRatio=ratio,healthKey=swimmer.key;
   let shownRatio=duckHealthVisuals.has(healthKey)?duckHealthVisuals.get(healthKey):rawRatio;
   shownRatio+=(rawRatio-shownRatio)*.18;
