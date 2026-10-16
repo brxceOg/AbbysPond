@@ -555,9 +555,13 @@ function draw(now){
    if(now>=st.nextPadTime&&nearest>=34){
     let padNear=Infinity,padIndex=-1;
     for(let p=0;p<lilyPadPositions.length;p++){
+     const occupied=waterStriderStates.some(other=>other&&other!==st&&other.padIndex===p&&(other.mode==='landing'||other.mode==='resting'||other.mode==='takeoff'));
+     if(occupied)continue;
      const pad=lilyPadPositions[p],dist=Math.hypot(st.x-pad.x,st.y-pad.y);
      if(dist<padNear){padNear=dist;padIndex=p;}
     }
+    // Claim the pad immediately on takeoff toward it; the reservation remains
+    // through landing, resting, and the full jump-off animation.
     if(padIndex>=0&&padNear<19){
      const pad=lilyPadPositions[padIndex];
      st.mode='landing';st.padIndex=padIndex;st.modeStart=now;
