@@ -768,6 +768,62 @@ body{
  .app > #event{top:calc(env(safe-area-inset-top) + 82px)!important;max-width:calc(100% - 24px);font-size:12px!important}
 }
 
+
+/* Session 7 — bespoke paper, lively marginalia, and a shared storybook finish. */
+:root{--story-ink:#59463e;--story-moss:#6d8561;--story-rose:#ad6874;--story-honey:#c6a16b;--story-paper:#fff8e9;--story-rule:#d8bea0}
+body{color:var(--story-ink)}
+.brand h1{letter-spacing:-.7px;text-shadow:1px 1px 0 #fff4df}
+.eyebrow{font-size:10px;letter-spacing:1.15px;color:#9b7867}
+.top,.hud .stat,.action,.mhead,.card,.wheel-card,.offline,.empty,.wheel-result,.pondfoot,.flock-tab{
+ --paper-clip:polygon(2% 8%,8% 5%,15% 7%,23% 4%,32% 6%,41% 3%,50% 6%,59% 4%,68% 7%,77% 3%,86% 6%,98% 8%,96% 21%,98% 34%,95% 48%,98% 62%,95% 77%,97% 90%,88% 94%,78% 91%,68% 96%,58% 92%,48% 95%,38% 92%,28% 96%,18% 91%,9% 94%,3% 90%,5% 77%,2% 63%,5% 49%,2% 35%,5% 21%);
+ clip-path:var(--paper-clip)!important;border-radius:0!important;
+}
+.top,.hud .stat,.action,.card,.wheel-card,.offline,.empty,.wheel-result,.pondfoot,.flock-tab{
+ background-image:repeating-linear-gradient(0deg,transparent 0 19px,#d9c5a422 19px 20px),linear-gradient(145deg,#fffdf5,#f8ecd8)!important;
+}
+.top,.hud .stat,.action,.card,.wheel-card,.offline,.empty,.wheel-result,.pondfoot,.flock-tab{filter:drop-shadow(0 2px 1px #6c4d362b)}
+.hud .stat{border:0!important;box-shadow:none!important;padding:12px 15px 11px}
+.stat label{letter-spacing:.15px}.stat strong{color:#704c4b}.stat small{color:#6f8966}
+.action{border:0!important;min-height:91px}
+.action:first-child{background-image:repeating-linear-gradient(0deg,transparent 0 19px,#d4b2a322 19px 20px),linear-gradient(130deg,#fff5e8,#f4dfd1)!important}
+.action:nth-child(2){background-image:repeating-linear-gradient(0deg,transparent 0 19px,#c5d3b622 19px 20px),linear-gradient(130deg,#fbfff1,#e7ecd9)!important}
+.action:nth-child(3){background-image:repeating-linear-gradient(0deg,transparent 0 19px,#c1d7d722 19px 20px),linear-gradient(130deg,#f7fcf8,#e0eeea)!important}
+.action:nth-child(4){background-image:repeating-linear-gradient(0deg,transparent 0 19px,#dfc99522 19px 20px),linear-gradient(130deg,#fffbed,#f1e3c6)!important}
+.action strong{font-size:clamp(9px,2.65vw,12px);letter-spacing:0;color:#634a40}
+.action small{font-size:clamp(10px,2.8vw,13px);color:#8d6e5e}
+.action:active{filter:drop-shadow(0 1px 0 #6c4d3624) brightness(.985)}
+.modal{border:0!important;background:#fff9ec;filter:drop-shadow(0 8px 0 #a88a6c45) drop-shadow(0 20px 30px #38262230)}
+.mhead{position:relative;isolation:isolate;border:0!important;padding:20px 20px 15px}
+.mhead:after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at 88% 5%,#f0d5d0 0,transparent 35%),repeating-linear-gradient(0deg,transparent 0 20px,#d9c5a422 20px 21px),linear-gradient(130deg,#fffaf0,#f8ead8);clip-path:var(--paper-clip,polygon(2% 5%,98% 4%,97% 93%,3% 96%))}
+.mhead .eyebrow{font-size:16px}
+.content{background:linear-gradient(180deg,#fff9ed,#fff7e9)}
+.card{position:relative;isolation:isolate;padding:14px 17px 14px 15px;background-color:#fff8e9!important;border:0!important;box-shadow:none!important}
+.card>*:not(.margin-doodle){position:relative;z-index:1}
+.mtitle{color:#6c4a46}.desc{color:#866f62}
+.section{display:flex;align-items:center;gap:9px;font-size:20px;color:#966f5e}
+.section:before{content:"✳";font:14px Georgia,serif;color:#b98786;transform:rotate(-12deg)}
+.section:after{content:"";height:1px;flex:1;background:repeating-linear-gradient(90deg,#cdb391 0 3px,transparent 3px 6px);opacity:.75}
+.primary{background:linear-gradient(180deg,#bf7c85,#a65c6b);box-shadow:0 3px 0 #874b58}
+.secondary{background:linear-gradient(180deg,#edf2e4,#dfe9d4);color:#58744f}
+.select{border-radius:5px 12px 6px 10px;background-color:#fffdf5}
+.wheel-card{position:relative;padding:15px 14px 14px;border:0!important}
+.wheel-card:before{content:"✿  a little bit of luck  ✿";display:block;margin:0 0 6px;color:#a87870;font:600 17px Caveat,cursive;letter-spacing:.4px}
+.wheel-result{padding:11px 12px;background-color:#fff9ed!important;border:1px dashed #d7b99c!important;color:#76535a}
+.wheel-odds .setting{border-bottom:1px dashed #ddc8ad}
+.avatar{box-shadow:inset 0 0 0 1px #c5d8cc,2px 2px 0 #d8c8ad}
+.track{border-radius:2px;background:#e8deca}.track span{border-radius:2px}
+.close{clip-path:none!important;border-radius:50%!important;filter:none!important}
+.toast{border-radius:4px 13px 5px 12px;border:1px dashed #f0d8bd}
+.pondfoot{position:relative}
+.margin-doodle{position:absolute;right:11px;top:9px;width:39px;height:34px;opacity:.72;pointer-events:none;overflow:visible;z-index:0}
+.hud .stat .margin-doodle{right:10px;top:8px;width:29px;height:26px;opacity:.58}
+.action .margin-doodle{right:7px;top:7px;width:23px;height:23px;opacity:.64}
+.mhead .margin-doodle{right:58px;top:16px;width:43px;height:35px;opacity:.75}
+.empty .margin-doodle{right:15px;top:12px;width:45px;height:38px}
+.card .margin-doodle{right:10px;top:8px;width:30px;height:27px;opacity:.6}
+@media(max-width:390px){.action{min-height:81px}.action strong{font-size:8.5px}.action small{font-size:10px}.card{padding:13px 13px 13px 12px}.mhead{padding:17px 16px 13px}.margin-doodle{right:7px;top:7px;width:30px;height:27px}}
+@media(prefers-reduced-motion:reduce){.action,.primary,.secondary{transition:none!important}}
+
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div></header>
 <button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
@@ -1766,6 +1822,52 @@ function draw(now){
  ctx.globalAlpha=1;
 }
 
+
+/* Each paper gets its own lightly irregular tear profile and one tiny hand-inked margin drawing. */
+function applyStorybookCraft(root=document){
+ const paperSelectors='.top,.hud .stat,.action,.mhead,.card,.wheel-card,.offline,.empty,.wheel-result,.pondfoot,.flock-tab';
+ const doodles=[
+  '<svg viewBox="0 0 48 38" aria-hidden="true"><g fill="none" stroke="#788b65" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 31Q21 22 28 5"/><path d="M13 26Q3 18 5 12Q14 14 16 22"/><path d="M19 18Q18 9 25 7Q28 14 21 20"/><path d="M25 10Q32 2 39 7Q36 15 27 14"/><path d="M8 31l-2 3"/></g><circle cx="38" cy="26" r="2" fill="#d49a9c"/></svg>',
+  '<svg viewBox="0 0 48 38" aria-hidden="true"><g fill="none" stroke="#98745e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 28Q12 12 26 12Q35 12 36 20Q37 27 28 29L14 29Q8 29 7 28Z" fill="#e7c778"/><path d="M13 15Q17 7 25 10"/><circle cx="29" cy="18" r="1.2" fill="#59463e" stroke="none"/><path d="M35 21l6 2-6 2"/><path d="M10 31q3 2 6 0"/></g><path d="M3 8l3 3m3-6 1 4" stroke="#c98b91" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  '<svg viewBox="0 0 48 38" aria-hidden="true"><g fill="none" stroke="#6f948b" stroke-width="1.6" stroke-linecap="round"><path d="M5 15q7-5 14 0t14 0t10 0"/><path d="M4 22q8-5 16 0t16 0t7 0"/><path d="M11 29q6-4 12 0t12 0"/></g><path d="M31 5l1.5 4L37 11l-4.5 1.5L31 17l-1.5-4.5L25 11l4.5-2z" fill="#d7b96f"/></svg>',
+  '<svg viewBox="0 0 48 38" aria-hidden="true"><g fill="none" stroke="#7e946b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 31Q21 22 21 6"/><path d="M13 25Q5 24 5 17Q13 16 16 22"/><path d="M19 17Q28 15 29 8Q21 7 19 17"/><path d="M22 26Q31 18 38 23Q34 31 22 26Z" fill="#c3d4aa"/></g><circle cx="36" cy="8" r="3" fill="#e4b1b4"/><circle cx="36" cy="8" r="1" fill="#f8e8c4"/></svg>'
+ ];
+ let serial=0;
+ function polygonFor(el){
+  let n=Array.from((el.className?.baseVal||el.className||'')+'-'+(el.id||'')+'-'+serial++).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,173);
+  const rand=()=>{n=(n*1664525+1013904223)>>>0;return n/4294967296};
+  const pts=[];
+  for(let i=0;i<=10;i++){const x=i*10,y=(i===0||i===10?6:3+rand()*4);pts.push([Math.max(1,Math.min(99,x+(i===0?2:i===10?-2:0))),y]);}
+  for(let i=1;i<=5;i++){pts.push([96+rand()*2,i*16]);}
+  for(let i=0;i<=10;i++){const x=100-i*10,y=(i===0||i===10?93:91+rand()*5);pts.push([x,y]);}
+  for(let i=1;i<=5;i++){pts.push([3+rand()*3,100-i*16]);}
+  return 'polygon('+pts.map(p=>p.map(v=>v.toFixed(1)+'%').join(' ')).join(',')+')';
+ }
+ function decorate(el){
+  if(el.dataset.storyCrafted==='yes')return;
+  el.dataset.storyCrafted='yes';
+  if(el.matches(paperSelectors))el.style.setProperty('--paper-clip',polygonFor(el));
+  if(el.matches('.top,.hud .stat,.action,.mhead,.card,.wheel-card,.empty')){
+   const wrap=document.createElement('span');wrap.className='margin-doodle';wrap.setAttribute('aria-hidden','true');
+   const key=Array.from(el.className?.baseVal||el.className||'').reduce((a,c)=>a+c.charCodeAt(0),0)+serial;
+   wrap.innerHTML=doodles[Math.abs(key)%doodles.length];el.appendChild(wrap);
+  }
+ }
+ function scan(node){
+  if(node.nodeType!==1)return;
+  if(node.matches(paperSelectors))decorate(node);
+  node.querySelectorAll?.(paperSelectors).forEach(decorate);
+ }
+ scan(root.documentElement||root);
+ const content=document.getElementById('content');
+ if(content&&!content.dataset.storyObserver){
+  content.dataset.storyObserver='yes';
+  const observer=new MutationObserver(records=>records.forEach(rec=>rec.addedNodes.forEach(scan)));
+  observer.observe(content,{childList:true,subtree:true});
+ }
+}
+
+applyStorybookCraft();
 init();
 })();
 </script></body></html>
