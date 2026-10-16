@@ -360,3 +360,13 @@ Swimming striders now treat lily pad leaves as solid obstacles instead of glidin
 ## Shoreline-aware water strider takeoff (2026-10-16)
 
 When a strider jumps off a lily pad near the pond edge, its takeoff direction is checked against the pond's safe-water ellipse. If the intended hop would head outward or cross the safe boundary, the strider instead aims along the local inward shoreline normal and uses a safe landing target. The takeoff target is no longer rewritten mid-animation by the boundary safeguard, avoiding abrupt target changes and visible teleporting. Inline JavaScript syntax compilation passed; live animation and GitHub Pages deployment were not independently verified.
+
+
+## 17. Pond insect feeding and water strider life cycle (2026-10-16)
+
+- Four small flying pond insects animate over the water. When a duck approaches an insect, there is a 38% chance of a catch; failed attempts do not remove the insect.
+- A successful catch removes the insect briefly and plays a small sparkle burst plus water ripple at the catch point. Each insect respawns after a randomized 5–11.5 second delay, keeping the pond's insect population replenished.
+- Water striders can court when two mature striders are within close range. Courtship is probabilistic, uses a cooldown to avoid constant repeated events, includes a short wing-touch animation, and displays a floating heart when a baby is produced.
+- Successful courtship creates a juvenile strider at the pair's midpoint. Juveniles begin at reduced visual scale and gradually grow to adult size over approximately 45 seconds. They cannot mate until mature.
+- The strider population is now dynamic rather than limited to the original three. Keep the rendering and movement lightweight for mobile, and preserve lily-pad reservations, shoreline safeguards, duck behavior, and existing pond visuals.
+- Verification note for this implementation: repository edits were committed, but browser-based interaction and visual regression testing still need to be performed before the feature can be considered fully verified.
