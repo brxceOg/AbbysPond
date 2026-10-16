@@ -674,3 +674,24 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The expression lasts for the same 1.45-second celebration window, then returns automatically to each species' normal face. Injured ducks keep their existing pain expression.
 - No combat, rewards, duck stats, save data, or celebration timing changed.
 - Embedded JavaScript syntax compilation passed. Live browser visual testing was not performed.
+
+
+## 54. Session 7 — bespoke handcrafted storybook UI system (2026-10-16)
+
+### Approved art direction
+- Overall style: **handcrafted storybook**, with balanced illustrated detail and pixel-art accents. The UI should feel like one illustrated object collection designed for this pond, not a stack of generic cozy-game widgets.
+- Decoration level: richly detailed botanical borders and custom panel designs, balanced by readable negative space around controls and copy.
+- Visual language: warm paper, muted ink, moss/sage, pressed-flower rose, pond-glass blue, honeyed ochre, hand-inked linework, tiny imperfect marks, and restrained pixel accents that echo the pond's pixel art.
+- Each UI paper surface should feel individually made. Torn notebook edges must be procedurally varied per element (including their little notches, fibers, and corner wear), rather than reusing one identical clip-path or a static page image. Variation must remain subtle enough not to damage legibility, touch targets, or text.
+- Add small lively, hand-drawn pond-world doodles where they help the composition: duckling profiles, sprigs, clover, lily pads, water ripples, tiny stars, seed heads, and pressed petals. Doodles should be custom-feeling, varied in placement and scale, and integrated into the paper surfaces instead of pasted on uniformly. They must not compete with content or imply a non-functional control.
+- Maintain a coherent shared system across the pond HUD, home navigation, modal headers, cards, upgrades, flock/duck detail, inventory, collection wheel, settings, status notes, empty states, and confirmations. Use a consistent type hierarchy and a shared family of hand-drawn strokes, botanical corner motifs, paper treatments, and button states.
+- Keep gameplay rendering and the pond itself visually dominant. UI detail frames and supports the scene; it must not obscure ducks or make essential information hard to scan.
+- Mobile-first constraints remain unchanged: iPhone Safari, safe areas, comfortable 44px minimum primary touch targets, readable contrast, scrollable menus, responsive narrow-screen layout, and reduced-motion support.
+- Preserve all gameplay rules, economy, duck and inventory data, collection odds, combat, formations, and the existing save key/schema. This UI pass must not reset or migrate saved progress.
+- Do not add remote image dependencies, generic emoji as a substitute for bespoke art, placeholder decorations, or inert controls. Any decorative doodles should be lightweight inline vector/CSS artwork or procedural marks and remain crisp at phone scale.
+
+### Session 7 implementation contract
+1. Establish the shared tokens, component treatments, and illustration rules in this document before implementation.
+2. Apply the design consistently to existing UI surfaces without rewriting gameplay systems.
+3. Generate per-surface torn-edge variation at runtime, with a stable restrained range and safe fallback for reduced motion or unsupported features.
+4. Validate JavaScript syntax and inspect all existing menu render paths for CSS regressions. Live iPhone Safari verification remains a separate check if no browser is available.
