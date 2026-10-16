@@ -535,3 +535,11 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The indicator is drawn above the duck and remains distinct from the duck's health sliver. It disappears when the duck recovers and its injured status clears.
 - Preserved the existing knockout timing, injured-duck tab, duck save data, combat behavior, and game mechanics.
 - Validation: inline JavaScript syntax compilation passed and the indicator is gated to injured ducks after the 0.9-second knockout animation. Live iPhone Safari rendering still needs an in-browser check.
+
+
+## 37. Tighter dizzy stars and injured-duck pain expression (2026-10-16)
+
+- Tightened the three warm-gold dizzy stars around the duck's head: they now use a smaller orbit, reduced vertical spread, and smaller sparkle shapes, with the curved swoosh tucked closer to the head.
+- While injured, ducks now close their visible eye into a soft wince, with small angled brow marks and a subtle downturned expression. Their normal species-specific eye details return automatically once they recover.
+- These are renderer-only visual changes. No health, recovery, save-data, combat, or flock-tab behavior changed.
+- Validation: embedded JavaScript syntax compilation passed. Live iPhone Safari rendering still needs an in-browser check.
