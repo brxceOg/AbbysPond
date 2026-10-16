@@ -558,3 +558,11 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Added brows that angle inward and down, a small tension crease, and a warmer cheek mark to distinguish pain from collectible ducks' naturally happy closed-eye expression.
 - The face change only applies while injured and disappears on recovery. No gameplay or save data changed.
 - Embedded JavaScript syntax compilation passed; live browser appearance still needs an in-game check.
+
+## 40. Flock-wide knockout and predator retreat (2026-10-16)
+
+- If a predator knocks out the last duck still standing, the encounter immediately switches to the escape outcome and the wild animal retreats instead of continuing to attack.
+- The encounter resolution displays a specific event message naming the animal: “The wild [animal] overwhelmed your flock. Take some time to recover.”
+- All ducks remain owned and recoverable in the Injured ducks tab; no duck is deleted and the defeat outcome grants no predator victory reward or keepsake.
+- Existing single-duck knockout animations, ordinary timed escapes, enemy defeat rewards, save format, and encounter cooldown remain unchanged.
+- Embedded JavaScript syntax compilation passed. The full-fight behavior and event timing should still be verified in a live browser.
