@@ -397,8 +397,10 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Validation: inline JavaScript syntax compilation passed after resolving a local variable-name collision; live browser visual testing and GitHub Pages deployment have not been independently verified.
 
 
-## 21. More visible duck growth feedback (2026-10-16)
+## 21. Duck growth feedback render-order fix (2026-10-16)
 
-- Enlarged the green growth arrow, added a dark outline and subtle shadow, and increased its float distance so it is easier to see against the pond.
-- Reworked the feeding pop into a more noticeable non-uniform squash/stretch pulse instead of a subtle uniform shrink.
-- Inline JavaScript syntax compilation passed. The GitHub Pages live deployment and in-browser animation remain unverified; confirm the deployed page reflects the latest `index.html` commit before treating the visual fix as complete.
+- Code inspection found that the growth arrow was drawn after the duck sprites, but **not at the end of the active pond renderer**. Shoreline foliage, ripples, and the predator encounter sprite were painted afterward, so those later layers could cover the feedback. The arrow now renders as the final scene layer, above all pond artwork and encounters; it is no longer dependent on where the duck sits relative to foreground decoration.
+- Replaced the thin outlined-only arrow with a larger filled bright-green arrow, dark outline, pale inner highlight, and soft shadow. It floats farther upward and fades over 1.25 seconds.
+- Increased the duck's feeding squash/stretch pulse so the growth response is more noticeable while preserving the duck's species-specific sprite and movement.
+- The effect still triggers only on a successful fly or water-strider catch; catch probabilities and growth progression are unchanged.
+- Inline JavaScript syntax compilation passed. GitHub Pages publication and live browser behavior have not been independently verified.
