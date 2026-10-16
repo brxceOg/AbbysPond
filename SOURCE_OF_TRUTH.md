@@ -464,3 +464,12 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Preserve the existing font pairing (Lora for storybook headings, Nunito for readable interface text, Caveat for handwritten accents), with robust fallbacks.
 - Preserve mobile-first layout, iOS safe-area handling, minimum touch target sizes, reduced-motion support, modal scrolling, save data, economy, duck wheel odds, and all game mechanics.
 - Validation must include JavaScript syntax checking and inspection of the final home-screen/menu markup and responsive CSS. A real iPhone Safari visual check remains necessary if no live device/browser is available.
+
+
+## 28. Hand-drawn torn-paper action buttons (2026-10-16)
+
+- Replaced the generic symbol badges on all four main actions with individual inline hand-drawn SVG illustrations, each designed for its purpose: a magnifying glass framing a duckling for Find a Duck, a watering can and sprout for Pond Upgrades, three duck friends for Your Flock, and a pressed flower/feather journal page for Keepsakes.
+- Restyled each control as a separate irregular torn-paper scrap, with restrained paper grain, faint ruled lines, dashed hand-inked detail, slight individual rotations, and distinct natural paper tints. The labels remain readable and the four-button bottom dock remains intact.
+- Kept each existing `data-menu` value (roll, upgrades, flock, inventory), action hierarchy, game logic, and save data unchanged. Drawings are inline SVG and require no external image requests or assets.
+- Added responsive sizing for narrow phones and short screens, moved the event slip above the paper controls, and respected reduced-motion preferences.
+- Validation: JavaScript syntax compilation passed; verified all four menu actions remain present, all four SVG drawings are present, style/script tags are balanced, and CSS braces balance. Live iPhone Safari visual verification has not been performed.
