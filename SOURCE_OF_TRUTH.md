@@ -317,3 +317,7 @@ During heading changes, rotate only the tiny strider body; keep its legs and pad
 ## 22. Separate flying insect and water strider paths from ducks (2026-10-16)
 
 Render the tiny winged pond insects after the duck sprites so they visually sit above the ducks instead of appearing to collide with or pass behind them. Water striders use a soft repulsion zone around current duck positions, bending their rendered paths away before the sprites overlap. Keep the strider's horizontal leg/paddle animation and turn-only body rotation. These are cosmetic avoidance/layering changes; duck mechanics and economy are unchanged. Inline JavaScript syntax compilation passed; live rendering and Pages deployment were not independently verified.
+
+## 23. Give water striders real duck-avoidance turns (2026-10-16)
+
+Replaced the previous position-offset repulsion, which made striders appear to slide sideways around ducks, with persistent per-strider movement state. When a duck enters the close-approach zone, the strider turns its heading away and then swims along that heading under its own forward motion. Near the pond boundary it turns back inward. The horizontal paddle legs and faint ripple effect remain. Inline JavaScript syntax compilation passed; live rendering and Pages deployment were not independently verified.
