@@ -333,3 +333,7 @@ Water striders now check for a nearby lily pad while swimming. When one is close
 ## 26. Duck-driven lily pad displacement (2026-10-16)
 
 Lily pads now respond to nearby duck body positions with a gradual, damped push away from the duck rather than snapping away. Each pad retains its own small displacement and velocity while the existing gentle drift remains active. The pad position is constrained to an inner ellipse of the pond and outward velocity is damped at the boundary, preventing pads from being pushed outside the water. If a duck approaches within the resting strider's nearby-collision range, the strider immediately begins its existing jump-off animation, aims away from the duck, and returns to normal swimming with a brief boarding cooldown. Inline JavaScript syntax compilation passed; live visual behavior and Pages deployment were not independently verified.
+
+
+## Lily pad edge clearance update
+Lily pad boundary handling constrains the full visible sprite footprint (leaf, shadow, and flowers) inside the water ellipse rather than only keeping the pad center inside. The existing edge response projects the pad inward and damps/reflexes outward momentum, allowing it to bounce or settle along the edge without its art being clipped by the pond's water boundary.
