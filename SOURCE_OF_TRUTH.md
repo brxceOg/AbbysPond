@@ -374,7 +374,7 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 
 ## 18. Duck insect-eating animations (2026-10-16)
 
-- Successful flying-insect catches now trigger a short forward neck-and-bill reach; successful water-strider catches trigger a head-and-bill dip toward the water.
+- Successful flying-insect catches now stretch the duck's neck and bill upward and slightly forward in the air, rather than widening the head; successful water-strider catches trigger a head-and-bill dip toward the water.
 - A small cream-colored “nom nom nom” speech bubble appears briefly above the duck only after a successful catch.
 - Ducks can catch nearby water striders probabilistically. A caught strider briefly disappears and then returns to the pond, preserving the ongoing ambient strider population rather than permanently reducing it.
 - These are presentation and ambient-life changes only; existing duck collection, economy, save data, and insect respawn behavior remain unchanged.
