@@ -727,3 +727,13 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Refined floating duck and enemy health bars in the canvas renderer: reduced the bar height from 5px to 4px, added a subtle dark-brown 1px outline (`#3a2e2b`), rounded the bar ends into small pills, and added a restrained drop shadow. Health ratios and combat behavior are unchanged.
 - Added a soft offset canvas shadow beneath the central oval pond shoreline, matching the requested `0 8px 24px rgba(0, 0, 0, 0.15)` depth treatment without applying a rectangular shadow to the full-screen canvas element.
 - Validation: the edited JavaScript blocks were checked for expected source matches and remain within the existing animation loop. Live iPhone Safari appearance and GitHub Pages propagation still require visual confirmation.
+
+
+## Enchanted field-journal modal redesign (2026-10-16)
+
+- Restyled the modal backdrop and shell as warm parchment with a restrained wooden/leather shadow, stitched dashed header divider, tactile close control, and scrollable content that respects safe-area spacing.
+- Removed repetitive generated corner doodles from modal cards and headers. Cards now use warm cream surfaces, subtle borders and shadows, and consistent 16–20px inner padding; descriptions wrap safely to avoid clipping.
+- Standardized modal action buttons to the rosewood/terracotta gradient with a tactile 3D lower edge, pressed state, and clear disabled treatment. Rarity pills now use soft watercolor/wax-seal styling.
+- Replaced the native duck selector in Your Flock with horizontally scrolling duck-avatar tiles. Each tile uses the existing `selectduck:` action, preserving selection behavior and save data. Existing keepsake slot selectors remain unchanged.
+- Added a brass/wood wheel rim and pointer treatment, plus a soft green water/vine-style collection progress meter. No roll probabilities, economy values, combat, or saved-data fields were changed.
+- Source-level checks confirm the custom selector and modal styles are present. Live GitHub Pages and mobile Safari visual behavior still need confirmation.
