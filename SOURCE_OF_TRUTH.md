@@ -510,3 +510,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The active battle window is 30 seconds instead of 22 seconds, giving the flock more time to land repeated hits while keeping the visitor's escape outcome and reward gating intact.
 - Individual ducks still take damage on contact and only strike back while they have health; bug meals can restore them. Existing attack rolls, duck health, encounter cooldown, reward table, keepsakes, currency, save format, and scrapbook UI are preserved.
 - Validation target: JavaScript syntax, scaled boss health across flock sizes and enemy tiers, combat timeout, and reward/escape behavior. Live iPhone Safari battle pacing and GitHub Pages deployment should be checked in-browser.
+
+
+## 34. Species-specific encounter movement speeds (2026-10-16)
+
+- Replaced the previous level-based angular-speed formula, which made even the snapping turtle move at a frantic pace, with an explicit per-animal speed value.
+- Current relative movement speeds: snapping turtle 0.012 (slow and steady), water snake 0.020, raccoon 0.024, red fox 0.030, hawk 0.038 (fastest), and coyote 0.028. The existing smooth movement, collision response, combat health, and 30-second encounter window remain intact.
+- Embedded JavaScript syntax check passed. Actual perceived movement should still be checked in a live browser to fine-tune if necessary.
