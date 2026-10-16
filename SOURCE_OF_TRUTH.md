@@ -517,3 +517,12 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Replaced the previous level-based angular-speed formula, which made even the snapping turtle move at a frantic pace, with an explicit per-animal speed value.
 - Current relative movement speeds: snapping turtle 0.012 (slow and steady), water snake 0.020, raccoon 0.024, red fox 0.030, hawk 0.038 (fastest), and coyote 0.028. The existing smooth movement, collision response, combat health, and 30-second encounter window remain intact.
 - Embedded JavaScript syntax check passed. Actual perceived movement should still be checked in a live browser to fine-tune if necessary.
+
+
+## 35. Duck knockout animation and injured flock tab (2026-10-16)
+
+- When an enemy attack reduces a duck's health to zero, the duck is marked injured and plays a brief, approximately 0.9-second knockout animation: a small wobble, tilt, and downward slump. The duck is not lost.
+- Added two handmade-style tabs inside **Your flock**: **Your ducks** and **Injured ducks**, with a live injured count. The injured tab lists each knocked-out duck, its rarity, and health, and provides a way to jump to that duck's care details.
+- Injured ducks remain owned and present in the pond, but cannot deal damage to an enemy or repeatedly trigger enemy collisions while at zero health. A successful bug meal restores health and clears the injured status, moving the duck out of the injured tab automatically.
+- The injured flag is stored on the existing duck save object; no save-version bump or save reset is required. Existing duck IDs, rarity-based attack stats, health calculations, bug feeding, growth, enemy rewards, and equipment remain intact.
+- Validation: embedded JavaScript syntax compilation passed and the existing menu action wiring was retained. Live iPhone Safari animation behavior and GitHub Pages deployment still need an in-browser check.
