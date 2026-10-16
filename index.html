@@ -1050,7 +1050,8 @@ function draw(now){
  function formationPoint(type,t,leaderAngle,centerX,centerY,routeX,routeY){
   if(type===0){
    const a=leaderAngle+t*Math.PI*2;
-   return pondSafePoint(centerX+Math.cos(a)*routeX*.53,centerY+Math.sin(a)*routeY*.48,centerX,centerY,routeX,routeY);
+   const driftX=Math.cos(leaderAngle)*routeX*.28,driftY=Math.sin(leaderAngle)*routeY*.21;
+   return pondSafePoint(centerX+driftX+Math.cos(a)*routeX*.46,centerY+driftY+Math.sin(a)*routeY*.41,centerX,centerY,routeX,routeY);
   }
   const points=formationPaths[formationNames[type]]||formationPaths.zigzag;
   const lengths=[];let total=0;
@@ -1068,7 +1069,7 @@ function draw(now){
   // while the whole shape follows a broad oval route around the pond.
   const turn=Math.sin(leaderAngle*.42)*.10;
   const rotX=(lx*Math.cos(turn)-ly*Math.sin(turn))*1.25,rotY=(lx*Math.sin(turn)+ly*Math.cos(turn))*1.25;
-  const driftX=Math.cos(leaderAngle)*routeX*.19,driftY=Math.sin(leaderAngle)*routeY*.15;
+  const driftX=Math.cos(leaderAngle)*routeX*.28,driftY=Math.sin(leaderAngle)*routeY*.21;
   return pondSafePoint(centerX+driftX+rotX,centerY+driftY+rotY,centerX,centerY,routeX,routeY);
  }
  if(duckLimit>1){
@@ -1121,8 +1122,18 @@ function draw(now){
    duckAvoidance[key]={angle:bestAngle,direction:1,lastTime:now,lastHit:-10000,avoidUntil:0};
   }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
-  const swimRate=encounterAnim&&encounterAnim.phase==='active'?.00012:.000048;
-  if(i===0){state.angle+=dt*swimRate;duckFormation.leaderAngle=state.angle;}
+  const swimRate=encounterAnim&&encounterAnim.phase==='active'?.00015:.000075;
+  if(i===0){
+   // The whole flock shares a movement cycle: long, gentle swims around the pond
+   // with occasional short rests, rather than staying locked to one patch of water.
+   if(!duckFormation.motionCycleAt){duckFormation.motionPaused=false;duckFormation.motionCycleAt=now+9000+Math.random()*7000;}
+   if(now>=duckFormation.motionCycleAt){
+    duckFormation.motionPaused=!duckFormation.motionPaused;
+    duckFormation.motionCycleAt=now+(duckFormation.motionPaused?1600+Math.random()*1800:9000+Math.random()*7000);
+   }
+   if(!duckFormation.motionPaused)state.angle+=dt*swimRate;
+   duckFormation.leaderAngle=state.angle;
+  }
   else state.angle=duckFormation.leaderAngle+i*baseGap;
   state.direction=1;state.lastTime=now;
   const slot=duckLimit>1?i/(duckLimit-1):.5;
