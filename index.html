@@ -421,6 +421,28 @@ body{padding:0;overscroll-behavior:none}
 @media(max-height:700px){.top{top:calc(env(safe-area-inset-top) + 5px)}.hud{top:calc(env(safe-area-inset-top) + 53px)}.action,.action:not(:first-child),.action:first-child{min-height:62px;width:72px;min-width:72px}.action:nth-child(1),.action:nth-child(3){top:40%}.action:nth-child(2),.action:nth-child(4){bottom:calc(env(safe-area-inset-bottom) + 91px)}.event{bottom:calc(env(safe-area-inset-bottom) + 65px)}}
 @media(max-height:600px){.hud{top:calc(env(safe-area-inset-top) + 48px)}.hud .stat small{display:none}.action,.action:not(:first-child),.action:first-child{min-height:52px;width:65px;min-width:65px}.action:nth-child(1),.action:nth-child(3){top:42%}.action:nth-child(2),.action:nth-child(4){bottom:calc(env(safe-area-inset-bottom) + 76px)}.event{bottom:calc(env(safe-area-inset-bottom) + 57px)}}
 @media(min-width:700px){.top{top:calc(env(safe-area-inset-top) + 18px)}.top .icon{top:calc(env(safe-area-inset-top) + 18px)}.hud{top:calc(env(safe-area-inset-top) + 82px);left:24px;right:24px}.action,.action:not(:first-child),.action:first-child{width:100px;min-width:100px;min-height:94px}.action:nth-child(1),.action:nth-child(2){left:22px}.action:nth-child(3),.action:nth-child(4){right:22px}.action:nth-child(1),.action:nth-child(3){top:42%}.action:nth-child(2),.action:nth-child(4){bottom:calc(env(safe-area-inset-bottom) + 115px)}.event{bottom:calc(env(safe-area-inset-bottom) + 92px);max-width:calc(100% - 240px)}}
+
+/* Keep the centered game title in its own clear lane between the corner controls. */
+.top{top:calc(env(safe-area-inset-top) + 10px);width:calc(100% - 116px);max-width:340px;z-index:4}
+.top .brand{max-width:100%;white-space:normal}
+.top .brand h1{font-size:clamp(17px,4.8vw,23px);line-height:1.08}
+.top .brand .eyebrow{font-size:clamp(6px,1.8vw,8px);letter-spacing:.55px}
+.top .icon{z-index:5;top:calc(env(safe-area-inset-top) + 8px)}
+.top .love-icon{left:8px}
+.top #settings{right:8px}
+@media(max-width:390px){
+ .top{top:calc(env(safe-area-inset-top) + 11px);width:calc(100% - 104px);max-width:280px}
+ .top .brand h1{font-size:17px}
+ .top .brand .eyebrow{font-size:6px;letter-spacing:.3px}
+ .top .icon{top:calc(env(safe-area-inset-top) + 8px)}
+ .top .love-icon{left:6px}
+ .top #settings{right:6px}
+}
+@media(min-width:700px){
+ .top{width:calc(100% - 180px);max-width:420px;top:calc(env(safe-area-inset-top) + 20px)}
+ .top .brand h1{font-size:26px}
+ .top .icon{top:calc(env(safe-area-inset-top) + 18px)}
+}
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon love-icon" id="love" aria-label="Send a little love" title="Send a little love">♡</button><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
