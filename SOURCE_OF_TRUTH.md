@@ -658,3 +658,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Replaced the bottom event-queue defeat announcement with a centered canvas banner over the pond. It displays the victory and reward (including a bonus keepsake when awarded), then fades out over a short interval. Other event notifications continue to use their existing UI lane.
 - Preserved the existing battle/reward logic, and the fleeing/defeat states remain distinct.
 - Validation: embedded JavaScript syntax check passed. Live browser visual testing was not performed.
+
+## 52. More noticeable victory celebration (2026-10-16)
+- Extended the flock's cheer bob from about 1.05 seconds to 1.45 seconds and increased its bounce height so the ducks' reaction reads more clearly.
+- Increased the localized confetti burst from four to six pieces per duck, widened the burst slightly, and made the pieces larger, more energetic, and longer-lived.
+- Gave the enemy's defeat exit an extra quarter-second and a more pronounced rise, rotation, and squash/stretch before fading away.
+- Extended the centered victory banner from 2.6 to 3.2 seconds before it fades out.
+- Validation: embedded JavaScript syntax check passed. Live browser visual testing was not performed.
