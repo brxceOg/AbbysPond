@@ -593,6 +593,16 @@ function draw(now){
    jumpHeight=Math.sin(t*Math.PI)*9;
    if(t>=1){st.mode='water';st.modeStart=now;st.nextPadTime=now+1100;st.padIndex=-1;}
   }
+  // Keep every strider animation inside a safe-water ellipse, including its legs and jump arc.
+  const safeRx=Math.max(1,rx*.94-12),safeRy=Math.max(1,ry*.93-12);
+  const safeNX=(st.x-cx)/safeRx,safeNY=(st.y-cy)/safeRy,safeEdge=safeNX*safeNX+safeNY*safeNY;
+  if(safeEdge>1){
+   const inv=1/Math.sqrt(safeEdge);
+   st.x=cx+(st.x-cx)*inv;st.y=cy+(st.y-cy)*inv;
+   const nxv=(st.x-cx)/(safeRx*safeRx),nyv=(st.y-cy)/(safeRy*safeRy);
+   if(Math.cos(st.heading)*nxv+Math.sin(st.heading)*nyv>0)st.heading=Math.atan2(-nyv,-nxv);
+   if(st.mode==='takeoff'){st.jumpToX=st.x+Math.cos(st.heading)*Math.min(12,safeRx*.15);st.jumpToY=st.y+Math.sin(st.heading)*Math.min(12,safeRy*.15);}
+  }
   const bx=st.x,by=st.y,drawY=by-jumpHeight;
   const movement=st.mode==='water'?1:st.mode==='resting'?.12:.7;
   const facing=st.heading;
