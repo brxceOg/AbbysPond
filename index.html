@@ -1031,48 +1031,39 @@ function draw(now){
  for(let i=0;i<duckLimit;i++){
   const d=s.ducks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
   if(!duckAvoidance[key]){
-   // Choose an initial point with safe clearance from ducks already placed this frame.
-   // Sample the swim ring rather than relying on a fixed angle that can overlap a flock mate.
-   let bestAngle=i*2.399,bestClearance=-Infinity;
+   // Give each duck a stable, evenly spaced place around the swim loop.
+   // All ducks travel in the same direction, so their spacing does not collapse
+   // from head-on meetings and repeated direction reversals.
+   const flockSize=Math.max(1,duckLimit);
+   let bestAngle=(i/flockSize)*Math.PI*2,bestClearance=-Infinity;
    const spawnClearance=minDuckGap+4;
-   for(let sample=0;sample<96;sample++){
-    const candidate=sample*Math.PI*2/96;
-    const px=cx+Math.cos(candidate)*rx*.53;
-    const py=cy+Math.sin(candidate)*ry*.48+Math.sin(now*.0034+i*1.7)*.65;
-    let nearest=Infinity;
-    for(const placed of swimmers)nearest=Math.min(nearest,Math.hypot(px-placed.x,py-placed.y));
-    if(nearest>bestClearance){bestClearance=nearest;bestAngle=candidate;}
-    if(nearest>=spawnClearance){bestAngle=candidate;break;}
+   // If a duck is added to an existing flock, find the clearest nearby slot.
+   if(i>=swimmers.length&&i>0){
+    for(let sample=0;sample<96;sample++){
+     const candidate=(i/flockSize)*Math.PI*2+sample*Math.PI*2/96;
+     const px=cx+Math.cos(candidate)*rx*.53;
+     const py=cy+Math.sin(candidate)*ry*.48;
+     let nearest=Infinity;
+     for(const placed of swimmers)nearest=Math.min(nearest,Math.hypot(px-placed.x,py-placed.y));
+     if(nearest>bestClearance){bestClearance=nearest;bestAngle=candidate;}
+     if(nearest>=spawnClearance){bestAngle=candidate;break;}
+    }
    }
-   duckAvoidance[key]={angle:bestAngle,direction:baseDir,lastTime:now,lastHit:-10000};
+   duckAvoidance[key]={angle:bestAngle,direction:1,lastTime:now,lastHit:-10000,avoidUntil:0};
   }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
-  // A duck that yields briefly swims away faster, so it clears its flock mate
-  // before the pair can visually overlap or immediately collide again.
-  // During an encounter, ducks travel faster around the pond so the flock can
-  // spread out and more individuals can reach the visitor before it escapes.
-  const swimRate=now<(state.avoidUntil||0)?.0002:(encounterAnim&&encounterAnim.phase==='active'?.00012:.000048);
-  state.angle+=dt*swimRate*state.direction;state.lastTime=now;
+  // Keep a consistent swim speed and shared direction so ducks maintain their
+  // spacing instead of overtaking, reversing, and repeatedly meeting head-on.
+  // Encounters speed the whole flock up together without changing relative spacing.
+  const swimRate=encounterAnim&&encounterAnim.phase==='active'?.00012:.000048;
+  state.direction=1;state.angle+=dt*swimRate;state.lastTime=now;
   const a=state.angle;
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x:cx+Math.cos(a)*rx*.53,y:cy+Math.sin(a)*ry*.48+Math.sin(now*.0034+i*1.7)*.65});
  }
- for(let i=0;i<swimmers.length;i++)for(let j=i+1;j<swimmers.length;j++){
-  const a=swimmers[i],b=swimmers[j],dist=Math.hypot(b.x-a.x,b.y-a.y);
-  if(dist<minDuckGap){
-   const sa=duckAvoidance[a.key],sb=duckAvoidance[b.key];
-   // Do not reverse both ducks together: that preserves their relative motion
-   // and makes them meet again, producing a visible bounce loop. Let one duck
-   // yield at a time, while both receive a shared cooldown so they can separate.
-   if(now-sa.lastHit>1000&&now-sb.lastHit>1000){
-    // Pick a consistent duck to yield, then give it a short burst of speed
-    // away from the encounter. The other duck keeps its continuous swim path.
-    const yielding=(i+j+Math.floor(now/1800))%2===0?sa:sb;
-    yielding.direction*=-1;
-    yielding.avoidUntil=now+1100;
-    sa.lastHit=now;sb.lastHit=now;
-   }
-  }
- }
+ // Duck paths are deliberately non-reactive here: the old collision response
+ // reversed directions and applied uneven speed boosts, repeatedly compressing
+ // pairs back together. Evenly spaced, same-direction swim paths prevent that
+ // head-on bounce loop while keeping all movement continuous and non-teleporting.
  // Water striders swim under their own momentum, avoid ducks, and can
  // hop onto a drifting lily pad for a short rest before jumping back off.
  const striderDt=Math.min(2.4,Math.max(.35,(now-waterStriderLastTime)/16.67||1));
