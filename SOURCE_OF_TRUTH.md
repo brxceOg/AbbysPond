@@ -756,3 +756,14 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Updated collection meters to a moss-green gradient with an inline-SVG leaf accent and restyled selected flock tabs as pressed-paper tags with rounded tops.
 - Preserved existing modal structure, duck selector actions, button actions, game mechanics, economy, and saved data. No external image URLs remain in the modal texture styling.
 - Source-level checks confirmed the inline SVG ornamentation, frame, button treatment, leaf meter, and selected tab styles. Live iPhone Safari visual verification remains pending.
+
+
+### Unique modal theme pass (2026-10-16)
+
+- Added menu-specific theme assignment during modal rendering: Find a Duck uses the Meadow Wheel palette; Pond Upgrades uses Botanical Garden; Your Flock uses Duck Field Guide; Keepsakes uses Trinket Scrapbook.
+- Added inline SVG corner stamps for each theme (leaf, duck portrait, wax-seal heart, and meadow sunburst) and theme-specific header accents.
+- Botanical Garden upgrades use a sage palette, leaf flourishes beside upgrade names, and a moss-green left card border. Duck Field Guide selection tiles use white polaroid frames with alternating slight tilts; health tracks use pond-blue fill and a heart marker.
+- Trinket Scrapbook item cards use stitched dashed borders and a ribbon/pin accent; rarity pills use distinct silk-pink Rare, clover-green Uncommon, and coordinated color treatments for other rarities.
+- Find a Duck uses a honey-gold header, brass wheel bezel, and a restrained glowing sparkle effect around the spin button. The sparkle animation respects reduced-motion preferences.
+- All new artwork is inline SVG data in CSS; no external image URLs were added. Gameplay, probabilities, economy, save data, and existing action handlers remain unchanged.
+- Source-level checks confirmed theme assignment and the theme-specific styling hooks. Live mobile Safari visual verification remains pending.
