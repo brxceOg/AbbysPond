@@ -614,5 +614,6 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Added a 30% chance for the flock to start in its fully formed Z arrangement when the formation controller initializes; otherwise it starts in the circle as before. The next formation change is scheduled normally from the starting shape, and no save-format changes were needed.
 - Widened and deepened the Z path slightly (from normalized points ±0.32/±0.20 to ±0.36/±0.23) to give ducks more breathing room while preserving the capital-Z shape and distance-based spacing.
 - Increased the Z path spacing again (normalized points now ±0.43 horizontally and ±0.28 vertically) to bring the ducks closer to the generous personal-space feel of the circle formation, while keeping the same formation logic and smooth transitions.
+- The Z formation now travels around a gentle oval route across the pond: its center moves with the lead duck's swim angle while each duck stays in its assigned position along the Z, mirroring the circle formation's movement without losing the Z shape.
 - Embedded JavaScript syntax compilation passed. Please verify the formation visually in-game, especially with different flock sizes, because visual browser testing has not been performed here.
 
