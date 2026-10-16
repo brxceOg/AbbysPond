@@ -1111,7 +1111,9 @@ function draw(now){
   const segmentT=zLengths[segment]>0?Math.max(0,Math.min(1,zDistance/zLengths[segment])):0;
   const zStart=zPoints[segment],zEnd=zPoints[segment+1];
   const zLocalX=zStart[0]+(zEnd[0]-zStart[0])*segmentT,zLocalY=zStart[1]+(zEnd[1]-zStart[1])*segmentT;
-  const zCenterX=cx+Math.cos(duckFormation.leaderAngle)*rx*.12,zCenterY=cy+Math.sin(duckFormation.leaderAngle)*ry*.10;
+  // Let the whole Z travel around a gentle oval route, like the circle formation,
+  // while every duck keeps its assigned place on the shape.
+  const zCenterX=cx+Math.cos(duckFormation.leaderAngle)*rx*.20,zCenterY=cy+Math.sin(duckFormation.leaderAngle)*ry*.16;
   const zX=zCenterX+zLocalX*rx,zY=zCenterY+zLocalY*ry;
   const x=circleX+(zX-circleX)*zigzagMix,y=circleY+(zY-circleY)*zigzagMix;
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x,y});
