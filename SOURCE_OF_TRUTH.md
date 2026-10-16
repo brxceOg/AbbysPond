@@ -355,3 +355,8 @@ A water strider reserves its selected lily pad as soon as its landing animation 
 ## Lily pad collision for swimming water striders (2026-10-16)
 
 Swimming striders now treat lily pad leaves as solid obstacles instead of gliding through them. If a pad is available and the strider is ready to board, it reserves that pad and enters the existing landing hop. If the pad is occupied or boarding is on cooldown, the strider is kept outside the pad's collision radius and steered along the edge, preserving the single-strider reservation rule. Inline JavaScript syntax compilation passed; live animation and GitHub Pages deployment were not independently verified.
+
+
+## Shoreline-aware water strider takeoff (2026-10-16)
+
+When a strider jumps off a lily pad near the pond edge, its takeoff direction is checked against the pond's safe-water ellipse. If the intended hop would head outward or cross the safe boundary, the strider instead aims along the local inward shoreline normal and uses a safe landing target. The takeoff target is no longer rewritten mid-animation by the boundary safeguard, avoiding abrupt target changes and visible teleporting. Inline JavaScript syntax compilation passed; live animation and GitHub Pages deployment were not independently verified.
