@@ -272,6 +272,132 @@ body{padding:0;overscroll-behavior:none}
  .action:first-child{min-height:37px}
 }
 
+
+/* Cozy, pond-first interface refresh: soft floating controls, fewer hard panels, clearer touch targets. */
+:root{
+ --ui-cream:#fff8e9;--ui-paper:#fff3df;--ui-rose:#a85f6e;--ui-ink:#674d43;
+ --ui-edge:#d9bd99;--ui-shadow:0 3px 0 #bfa27d55,0 7px 18px #463a2c20;
+}
+.top{
+ left:12px;right:auto;width:min(285px,calc(100% - 112px));
+ min-height:54px;gap:9px;padding:6px 11px 7px 7px;
+ border:1px solid #e0c6a4d9;border-radius:28px 24px 26px 20px;
+ background:linear-gradient(120deg,#fff8e9ed,#fff0dbe0);
+ box-shadow:var(--ui-shadow);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+}
+.top:after{display:none}
+.top .flower{width:37px;height:37px;flex-basis:37px;border:1px solid #e4c9aa;box-shadow:0 2px 0 #d7b99a;background:#fff4df}
+.top .flower:after{inset:4px;border-color:#d9b99b}
+.brand h1{font-size:clamp(19px,5vw,24px);color:#704d4b;line-height:1.12}
+.brand .eyebrow{font-size:8px;letter-spacing:.8px;color:#9b7b68}
+.top .icon{position:absolute;top:calc(100% + 8px);width:42px;height:42px;min-width:42px;flex-basis:42px;border:1px solid #e1c6a4;background:#fff5e5ee;box-shadow:0 3px 0 #c9ad8c70,0 5px 12px #44392b18}
+.top .love-icon{right:49px}
+.top #settings{right:0}
+.hud{top:calc(env(safe-area-inset-top) + 70px);left:auto;right:12px;width:min(152px,40%);display:flex;flex-direction:column;gap:7px}
+.hud .stat{
+ padding:8px 12px 7px;border:1px solid #e0c7a8e8;border-radius:20px 17px 21px 16px;
+ background:linear-gradient(145deg,#fff9e9ee,#fff0dce8);box-shadow:0 3px 0 #c9ad8b70,0 6px 14px #44392b12;
+ backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)
+}
+.hud .stat:before,.hud .stat:after{display:none}
+.stat label{font-size:10px;letter-spacing:.15px;color:#907562}
+.stat strong{font-size:clamp(18px,4.8vw,22px);line-height:1.25;color:#704d4b;white-space:nowrap}
+.stat small{font-size:9px;color:#718565;line-height:1.2}
+.event{
+ top:auto;bottom:calc(env(safe-area-inset-bottom) + 151px);left:50%;right:auto;transform:translateX(-50%);
+ width:max-content;max-width:calc(100% - 24px);padding:6px 13px;
+ border:1px solid #e2c8a7c9;border-radius:20px 18px 21px 17px;
+ background:#fff8e9e8;color:#765b4b;font:600 16px/1.25 Caveat,cursive;
+ box-shadow:0 3px 0 #c9ad8b44,0 5px 13px #44392b12;
+ backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)
+}
+.actions{
+ left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 9px);
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;
+ padding:9px 9px 10px;border:1px solid #d9bd99d9;
+ border-radius:25px 22px 27px 21px;
+ background:linear-gradient(145deg,#fff8e9e8,#f8e9d5e5);
+ box-shadow:0 4px 0 #bfa27d55,0 8px 20px #463a2c1c;
+ backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)
+}
+.actions:before{font-size:15px;line-height:17px;color:#98765e;letter-spacing:.45px;margin:0 0 2px}
+.actions:after{display:none}
+.action,.action:not(:first-child){
+ min-width:0;min-height:59px;padding:6px 3px;gap:4px;
+ border:1px solid #e3c9a8;border-radius:18px 15px 19px 14px;
+ background:linear-gradient(155deg,#fffaf0f2,#f9ecdaf0);
+ box-shadow:0 2px 0 #d0b18b88;color:#674d43
+}
+.action:before,.action:after{display:none}
+.action:first-child{
+ grid-column:1/-1;min-height:53px;flex-direction:row;justify-content:flex-start;text-align:left;
+ gap:10px;padding:6px 12px;border:1px solid #c98e91;
+ border-radius:20px 24px 18px 22px;
+ background:linear-gradient(110deg,#f4d5d1f5,#f9e6d5f5 72%,#f7e6c8f5);
+ box-shadow:0 3px 0 #c79b8caa,0 5px 12px #9b6c5e12
+}
+.action .tile{
+ width:32px;height:32px;flex-basis:32px;border-radius:50%;font-size:18px;
+ box-shadow:inset 0 0 0 1px #e4c7ac;background:#f7e2d5
+}
+.action:first-child .tile{width:38px;height:38px;flex-basis:38px;font-size:22px;background:#fff2e5}
+.action strong{font-family:Lora,Georgia,serif;font-size:10px;line-height:1.25;color:#70504a}
+.action:first-child strong{font-size:14px;color:#804e59}
+.action small{font-size:8px;line-height:1.2;color:#927969;margin-top:2px}
+.action:first-child small{font-size:10px}
+.action:not(:first-child)>span:nth-child(2){flex:0 1 auto;min-width:0}
+.action:not(:first-child) .chev{display:none}
+.action:not(:first-child) small{display:none}
+.action:active{transform:translateY(2px);box-shadow:0 0 0 #d0b18b88}
+.event.event-visible{opacity:1}
+.event.event-fading{opacity:0}
+@media(max-width:390px){
+ .top{left:8px;width:calc(100% - 103px);padding:5px 8px 6px 6px;gap:7px;min-height:49px}
+ .top .flower{width:32px;height:32px;flex-basis:32px;font-size:18px}
+ .brand h1{font-size:18px}.brand .eyebrow{font-size:7px;letter-spacing:.45px}
+ .top .icon{width:37px;height:37px;min-width:37px;flex-basis:37px}
+ .top .love-icon{right:43px}
+ .hud{top:calc(env(safe-area-inset-top) + 66px);right:8px;width:clamp(116px,37%,145px);gap:5px}
+ .hud .stat{padding:7px 9px 6px}
+ .stat label{font-size:9px}.stat strong{font-size:17px}.stat small{font-size:8px}
+ .actions{left:7px;right:7px;padding:7px;gap:5px;bottom:calc(env(safe-area-inset-bottom) + 6px)}
+ .actions:before{font-size:13px;line-height:15px}
+ .action,.action:not(:first-child){min-height:55px;padding:5px 2px}
+ .action:first-child{min-height:49px;padding:5px 8px}
+ .action .tile{width:29px;height:29px;flex-basis:29px;font-size:16px}
+ .action:first-child .tile{width:34px;height:34px;flex-basis:34px}
+ .action strong{font-size:9px}.action:first-child strong{font-size:12px}
+ .action small{font-size:8px}.action:first-child small{font-size:9px}
+ .event{bottom:calc(env(safe-area-inset-bottom) + 137px);font-size:15px;max-width:calc(100% - 16px);padding:5px 10px}
+}
+@media(max-height:700px){
+ .top{top:calc(env(safe-area-inset-top) + 4px)}
+ .hud{top:calc(env(safe-area-inset-top) + 60px)}
+ .actions{bottom:calc(env(safe-area-inset-bottom) + 5px);padding:6px;gap:4px}
+ .actions:before{font-size:12px;line-height:13px}
+ .action,.action:not(:first-child){min-height:48px}
+ .action:first-child{min-height:44px}
+ .action .tile{width:26px;height:26px;flex-basis:26px}
+ .action:first-child .tile{width:30px;height:30px;flex-basis:30px}
+ .event{bottom:calc(env(safe-area-inset-bottom) + 124px)}
+}
+@media(max-height:600px){
+ .hud{top:calc(env(safe-area-inset-top) + 54px);flex-direction:row;left:8px;right:8px;width:auto;justify-content:flex-start}
+ .hud .stat{width:max-content;max-width:48%;padding:5px 8px}
+ .stat small{display:none}
+ .event{bottom:calc(env(safe-area-inset-bottom) + 105px)}
+ .actions:before{display:none}
+ .action small{display:none}
+}
+@media(min-width:700px){
+ .top{left:20px;top:calc(env(safe-area-inset-top) + 18px)}
+ .hud{right:20px;top:calc(env(safe-area-inset-top) + 20px);width:168px}
+ .actions{left:50%;right:auto;transform:translateX(-50%);width:min(520px,calc(100% - 40px));bottom:calc(env(safe-area-inset-bottom) + 18px)}
+ .event{bottom:calc(env(safe-area-inset-bottom) + 158px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .top,.hud .stat,.actions,.event{backdrop-filter:none;-webkit-backdrop-filter:none}
+}
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon love-icon" id="love" aria-label="Send a little love" title="Send a little love">♡</button><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
