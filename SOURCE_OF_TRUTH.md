@@ -608,4 +608,5 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Added a flock-level formation controller that periodically switches between the pond-wide circle and a distinct capital-Z formation at randomized intervals (roughly 18–32 seconds between switches after the initial wait).
 - In Z mode, ducks occupy the three straight strokes of a large Z: a horizontal top row, a diagonal descending stroke, and a horizontal bottom row. The Z translates gently across the pond instead of following the circular swim ring, and the transition blends over 2.8 seconds.
 - All ducks retain the shared movement controller and encounter speed-up. The circle remains available as the alternate formation; no save-format changes.
+- Fixed a segment interpolation bug that pinned every duck in the final third of the path to the bottom-right endpoint. Each duck now interpolates across the full bottom stroke, as it already does across the top stroke and diagonal.
 - Embedded JavaScript syntax compilation passed. Formation transitions, Z legibility, and sprite spacing still need visual verification in a live browser.
