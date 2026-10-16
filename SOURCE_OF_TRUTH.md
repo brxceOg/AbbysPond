@@ -448,3 +448,19 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Moved Find a Duck, Pond Upgrades, Your Flock, and Keepsakes into one evenly spaced horizontal row at the bottom of the game screen, using responsive button widths and safe-area-aware bottom spacing.
 - The row sits below the central pond viewing area with a small gap; event messages are positioned just above it. Buttons retain their original IDs and menu actions.
 - Inline JavaScript syntax compilation passed. Live visual/device verification has not been independently performed.
+
+
+## 15. Nature scrapbook UI direction (2026-10-16, Session 5)
+
+The active visual direction is **nature scrapbook with balanced texture and an illustrated storybook UI around the pixel-art pond**. This is a deliberate refinement of the existing cottagecore direction, not a replacement of the pond's pixel-art rendering.
+
+- Treat the home screen like a page from a personal nature journal: warm uncoated paper, gentle paper grain, pressed-flower/botanical accents, hand-inked dividers, small taped or stitched details, and illustrated labels.
+- Use texture in moderation. The UI should feel tactile at a glance without making text, stats, touch targets, or the pond harder to read.
+- Avoid repeating the same card shape and border treatment everywhere. Give the title, currency/duck stats, primary duck invitation, secondary navigation, and menus different but related visual treatments.
+- Use illustrated storybook ornament around the pixel-art pond; do not repaint or replace the game world with vector illustrations or photographic textures.
+- Keep the pond as the main visual focus. Decorative marks must be subtle, never animate distractingly, and must not cover ducks or essential gameplay.
+- Keep the primary duck invitation visually distinct from secondary actions. Preserve all button actions and menu behavior.
+- Rework the existing CSS coherently with a final, maintainable override layer rather than adding another pile of conflicting style experiments. Remove obsolete styling only when it can be done safely without altering gameplay or selectors.
+- Preserve the existing font pairing (Lora for storybook headings, Nunito for readable interface text, Caveat for handwritten accents), with robust fallbacks.
+- Preserve mobile-first layout, iOS safe-area handling, minimum touch target sizes, reduced-motion support, modal scrolling, save data, economy, duck wheel odds, and all game mechanics.
+- Validation must include JavaScript syntax checking and inspection of the final home-screen/menu markup and responsive CSS. A real iPhone Safari visual check remains necessary if no live device/browser is available.
