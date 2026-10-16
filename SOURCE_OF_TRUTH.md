@@ -394,4 +394,4 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Every successful flying-insect or water-strider meal now triggers a green outlined up-arrow beside the duck's head. It floats upward and fades away over about one second.
 - The duck also performs a quick whole-body squash-and-stretch pop during its existing 720 ms feeding animation, emphasizing the size increase without distorting its species-specific proportions.
 - The arrow and pop reuse the existing feeding events; growth caps, save persistence, catch chances, insect respawns, speech bubbles, and other gameplay remain unchanged.
-- Validation: inline JavaScript syntax compilation fail: identifier 'feedage' has already been declared; live browser visual testing and GitHub Pages deployment have not been independently verified.
+- Validation: inline JavaScript syntax compilation passed after resolving a local variable-name collision; live browser visual testing and GitHub Pages deployment have not been independently verified.
