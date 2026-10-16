@@ -588,3 +588,11 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - When ducks approach within that threshold, one duck yields and briefly increases its swim rate while moving away. The other duck keeps its continuous path, avoiding the previous synchronized bounce behavior and helping the pair clear one another faster.
 - The yielding boost lasts 1.1 seconds; both ducks have a 1-second collision-response cooldown. Spawn placement automatically uses the larger spacing threshold plus its existing 4-pixel margin.
 - No pond-size or save-format changes were needed. Embedded JavaScript syntax compilation passed; live crowded-flock visual testing remains necessary to confirm the sprite spacing on device.
+
+## 44. Faster flock movement and roaming predator path (2026-10-16)
+
+- Ducks swim faster while an encounter is active, helping more of the flock spread around the pond during the fight. A duck that yields during close-quarters avoidance gets a stronger temporary speed burst.
+- Changed the predator's path from a near-constant orbit on the same outer ring as the ducks to a varying-radius sweep that crosses more of the pond.
+- Removed the predator's automatic direction reversal after each hit. It continues moving through the encounter rather than repeatedly bouncing between the same nearby ducks.
+- Preserved combat damage, per-duck hit cooldowns, rewards, encounter duration, upgrades, and save format.
+- Embedded JavaScript syntax compilation passed. Crowded-flock combat should still be checked in the live game to confirm that the enemy reaches more ducks on device.
