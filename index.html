@@ -1078,9 +1078,19 @@ function draw(now){
   if(i===0){state.angle+=dt*swimRate;duckFormation.leaderAngle=state.angle;}
   else state.angle=duckFormation.leaderAngle+i*baseGap;
   state.direction=1;state.lastTime=now;
-  const a=state.angle,zig=(i%2===0?-1:1)*zigzagMix*.052;
-  const radiusX=rx*(.53+zig),radiusY=ry*(.48+zig);
-  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x:cx+Math.cos(a)*radiusX,y:cy+Math.sin(a)*radiusY});
+  const a=state.angle;
+  // Circle mode follows the pond's oval route. In zigzag mode, place the
+  // flock along one large capital-Z path and translate that whole shape gently
+  // across the pond; do not bend the Z around the circular swim ring.
+  const circleX=cx+Math.cos(a)*rx*.53,circleY=cy+Math.sin(a)*ry*.48;
+  const slotT=duckLimit>1?i/(duckLimit-1):.5,scaledT=slotT*3,segment=Math.min(2,Math.floor(scaledT)),segmentT=segment===2?1:scaledT-segment;
+  const zPoints=[[-.32,-.20],[.32,-.20],[-.32,.20],[.32,.20]];
+  const zStart=zPoints[segment],zEnd=zPoints[segment+1];
+  const zLocalX=zStart[0]+(zEnd[0]-zStart[0])*segmentT,zLocalY=zStart[1]+(zEnd[1]-zStart[1])*segmentT;
+  const zCenterX=cx+Math.cos(duckFormation.leaderAngle)*rx*.12,zCenterY=cy+Math.sin(duckFormation.leaderAngle)*ry*.10;
+  const zX=zCenterX+zLocalX*rx,zY=zCenterY+zLocalY*ry;
+  const x=circleX+(zX-circleX)*zigzagMix,y=circleY+(zY-circleY)*zigzagMix;
+  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x,y});
  }
  // Duck paths are deliberately non-reactive here: the old collision response
  // reversed directions and applied uneven speed boosts, repeatedly compressing
