@@ -644,3 +644,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 
 - Preserved the existing soft, pale pixel-smoke style while increasing its initial opacity and puff size slightly, and extending its rise-and-fade lifespan from about 520 ms to 620 ms. The effect is more visible at the instant of impact without becoming a large or lingering cloud.
 - Embedded JavaScript syntax compilation passed. Live browser visual verification was not performed.
+
+## 50. Combat hit-flash startup and canvas-state fix (2026-10-16)
+- Fixed the duck damage-flash effect appearing on all pond assets when a new game starts.
+- A duck only qualifies for the flash while it has a real, positive `hitFlashAt` timestamp and is inside the 420 ms flash window; the default unset timestamp no longer triggers a false startup flash when the game clock is near zero.
+- Moved the canvas `save()` before the hit-flash alpha change so the temporary opacity is scoped to that duck's draw pass and restored afterward instead of leaking into later pond assets.
+- Preserved the existing impact-smoke effect, combat damage, flash timing, and knockout presentation.
+- Validation: embedded JavaScript syntax check passed. Live browser visual testing was not performed.
