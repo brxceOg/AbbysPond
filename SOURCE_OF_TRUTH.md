@@ -441,3 +441,10 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Removed the heart button from the header because tapping the pond already triggers the same interaction. Removed its click listener as well, avoiding a duplicate path for the same action.
 - Recentered the title within the remaining header space while keeping the settings button in the upper-right. All pond-tap effects and hidden tap-secret behavior remain intact.
 - Inline JavaScript syntax compilation passed. Live browser/device verification has not been independently performed.
+
+
+## 27. Four-button bottom dock (2026-10-16)
+
+- Moved Find a Duck, Pond Upgrades, Your Flock, and Keepsakes into one evenly spaced horizontal row at the bottom of the game screen, using responsive button widths and safe-area-aware bottom spacing.
+- The row sits below the central pond viewing area with a small gap; event messages are positioned just above it. Buttons retain their original IDs and menu actions.
+- Inline JavaScript syntax compilation passed. Live visual/device verification has not been independently performed.
