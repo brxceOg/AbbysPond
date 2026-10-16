@@ -658,6 +658,8 @@ function draw(now){
    }
   }
   const bx=st.x,by=st.y,drawY=by-jumpHeight;
+  const growth=st.juvenile?Math.min(1,.32+(now-(st.bornAt||now))/45000*.68):1;
+  ctx.save();ctx.translate(bx,drawY);ctx.scale(growth,growth);ctx.translate(-bx,-drawY);
   const movement=st.mode==='water'?1:st.mode==='resting'?.12:.7;
   const facing=st.heading;
   const strokeLeft=Math.sin(now*.009*(.12+.88*movement)+i*2.4);
@@ -672,7 +674,8 @@ function draw(now){
   ctx.moveTo(bx,drawY);ctx.lineTo(leftTipX-courtship*3,leftTipY- courtship*1.8);ctx.moveTo(bx+1,drawY);ctx.lineTo(rightTipX+courtship*3,rightTipY-courtship*1.8);ctx.stroke();
   ctx.save();ctx.translate(bx,drawY);ctx.rotate(facing);ctx.fillStyle='#34584e';ctx.fillRect(-1,-1,3,2);ctx.restore();
   ctx.globalAlpha=.34;ctx.strokeStyle='#e7fff0';ctx.beginPath();ctx.ellipse(bx,drawY+2,5+((Math.sin(seed*2)+1)*1.2),2,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
-  if(st.juvenile){const age=Math.min(1,(now-(st.bornAt||now))/45000);ctx.globalAlpha=.9;ctx.fillStyle='#e9c7a0';ctx.fillRect(bx-1,drawY-2,2+age,2+age);ctx.globalAlpha=1;if(age>=1){st.juvenile=false;st.nextMateTime=now+12000;}}
+  ctx.restore();
+  if(st.juvenile&&growth>=1){st.juvenile=false;st.nextMateTime=now+12000;}
  }
  // Hearts rise softly after successful strider courtship.
  for(let i=striderHearts.length-1;i>=0;i--){const hrt=striderHearts[i],age=(now-hrt.t)/1100;if(age>=1){striderHearts.splice(i,1);continue;}ctx.globalAlpha=1-age;ctx.font='14px serif';ctx.fillStyle='#f5a4bd';ctx.fillText('♥',hrt.x-4,hrt.y-10-age*15);ctx.globalAlpha=1;}
