@@ -473,3 +473,11 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Kept each existing `data-menu` value (roll, upgrades, flock, inventory), action hierarchy, game logic, and save data unchanged. Drawings are inline SVG and require no external image requests or assets.
 - Added responsive sizing for narrow phones and short screens, moved the event slip above the paper controls, and respected reduced-motion preferences.
 - Validation: JavaScript syntax compilation passed; verified all four menu actions remain present, all four SVG drawings are present, style/script tags are balanced, and CSS braces balance. Live iPhone Safari visual verification has not been performed.
+
+
+## 29. Header and HUD torn-paper consistency (2026-10-16)
+
+- Matched the Abby's Pond title plaque, settings control, Pond Pennies note, and Your Flock note to the same irregular torn-paper silhouette, ruled paper texture, and drop-shadow treatment used by the four illustrated action scraps.
+- Removed their prior rounded card borders and glass-like backgrounds in favor of consistent paper colors, hand-inked dashed accents, and softly irregular edges.
+- Preserved the title, settings interaction, live currency/income and flock/collection fields, responsive layout, gameplay, and save data.
+- Validation: JavaScript syntax compilation passed; expected menu action attributes remain intact and CSS braces balance. Live iPhone Safari visual verification has not been performed.
