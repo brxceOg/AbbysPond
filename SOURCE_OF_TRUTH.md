@@ -602,3 +602,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Replaced alternating swim directions and collision-triggered reversals/speed boosts with stable, same-direction swim paths. Ducks begin at spaced points around the swim loop and maintain a shared movement rate, so their relative spacing no longer collapses because one duck turns around or accelerates past another.
 - New ducks choose a clear starting angle near their evenly spaced slot when possible. Existing pond dimensions, duck sprites, encounter speed-up, combat logic, rewards, and save format remain unchanged.
 - Embedded JavaScript syntax compilation passed. Live visual testing with a large flock is still needed to confirm sprite clearance on device.
+
+## 46. Periodic duck swim formations (2026-10-16)
+
+- Added a flock-level formation controller that periodically switches between the existing pond-wide circle and a shared zigzag-line formation at randomized intervals (roughly 18–32 seconds between switches after the initial wait).
+- The lead duck sets the shared route; the rest follow in ordered slots. The angular spacing and alternating zigzag lane offsets blend over 2.8 seconds so the flock changes shape gradually rather than snapping or crossing paths.
+- All ducks continue swimming in the same direction and speed, including the encounter speed-up, preserving the anti-bounce approach and combat behavior. No save-format changes.
+- Embedded JavaScript syntax compilation passed. Formation transitions and sprite spacing still need visual verification in a live browser.
