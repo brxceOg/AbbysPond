@@ -1031,7 +1031,16 @@ function draw(now){
  const circleGap=duckLimit>1?Math.PI*2/duckLimit:0;
  const lineGap=Math.max(.32,Math.min(.58,minDuckGap/Math.max(55,Math.min(rx*.53,ry*.48)*.9)));
  if(duckLimit>1){
-  if(!duckFormation.nextSwitch)duckFormation.nextSwitch=now+14000+Math.random()*9000;
+  if(!duckFormation.nextSwitch){
+   // A fresh pond has a 30% chance to begin with the flock already arranged
+   // in its Z formation; either starting shape is fully formed on the first frame.
+   const startInZigzag=Math.random()<.30;
+   duckFormation.name=startInZigzag?'zigzag':'circle';
+   duckFormation.fromGap=duckFormation.toGap=startInZigzag?lineGap:circleGap;
+   duckFormation.fromZigzag=duckFormation.toZigzag=startInZigzag?1:0;
+   duckFormation.transitionAt=now-2800;
+   duckFormation.nextSwitch=now+(startInZigzag?18000:14000)+Math.random()*(startInZigzag?14000:9000);
+  }
   if(now>=duckFormation.nextSwitch){
    const nextName=duckFormation.name==='circle'?'zigzag':'circle';
    const progress=duckFormation.transitionAt?Math.min(1,(now-duckFormation.transitionAt)/2800):1;
