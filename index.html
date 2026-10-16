@@ -1059,7 +1059,7 @@ function draw(now){
   // Gentle shared heading drift makes each formation feel like a swimming flock,
   // while the whole shape follows a broad oval route around the pond.
   const turn=Math.sin(leaderAngle*.42)*.10;
-  const rotX=lx*Math.cos(turn)-ly*Math.sin(turn),rotY=lx*Math.sin(turn)+ly*Math.cos(turn);
+  const rotX=(lx*Math.cos(turn)-ly*Math.sin(turn))*1.25,rotY=(lx*Math.sin(turn)+ly*Math.cos(turn))*1.25;
   const driftX=Math.cos(leaderAngle)*routeX*.19,driftY=Math.sin(leaderAngle)*routeY*.15;
   return {x:centerX+driftX+rotX,y:centerY+driftY+rotY};
  }
