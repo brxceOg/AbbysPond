@@ -767,3 +767,11 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Find a Duck uses a honey-gold header, brass wheel bezel, and a restrained glowing sparkle effect around the spin button. The sparkle animation respects reduced-motion preferences.
 - All new artwork is inline SVG data in CSS; no external image URLs were added. Gameplay, probabilities, economy, save data, and existing action handlers remain unchanged.
 - Source-level checks confirmed theme assignment and the theme-specific styling hooks. Live mobile Safari visual verification remains pending.
+
+
+### Modal header and Find-a-Duck wheel spacing fix (2026-10-16)
+
+- Added 36px left inset to the themed modal header text wrapper so the corner stamp no longer overlaps the kicker/subheader or title.
+- Increased the Meadow Wheel container padding to 24px 16px and top margin to 16px, with additional spacing and line-height for the decorative “a little bit of luck” heading.
+- Constrained the wheel graphic to a 300px maximum width on standard screens and 260px on narrow phones, while retaining its square aspect ratio and centered alignment so it sits comfortably within the brass arch.
+- Changes are CSS-only; game mechanics, wheel odds, economy, duck data, and save schema are unchanged. Source-level CSS review completed; live iPhone Safari visual verification remains pending.
