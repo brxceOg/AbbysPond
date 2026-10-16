@@ -665,7 +665,7 @@ function draw(now){
   if(st.mode==='water'&&now-(st.lastCatchCheck||0)>900){
    st.lastCatchCheck=now;let catcher=null;
    for(const swimmer of swimmers){if(Math.hypot(swimmer.x-st.x,swimmer.y-st.y)<16){catcher=swimmer;break;}}
-   if(catcher&&Math.random()<.18){st.mode='eaten';st.eatenAt=now;duckFeeding[catcher.key]={kind:'strider',start:now};nomTexts.push({key:catcher.key,t:now});ripples.push({x:st.x,y:st.y,t:now,heart:false,power:.85});continue;}
+   if(catcher&&Math.random()<.18){st.mode='eaten';st.eatenAt=now;catcher.d.insectMeals=Math.min(16,Math.max(0,Number(catcher.d.insectMeals)||0)+1);duckFeeding[catcher.key]={kind:'strider',start:now};nomTexts.push({key:catcher.key,t:now});ripples.push({x:st.x,y:st.y,t:now,heart:false,power:.85});continue;}
   }
   const bx=st.x,by=st.y,drawY=by-jumpHeight;
   const growth=st.juvenile?Math.min(1,.32+(now-(st.bornAt||now))/45000*.68):1;
@@ -710,7 +710,7 @@ function draw(now){
   duckPositions.push({x,y,d});
   ctx.globalAlpha=.18;ellipse(x,y+7,11,3,'#326e70');ctx.globalAlpha=1;
   ctx.strokeStyle='rgba(244,255,242,.78)';ctx.lineWidth=1.15;for(let k=0;k<2;k++){ctx.beginPath();ctx.ellipse(x-dir*(10+k*4),y+5,4+k*2,1.5,0,Math.PI*.12,Math.PI*.88);ctx.stroke()}
-  ctx.save();ctx.translate(x,y+bob);ctx.scale(dir,1);
+  ctx.save();ctx.translate(x,y+bob);const mealCount=Math.max(0,Math.min(16,Number(d.insectMeals)||0)),growthScale=1+mealCount*.022;ctx.scale(growthScale,growthScale);ctx.scale(dir,1);
   // Tiny paddling feet beneath the surface.
   const paddle=Math.sin(now*.0037+i*1.5)*1.2;ellipse(-3,5+paddle*.25,3.2,1.5,'#d99465');ellipse(4,5-paddle*.25,3.2,1.5,'#d99465');
   // Tail and plump body, each with warm outline and a soft highlight.
@@ -976,7 +976,7 @@ function draw(now){
     bug.eatenAt=now;bug.eatenX=fx;bug.eatenY=fy;
     ripples.push({x:fx,y:fy,t:now,heart:false,power:.7});
     bug.catchDuck=caughtBy;
-    duckFeeding[caughtBy.key]={kind:'fly',start:now};nomTexts.push({key:caughtBy.key,t:now});
+    caughtBy.d.insectMeals=Math.min(16,Math.max(0,Number(caughtBy.d.insectMeals)||0)+1);duckFeeding[caughtBy.key]={kind:'fly',start:now};nomTexts.push({key:caughtBy.key,t:now});
     continue;
    }
   }
