@@ -460,10 +460,15 @@ function draw(now){
  ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx*.94,ry*.93,0,0,Math.PI*2);ctx.clip();
  for(let i=0;i<3;i++){
   const a=now*.0002+i*2.1,bx=cx+Math.sin(a)*rx*.42,by=cy+Math.cos(a*1.25)*ry*.46;
+  // Estimate this strider's current travel speed from the motion of its path.
+  // The oar stroke fades toward a resting pose as the strider slows near a turn.
+  const vx=Math.cos(a)*rx*.42*.0002,vy=-Math.sin(a*1.25)*ry*.46*1.25*.0002;
+  const maxSpeed=Math.hypot(rx*.42*.0002,ry*.46*1.25*.0002)||1;
+  const movement=Math.min(1,Math.hypot(vx,vy)/maxSpeed);
   // All six legs begin at the thorax, so none appear detached from the body.
-  // The middle pair work like oars: each tip sweeps fore-and-aft through the
-  // water while staying extended sideways, rather than spinning around the body.
-  const strokeLeft=Math.sin(now*.009+i*2.4),strokeRight=Math.sin(now*.009+i*2.4+Math.PI);
+  // The middle pair work like oars: fore-and-aft sweeps, not circular rotations.
+  const strokeLeft=Math.sin(now*.009*(.12+.88*movement)+i*2.4)*movement;
+  const strokeRight=Math.sin(now*.009*(.12+.88*movement)+i*2.4+Math.PI)*movement;
   ctx.strokeStyle='#416b61';ctx.lineWidth=.8;ctx.beginPath();
   // Front and rear legs are anchored at the body edge and remain lightly splayed.
   ctx.moveTo(bx,by-1);ctx.lineTo(bx-6,by-5);
