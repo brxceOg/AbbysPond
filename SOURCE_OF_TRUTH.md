@@ -857,3 +857,9 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Fixed a regression introduced during the Find a Duck replacement: the replacement block accidentally removed the shared `rolling`, `lureOutcome`, and `flockTab` state declarations used throughout the UI. Restored those shared variables so modal navigation and all menu actions can reference them safely.
 - Restored the `lureOutcomeMarkup` renderer used by the scratch-off reward panel so the selected note can display a duck Polaroid or consolation reward.
 - Existing scratch reward flow, economy, save schema, and other menus remain unchanged.
+
+
+## Pond navigation regression follow-up (2026-10-16)
+
+- Follow-up testing showed that Find a Duck worked, but settings, upgrades, flock, and keepsakes did not render. The scratch-off replacement had inadvertently removed the four existing menu renderer functions (`settingsMenu`, `upgradeMenu`, `flockMenu`, and `inventoryMenu`). Restored the original menu renderers from the pre-replacement source while leaving the new scratch-off flow intact.
+- Source checks confirmed all four menu renderer declarations are present again. Live iPhone Safari verification is still pending.
