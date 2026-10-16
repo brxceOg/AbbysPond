@@ -812,3 +812,10 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Added wrapping and responsive sizing safeguards for the cozy font update so longer button labels, descriptions, stats, rarity tags, and flock tabs wrap instead of being clipped on narrow screens.
 - Kept journal content vertically scrollable within the existing modal height cap, tightened mobile modal padding, and allowed action buttons to grow in height if their handwritten labels need a second line.
 - Updated the stylesheet cache-buster. These are presentation-only changes; gameplay behavior and saved data are untouched. Live device verification remains pending.
+
+
+## Find a Duck breadcrumb-lure minigame (2026-10-16)
+- Replaced the visible prize wheel with a picnic-blanket breadcrumb lure scene inside the existing Find a Duck journal page. The illustrated scene includes a gingham blanket, crumbs, wildflowers, grass, and water ripples.
+- The Toss Breadcrumbs action runs a 1.5-second rustling/ripple animation (shortened for reduced-motion accessibility) before revealing the result in a taped Polaroid-style card. Duck cards show name, rarity, and base attack/health stats; new ducks waddle/pop into view.
+- Existing luck-upgrade rarity weights, invitation cost, duplicate compensation, collection behavior, and save schema are preserved. Added a 10% consolation outcome for a Keepsake Petal or small Pond Pennies pouch; displayed rarity percentages remain the conditional rarity odds for duck outcomes. Duplicate ducks still award a Keepsake Petal and the existing 15%-of-cost penny bonus.
+- Updated the stylesheet cache-buster. All changes are UI/roll interaction logic only; no save schema migration was introduced. Live iPhone Safari verification remains pending.
