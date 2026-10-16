@@ -321,3 +321,7 @@ Render the tiny winged pond insects after the duck sprites so they visually sit 
 ## 23. Give water striders real duck-avoidance turns (2026-10-16)
 
 Replaced the previous position-offset repulsion, which made striders appear to slide sideways around ducks, with persistent per-strider movement state. When a duck enters the close-approach zone, the strider turns its heading away and then swims along that heading under its own forward motion. Near the pond boundary it turns back inward. The horizontal paddle legs and faint ripple effect remain. Inline JavaScript syntax compilation passed; live rendering and Pages deployment were not independently verified.
+
+## 24. Correct flying insect draw order (2026-10-16)
+
+The winged pond insects must be drawn after the complete duck-sprite loop in the active pond renderer. Drawing them earlier places them underneath later duck paint operations, regardless of their flight path, making them appear to collide with or pass behind ducks. Keep their looping flight and wing flick animation unchanged; this is a render-order correction only and does not alter duck or insect movement. Inline JavaScript syntax compilation passed; live visual rendering and GitHub Pages deployment were not independently verified.
