@@ -419,3 +419,11 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Removed several ornamental pseudo-elements from the active HUD and action controls so they no longer compete with pond life. Reduced hard-edged/card-like visual weight, retained cream paper, warm wood, sage, and rose tones, and used softer organic corner shapes and subtle pressed states.
 - Preserved the full-viewport pond canvas, all existing controls/IDs, event-message queue/fade behavior, modal layouts, game mechanics, and save data. Responsive rules adapt the HUD and controls for narrow phones, short screens, and wider displays.
 - Inline JavaScript syntax compilation passed. This is a CSS presentation change; live visual inspection on device and GitHub Pages deployment have not been independently verified.
+
+
+## 24. Sketch-led pond interface layout (2026-10-16)
+
+- Reworked the main HUD to follow the user's sketch: Abby's Pond title centered at the top, money and flock statistics at opposite upper corners, and four separate utility/action buttons docked along the left and right edges.
+- “Find a duck” and “Pond upgrades” sit on the left; “Your flock” and “Keepsakes” sit on the right. Buttons use compact, touch-friendly organic plaques with clear labels and simple icon medallions. The center of the screen remains open so the pond and ducks stay the visual focus.
+- Removed the grouped bottom action tray for the main game screen while preserving all action button IDs/data-menu attributes, existing menus, settings, love action, queued event messaging, gameplay, and save data. Responsive rules shrink side buttons on small/short displays and expand them on larger screens.
+- Inline JavaScript syntax compilation passed. Live device layout and GitHub Pages deployment have not been independently verified.
