@@ -1030,7 +1030,22 @@ function draw(now){
  duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=29;
  for(let i=0;i<duckLimit;i++){
   const d=s.ducks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
-  if(!duckAvoidance[key])duckAvoidance[key]={angle:i*2.399,direction:baseDir,lastTime:now,lastHit:-10000};
+  if(!duckAvoidance[key]){
+   // Choose an initial point with safe clearance from ducks already placed this frame.
+   // Sample the swim ring rather than relying on a fixed angle that can overlap a flock mate.
+   let bestAngle=i*2.399,bestClearance=-Infinity;
+   const spawnClearance=minDuckGap+4;
+   for(let sample=0;sample<96;sample++){
+    const candidate=sample*Math.PI*2/96;
+    const px=cx+Math.cos(candidate)*rx*.53;
+    const py=cy+Math.sin(candidate)*ry*.48+Math.sin(now*.0034+i*1.7)*.65;
+    let nearest=Infinity;
+    for(const placed of swimmers)nearest=Math.min(nearest,Math.hypot(px-placed.x,py-placed.y));
+    if(nearest>bestClearance){bestClearance=nearest;bestAngle=candidate;}
+    if(nearest>=spawnClearance){bestAngle=candidate;break;}
+   }
+   duckAvoidance[key]={angle:bestAngle,direction:baseDir,lastTime:now,lastHit:-10000};
+  }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
   state.angle+=dt*.000048*state.direction;state.lastTime=now;
   const a=state.angle;
