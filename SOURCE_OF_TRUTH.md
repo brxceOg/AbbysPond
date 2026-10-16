@@ -550,3 +550,11 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Positioned the injured duck's dizzy stars and swoosh using the duck's facing direction and the same horizontal offset as its head, rather than centering them on the body.
 - This keeps the animation centered over the head whether the duck faces left or right.
 - No gameplay, save data, or recovery behavior changed. Embedded JavaScript syntax compilation passed; live browser rendering still needs confirmation.
+
+
+## 39. Stronger injured-duck pain expression (2026-10-16)
+
+- Reworked the injured face from a smooth, cheerful closed-eye arc into a tighter, angular pinched eyelid with a visible kink.
+- Added brows that angle inward and down, a small tension crease, and a warmer cheek mark to distinguish pain from collectible ducks' naturally happy closed-eye expression.
+- The face change only applies while injured and disappears on recovery. No gameplay or save data changed.
+- Embedded JavaScript syntax compilation passed; live browser appearance still needs an in-game check.
