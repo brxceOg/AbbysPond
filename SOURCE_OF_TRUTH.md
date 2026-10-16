@@ -325,3 +325,7 @@ Replaced the previous position-offset repulsion, which made striders appear to s
 ## 24. Correct flying insect draw order (2026-10-16)
 
 The winged pond insects must be drawn after the complete duck-sprite loop in the active pond renderer. Drawing them earlier places them underneath later duck paint operations, regardless of their flight path, making them appear to collide with or pass behind ducks. Keep their looping flight and wing flick animation unchanged; this is a render-order correction only and does not alter duck or insect movement. Inline JavaScript syntax compilation passed; live visual rendering and GitHub Pages deployment were not independently verified.
+
+## 25. Water striders hop onto lily pads (2026-10-16)
+
+Water striders now check for a nearby lily pad while swimming. When one is close enough and the strider is not actively avoiding a duck, it performs a short arcing jump onto the pad, settles there for a randomized brief rest, then jumps back into the pond and resumes its usual forward swimming, paddling, boundary steering, and duck avoidance. The resting strider tracks the pad's current drift position so it stays aboard while the pad moves. A soft water/pad contact shadow helps the jump read as a hop rather than a teleport. This is cosmetic animation only. Inline JavaScript syntax compilation passed; live visual behavior and GitHub Pages deployment were not independently verified.
