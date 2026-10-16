@@ -1422,8 +1422,12 @@ function draw(now){
    ctx.strokeStyle=feather;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(-6,-.5);ctx.quadraticCurveTo(-2,-2.8,3,-1.1);ctx.moveTo(-5,1.2);ctx.quadraticCurveTo(-1,-.3,3,1);ctx.stroke();
   }
   ctx.restore();
-  // Faces have their own expression language: eye style, mask/eyebrow, and bill silhouette.
-  if(species==='puddle'){
+  // Faces have their own expression language; injured ducks wince with gently squeezed-shut eyes.
+  if(d.injured){
+   ctx.strokeStyle='#51443d';ctx.lineWidth=1.05;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(5.1,-8.2);ctx.quadraticCurveTo(7,-10.1,9,-8.2);ctx.stroke();
+   ctx.strokeStyle='#786052';ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(5,-10.5);ctx.lineTo(6.2,-10.9);ctx.moveTo(8,-10.9);ctx.lineTo(9.2,-10.5);ctx.stroke();
+   ctx.strokeStyle='rgba(191,116,105,.8)';ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(4.8,-5.4);ctx.quadraticCurveTo(5.5,-4.9,6.2,-5.4);ctx.stroke();
+  }else if(species==='puddle'){
    ellipse(7,-8,1.65,1.8,'#fff9ed');ellipse(7.35,-8,1,1.2,'#4a4135');ellipse(7.55,-8.5,.3,.35,'#fff');
    ellipse(4.8,-5.4,2.1,1.1,'#f7bd83');
   }else if(species==='clover'){
@@ -1477,18 +1481,18 @@ function draw(now){
   ctx.strokeStyle='rgba(92,72,58,.35)';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(-8,-1);ctx.quadraticCurveTo(-4,-5,0,-2);ctx.stroke();
   ctx.restore();
   ctx.restore();
-  // After the brief knockout slump, little dizzy stars circle above the injured duck.
+  // After the brief knockout slump, tiny dizzy stars orbit tightly around the injured duck's head.
   if(d.injured&&d.knockoutAt&&Date.now()-d.knockoutAt>=900){
-   const dizzyAge=now*.0034+i*1.1,orbit=7+Math.sin(now*.004+i)*1.2,headY=y+bob-22;
-   ctx.save();ctx.translate(x,headY);ctx.globalAlpha=.88;
+   const dizzyAge=now*.0034+i*1.1,orbit=4.7+Math.sin(now*.004+i)*.35,headY=y+bob-15;
+   ctx.save();ctx.translate(x,headY);ctx.globalAlpha=.9;
    for(let k=0;k<3;k++){
-    const a=dizzyAge+k*Math.PI*2/3, sx=Math.cos(a)*orbit, sy=Math.sin(a)*4.5-2;
+    const a=dizzyAge+k*Math.PI*2/3, sx=Math.cos(a)*orbit, sy=Math.sin(a)*2.9;
     ctx.save();ctx.translate(sx,sy);ctx.rotate(-a*.75);
-    ctx.fillStyle=k===1?'#f0c978':'#fff0bd';ctx.strokeStyle='#b28b54';ctx.lineWidth=.65;
-    ctx.beginPath();ctx.moveTo(0,-3.4);ctx.lineTo(.9,-.9);ctx.lineTo(3.2,0);ctx.lineTo(.9,.9);ctx.lineTo(0,3.4);ctx.lineTo(-.9,.9);ctx.lineTo(-3.2,0);ctx.lineTo(-.9,-.9);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.fillStyle=k===1?'#f0c978':'#fff0bd';ctx.strokeStyle='#b28b54';ctx.lineWidth=.55;
+    ctx.beginPath();ctx.moveTo(0,-2.5);ctx.lineTo(.7,-.7);ctx.lineTo(2.35,0);ctx.lineTo(.7,.7);ctx.lineTo(0,2.5);ctx.lineTo(-.7,.7);ctx.lineTo(-2.35,0);ctx.lineTo(-.7,-.7);ctx.closePath();ctx.fill();ctx.stroke();
     ctx.restore();
    }
-   ctx.strokeStyle='#f8e8c0';ctx.lineWidth=.9;ctx.globalAlpha=.72;ctx.beginPath();ctx.arc(0,-2,5.1,dizzyAge*.7,dizzyAge*.7+Math.PI*1.15);ctx.stroke();
+   ctx.strokeStyle='#f8e8c0';ctx.lineWidth=.75;ctx.globalAlpha=.68;ctx.beginPath();ctx.arc(0,0,4.1,dizzyAge*.7,dizzyAge*.7+Math.PI*1.15);ctx.stroke();
    ctx.restore();ctx.globalAlpha=1;
   }
  }
