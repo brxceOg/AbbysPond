@@ -566,3 +566,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - All ducks remain owned and recoverable in the Injured ducks tab; no duck is deleted and the defeat outcome grants no predator victory reward or keepsake.
 - Existing single-duck knockout animations, ordinary timed escapes, enemy defeat rewards, save format, and encounter cooldown remain unchanged.
 - Embedded JavaScript syntax compilation passed. The full-fight behavior and event timing should still be verified in a live browser.
+
+## 41. Collision-safe duck arrival positions (2026-10-16)
+
+- When a duck first receives a swim position, its starting angle is selected from sampled points around the pond's swim ring. The selection checks the positions of ducks already placed in the current animation frame and prefers a minimum 33-pixel separation, rather than assigning a fixed angle that can overlap a flock mate.
+- The placement check also applies when existing ducks are initialized after a reload or when the pond is first drawn, avoiding the same overlap issue for uninitialized swim states.
+- If the flock is too crowded for any sampled point to meet the preferred clearance, the system selects the candidate with the greatest available distance. Existing continuous swim movement and collision avoidance remain intact.
+- Embedded JavaScript syntax compilation passed. Live browser placement and small-screen crowding should still be verified in-game.
