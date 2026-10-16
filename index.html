@@ -1503,7 +1503,7 @@ function draw(now){
     bug.eatenAt=now;bug.eatenX=fx;bug.eatenY=fy;
     ripples.push({x:fx,y:fy,t:now,heart:false,power:.7});
     bug.catchDuck=caughtBy;
-    const healed=healDuck(caughtBy.d,Math.max(4,Math.ceil(duckMaxHealth(caughtBy.d)*.32)));if(healed>0)nomTexts.push({key:caughtBy.key,t:now,kind:'heal',amount:healed});
+    const healed=healDuck(caughtBy.d,Math.max(4,Math.ceil(duckMaxHealth(caughtBy.d)*.32)));if(healed>0){nomTexts.push({key:caughtBy.key,t:now,kind:'heal',amount:healed});if(opened&&menu==='flock')render();}
     caughtBy.d.insectMeals=Math.min(16,Math.max(0,Number(caughtBy.d.insectMeals)||0)+1);duckFeeding[caughtBy.key]={kind:'fly',start:now};growthIndicators.push({key:caughtBy.key,t:now});nomTexts.push({key:caughtBy.key,t:now});
     continue;
    }
