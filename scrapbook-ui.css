@@ -1,0 +1,58 @@
+/* DIY SCRAPBOOK FIELD JOURNAL: tactile paper, binder edge, clips, and stickers. */
+:root{--scrap-paper:#f7f1e3;--scrap-ink:#2b1d14;--scrap-pencil:#3d2e24;--scrap-edge:#d8c3a4}
+.modal{
+ position:relative!important;isolation:isolate;background:
+ radial-gradient(ellipse at 18% 12%,rgba(255,255,255,.72),transparent 38%),
+ radial-gradient(ellipse at 88% 84%,rgba(218,196,159,.19),transparent 46%),
+ repeating-linear-gradient(0deg,rgba(111,82,48,.018) 0 1px,transparent 1px 4px),
+ #f7f1e3!important;color:var(--scrap-ink)!important;
+ border:1px solid #c9b18f!important;border-left:18px solid #d6c3a4!important;
+ border-radius:13px 20px 18px 12px!important;
+ box-shadow:inset 4px 0 0 rgba(255,255,255,.45),inset 0 0 0 3px #fff8e8,0 18px 40px rgba(43,29,20,.25)!important;
+}
+.modal:after{content:"";position:absolute;z-index:6;pointer-events:none;left:2px;top:18px;bottom:18px;width:11px;background:repeating-linear-gradient(to bottom,transparent 0 13px,#927653 13px 15px,transparent 15px 27px);opacity:.9}
+.modal .mhead{position:relative!important;padding:18px 18px 15px!important;background:linear-gradient(90deg,rgba(214,195,164,.25),transparent 20%),repeating-linear-gradient(0deg,transparent 0 5px,rgba(91,64,39,.025) 5px 6px),#f7f1e3!important;border-bottom:1px dashed #cbb28f!important}
+.modal .mhead:after{content:"";position:absolute;right:52px;top:-2px;width:28px;height:10px;border:2px solid #a7a49a;border-bottom:0;border-radius:10px 10px 0 0;transform:rotate(5deg);opacity:.85;pointer-events:none}
+.modal .content{position:relative!important;min-width:0;box-sizing:border-box;padding:16px 17px 22px 16px!important;background:transparent!important;overflow-x:hidden!important}
+.modal #title,.modal .mtitle{font-family:"Patrick Hand","Caveat",Georgia,serif!important;color:#2b1d14!important}
+.modal #title{font-size:28px!important;line-height:1.05}
+.modal #kicker{color:#6d513b!important;font:italic 700 10px Georgia,Palatino,serif!important;letter-spacing:.13em!important}
+.modal .intro,.modal .desc,.modal .meta,.modal .setting,.modal .wheel-note,.modal .wheel-result,.modal .section,.modal .empty,.modal .offline{color:var(--scrap-pencil)!important}
+.modal .intro,.modal .desc,.modal .setting,.modal .wheel-note{font-family:Georgia,Palatino,serif!important;line-height:1.55!important}
+.modal .intro{font-size:12px!important}.modal .section{font-family:Georgia,Palatino,serif!important;letter-spacing:.12em}
+.modal .list{gap:12px!important;padding:3px 2px 5px}
+.modal .card,.modal .list>.card,.modal article.card{
+ position:relative!important;isolation:isolate;box-sizing:border-box!important;min-width:0;overflow:visible!important;
+ padding:16px 20px!important;border:1px solid #d8c6a9!important;border-radius:4px 11px 5px 9px!important;
+ background:radial-gradient(ellipse at 15% 0%,rgba(255,255,255,.9),transparent 55%),repeating-linear-gradient(0deg,rgba(113,83,49,.018) 0 1px,transparent 1px 5px),linear-gradient(135deg,#fffdf8,#f5ebd8)!important;
+ box-shadow:inset 0 1px 2px rgba(255,255,255,.8),0 4px 12px rgba(60,40,25,.08)!important;color:var(--scrap-ink)!important;
+}
+.modal .list>.card:nth-child(odd),.modal article.card:nth-of-type(odd){transform:rotate(-.35deg)}
+.modal .list>.card:nth-child(even),.modal article.card:nth-of-type(even){transform:rotate(.45deg)}
+.modal .list>.card:not(.no-tape):before,.modal article.card:not(.no-tape):before{content:"";position:absolute;z-index:2;top:-5px;left:22px;width:43px;height:11px;border:0!important;border-radius:1px!important;display:block!important;background:repeating-linear-gradient(135deg,#e8cfaa 0 5px,#f3e1c3 5px 10px)!important;opacity:.9;transform:rotate(-3deg);box-shadow:0 1px 2px rgba(60,40,25,.12)!important;pointer-events:none}
+.modal[data-theme="scrapbook"] .list>.card:before,.modal[data-theme="scrapbook"] article.card:before{width:33px;left:auto;right:18px;background:linear-gradient(180deg,#e6b8a7,#ca8d7e)!important}
+.modal .card .mtitle{font-size:19px!important;line-height:1.2!important}.modal .card .desc{font-size:12px!important}.modal .card .meta{font-size:11px!important;color:#5e4938!important}
+.modal .pill{border:1px solid #bfa17c!important;border-radius:3px 9px 4px 8px!important;padding:4px 8px!important;text-transform:uppercase;letter-spacing:.05em;font:700 9px Georgia,Palatino,serif!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.75),0 2px 0 rgba(87,57,32,.1)!important}
+.modal .primary,.modal .secondary,.modal .danger{position:relative!important;isolation:isolate;overflow:hidden;min-height:40px!important;padding:10px 15px!important;border:2px solid #5c3a21!important;border-radius:5px 12px 5px 10px!important;font:700 13px "Patrick Hand","Caveat",Georgia,serif!important;letter-spacing:.02em;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 4px 0 #5c3a21,0 6px 10px rgba(60,40,25,.12)!important;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease!important}
+.modal .primary{background:linear-gradient(180deg,#c78075,#ad6258)!important;color:#fffaf0!important}.modal .secondary{background:linear-gradient(180deg,#f6eedc,#e4d2b3)!important;color:#3d2e24!important}.modal .danger{background:linear-gradient(180deg,#e7b8ae,#c7776d)!important;color:#3b211a!important}
+.modal .primary:not(:disabled):active,.modal .secondary:not(:disabled):active,.modal .danger:not(:disabled):active{transform:translateY(3px) scale(.97)!important;filter:brightness(.97);box-shadow:inset 0 1px 2px rgba(65,35,22,.18),0 1px 0 #5c3a21!important}
+@media(hover:hover){.modal .primary:not(:disabled):hover,.modal .secondary:not(:disabled):hover,.modal .danger:not(:disabled):hover{filter:brightness(1.045);transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 5px 0 #5c3a21,0 8px 14px rgba(60,40,25,.16)!important}}
+.modal .flock-tabs{position:relative;display:flex;align-items:flex-end;gap:4px;padding:7px 5px 0;margin:5px 0 16px;border-bottom:2px solid #b99a72!important}
+.modal .flock-tab{flex:1;min-width:0;position:relative;padding:10px 7px 13px!important;margin:0 0 -2px!important;border:1px solid #b99a72!important;border-bottom:0!important;border-radius:9px 9px 2px 2px!important;background:linear-gradient(180deg,#e8d5b8,#c9aa82)!important;color:#3d2e24!important;font:700 12px "Patrick Hand","Caveat",Georgia,serif!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 0 rgba(76,48,28,.12)!important}
+.modal .flock-tab:before{content:"";position:absolute;left:50%;top:-7px;width:18px;height:9px;transform:translateX(-50%);border:1.5px solid #a4a097;border-bottom:0;border-radius:8px 8px 0 0;pointer-events:none}
+.modal .flock-tab[aria-pressed="true"]{z-index:3;transform:translateY(-3px)!important;opacity:1!important;filter:drop-shadow(0 4px 3px rgba(60,40,25,.2));background:linear-gradient(180deg,#fffdf7,#f0e2c8)!important}
+.modal .flock-tab:not([aria-pressed="true"]){opacity:.74}
+.modal[data-theme="botanical"] .card,.modal[data-theme="botanical"] .list>.card{background:linear-gradient(135deg,#f9f8e9,#e4ead4)!important;border-color:#b9c49d!important}
+.modal[data-theme="botanical"] .list>.card:before{background:repeating-linear-gradient(135deg,#c8d8b1 0 5px,#e0e9ce 5px 10px)!important}
+.modal[data-theme="field-guide"] .duck-choice{transform:rotate(-1deg)!important;border:5px solid #fff!important;border-bottom-width:13px!important;border-radius:2px!important;background:#fffdf8!important;color:#2b1d14!important;box-shadow:0 3px 0 #d1c0a5,0 6px 10px rgba(60,40,25,.14)!important}
+.modal[data-theme="field-guide"] .duck-choice:nth-child(even){transform:rotate(1deg)!important}
+.modal[data-theme="field-guide"] .duck-choice .desc,.modal[data-theme="field-guide"] .duck-choice .mtitle{font-family:"Patrick Hand","Caveat",Georgia,serif!important;color:#2b1d14!important}
+.modal[data-theme="scrapbook"] .card{border-style:dashed!important;border-color:#d4aaa0!important}.modal[data-theme="scrapbook"] .pill{border-color:#d2a29b!important}
+.modal[data-theme="meadow"] .wheel-card{position:relative!important;border:3px solid #a9793e!important;border-radius:50% 50% 8px 8px!important;padding:24px 16px!important;background:repeating-linear-gradient(0deg,rgba(110,75,38,.025) 0 1px,transparent 1px 5px),linear-gradient(135deg,#fff5dc,#e9cf9d)!important;box-shadow:inset 0 0 0 4px #f8e8c1,inset 0 0 0 6px #d4ac68,0 5px 0 #81552b!important}
+.modal[data-theme="meadow"] .wheel-card:after{content:"";position:absolute;left:50%;top:7px;width:12px;height:12px;transform:translateX(-50%);border-radius:50%;border:2px solid #81552b;background:radial-gradient(circle at 35% 30%,#fff0bd,#b47a32);box-shadow:0 1px 2px rgba(55,35,17,.3);pointer-events:none}
+.modal[data-theme="meadow"] .wheel-wrap{width:min(100%,280px)!important;margin:12px auto 14px!important}
+.modal .wheel-result{background:rgba(255,253,247,.72)!important;border:1px dashed #b99a72!important}.modal .wheel-note{font-style:italic!important;font-size:10px!important}
+.modal .empty,.modal .offline{background:linear-gradient(135deg,#fffdf8,#f5ebd8)!important;border:1px dashed #cbb28f!important;border-radius:5px 12px!important;padding:18px 20px!important}
+.modal .empty:after{content:"♡ keep this little note";display:block;margin-top:8px;font:italic 12px "Patrick Hand","Caveat",Georgia,serif;color:#80654e}
+@media(max-width:390px){.modal{border-left-width:14px!important;max-height:min(84dvh,760px)!important}.modal .content{padding:15px 11px 19px 10px!important}.modal .card,.modal .list>.card,.modal article.card{padding:16px 15px!important}.modal .list{gap:11px!important}.modal .card .mtitle{font-size:17px!important}.modal .flock-tab{padding:10px 5px 12px!important;font-size:11px!important}.modal[data-theme="meadow"] .wheel-card{padding:24px 11px!important}.modal[data-theme="meadow"] .wheel-wrap{width:min(100%,245px)!important}}
+@media(prefers-reduced-motion:reduce){.modal .primary,.modal .secondary,.modal .danger,.modal .flock-tab{transition:none!important}}
