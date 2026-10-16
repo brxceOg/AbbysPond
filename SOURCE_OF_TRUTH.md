@@ -395,3 +395,10 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - The duck also performs a quick whole-body squash-and-stretch pop during its existing 720 ms feeding animation, emphasizing the size increase without distorting its species-specific proportions.
 - The arrow and pop reuse the existing feeding events; growth caps, save persistence, catch chances, insect respawns, speech bubbles, and other gameplay remain unchanged.
 - Validation: inline JavaScript syntax compilation passed after resolving a local variable-name collision; live browser visual testing and GitHub Pages deployment have not been independently verified.
+
+
+## 21. More visible duck growth feedback (2026-10-16)
+
+- Enlarged the green growth arrow, added a dark outline and subtle shadow, and increased its float distance so it is easier to see against the pond.
+- Reworked the feeding pop into a more noticeable non-uniform squash/stretch pulse instead of a subtle uniform shrink.
+- Inline JavaScript syntax compilation passed. The GitHub Pages live deployment and in-browser animation remain unverified; confirm the deployed page reflects the latest `index.html` commit before treating the visual fix as complete.
