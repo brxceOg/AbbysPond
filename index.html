@@ -891,7 +891,7 @@ function predator(){
  const max=Math.max(1,Math.floor(Math.log2(power()+1)*1.65)),pool=predators.filter(p=>p.lv<=max),p=pool[Math.floor(Math.random()*pool.length)]||predators[0];
  s.ducks.forEach(ensureDuckCombat);
  const flockPower=Math.max(1,s.ducks.reduce((sum,d)=>sum+duckAttack(d),0));
- const hp=Math.round(Math.max(28,p.p*1.45+flockPower*.24));
+ const hp=Math.round(Math.max(14,p.p*1.25+flockPower*.16));
  encounterAnim={p,start:performance.now(),lastFrame:0,phase:'active',phaseAt:0,angle:Math.random()*Math.PI*2,direction:Math.random()<.5?-1:1,x:0,y:0,health:hp,maxHealth:hp,damage:Math.max(2,Math.round(p.lv*1.8+2)),reward:Math.floor(p.reward*(1+s.up.defense*.08)),hitAt:Object.create(null),hits:0};
  const rect=canvas.getBoundingClientRect();ripples.push({x:rect.width/2,y:rect.height*.54,t:performance.now(),kind:'splash',power:1.35});
  queueEvent('A '+p.n.toLowerCase()+' has slipped into the pond! Your flock is rallying.');
