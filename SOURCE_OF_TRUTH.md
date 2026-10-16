@@ -305,3 +305,7 @@ Preserve the established lily pad artwork and silhouette; do not redraw or resha
 ## 19. Living pond atmosphere and woodland banks (2026-10-16)
 
 The pond scene should feel gently alive without becoming visually cluttered. Keep a small number of trees anchored along the banks, with trunks rooted and leafy crowns swaying subtly from a breeze. Avoid evenly tiled foliage or a continuous wall of plants around the canvas edges; use sparse, naturally grouped shoreline plants and stones with breathing room. Add tiny water striders that travel in looping paths on the pond surface and leave faint broken ripples, plus a few winged insects that bob and loop above the water with quick wing flickers. These are decorative animation only and must not change duck, predator, or economy mechanics. JavaScript syntax validation passed; live visual appearance and Pages deployment were not independently verified.
+
+## 20. Water strider paddling animation (2026-10-16)
+
+The surface water striders keep their tiny body and looping movement. Their middle pair of legs animate in alternating, oar-like paddling strokes: each leg sweeps outward/back and recovers, slightly out of phase with the opposite leg. The front and rear legs remain splayed for balance. Keep the motion small and readable at mobile scale; this is cosmetic only. JavaScript syntax validation passed; live rendering and deployment were not independently verified.
