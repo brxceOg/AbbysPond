@@ -775,3 +775,13 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Increased the Meadow Wheel container padding to 24px 16px and top margin to 16px, with additional spacing and line-height for the decorative “a little bit of luck” heading.
 - Constrained the wheel graphic to a 300px maximum width on standard screens and 260px on narrow phones, while retaining its square aspect ratio and centered alignment so it sits comfortably within the brass arch.
 - Changes are CSS-only; game mechanics, wheel odds, economy, duck data, and save schema are unchanged. Source-level CSS review completed; live iPhone Safari visual verification remains pending.
+
+
+### Final field-journal UI/UX polish (2026-10-16)
+
+- Restyled modal cards with a warm paper gradient, softly embossed highlight/shadow, 16px corners, and roomier padding; kept theme accent edging while unifying the underlying paper surface.
+- Reworked Your Flock section controls as overlapping fabric/leather bookmark ribbons. The selected ribbon lifts by 3px with a soft drop shadow; the inactive ribbon is slightly muted.
+- Added tactile button feedback across primary, secondary, and danger actions: hover scale and light gleam on hover-capable devices, plus a quick pressed-down state. Disabled buttons remain excluded.
+- Strengthened modal typography hierarchy with warm chocolate-brown text, cozy handwritten card headings, readable Georgia/Palatino-style descriptive copy, and softly embossed uppercase rarity/cost pills.
+- Added a spring-like journal page entrance and a short closing animation. Closing now waits for the page-out animation before hiding the backdrop; reopening cancels the closing state. Reduced-motion preferences are respected.
+- No gameplay, duck behavior, economy, probabilities, or save schema changed. Source-level checks confirmed the CSS and modal open/close wiring; live iPhone Safari visual verification remains pending.
