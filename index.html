@@ -1563,10 +1563,14 @@ function draw(now){
      battle.hitAt[key]=now;
      const beforeHealth=d.health;d.health=Math.max(0,d.health-battle.damage);swimmer.d.lastCombatHit=now;
      if(d.health>0)battle.health=Math.max(0,battle.health-duckAttack(d));
-     else if(beforeHealth>0){d.injured=true;d.knockoutAt=Date.now();queueEvent(def(d).name+' was knocked out and needs a little recovery.');save();if(opened)render()}
+     else if(beforeHealth>0){d.injured=true;d.knockoutAt=Date.now();queueEvent(def(d).name+' was knocked out and needs a little recovery.');save();if(opened)render();
+      // If every owned duck is down, the visitor immediately abandons the fight.
+      if(s.ducks.length>0&&s.ducks.every(duck=>ensureDuckCombat(duck).health<=0)){battle.flockDefeated=true;battle.phase='escaped';battle.phaseAt=now;}
+     }
      battle.hits++;battle.direction*=-1;
      ripples.push({x:swimmer.x,y:swimmer.y,t:now,kind:'combat-hit',power:1.15});
      if(battle.health<=0){battle.health=0;battle.phase='defeated';battle.phaseAt=now;break;}
+     if(battle.flockDefeated)break;
     }
    }
    if(battle.phase==='active'&&now-battle.start>30000){battle.phase='escaped';battle.phaseAt=now;}
@@ -1576,7 +1580,8 @@ function draw(now){
     s.money+=battle.reward;s.total+=battle.reward;
     if(Math.random()<.28){const it=items[Math.floor(Math.random()*items.length)];s.inv[it.id]=(s.inv[it.id]||0)+1;queueEvent('You defeated the '+p.n.toLowerCase()+'! +'+fmt(battle.reward)+' pennies and found '+it.n+'!');}
     else queueEvent('You defeated the '+p.n.toLowerCase()+'! Your brave flock earns '+fmt(battle.reward)+' pennies.');
-   }else queueEvent('The '+p.n.toLowerCase()+' slipped away. Your flock can recover and try again.');
+   }else if(battle.flockDefeated)queueEvent('The wild '+p.n.toLowerCase()+' overwhelmed your flock. Take some time to recover.');
+   else queueEvent('The '+p.n.toLowerCase()+' slipped away. Your flock can recover and try again.');
    encounterAnim=null;save();hud();
   }
   if(encounterAnim){
