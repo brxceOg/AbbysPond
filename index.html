@@ -1095,7 +1095,8 @@ function draw(now){
   // Distribute ducks evenly by actual screen distance along the full Z,
   // rather than assigning one third of the flock to each stroke. The diagonal
   // is longer than either horizontal, so equal thirds leave visibly uneven gaps.
-  const zPoints=[[-.32,-.20],[.32,-.20],[-.32,.20],[.32,.20]];
+  // Slightly widen and deepen the Z so neighboring ducks have more room without changing its shape.
+   const zPoints=[[-.36,-.23],[.36,-.23],[-.36,.23],[.36,.23]];
   const zLengths=[];
   let zTotalLength=0;
   for(let segment=0;segment<3;segment++){
