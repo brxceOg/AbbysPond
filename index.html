@@ -1194,6 +1194,63 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden}
 .app > .actions > .action .list-marker,
 .app > .actions > .action .corner-dot{display:none!important;visibility:hidden!important;opacity:0!important}
 .app > .actions > .action:before{content:none!important;display:none!important}
+
+/* Enchanted field-journal modal overhaul */
+.backdrop{padding:14px 10px calc(12px + env(safe-area-inset-bottom))!important;background:rgba(38,47,32,.48)!important;backdrop-filter:blur(7px) saturate(.82)!important;-webkit-backdrop-filter:blur(7px) saturate(.82)!important}
+.modal{width:min(100%,540px)!important;max-height:min(86dvh,800px)!important;background:#faf5eb!important;border:1px solid #d6c09b!important;border-radius:19px 21px 17px 20px!important;box-shadow:0 16px 40px rgba(45,35,25,.35),inset 0 1px 0 #fffdf5!important;color:#51433d!important;overflow:hidden!important}
+.mhead{position:relative!important;flex-shrink:0!important;padding:18px 20px 14px!important;background:linear-gradient(135deg,#fdfbf7,#f7eedf)!important;border:0!important;border-bottom:2px dashed #d8caa8!important;color:#51433d!important}
+.mhead:after{content:"";position:absolute;left:20px;right:20px;bottom:-4px;border-bottom:1px solid #fffdf7;pointer-events:none}
+.mhead h2,.mhead .title{color:#59483b!important;text-shadow:0 1px #fff9ed!important}
+.close{background:#f4e7d1!important;color:#765443!important;border:1px solid #d8c5a5!important;border-radius:50%!important;box-shadow:0 2px 0 #c4ad8c!important}
+.content{padding:16px 20px 22px!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;scrollbar-color:#c8b28e transparent!important}
+.intro{color:#796a58!important;font-size:12px!important;line-height:1.6!important;margin:0 0 14px!important}
+.list{gap:11px!important;min-width:0!important}
+.card,.offline,.empty,.wheel-card,.wheel-result{position:relative!important;min-width:0!important;box-sizing:border-box!important;background:#fffef9!important;border:1px solid #e3d7bf!important;border-radius:15px!important;box-shadow:0 3px 0 rgba(169,143,105,.10),0 5px 12px rgba(76,56,34,.07)!important;clip-path:none!important}
+.card{padding:16px 20px!important;margin:0!important}
+.card .row{min-width:0!important;align-items:center!important;gap:12px!important}
+.card .main{min-width:0!important;overflow-wrap:anywhere!important}
+.card .mtitle{color:#63503e!important;font-size:13px!important;line-height:1.35!important}
+.card .desc{color:#786c5c!important;font-size:12px!important;line-height:1.55!important;overflow-wrap:anywhere!important;word-break:normal!important}
+.card .meta{color:#74815e!important;font-size:10px!important;line-height:1.45!important;overflow-wrap:anywhere!important}
+.card .avatar{border:1px solid #e3d4b7!important;background:linear-gradient(145deg,#f9f0d9,#e9edda)!important;box-shadow:inset 0 1px #fffdf5!important}
+.card:before,.card:after,.mhead:before,.mhead .margin-doodle,.card .margin-doodle,.wheel-card .margin-doodle,.empty .margin-doodle{display:none!important;content:none!important}
+.section{color:#8c7655!important;letter-spacing:1.2px!important;font-size:10px!important;border-bottom:2px dashed #d8caa8!important;padding:0 0 7px!important;margin:19px 0 11px!important}
+.setting{border-bottom:1px dashed #dfd2b9!important;color:#6e5c49!important;padding:12px 0!important}
+.primary,.card .primary,.card .secondary,.secondary,.danger{position:relative!important;border-radius:10px!important;min-height:39px!important;padding:10px 14px!important;font-weight:900!important;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease!important}
+.primary,.card .primary{background:linear-gradient(160deg,#bd6b73 0%,#a3545c 100%)!important;color:#fff8ee!important;border:1px solid #8f454b!important;box-shadow:0 4px 0 #78383e,0 6px 10px rgba(86,46,38,.12),inset 0 1px 0 #f3a0a2!important}
+.primary:active,.card .primary:active{transform:translateY(3px)!important;box-shadow:0 1px 0 #78383e,inset 0 2px 4px #71383d55!important}
+.primary:disabled,.card .primary:disabled{background:linear-gradient(160deg,#d6c4b8,#bca99c)!important;border-color:#b8a394!important;box-shadow:0 2px 0 #9e8c80!important;color:#f9f0e6!important;opacity:.78!important}
+.secondary,.card .secondary{background:linear-gradient(160deg,#f1ead9,#e2d5bd)!important;color:#6d5945!important;border:1px solid #d4c1a0!important;box-shadow:0 3px 0 #c2ad8d!important}
+.secondary:active,.card .secondary:active{transform:translateY(2px)!important;box-shadow:0 1px 0 #c2ad8d!important}
+.pill{padding:4px 9px!important;border:1px solid rgba(125,99,67,.12)!important;border-radius:999px!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.8),0 1px 2px rgba(78,57,37,.07)!important;font-size:9px!important;letter-spacing:.1px!important}
+.pill.Common{background:#eee8d9!important;color:#82745c!important;border-color:#d9cfb9!important}
+.pill.Uncommon{background:#e4edda!important;color:#5e7c4e!important;border-color:#c5d4b7!important}
+.pill.Rare{background:#dcebef!important;color:#4e7f89!important;border-color:#bdd5db!important}
+.pill.Epic{background:#eee2f3!important;color:#866297!important;border-color:#d8c4e4!important}
+.pill.Legendary{background:#f7ebc8!important;color:#97702d!important;border-color:#e5d19a!important}
+.pill.Mythic{background:#f5dce5!important;color:#a34e70!important;border-color:#e7bdcd!important}
+.track{height:10px!important;border:1px solid #b4c39d!important;border-radius:999px!important;background:#e7ead6!important;box-shadow:inset 0 1px 2px #7d8e6330!important;overflow:hidden!important}
+.track span{position:relative!important;background:linear-gradient(90deg,#789a60,#a7c582)!important;border-radius:999px!important;box-shadow:inset 0 1px 0 #d7e9bd!important}
+.track span:after{content:"";display:block;position:absolute;inset:1px 2px auto;height:2px;border-radius:999px;background:#e7f0cf88}
+.wheel-card{padding:16px 20px 18px!important;margin-top:14px!important;background:linear-gradient(145deg,#fffef9,#f7f0df)!important;border-color:#d9c49f!important;box-shadow:inset 0 1px #fff,0 4px 0 #d4bf9d,0 7px 16px #604a3020!important}
+.wheel-wrap{position:relative!important;width:min(100%,320px)!important;margin:9px auto 13px!important;padding:7px!important;box-sizing:border-box!important;border-radius:50%!important;background:linear-gradient(145deg,#f6e8c7,#bd9860 30%,#78552f 48%,#e1c58e 63%,#9a703e)!important;border:2px solid #8b6537!important;box-shadow:0 5px 0 #644629,0 9px 16px #533b2729,inset 0 2px 3px #fff1c8!important}
+.wheel-wrap:before{top:-5px!important;color:#a3545c!important;font-size:25px!important;text-shadow:0 2px 0 #fff8ef,0 3px 0 #6c4631!important}
+.wheel-wrap canvas#duck-wheel{border-radius:50%!important;box-shadow:inset 0 0 0 4px #d2b77d,0 0 0 1px #684a2e!important;filter:none!important}
+.wheel-result{background:#f8f1df!important;color:#6b5945!important;border-color:#dfcfad!important;min-height:40px!important;padding:10px 12px!important}
+.wheel-note{color:#81715e!important;font-size:11px!important;line-height:1.55!important}
+.wheel-odds .setting{padding:8px 0!important}
+.wheel-odds .setting strong{color:#65513e!important}
+.duck-selector{display:flex!important;gap:9px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:3px 2px 12px!important;margin:0 0 12px!important;scroll-snap-type:x proximity!important;overscroll-behavior-x:contain!important;scrollbar-width:thin!important;scrollbar-color:#c9b58e transparent!important}
+.duck-choice{display:flex!important;flex:0 0 94px!important;min-width:94px!important;max-width:110px!important;flex-direction:column!important;align-items:center!important;gap:5px!important;padding:10px 7px 9px!important;border:1px solid #e0d2b8!important;border-radius:13px!important;background:linear-gradient(155deg,#fffef9,#f2ead9)!important;color:#65513e!important;box-shadow:0 3px 0 #d8c7aa,0 4px 8px #62482b0d,inset 0 1px #fff!important;scroll-snap-align:start!important;white-space:normal!important}
+.duck-choice.selected,.duck-choice[aria-pressed="true"]{background:linear-gradient(155deg,#edf2df,#dce8cc)!important;border-color:#9fb88b!important;box-shadow:0 3px 0 #9bb184,0 0 0 2px #dce8cc,inset 0 1px #fff!important}
+.duck-choice:active{transform:translateY(2px)!important;box-shadow:0 1px 0 #d8c7aa!important}
+.duck-choice-avatar{display:grid!important;place-items:center!important;width:43px!important;height:43px!important;border-radius:50%!important;background:radial-gradient(circle at 35% 25%,#fff9e8,#e9e1c7)!important;border:1px solid #d8c8a8!important;box-shadow:inset 0 2px 3px #c9b68a44!important;font-size:27px!important;line-height:1!important}
+.duck-choice-name{display:block!important;max-width:100%!important;font-size:10px!important;line-height:1.2!important;font-weight:900!important;text-align:center!important;overflow-wrap:anywhere!important}
+.duck-choice-level{display:block!important;color:#83715a!important;font-size:9px!important;line-height:1.2!important;text-align:center!important}
+.flock-tabs{gap:9px!important;margin-bottom:15px!important}
+.flock-tab{background:linear-gradient(150deg,#fffef9,#f3ead8)!important;color:#80684f!important;border:1px dashed #d2bd99!important;box-shadow:0 3px 0 #ded0b6!important}
+.flock-tab[aria-pressed="true"]{background:linear-gradient(150deg,#eaf0dc,#dce7cd)!important;border:1px solid #b4c6a2!important;color:#4f7047!important;box-shadow:0 3px 0 #bdcda9!important}
+@media(max-width:390px){.content{padding:14px 14px 20px!important}.mhead{padding:16px 16px 13px!important}.card{padding:15px 16px!important}.wheel-card{padding:13px 14px 16px!important}.duck-choice{flex-basis:85px!important;min-width:85px!important}}
 </style></head><body><main class="app"><header class="top"><div class="flower" aria-hidden="true"><svg viewBox="0 0 40 40" width="29" height="29"><path d="M20 34Q18 20 28 7M20 27Q7 25 7 14Q17 13 20 23M22 20Q20 8 31 5Q34 16 22 20" fill="none" stroke="#71845b" stroke-width="2.2" stroke-linecap="round"/><circle cx="31" cy="28" r="2.2" fill="#c68a86"/><circle cx="9" cy="31" r="1.7" fill="#d8b96e"/></svg></div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 3.2 13.5 5.5l2.7-.2.9 2.5 2.4 1.2-.6 2.6.6 2.6-2.4 1.2-.9 2.5-2.7-.2L12 20l-1.5-2.3-2.7.2-.9-2.5-2.4-1.2.6-2.6-.6-2.6 2.4-1.2.9-2.5 2.7.2Z" fill="#e8d7b5" stroke="#8c6a4e" stroke-width="1.3"/><circle cx="12" cy="12" r="3.2" fill="#fdf3dc" stroke="#8c6a4e" stroke-width="1.4"/></svg></button></header>
 <section class="hud" aria-label="Pond status"><div class="stat stat-pennies"><span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12.5" fill="#e5b84e" stroke="#8c5e25" stroke-width="1.8"/><circle cx="16" cy="16" r="9.5" fill="none" stroke="#fff0ad" stroke-width="1.4"/><path d="M19.5 10.5c-1-1-2.2-1.4-3.7-1.4-2.2 0-3.8 1.3-3.8 3.1 0 4.1 7.6 1.6 7.6 5.7 0 1.9-1.8 3.1-4.1 3.1-1.6 0-3.1-.6-4.2-1.7M16 7.5v17" fill="none" stroke="#85571d" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="stat-copy"><label>Pond Pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div></div><div class="stat stat-flock"><span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4.5 20.8c0-4.4 3.4-7.6 8-7.6 1.1-4.3 4.5-6.2 7.4-4.5 2.4 1.3 2.8 3.9 1.6 6l5 1.4c1 .3 1.2 1.4.2 1.9l-4.1 2.1c-1.2 4.1-5.1 6.1-10.1 6.1-4.4 0-8-1.9-8-5.4Z" fill="#6d8655" stroke="#435c39" stroke-width="1.4" stroke-linejoin="round"/><circle cx="19.4" cy="12.1" r="1.15" fill="#fff5d9"/><path d="M5.8 21.2c2.8 1 5.6 1.2 8.5.5" fill="none" stroke="#b8c992" stroke-width="1.2" stroke-linecap="round"/></svg></span><div class="stat-copy"><label>Your Flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
