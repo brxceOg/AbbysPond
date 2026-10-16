@@ -1642,16 +1642,16 @@ function draw(now){
  for(const bug of pondBugs){if(bug.eatenAt&&now-bug.eatenAt<430){const age=(now-bug.eatenAt)/430;ctx.globalAlpha=1-age;ctx.strokeStyle='#fff1c5';ctx.lineWidth=1.2;for(let k=0;k<4;k++){const a=k*Math.PI/2;ctx.beginPath();ctx.moveTo(bug.eatenX+Math.cos(a)*2,bug.eatenY+Math.sin(a)*2);ctx.lineTo(bug.eatenX+Math.cos(a)*(3+age*8),bug.eatenY+Math.sin(a)*(3+age*8));ctx.stroke();}ctx.globalAlpha=1;}}
  // A tiny speech bubble appears only after a successful catch.
  for(let n=nomTexts.length-1;n>=0;n--){const note=nomTexts[n],age=(now-note.t)/1250;if(age>=1){nomTexts.splice(n,1);continue;}const duck=swimmers.find(item=>item.key===note.key);if(!duck)continue;const x=duck.x+8,y=duck.y-24-age*5;ctx.globalAlpha=Math.min(1,(1-age)*2.8);ctx.fillStyle='#fff9ec';ctx.strokeStyle='#c7ad91';ctx.lineWidth=.8;ctx.beginPath();ctx.roundRect(x-31,y-10,62,17,6);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(x-5,y+7);ctx.lineTo(x-1,y+11);ctx.lineTo(x+2,y+7);ctx.closePath();ctx.fill();ctx.stroke();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#7b6554';ctx.fillText('nom nom nom',x,y-1);ctx.globalAlpha=1;}
- // A tiny pixel-smoke puff marks each predator impact, rising and fading quickly.
- impactClouds=impactClouds.filter(cloud=>now-cloud.t<520);
+ // A slightly fuller pixel-smoke puff makes predator impacts easier to read without changing the established style.
+ impactClouds=impactClouds.filter(cloud=>now-cloud.t<620);
  impactClouds.forEach(cloud=>{
-  const age=Math.max(0,(now-cloud.t)/520),rise=age*10,spread=age*8;
-  ctx.save();ctx.globalAlpha=Math.max(0,1-age)*.78;ctx.fillStyle='#f5eee4';
-  ctx.beginPath();ctx.arc(cloud.x-4-spread*.25,cloud.y-rise+2,3+age*2,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(cloud.x,cloud.y-rise-1,4+age*2.5,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(cloud.x+4+spread*.25,cloud.y-rise+2,3+age*2,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#d9d3ca';ctx.fillRect(Math.round(cloud.x-2-spread*.35),Math.round(cloud.y-rise+3),3,2);
-  ctx.fillStyle='#fffaf0';ctx.fillRect(Math.round(cloud.x-1),Math.round(cloud.y-rise-4),2,2);
+  const age=Math.max(0,(now-cloud.t)/620),rise=age*11,spread=age*9;
+  ctx.save();ctx.globalAlpha=Math.max(0,1-age)*.94;ctx.fillStyle='#f5eee4';
+  ctx.beginPath();ctx.arc(cloud.x-4.5-spread*.25,cloud.y-rise+2,3.8+age*2.2,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(cloud.x,cloud.y-rise-1,5+age*2.8,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(cloud.x+4.5+spread*.25,cloud.y-rise+2,3.8+age*2.2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#d9d3ca';ctx.fillRect(Math.round(cloud.x-2-spread*.35),Math.round(cloud.y-rise+3),4,2);
+  ctx.fillStyle='#fffaf0';ctx.fillRect(Math.round(cloud.x-1),Math.round(cloud.y-rise-4),3,2);
   ctx.restore();
  });
  // Animated ripples stay within the pond edge.
