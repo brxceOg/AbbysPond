@@ -705,7 +705,7 @@ function draw(now){
   ctx.restore();ctx.globalAlpha=1;
  }
  for(let i=0;i<duckLimit;i++){
-  const d=swimmers[i].d,v=def(d),x=swimmers[i].x,y=swimmers[i].y,dir=(-Math.sin(swimmers[i].angle)*swimmers[i].swimDir)>=0?1:-1,bob=Math.sin(now*.0029+i*2.1)*.65,feedingNow=duckFeeding[swimmers[i].key],growthFeedAge=feedingNow?Math.min(1,Math.max(0,(now-feedingNow.start)/720)):1,growthPopPulse=feedingNow&&growthFeedAge<1?Math.sin(growthFeedAge*Math.PI*3.2)*Math.exp(-growthFeedAge*2.1):0,feedScaleX=1-growthPopPulse*.15,feedScaleY=1+growthPopPulse*.22;
+  const d=swimmers[i].d,v=def(d),x=swimmers[i].x,y=swimmers[i].y,dir=(-Math.sin(swimmers[i].angle)*swimmers[i].swimDir)>=0?1:-1,bob=Math.sin(now*.0029+i*2.1)*.65,feedingNow=duckFeeding[swimmers[i].key],growthFeedAge=feedingNow?Math.min(1,Math.max(0,(now-feedingNow.start)/720)):1,growthPopPulse=feedingNow&&growthFeedAge<1?Math.sin(growthFeedAge*Math.PI*3.2)*Math.exp(-growthFeedAge*1.8):0,feedScaleX=1-growthPopPulse*.28,feedScaleY=1+growthPopPulse*.38;
   if(duckFeeding[swimmers[i].key]&&now-duckFeeding[swimmers[i].key].start>720)delete duckFeeding[swimmers[i].key];
   duckPositions.push({x,y,d});
   ctx.globalAlpha=.18;ellipse(x,y+7,11,3,'#326e70');ctx.globalAlpha=1;
@@ -986,8 +986,6 @@ function draw(now){
  }
  // Brief sparkle bursts mark successful catches with a soft, readable pop.
  for(const bug of pondBugs){if(bug.eatenAt&&now-bug.eatenAt<430){const age=(now-bug.eatenAt)/430;ctx.globalAlpha=1-age;ctx.strokeStyle='#fff1c5';ctx.lineWidth=1.2;for(let k=0;k<4;k++){const a=k*Math.PI/2;ctx.beginPath();ctx.moveTo(bug.eatenX+Math.cos(a)*2,bug.eatenY+Math.sin(a)*2);ctx.lineTo(bug.eatenX+Math.cos(a)*(3+age*8),bug.eatenY+Math.sin(a)*(3+age*8));ctx.stroke();}ctx.globalAlpha=1;}}
- // A green up-arrow briefly marks each successful meal and floats gently above the duck's head.
- for(let n=growthIndicators.length-1;n>=0;n--){const mark=growthIndicators[n],age=(now-mark.t)/1050;if(age>=1){growthIndicators.splice(n,1);continue;}const duck=swimmers.find(item=>item.key===mark.key);if(!duck)continue;const dir=(-Math.sin(duck.angle)*duck.swimDir)>=0?1:-1,progress=Math.min(1,age),x=duck.x+dir*10,y=duck.y-25-progress*9;ctx.save();ctx.globalAlpha=Math.min(1,(1-age)*2.4);ctx.lineCap='round';ctx.lineJoin='round';ctx.shadowColor='rgba(21,76,36,.35)';ctx.shadowBlur=3;ctx.strokeStyle='#174d2b';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y+9);ctx.lineTo(x,y-5);ctx.moveTo(x-6,y+1);ctx.lineTo(x,y-6);ctx.lineTo(x+6,y+1);ctx.stroke();ctx.shadowBlur=0;ctx.strokeStyle='#55d879';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y+8);ctx.lineTo(x,y-4);ctx.moveTo(x-5,y+1);ctx.lineTo(x,y-5);ctx.lineTo(x+5,y+1);ctx.stroke();ctx.restore();}
  // A tiny speech bubble appears only after a successful catch.
  for(let n=nomTexts.length-1;n>=0;n--){const note=nomTexts[n],age=(now-note.t)/1250;if(age>=1){nomTexts.splice(n,1);continue;}const duck=swimmers.find(item=>item.key===note.key);if(!duck)continue;const x=duck.x+8,y=duck.y-24-age*5;ctx.globalAlpha=Math.min(1,(1-age)*2.8);ctx.fillStyle='#fff9ec';ctx.strokeStyle='#c7ad91';ctx.lineWidth=.8;ctx.beginPath();ctx.roundRect(x-31,y-10,62,17,6);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(x-5,y+7);ctx.lineTo(x-1,y+11);ctx.lineTo(x+2,y+7);ctx.closePath();ctx.fill();ctx.stroke();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#7b6554';ctx.fillText('nom nom nom',x,y-1);ctx.globalAlpha=1;}
  // Animated ripples stay within the pond edge.
@@ -1020,6 +1018,24 @@ function draw(now){
  }
  ellipse(0,9,13,2.5,'rgba(39,87,79,.2)');if(win){flower(-4,-12,2.2,['#fff0c8','#f8c8d3']);flower(9,-10,2.2,['#fff0c8','#f8c8d3'])}ctx.restore();ctx.restore();
  }else encounterAnim=null}
+ // Growth feedback is deliberately painted LAST, after shoreline foliage, ripples,
+ // and encounter sprites. This prevents later scene layers from covering the arrow.
+ for(let n=growthIndicators.length-1;n>=0;n--){
+  const mark=growthIndicators[n],age=(now-mark.t)/1250;
+  if(age>=1){growthIndicators.splice(n,1);continue;}
+  const duck=swimmers.find(item=>item.key===mark.key);
+  if(!duck)continue;
+  const direction=(-Math.sin(duck.angle)*duck.swimDir)>=0?1:-1;
+  const progress=Math.min(1,age),x=duck.x+direction*12,y=duck.y-27-progress*14;
+  const alpha=Math.min(1,(1-age)*2.1),bob=Math.sin(progress*Math.PI*2)*1.5;
+  ctx.save();ctx.globalAlpha=alpha;ctx.translate(Math.round(x),Math.round(y+bob));
+  ctx.shadowColor='rgba(20,65,34,.42)';ctx.shadowBlur=5;ctx.shadowOffsetY=1;
+  ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(9,0);ctx.lineTo(4,0);ctx.lineTo(4,9);ctx.lineTo(-4,9);ctx.lineTo(-4,0);ctx.lineTo(-9,0);ctx.closePath();
+  ctx.fillStyle='#43d66b';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle='#174d2b';ctx.stroke();
+  ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+  ctx.beginPath();ctx.moveTo(0,-6);ctx.lineTo(5,0);ctx.lineTo(2,0);ctx.lineTo(2,5);ctx.lineTo(-2,5);ctx.lineTo(-2,0);ctx.lineTo(-5,0);ctx.closePath();ctx.fillStyle='#a7ff9b';ctx.fill();
+  ctx.restore();
+ }
  ctx.globalAlpha=1;
 }
 
