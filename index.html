@@ -808,7 +808,7 @@ const rarities=['Common','Uncommon','Rare','Epic','Legendary','Mythic'],base={Co
 const items=[{id:'clover-charm',n:'Clover Charm',e:'☘️',s:'Charm',r:'Uncommon',d:'+12% income',i:.12,a:0,h:0},{id:'rose-ribbon',n:'Rose Ribbon',e:'🎀',s:'Ribbon',r:'Rare',d:'+3 attack',i:0,a:3,h:0},{id:'pearl-shell',n:'Pearl Shell',e:'🐚',s:'Shell',r:'Rare',d:'+8 health',i:0,a:0,h:8},{id:'moon-pendant',n:'Moon Pendant',e:'🌙',s:'Charm',r:'Epic',d:'+25% income and +5 attack',i:.25,a:5,h:0},{id:'petal-token',n:'Keepsake Petal',e:'🌸',s:'Keepsake',r:'Uncommon',d:'A tiny petal from a familiar duck. A little reminder that every visit matters.',i:0,a:0,h:0}];
 const predators=[{n:'Snapping turtle',e:'🐢',lv:1,p:8,reward:12,speed:.012},{n:'Water snake',e:'🐍',lv:2,p:22,reward:35,speed:.02},{n:'Raccoon',e:'🦝',lv:3,p:55,reward:90,speed:.024},{n:'Red fox',e:'🦊',lv:5,p:120,reward:240,speed:.03},{n:'Hawk',e:'🦅',lv:8,p:260,reward:650,speed:.038},{n:'Coyote',e:'🐺',lv:12,p:550,reward:1600,speed:.028}];
 const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true});
-let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,duckPositions=[],ripples=[],toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
+let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,duckPositions=[],ripples=[],impactClouds=[],toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
 
 const attackRanges={Common:[1,10],Uncommon:[10,20],Rare:[20,35],Epic:[35,50],Legendary:[50,70],Mythic:[70,100]};
 function duckMaxHealth(d){const v=def(d);return Math.max(1,Math.round(v.h+(Math.max(1,Number(d.level)||1)-1)*4+Object.values(d.equipment||{}).reduce((n,id)=>n+(item(id)?item(id).h:0),0)))}
@@ -1330,7 +1330,7 @@ function draw(now){
   duckPositions.push({x,y,d});
   ctx.globalAlpha=.18;ellipse(x,y+7,11,3,'#326e70');ctx.globalAlpha=1;
   ctx.strokeStyle='rgba(244,255,242,.78)';ctx.lineWidth=1.15;for(let k=0;k<2;k++){ctx.beginPath();ctx.ellipse(x-dir*(10+k*4),y+5,4+k*2,1.5,0,Math.PI*.12,Math.PI*.88);ctx.stroke()}
-  const knockoutAge=d.knockoutAt?Date.now()-d.knockoutAt:1000,knockoutProgress=Math.min(1,Math.max(0,knockoutAge/900)),knockingOut=!!d.injured&&knockoutAge<900;ctx.save();ctx.translate(x,y+bob+(knockingOut?knockoutProgress*4:0));if(knockingOut){ctx.rotate(Math.sin(knockoutProgress*Math.PI*2)*.22+knockoutProgress*.95);ctx.globalAlpha=1-knockoutProgress*.16}const mealCount=Math.max(0,Math.min(16,Number(d.insectMeals)||0)),growthScale=1+mealCount*.022;ctx.scale(growthScale*feedScaleX,growthScale*feedScaleY);ctx.scale(dir,1);
+  const hitFlashAge=now-(d.hitFlashAt||0),hitFlashing=hitFlashAge>=0&&hitFlashAge<420; if(hitFlashing&&Math.floor(hitFlashAge/58)%2===0)ctx.globalAlpha=.34; const knockoutAge=d.knockoutAt?Date.now()-d.knockoutAt:1000,knockoutProgress=Math.min(1,Math.max(0,knockoutAge/900)),knockingOut=!!d.injured&&knockoutAge<900;ctx.save();ctx.translate(x,y+bob+(knockingOut?knockoutProgress*4:0));if(knockingOut){ctx.rotate(Math.sin(knockoutProgress*Math.PI*2)*.22+knockoutProgress*.95);ctx.globalAlpha=1-knockoutProgress*.16}const mealCount=Math.max(0,Math.min(16,Number(d.insectMeals)||0)),growthScale=1+mealCount*.022;ctx.scale(growthScale*feedScaleX,growthScale*feedScaleY);ctx.scale(dir,1);
   // Tiny paddling feet beneath the surface.
   const paddle=Math.sin(now*.0037+i*1.5)*1.2;ellipse(-3,5+paddle*.25,3.2,1.5,'#d99465');ellipse(4,5-paddle*.25,3.2,1.5,'#d99465');
   // Tail and plump body, each with warm outline and a soft highlight.
@@ -1642,6 +1642,18 @@ function draw(now){
  for(const bug of pondBugs){if(bug.eatenAt&&now-bug.eatenAt<430){const age=(now-bug.eatenAt)/430;ctx.globalAlpha=1-age;ctx.strokeStyle='#fff1c5';ctx.lineWidth=1.2;for(let k=0;k<4;k++){const a=k*Math.PI/2;ctx.beginPath();ctx.moveTo(bug.eatenX+Math.cos(a)*2,bug.eatenY+Math.sin(a)*2);ctx.lineTo(bug.eatenX+Math.cos(a)*(3+age*8),bug.eatenY+Math.sin(a)*(3+age*8));ctx.stroke();}ctx.globalAlpha=1;}}
  // A tiny speech bubble appears only after a successful catch.
  for(let n=nomTexts.length-1;n>=0;n--){const note=nomTexts[n],age=(now-note.t)/1250;if(age>=1){nomTexts.splice(n,1);continue;}const duck=swimmers.find(item=>item.key===note.key);if(!duck)continue;const x=duck.x+8,y=duck.y-24-age*5;ctx.globalAlpha=Math.min(1,(1-age)*2.8);ctx.fillStyle='#fff9ec';ctx.strokeStyle='#c7ad91';ctx.lineWidth=.8;ctx.beginPath();ctx.roundRect(x-31,y-10,62,17,6);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(x-5,y+7);ctx.lineTo(x-1,y+11);ctx.lineTo(x+2,y+7);ctx.closePath();ctx.fill();ctx.stroke();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#7b6554';ctx.fillText('nom nom nom',x,y-1);ctx.globalAlpha=1;}
+ // A tiny pixel-smoke puff marks each predator impact, rising and fading quickly.
+ impactClouds=impactClouds.filter(cloud=>now-cloud.t<520);
+ impactClouds.forEach(cloud=>{
+  const age=Math.max(0,(now-cloud.t)/520),rise=age*10,spread=age*8;
+  ctx.save();ctx.globalAlpha=Math.max(0,1-age)*.78;ctx.fillStyle='#f5eee4';
+  ctx.beginPath();ctx.arc(cloud.x-4-spread*.25,cloud.y-rise+2,3+age*2,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(cloud.x,cloud.y-rise-1,4+age*2.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(cloud.x+4+spread*.25,cloud.y-rise+2,3+age*2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#d9d3ca';ctx.fillRect(Math.round(cloud.x-2-spread*.35),Math.round(cloud.y-rise+3),3,2);
+  ctx.fillStyle='#fffaf0';ctx.fillRect(Math.round(cloud.x-1),Math.round(cloud.y-rise-4),2,2);
+  ctx.restore();
+ });
  // Animated ripples stay within the pond edge.
  ripples=ripples.filter(r=>now-r.t<2600);ripples.forEach(r=>{let age=Math.max(0,(now-r.t)/2600),power=r.power||1;for(let ring=0;ring<2;ring++){let p=(age+ring*.24)%1;ctx.globalAlpha=Math.max(0,1-p)*(.58-ring*.12);ctx.strokeStyle=r.heart?'#fff1f2':'#e8fff0';ctx.lineWidth=1.1;ctx.beginPath();ctx.ellipse(r.x,r.y,(4+p*20)*power,(2+p*9)*power,0,0,Math.PI*2);ctx.stroke()}if(r.heart){ctx.globalAlpha=1-age;ctx.font='13px serif';ctx.fillStyle='#fff4f1';ctx.fillText('♡',r.x-5,r.y-8-age*12)}ctx.globalAlpha=1});
  // Soft leaves and flowers around the shore complete the illustrated storybook garden.
@@ -1666,7 +1678,7 @@ function draw(now){
     const d=ensureDuckCombat(swimmer.d),key=swimmer.key,dist=Math.hypot(swimmer.x-battle.x,swimmer.y-battle.y);
     if(dist<23&&d.health>0&&now-(battle.hitAt[key]||0)>720){
      battle.hitAt[key]=now;
-     const beforeHealth=d.health;d.health=Math.max(0,d.health-battle.damage);swimmer.d.lastCombatHit=now;
+     const beforeHealth=d.health;d.health=Math.max(0,d.health-battle.damage);swimmer.d.lastCombatHit=now;swimmer.d.hitFlashAt=now;impactClouds.push({x:swimmer.x,y:swimmer.y-2,t:now});
      if(d.health>0)battle.health=Math.max(0,battle.health-duckAttack(d));
      else if(beforeHealth>0){d.injured=true;d.knockoutAt=Date.now();queueEvent(def(d).name+' was knocked out and needs a little recovery.');save();if(opened)render();
       // If every owned duck is down, the visitor immediately abandons the fight.
