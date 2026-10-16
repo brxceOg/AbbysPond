@@ -605,7 +605,7 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 
 ## 46. Periodic duck swim formations (2026-10-16)
 
-- Added a flock-level formation controller that periodically switches between the existing pond-wide circle and a shared zigzag-line formation at randomized intervals (roughly 18–32 seconds between switches after the initial wait).
-- The lead duck sets the shared route; the rest follow in ordered slots. The angular spacing and alternating zigzag lane offsets blend over 2.8 seconds so the flock changes shape gradually rather than snapping or crossing paths.
-- All ducks continue swimming in the same direction and speed, including the encounter speed-up, preserving the anti-bounce approach and combat behavior. No save-format changes.
-- Embedded JavaScript syntax compilation passed. Formation transitions and sprite spacing still need visual verification in a live browser.
+- Added a flock-level formation controller that periodically switches between the pond-wide circle and a distinct capital-Z formation at randomized intervals (roughly 18–32 seconds between switches after the initial wait).
+- In Z mode, ducks occupy the three straight strokes of a large Z: a horizontal top row, a diagonal descending stroke, and a horizontal bottom row. The Z translates gently across the pond instead of following the circular swim ring, and the transition blends over 2.8 seconds.
+- All ducks retain the shared movement controller and encounter speed-up. The circle remains available as the alternate formation; no save-format changes.
+- Embedded JavaScript syntax compilation passed. Formation transitions, Z legibility, and sprite spacing still need visual verification in a live browser.
