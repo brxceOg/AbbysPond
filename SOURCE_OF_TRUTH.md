@@ -639,3 +639,8 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The struck duck also flickers briefly for about 420 milliseconds, alternating its opacity to clearly communicate that it took damage. The flash is triggered on each registered hit, including hits that knock a duck out; the existing knockout slump and injured-state visuals continue as before.
 - Existing combat damage, per-duck hit cooldowns, predator movement, health bars, rewards, recovery, and save data remain unchanged. The effects use the existing canvas animation loop and require no new assets or timers.
 - Embedded JavaScript syntax compilation passed. Live visual timing and layering should still be checked in a browser; no live browser test was performed for this change.
+
+## 49. More readable predator impact smoke (2026-10-16)
+
+- Preserved the existing soft, pale pixel-smoke style while increasing its initial opacity and puff size slightly, and extending its rise-and-fade lifespan from about 520 ms to 620 ms. The effect is more visible at the instant of impact without becoming a large or lingering cloud.
+- Embedded JavaScript syntax compilation passed. Live browser visual verification was not performed.
