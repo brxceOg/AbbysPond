@@ -1025,55 +1025,87 @@ function draw(now){
   ctx.restore();
  }
  for(let i=0;i<4;i++){let x=cx+(i-1.5)*rx*.39,y=cy+(i%2?1:-1)*ry*.74;ctx.strokeStyle='#528a68';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+7);ctx.quadraticCurveTo(x-4,y-2,x-2,y-9);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y+3);ctx.quadraticCurveTo(x+5,y-2,x+6,y-6);ctx.stroke();}
- // The flock periodically changes between a pond-wide circle and a shared
- // zigzag line. Formation spacing and zigzag depth blend gradually to avoid snaps.
+ // The flock rotates through five distinct formations. Every non-circle shape is
+ // distributed by real pixel distance along its path so the ducks keep comfortable,
+ // even spacing on horizontal and diagonal sections alike.
  duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=37;
  const circleGap=duckLimit>1?Math.PI*2/duckLimit:0;
  const lineGap=Math.max(.32,Math.min(.58,minDuckGap/Math.max(55,Math.min(rx*.53,ry*.48)*.9)));
+ const formationNames=['circle','zigzag','vee','diamond','arc'];
+ const formationPaths={
+  zigzag:[[-.43,-.28],[.43,-.28],[-.43,.28],[.43,.28]],
+  vee:[[-.43,-.25],[0,.23],[.43,-.25]],
+  diamond:[[-.34,0],[0,-.29],[.34,0],[0,.29],[-.34,0]],
+  arc:[[-.43,.20],[-.34,-.02],[-.18,-.20],[0,-.27],[.18,-.20],[.34,-.02],[.43,.20]]
+ };
+ const easeFormation=t=>t*t*(3-2*t);
+ function formationPoint(type,t,leaderAngle,centerX,centerY,routeX,routeY){
+  if(type===0){
+   const a=leaderAngle+t*Math.PI*2;
+   return {x:centerX+Math.cos(a)*routeX*.53,y:centerY+Math.sin(a)*routeY*.48};
+  }
+  const points=formationPaths[formationNames[type]]||formationPaths.zigzag;
+  const lengths=[];let total=0;
+  for(let j=0;j<points.length-1;j++){
+   const dx=(points[j+1][0]-points[j][0])*routeX;
+   const dy=(points[j+1][1]-points[j][1])*routeY;
+   const len=Math.hypot(dx,dy);lengths.push(len);total+=len;
+  }
+  let distance=Math.max(0,Math.min(1,t))*total,segment=0;
+  while(segment<lengths.length-1&&distance>lengths[segment]){distance-=lengths[segment];segment++;}
+  const f=lengths[segment]>0?Math.max(0,Math.min(1,distance/lengths[segment])):0;
+  const p=points[segment],q=points[segment+1];
+  let lx=(p[0]+(q[0]-p[0])*f)*routeX,ly=(p[1]+(q[1]-p[1])*f)*routeY;
+  // Gentle shared heading drift makes each formation feel like a swimming flock,
+  // while the whole shape follows a broad oval route around the pond.
+  const turn=Math.sin(leaderAngle*.42)*.10;
+  const rotX=lx*Math.cos(turn)-ly*Math.sin(turn),rotY=lx*Math.sin(turn)+ly*Math.cos(turn);
+  const driftX=Math.cos(leaderAngle)*routeX*.19,driftY=Math.sin(leaderAngle)*routeY*.15;
+  return {x:centerX+driftX+rotX,y:centerY+driftY+rotY};
+ }
  if(duckLimit>1){
   if(!duckFormation.nextSwitch){
-   // A fresh pond has a 30% chance to begin with the flock already arranged
-   // in its Z formation; either starting shape is fully formed on the first frame.
-   const startInZigzag=Math.random()<.30;
-   duckFormation.name=startInZigzag?'zigzag':'circle';
-   duckFormation.fromGap=duckFormation.toGap=startInZigzag?lineGap:circleGap;
-   duckFormation.fromZigzag=duckFormation.toZigzag=startInZigzag?1:0;
+   const startType=Math.random()<.30?1:Math.floor(Math.random()*5);
+   duckFormation.name=formationNames[startType];
+   duckFormation.fromType=duckFormation.toType=startType;
+   duckFormation.fromGap=duckFormation.toGap=startType===0?circleGap:lineGap;
+   duckFormation.fromZigzag=duckFormation.toZigzag=startType===1?1:0;
    duckFormation.transitionAt=now-2800;
-   duckFormation.nextSwitch=now+(startInZigzag?18000:14000)+Math.random()*(startInZigzag?14000:9000);
+   duckFormation.nextSwitch=now+14000+Math.random()*12000;
   }
   if(now>=duckFormation.nextSwitch){
-   const nextName=duckFormation.name==='circle'?'zigzag':'circle';
-   const progress=duckFormation.transitionAt?Math.min(1,(now-duckFormation.transitionAt)/2800):1;
-   const currentGap=duckFormation.fromGap==null?(duckFormation.name==='circle'?circleGap:lineGap):duckFormation.fromGap+(duckFormation.toGap-duckFormation.fromGap)*progress;
-   const currentZigzag=duckFormation.fromZigzag+(duckFormation.toZigzag-duckFormation.fromZigzag)*progress;
-   duckFormation.name=nextName;duckFormation.fromGap=currentGap;duckFormation.toGap=nextName==='circle'?circleGap:lineGap;
-   duckFormation.fromZigzag=currentZigzag;duckFormation.toZigzag=nextName==='zigzag'?1:0;
-   duckFormation.transitionAt=now;duckFormation.nextSwitch=now+18000+Math.random()*14000;
+   const currentProgress=duckFormation.transitionAt?Math.min(1,(now-duckFormation.transitionAt)/2800):1;
+   const currentType=duckFormation.fromType==null?(duckFormation.name==='circle'?0:formationNames.indexOf(duckFormation.name)):duckFormation.fromType;
+   const targetType=duckFormation.toType==null?currentType:duckFormation.toType;
+   const nextTypeOptions=[0,1,2,3,4].filter(type=>type!==targetType);
+   const nextType=nextTypeOptions[Math.floor(Math.random()*nextTypeOptions.length)];
+   duckFormation.fromType=currentProgress>=1?targetType:targetType;
+   duckFormation.toType=nextType;
+   duckFormation.name=formationNames[nextType];
+   duckFormation.fromGap=duckFormation.toGap=nextType===0?circleGap:lineGap;
+   duckFormation.fromZigzag=duckFormation.toZigzag=nextType===1?1:0;
+   duckFormation.transitionAt=now;
+   duckFormation.nextSwitch=now+18000+Math.random()*14000;
   }
  }else{
-  duckFormation.name='circle';duckFormation.nextSwitch=now+18000;
+  duckFormation.name='circle';duckFormation.fromType=duckFormation.toType=0;duckFormation.nextSwitch=now+18000;
   duckFormation.fromGap=duckFormation.toGap=0;duckFormation.fromZigzag=duckFormation.toZigzag=0;duckFormation.transitionAt=now;
  }
  const formProgress=duckFormation.transitionAt?Math.min(1,Math.max(0,(now-duckFormation.transitionAt)/2800)):1;
- const baseGap=duckFormation.fromGap==null?(duckFormation.name==='circle'?circleGap:lineGap):duckFormation.fromGap+(duckFormation.toGap-duckFormation.fromGap)*formProgress;
- const zigzagMix=duckFormation.fromZigzag+(duckFormation.toZigzag-duckFormation.fromZigzag)*formProgress;
+ const blend=easeFormation(formProgress);
+ const targetType=duckFormation.toType==null?(formationNames.indexOf(duckFormation.name)<0?0:formationNames.indexOf(duckFormation.name)):duckFormation.toType;
+ const fromType=duckFormation.fromType==null?targetType:duckFormation.fromType;
+ const baseGap=targetType===0?circleGap:lineGap;
  for(let i=0;i<duckLimit;i++){
   const d=s.ducks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
   if(!duckAvoidance[key]){
-   // Give each duck a stable, evenly spaced place around the swim loop.
-   // All ducks travel in the same direction, so their spacing does not collapse
-   // from head-on meetings and repeated direction reversals.
-   const flockSize=Math.max(1,duckLimit);
-   let bestAngle=(i/flockSize)*Math.PI*2,bestClearance=-Infinity;
+   let bestAngle=(i/Math.max(1,duckLimit))*Math.PI*2,bestClearance=-Infinity;
    const spawnClearance=minDuckGap+4;
-   // If a duck is added to an existing flock, find the clearest nearby slot.
    if(i>=swimmers.length&&i>0){
     for(let sample=0;sample<96;sample++){
-     const candidate=(i/flockSize)*Math.PI*2+sample*Math.PI*2/96;
-     const px=cx+Math.cos(candidate)*rx*.53;
-     const py=cy+Math.sin(candidate)*ry*.48;
-     let nearest=Infinity;
-     for(const placed of swimmers)nearest=Math.min(nearest,Math.hypot(px-placed.x,py-placed.y));
+     const candidate=(i/Math.max(1,duckLimit))*Math.PI*2+sample*Math.PI*2/96;
+     const px=cx+Math.cos(candidate)*rx*.53,py=cy+Math.sin(candidate)*ry*.48;
+     let nearest=Infinity;for(const placed of swimmers)nearest=Math.min(nearest,Math.hypot(px-placed.x,py-placed.y));
      if(nearest>bestClearance){bestClearance=nearest;bestAngle=candidate;}
      if(nearest>=spawnClearance){bestAngle=candidate;break;}
     }
@@ -1081,47 +1113,20 @@ function draw(now){
    duckAvoidance[key]={angle:bestAngle,direction:1,lastTime:now,lastHit:-10000,avoidUntil:0};
   }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
-  // The lead duck sets the route; every follower smoothly keeps its slot behind
-  // it. A shared angular gap preserves order while formations change.
   const swimRate=encounterAnim&&encounterAnim.phase==='active'?.00012:.000048;
   if(i===0){state.angle+=dt*swimRate;duckFormation.leaderAngle=state.angle;}
   else state.angle=duckFormation.leaderAngle+i*baseGap;
   state.direction=1;state.lastTime=now;
-  const a=state.angle;
-  // Circle mode follows the pond's oval route. In zigzag mode, place the
-  // flock along one large capital-Z path and translate that whole shape gently
-  // across the pond; do not bend the Z around the circular swim ring.
-  const circleX=cx+Math.cos(a)*rx*.53,circleY=cy+Math.sin(a)*ry*.48;
-  // Distribute ducks evenly by actual screen distance along the full Z,
-  // rather than assigning one third of the flock to each stroke. The diagonal
-  // is longer than either horizontal, so equal thirds leave visibly uneven gaps.
-  // Slightly widen and deepen the Z so neighboring ducks have more room without changing its shape.
-   // Give each duck a little more personal space, closer to the circle's roomy spacing.
-   const zPoints=[[-.43,-.28],[.43,-.28],[-.43,.28],[.43,.28]];
-  const zLengths=[];
-  let zTotalLength=0;
-  for(let segment=0;segment<3;segment++){
-   const dx=(zPoints[segment+1][0]-zPoints[segment][0])*rx;
-   const dy=(zPoints[segment+1][1]-zPoints[segment][1])*ry;
-   const length=Math.hypot(dx,dy);zLengths.push(length);zTotalLength+=length;
-  }
-  let zDistance=(duckLimit>1?i/(duckLimit-1):.5)*zTotalLength;
-  let segment=0;
-  while(segment<2&&zDistance>zLengths[segment]){zDistance-=zLengths[segment];segment++;}
-  const segmentT=zLengths[segment]>0?Math.max(0,Math.min(1,zDistance/zLengths[segment])):0;
-  const zStart=zPoints[segment],zEnd=zPoints[segment+1];
-  const zLocalX=zStart[0]+(zEnd[0]-zStart[0])*segmentT,zLocalY=zStart[1]+(zEnd[1]-zStart[1])*segmentT;
-  // Let the whole Z travel around a gentle oval route, like the circle formation,
-  // while every duck keeps its assigned place on the shape.
-  const zCenterX=cx+Math.cos(duckFormation.leaderAngle)*rx*.20,zCenterY=cy+Math.sin(duckFormation.leaderAngle)*ry*.16;
-  const zX=zCenterX+zLocalX*rx,zY=zCenterY+zLocalY*ry;
-  const x=circleX+(zX-circleX)*zigzagMix,y=circleY+(zY-circleY)*zigzagMix;
-  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x,y});
+  const slot=duckLimit>1?i/(duckLimit-1):.5;
+  const circleSlot=duckLimit>1?i/duckLimit:0;
+  const fromPoint=formationPoint(fromType,fromType===0?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
+  const toPoint=formationPoint(targetType,targetType===0?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
+  const x=fromPoint.x+(toPoint.x-fromPoint.x)*blend;
+  const y=fromPoint.y+(toPoint.y-fromPoint.y)*blend;
+  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y});
  }
- // Duck paths are deliberately non-reactive here: the old collision response
- // reversed directions and applied uneven speed boosts, repeatedly compressing
- // pairs back together. Evenly spaced, same-direction swim paths prevent that
- // head-on bounce loop while keeping all movement continuous and non-teleporting.
+ // Duck paths are deliberately non-reactive here: same-direction shared motion
+ // prevents head-on bounce loops and keeps neighboring ducks from compressing.
  // Water striders swim under their own momentum, avoid ducks, and can
  // hop onto a drifting lily pad for a short rest before jumping back off.
  const striderDt=Math.min(2.4,Math.max(.35,(now-waterStriderLastTime)/16.67||1));
