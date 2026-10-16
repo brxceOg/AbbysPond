@@ -1034,7 +1034,7 @@ function draw(now){
  const formationNames=['circle','zigzag','vee','diamond','arc'];
  const formationPaths={
   zigzag:[[-.43,-.28],[.43,-.28],[-.43,.28],[.43,.28]],
-  vee:[[-.52,-.30],[0,.29],[.52,-.30]],
+  vee:[[-.62,-.34],[0,.39],[.62,-.34]],
   diamond:[[-.34,0],[0,-.29],[.34,0],[0,.29],[-.34,0]],
   arc:[[-.51,.24],[-.40,-.03],[-.22,-.25],[0,-.32],[.22,-.25],[.40,-.03],[.51,.24]]
  };
@@ -1068,7 +1068,8 @@ function draw(now){
   // Gentle shared heading drift makes each formation feel like a swimming flock,
   // while the whole shape follows a broad oval route around the pond.
   const turn=Math.sin(leaderAngle*.42)*.10;
-  const rotX=(lx*Math.cos(turn)-ly*Math.sin(turn))*1.25,rotY=(lx*Math.sin(turn)+ly*Math.cos(turn))*1.25;
+  const formationScale=type===2?1.48:1.25;
+  const rotX=(lx*Math.cos(turn)-ly*Math.sin(turn))*formationScale,rotY=(lx*Math.sin(turn)+ly*Math.cos(turn))*formationScale;
   const driftX=Math.cos(leaderAngle)*routeX*.28,driftY=Math.sin(leaderAngle)*routeY*.21;
   return pondSafePoint(centerX+driftX+rotX,centerY+driftY+rotY,centerX,centerY,routeX,routeY);
  }
