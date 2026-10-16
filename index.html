@@ -795,7 +795,7 @@ function draw(now){
   // Eating animation: dab into the water for striders, or reach forward for flying insects.
   const feeding=duckFeeding[swimmers[i].key],feedAge=feeding?Math.min(1,(now-feeding.start)/720):1,feedPulse=feeding?Math.sin(feedAge*Math.PI):0;
   const dipAngle=feeding&&feeding.kind==='strider'?feedPulse*.52:0,reach=feeding&&feeding.kind==='fly'?feedPulse*.62:0;
-  ctx.save();ctx.translate(3,-1);ctx.rotate(dipAngle);ctx.scale(1+reach,1);ctx.translate(-3,1);
+  ctx.save();ctx.translate(3,-1);ctx.rotate(dipAngle);ctx.scale(1,1+reach*.85);ctx.translate(-3,1);ctx.translate(reach*2,-reach*1.5);
   // Neck profiles distinguish stocky dabblers from long-necked, streamlined swimmers.
   if(species==='bluebell')path([[0,-2],[1,-6],[2,-10],[4,-11],[7,-9],[6,-6],[4,-3],[3,0]],v.c,'#75594b',.85);
   else if(species==='moonbeam')path([[0,-2],[1,-6],[2,-10],[4,-10],[6,-8],[5,-5],[4,-2],[3,0]],v.c,'#75594b',.8);
