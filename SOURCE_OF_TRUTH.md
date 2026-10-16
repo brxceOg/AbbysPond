@@ -651,3 +651,10 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Moved the canvas `save()` before the hit-flash alpha change so the temporary opacity is scoped to that duck's draw pass and restored afterward instead of leaking into later pond assets.
 - Preserved the existing impact-smoke effect, combat damage, flash timing, and knockout presentation.
 - Validation: embedded JavaScript syntax check passed. Live browser visual testing was not performed.
+
+## 51. Enemy defeat and flock celebration feedback (2026-10-16)
+- Added a more expressive predator defeat animation: the enemy rises slightly, rotates, compresses vertically while expanding, fades away, and emits a brief ring of tiny sparkles over a 1-second exit.
+- When the flock defeats an enemy, nearby confetti pieces pop around the ducks and fall away within a small radius; the ducks perform a short synchronized bobbing cheer before resuming their normal swim behavior.
+- Replaced the bottom event-queue defeat announcement with a centered canvas banner over the pond. It displays the victory and reward (including a bonus keepsake when awarded), then fades out over a short interval. Other event notifications continue to use their existing UI lane.
+- Preserved the existing battle/reward logic, and the fleeing/defeat states remain distinct.
+- Validation: embedded JavaScript syntax check passed. Live browser visual testing was not performed.
