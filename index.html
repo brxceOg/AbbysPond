@@ -403,6 +403,7 @@ function drawPredatorSprite(p,x,y,win,now){
  ctx.globalAlpha=.2;ctx.fillStyle='#315d60';ctx.beginPath();ctx.ellipse(0,8,15,3,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
  if(win){q(-7,7,4,2,'#e6b0a6');q(2,7,4,2,'#e6b0a6')}else{q(-7,7,3,2,'#b98b63');q(2,7,3,2,'#b98b63')}ctx.restore();
 }
+const waterStriderStates=[null,null,null];let waterStriderLastTime=0;
 function draw(now){
  const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2),w=Math.max(1,Math.floor(rect.width*dpr)),h=Math.max(1,Math.floor(rect.height*dpr));
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
@@ -505,35 +506,43 @@ function draw(now){
    }
   }
  }
- // Water striders skate in small looping paths on the surface, leaving tiny broken rings.
+ // Water striders swim forward under their own momentum. When a duck gets
+ // close, they turn their heading away and keep swimming in that direction
+ // instead of being position-offset sideways like they are sliding on ice.
+ const striderDt=Math.min(2.4,Math.max(.35,(now-waterStriderLastTime)/16.67||1));
+ waterStriderLastTime=now;
  ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx*.94,ry*.93,0,0,Math.PI*2);ctx.clip();
  for(let i=0;i<3;i++){
-  const a=now*.0002+i*2.1;
-  let bx=cx+Math.sin(a)*rx*.42,by=cy+Math.cos(a*1.25)*ry*.46;
-  // Softly steer away from duck bodies before paths overlap.
-  for(const swimmer of swimmers){
-   const dx=bx-swimmer.x,dy=by-swimmer.y,dist=Math.hypot(dx,dy)||.001;
-   const influence=Math.max(0,(30-dist)/30);
-   if(influence>0){bx+=dx/dist*influence*13;by+=dy/dist*influence*13;}
+  const seed=now*.0002+i*2.1;
+  let st=waterStriderStates[i];
+  if(!st){
+   const a=i*2.1;
+   st=waterStriderStates[i]={x:cx+Math.sin(a)*rx*.42,y:cy+Math.cos(a*1.25)*ry*.46,heading:Math.atan2(-Math.sin(a*1.25),Math.cos(a))};
   }
-  // Estimate this strider's current travel speed from the motion of its path.
-  // The oar stroke fades toward a resting pose as the strider slows near a turn.
-  const vx=Math.cos(a)*rx*.42*.0002,vy=-Math.sin(a*1.25)*ry*.46*1.25*.0002;
-  const maxSpeed=Math.hypot(rx*.42*.0002,ry*.46*1.25*.0002)||1;
-  const movement=Math.min(1,Math.hypot(vx,vy)/maxSpeed);
-  // Hold a steady heading between turns. Only rotate while the path direction
-  // crosses into a new heading sector, easing through the turn instead of
-  // continuously steering with every tiny change in the looping path.
-  const heading=(Math.atan2(vy,vx)+Math.PI*2)%(Math.PI*2);
-  const sector=Math.PI/4,headingStep=heading/sector,headingIndex=Math.floor(headingStep);
-  const turnProgress=headingStep-headingIndex,turnStart=.36,turnEnd=.64;
-  const turnBlend=Math.max(0,Math.min(1,(turnProgress-turnStart)/(turnEnd-turnStart)));
-  const easedTurn=turnBlend*turnBlend*(3-2*turnBlend);
-  const facing=(headingIndex+easedTurn)*sector;
-  // Legs stay aligned to the water's horizontal axis as the body turns,
-  // so the paddles keep their push-and-recovery strokes instead of spinning.
-  const strokeLeft=Math.sin(now*.009*(.12+.88*movement)+i*2.4)*movement;
-  const strokeRight=Math.sin(now*.009*(.12+.88*movement)+i*2.4+Math.PI)*movement;
+  let targetHeading=st.heading,nearest=Infinity,awayX=0,awayY=0;
+  for(const swimmer of swimmers){
+   const dx=st.x-swimmer.x,dy=st.y-swimmer.y,dist=Math.hypot(dx,dy)||.001;
+   if(dist<34&&dist<nearest){nearest=dist;awayX=dx/dist;awayY=dy/dist;}
+  }
+  if(nearest<34){
+   // Commit to a genuine turn away from the nearest duck; movement follows
+   // this heading so the strider retreats rather than gliding sideways.
+   targetHeading=Math.atan2(awayY,awayX);
+  }else{
+   const nx=(st.x-cx)/(rx*.84||1),ny=(st.y-cy)/(ry*.83||1);
+   if(nx*nx+ny*ny>.78)targetHeading=Math.atan2(cy-st.y,cx-st.x);
+   else if(Math.sin(seed*.7+i)>0.997)targetHeading+=.9;
+  }
+  let delta=((targetHeading-st.heading+Math.PI*3)%(Math.PI*2))-Math.PI;
+  st.heading+=Math.max(-.075*striderDt,Math.min(.075*striderDt,delta));
+  const speed=.46;
+  st.x+=Math.cos(st.heading)*speed*striderDt;
+  st.y+=Math.sin(st.heading)*speed*striderDt;
+  const bx=st.x,by=st.y;
+  const movement=1;
+  const facing=st.heading;
+  const strokeLeft=Math.sin(now*.009*(.12+.88*movement)+i*2.4);
+  const strokeRight=Math.sin(now*.009*(.12+.88*movement)+i*2.4+Math.PI);
   ctx.strokeStyle='#416b61';ctx.lineWidth=.8;ctx.beginPath();
   ctx.moveTo(bx,by-1);ctx.lineTo(bx-6,by-5);
   ctx.moveTo(bx+1,by-1);ctx.lineTo(bx+7,by-5);
@@ -544,11 +553,10 @@ function draw(now){
   ctx.moveTo(bx,by);ctx.lineTo(leftTipX,leftTipY);
   ctx.moveTo(bx+1,by);ctx.lineTo(rightTipX,rightTipY);
   ctx.stroke();
-  // Only the tiny body rotates; the leg strokes remain horizontal and readable.
   ctx.save();ctx.translate(bx,by);ctx.rotate(facing);
   ctx.fillStyle='#34584e';ctx.fillRect(-1,-1,3,2);
   ctx.restore();
-  ctx.globalAlpha=.34;ctx.strokeStyle='#e7fff0';ctx.beginPath();ctx.ellipse(bx,by+2,5+((Math.sin(a*2)+1)*1.2),2,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
+  ctx.globalAlpha=.34;ctx.strokeStyle='#e7fff0';ctx.beginPath();ctx.ellipse(bx,by+2,5+((Math.sin(seed*2)+1)*1.2),2,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
  }
  ctx.restore();
  // Gentle concentric rings travel outward from each floating duck. Draw them before
