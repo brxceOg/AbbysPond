@@ -596,3 +596,9 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Removed the predator's automatic direction reversal after each hit. It continues moving through the encounter rather than repeatedly bouncing between the same nearby ducks.
 - Preserved combat damage, per-duck hit cooldowns, rewards, encounter duration, upgrades, and save format.
 - Embedded JavaScript syntax compilation passed. Crowded-flock combat should still be checked in the live game to confirm that the enemy reaches more ducks on device.
+
+## 45. Stable duck spacing without collision bounce loops (2026-10-16)
+
+- Replaced alternating swim directions and collision-triggered reversals/speed boosts with stable, same-direction swim paths. Ducks begin at spaced points around the swim loop and maintain a shared movement rate, so their relative spacing no longer collapses because one duck turns around or accelerates past another.
+- New ducks choose a clear starting angle near their evenly spaced slot when possible. Existing pond dimensions, duck sprites, encounter speed-up, combat logic, rewards, and save format remain unchanged.
+- Embedded JavaScript syntax compilation passed. Live visual testing with a large flock is still needed to confirm sprite clearance on device.
