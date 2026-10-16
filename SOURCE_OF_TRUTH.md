@@ -719,3 +719,11 @@ A second layout correction supersedes the earlier attempt to put the four contro
 The final home-screen styling uses a compact title/settings row, a paired Pond Pennies / Your Flock status strip with the existing inline coin and duck SVGs, tactile high-contrast wooden/ceramic menu tiles with layered outer shadows and inset bevels, and a pressed state that moves the tile down 3px. The pond remains a full-screen canvas; its edge treatment is a subtle moss-toned vignette/glow rather than a hard oval frame. Health pills continue to be presentation-only and must never mutate combat health.
 
 Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bottom action row. Keep the content-panel paper treatment for menus where appropriate. Preserve gameplay, save key/schema, menu handlers, duck rendering, and all canvas interactions. Source checks confirm the four original menu destinations and handler wiring remain. Live iPhone Safari rendering and GitHub Pages propagation still require confirmation in the playable build.
+
+
+## Session 7 final micro-polish (2026-10-16)
+
+- Removed stray list/radio-style corner markers from the four fixed bottom navigation tiles with explicit marker, list-style, pseudo-element, and stray-input suppression. The original four buttons, their custom SVG artwork, and their existing menu destinations remain unchanged.
+- Refined floating duck and enemy health bars in the canvas renderer: reduced the bar height from 5px to 4px, added a subtle dark-brown 1px outline (`#3a2e2b`), rounded the bar ends into small pills, and added a restrained drop shadow. Health ratios and combat behavior are unchanged.
+- Added a soft offset canvas shadow beneath the central oval pond shoreline, matching the requested `0 8px 24px rgba(0, 0, 0, 0.15)` depth treatment without applying a rectangular shadow to the full-screen canvas element.
+- Validation: the edited JavaScript blocks were checked for expected source matches and remain within the existing animation loop. Live iPhone Safari appearance and GitHub Pages propagation still require visual confirmation.
