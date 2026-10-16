@@ -785,3 +785,15 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Strengthened modal typography hierarchy with warm chocolate-brown text, cozy handwritten card headings, readable Georgia/Palatino-style descriptive copy, and softly embossed uppercase rarity/cost pills.
 - Added a spring-like journal page entrance and a short closing animation. Closing now waits for the page-out animation before hiding the backdrop; reopening cancels the closing state. Reduced-motion preferences are respected.
 - No gameplay, duck behavior, economy, probabilities, or save schema changed. Source-level checks confirmed the CSS and modal open/close wiring; live iPhone Safari visual verification remains pending.
+
+
+### DIY scrapbook field-journal makeover (2026-10-16)
+
+- Reworked the existing modal surfaces into a rustic notebook page using a warm #f7f1e3 paper base, layered paper-grain gradients, a binder-colored edge, and a subtle spiral-stitch track. Existing corner stamps remain intact.
+- Restyled cards as hand-placed paper scraps with a warm ivory gradient, inner emboss highlight, soft shadows, generous 16px 20px padding, rounded/irregular corners, alternating slight rotations, and washi-tape strips.
+- Reworked action buttons as tactile sticker/rubber-stamp controls with thick dark-brown edges, layered paper shadows, handwritten labels, hover lift, and press-down feedback at translateY(3px) scale(.97).
+- Applied handwritten headers, serif notes/descriptions, warm high-contrast roasted-brown text, and paper/wax-seal-style rarity pills.
+- Kept menu-specific visual identities: botanical green-wash tape and pressed-leaf feel for upgrades; polaroid-style duck selector tiles for Your Flock; dashed specimen cards and ribbon accents for Keepsakes; and a cardboard/brass pinned wheel for Find a Duck.
+- Styled flock section tabs as paper bookmarks with paperclip-like top loops and a lifted selected state. Tightened mobile breakpoints and kept modal content horizontally clipped to avoid side-scrolling.
+- The existing HTML layout is retained: .backdrop > .modal > .mhead + .content, with existing .card, .flock-tabs, .duck-choice, .wheel-card, and action button elements restyled through the inline stylesheet in index.html. No gameplay logic, duck data, economy, probabilities, or save schema changed.
+- Source-level CSS and structure review completed; live iPhone Safari visual verification remains pending.
