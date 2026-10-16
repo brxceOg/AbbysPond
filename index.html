@@ -1354,6 +1354,105 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden}
  .primary,.modal button.primary{transition:none!important}
 }
 
+
+/* Four distinct modal identities: Botanical Garden, Duck Field Guide,
+   Trinket Scrapbook, and the Find-a-Duck Meadow Wheel. All artwork is inline SVG/CSS. */
+.modal{position:relative!important;isolation:isolate!important}
+.modal:before{
+ content:"";position:absolute;z-index:4;top:9px;right:13px;width:35px;height:35px;
+ pointer-events:none;opacity:.92;background-position:center;background-repeat:no-repeat;background-size:contain;
+ filter:drop-shadow(0 2px 1px rgba(65,44,24,.14));
+}
+.modal[data-theme="botanical"]{--theme-ink:#5c7a59;--theme-soft:#e5eddc;--theme-line:#a8bd9c}
+.modal[data-theme="field-guide"]{--theme-ink:#4b7385;--theme-soft:#e0edf0;--theme-line:#a1c4cc}
+.modal[data-theme="scrapbook"]{--theme-ink:#b35c65;--theme-soft:#f6e0df;--theme-line:#dca9aa}
+.modal[data-theme="meadow"]{--theme-ink:#c98a3c;--theme-soft:#f8edcf;--theme-line:#dfbd79}
+.modal[data-theme="botanical"] .mhead{background:linear-gradient(140deg,#f4f7e9,#e2ead5)!important;border-bottom:2px solid #a8bd9c!important}
+.modal[data-theme="field-guide"] .mhead{background:linear-gradient(140deg,#f1f8f7,#dcebed)!important;border-bottom:2px solid #a1c4cc!important}
+.modal[data-theme="scrapbook"] .mhead{background:linear-gradient(140deg,#fff3ed,#f4dedd)!important;border-bottom:2px solid #dca9aa!important}
+.modal[data-theme="meadow"] .mhead{background:linear-gradient(140deg,#fff8e6,#f4e0ad)!important;border-bottom:2px solid #dfbd79!important}
+.modal[data-theme] #kicker{color:var(--theme-ink)!important}
+.modal[data-theme] #title{color:var(--theme-ink)!important}
+.modal[data-theme="botanical"]:before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='17' fill='%23e5eddc' stroke='%237e9a70' stroke-width='1.4'/%3E%3Cpath d='M11 29Q13 15 29 10Q27 26 11 29Z' fill='%238eaa7d' stroke='%235c7a59' stroke-width='1.2'/%3E%3Cpath d='M12 28L26 14' stroke='%235c7a59' stroke-width='1.4' fill='none'/%3E%3Cpath d='M17 23Q9 21 11 15Q18 16 17 23Z' fill='%23b8cda6' stroke='%235c7a59'/%3E%3C/svg%3E")
+}
+.modal[data-theme="field-guide"]:before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='17' fill='%23e0edf0' stroke='%234b7385' stroke-width='1.4'/%3E%3Cpath d='M10 24Q11 13 23 13Q31 14 29 23Q24 31 10 24Z' fill='%23fff9e7' stroke='%234b7385' stroke-width='1.4'/%3E%3Ccircle cx='25' cy='18' r='1.5' fill='%234b4236'/%3E%3Cpath d='M29 21l6 2-6 2' fill='%23d6a75d' stroke='%234b7385' stroke-width='.8'/%3E%3Cpath d='M12 28l-2 4m7-3v4' stroke='%234b7385' stroke-width='1.5'/%3E%3C/svg%3E")
+}
+.modal[data-theme="scrapbook"]:before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3L24 7L30 6L31 12L36 16L33 21L35 27L29 30L27 36L21 34L16 37L12 32L6 31L7 25L3 20L7 15L6 9L13 9Z' fill='%23f6e0df' stroke='%23b35c65' stroke-width='1.3'/%3E%3Cpath d='M20 29S9 22 12 16Q16 11 20 17Q25 11 29 16Q32 22 20 29Z' fill='%23c76f78' stroke='%23a94d59' stroke-width='1'/%3E%3C/svg%3E")
+}
+.modal[data-theme="meadow"]:before{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='17' fill='%23f8edcf' stroke='%23c98a3c' stroke-width='1.4'/%3E%3Cpath d='M20 7L23 15L32 12L27 20L34 25L25 26L22 34L17 27L9 31L12 22L6 17L15 16Z' fill='%23e3b65c' stroke='%23b87b30' stroke-width='1.1'/%3E%3Ccircle cx='20' cy='21' r='4' fill='%23fff4c9'/%3E%3C/svg%3E")
+}
+/* Botanical garden upgrades */
+.modal[data-theme="botanical"] .card{border-left:5px solid #789974!important;background-image:linear-gradient(145deg,#f9fbed,#eaf0df)!important}
+.modal[data-theme="botanical"] .mtitle:before{
+ content:"";display:inline-block;width:18px;height:18px;vertical-align:-4px;margin-right:6px;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 20Q5 6 20 4Q19 18 4 20Z' fill='%23a9c59a' stroke='%235c7a59' stroke-width='1.3'/%3E%3Cpath d='M5 19L17 7' stroke='%235c7a59' stroke-width='1.3'/%3E%3Cpath d='M11 13Q7 7 5 10Q6 15 11 13Z' fill='%23d3dfbf' stroke='%235c7a59'/%3E%3C/svg%3E") center/contain no-repeat
+}
+.modal[data-theme="botanical"] .primary{background:linear-gradient(180deg,#6f9369,#4e704b)!important;border-color:#456441!important;border-bottom-color:#344d31!important}
+/* Duck field guide: duck choices become tiny tilted polaroids */
+.modal[data-theme="field-guide"] .duck-choice{
+ position:relative!important;transform:rotate(-1.7deg)!important;
+ flex-basis:98px!important;min-width:98px!important;
+ padding:8px 7px 12px!important;gap:6px!important;
+ border:5px solid #fff!important;border-bottom-width:13px!important;
+ border-radius:3px!important;background:#fff!important;color:#456779!important;
+ box-shadow:0 3px 0 #b9cbd0,0 7px 12px rgba(49,82,91,.16)!important;
+}
+.modal[data-theme="field-guide"] .duck-choice:nth-child(even){transform:rotate(1.8deg)!important}
+.modal[data-theme="field-guide"] .duck-choice[aria-pressed="true"],.modal[data-theme="field-guide"] .duck-choice.selected{
+ outline:2px solid #7fa9b5!important;outline-offset:1px;background:#f3faf9!important;
+}
+.modal[data-theme="field-guide"] .duck-choice-avatar{border-radius:50%!important;background:radial-gradient(circle at 35% 25%,#fff,#dcebef)!important}
+.modal[data-theme="field-guide"] .avatar{background:#dcebef!important;border:2px solid #fff!important;box-shadow:0 2px 5px #416f8028!important}
+.modal[data-theme="field-guide"] .track{height:13px!important;border-radius:99px!important;background:#e1edef!important;border-color:#b2ccd1!important}
+.modal[data-theme="field-guide"] .track span{border-radius:99px!important;background:linear-gradient(90deg,#7eb6c3,#4b8798)!important}
+.modal[data-theme="field-guide"] .track:after{
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21S3 15 3 9Q3 3 8 5L12 8L16 5Q21 3 21 9Q21 15 12 21Z' fill='%23e99da7' stroke='%23b65d70' stroke-width='1.3'/%3E%3C/svg%3E")!important;
+}
+/* Scrapbook keepsakes */
+.modal[data-theme="scrapbook"] .card{
+ border:1.5px dashed #d8a6a2!important;border-radius:5px 14px 5px 14px!important;
+ background-image:linear-gradient(145deg,#fff9f2,#f9e8e3)!important;
+ box-shadow:inset 0 2px 4px rgba(100,54,50,.05),0 4px 10px rgba(113,65,58,.10)!important;
+}
+.modal[data-theme="scrapbook"] .card:before{
+ content:"";position:absolute;top:-4px;left:18px;width:30px;height:9px;border-radius:2px;
+ background:linear-gradient(180deg,#e6b8a7,#ca8d7e);transform:rotate(-4deg);
+ box-shadow:0 1px 2px #704a3c25;display:block!important
+}
+.modal[data-theme="scrapbook"] .Common{background:#e9e4db!important;color:#7b746b!important;border:1px solid #d5cec2}
+.modal[data-theme="scrapbook"] .Uncommon{background:linear-gradient(145deg,#e3efd9,#c8dfbd)!important;color:#416c47!important;border:1px solid #a8c69d}
+.modal[data-theme="scrapbook"] .Rare{background:linear-gradient(145deg,#ffe2e9,#f4b8c9)!important;color:#a33e63!important;border:1px solid #e5a0b6}
+.modal[data-theme="scrapbook"] .Epic{background:linear-gradient(145deg,#eee1f8,#d6b9ee)!important;color:#79539a!important;border:1px solid #c5a3df}
+.modal[data-theme="scrapbook"] .Legendary{background:linear-gradient(145deg,#fff0be,#edcf78)!important;color:#91691c!important;border:1px solid #dfc06c}
+.modal[data-theme="scrapbook"] .Mythic{background:linear-gradient(145deg,#f8d7e8,#e9a8cd)!important;color:#923d79!important;border:1px solid #d88db7}
+.modal[data-theme="scrapbook"] .primary{background:linear-gradient(180deg,#c56e76,#a84f59)!important;border-color:#99444e!important;border-bottom-color:#7e303a!important}
+/* Meadow wheel: brass bezel and gentle, restrained glow particles around spin CTA */
+.modal[data-theme="meadow"] .wheel-card{
+ border:6px solid #b7833e!important;border-radius:50% 50% 17px 17px!important;
+ background:linear-gradient(145deg,#fff8e7,#f4e0ad)!important;
+ box-shadow:inset 0 0 0 2px #e8c779,inset 0 0 0 5px #f9edca,0 5px 0 #81552b!important;
+}
+.modal[data-theme="meadow"] .wheel-wrap{filter:drop-shadow(0 3px 3px rgba(115,77,29,.22))}
+.modal[data-theme="meadow"] .wheel-wrap:before{color:#c98a3c!important;text-shadow:0 2px 0 #fff4d2,0 0 8px #f1c969!important}
+.modal[data-theme="meadow"] .primary[data-action="roll"]{
+ position:relative!important;isolation:isolate!important;
+ background:linear-gradient(180deg,#d5a34d,#b7782f)!important;border-color:#a66b29!important;border-bottom-color:#81501f!important;
+ box-shadow:inset 0 1px 0 #ffefbd66,0 4px 9px rgba(130,84,31,.2)!important;
+}
+.modal[data-theme="meadow"] .primary[data-action="roll"]:after{
+ content:"✦  ·  ✧  ·  ✦";position:absolute;left:-14px;right:-14px;top:-14px;
+ text-align:center;white-space:nowrap;pointer-events:none;color:#e8bd65;
+ font-size:12px;letter-spacing:5px;text-shadow:0 0 5px #ffe7a0,0 0 10px #f2ca75;
+ animation:meadowSparkle 2.2s ease-in-out infinite
+}
+@keyframes meadowSparkle{0%,100%{opacity:.42;transform:translateY(2px) scale(.95)}50%{opacity:1;transform:translateY(-2px) scale(1.04)}}
+@media(prefers-reduced-motion:reduce){.modal[data-theme="meadow"] .primary[data-action="roll"]:after{animation:none}}
+@media(max-width:390px){.modal[data-theme]:before{width:29px;height:29px;top:8px;right:9px}.modal[data-theme="field-guide"] .duck-choice{flex-basis:88px!important;min-width:88px!important}}
+
 </style></head><body><main class="app"><header class="top"><div class="flower" aria-hidden="true"><svg viewBox="0 0 40 40" width="29" height="29"><path d="M20 34Q18 20 28 7M20 27Q7 25 7 14Q17 13 20 23M22 20Q20 8 31 5Q34 16 22 20" fill="none" stroke="#71845b" stroke-width="2.2" stroke-linecap="round"/><circle cx="31" cy="28" r="2.2" fill="#c68a86"/><circle cx="9" cy="31" r="1.7" fill="#d8b96e"/></svg></div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 3.2 13.5 5.5l2.7-.2.9 2.5 2.4 1.2-.6 2.6.6 2.6-2.4 1.2-.9 2.5-2.7-.2L12 20l-1.5-2.3-2.7.2-.9-2.5-2.4-1.2.6-2.6-.6-2.6 2.4-1.2.9-2.5 2.7.2Z" fill="#e8d7b5" stroke="#8c6a4e" stroke-width="1.3"/><circle cx="12" cy="12" r="3.2" fill="#fdf3dc" stroke="#8c6a4e" stroke-width="1.4"/></svg></button></header>
 <section class="hud" aria-label="Pond status"><div class="stat stat-pennies"><span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12.5" fill="#e5b84e" stroke="#8c5e25" stroke-width="1.8"/><circle cx="16" cy="16" r="9.5" fill="none" stroke="#fff0ad" stroke-width="1.4"/><path d="M19.5 10.5c-1-1-2.2-1.4-3.7-1.4-2.2 0-3.8 1.3-3.8 3.1 0 4.1 7.6 1.6 7.6 5.7 0 1.9-1.8 3.1-4.1 3.1-1.6 0-3.1-.6-4.2-1.7M16 7.5v17" fill="none" stroke="#85571d" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="stat-copy"><label>Pond Pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div></div><div class="stat stat-flock"><span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4.5 20.8c0-4.4 3.4-7.6 8-7.6 1.1-4.3 4.5-6.2 7.4-4.5 2.4 1.3 2.8 3.9 1.6 6l5 1.4c1 .3 1.2 1.4.2 1.9l-4.1 2.1c-1.2 4.1-5.1 6.1-10.1 6.1-4.4 0-8-1.9-8-5.4Z" fill="#6d8655" stroke="#435c39" stroke-width="1.4" stroke-linejoin="round"/><circle cx="19.4" cy="12.1" r="1.15" fill="#fff5d9"/><path d="M5.8 21.2c2.8 1 5.6 1.2 8.5.5" fill="none" stroke="#b8c992" stroke-width="1.2" stroke-linecap="round"/></svg></span><div class="stat-copy"><label>Your Flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
@@ -1420,7 +1519,7 @@ function btn(label,action,disabled=false,secondary=false){return '<button class=
 function card(title,desc,meta,button,extra=''){return '<article class="card"><div class="row"><div class="main"><div class="mtitle">'+title+'</div><div class="desc">'+desc+'</div><div class="meta">'+meta+'</div>'+extra+'</div>'+button+'</div></article>'}
 function open(k){if(rolling&&k!=='roll')return;menu=k;opened=true;$('backdrop').hidden=false;render();$('close').disabled=rolling;$('close').focus()}
 function close(){if(rolling)return;opened=false;$('backdrop').hidden=true;menu=null}
-function render(){const c=$('content');c.innerHTML='';if(menu==='roll')rollMenu(c);if(menu==='upgrades')upgradeMenu(c);if(menu==='flock')flockMenu(c);if(menu==='inventory')inventoryMenu(c);if(menu==='settings')settingsMenu(c)}
+function render(){const c=$('content');c.innerHTML='';const modalEl=document.querySelector('.modal');if(modalEl)modalEl.dataset.theme=({roll:'meadow',upgrades:'botanical',flock:'field-guide',inventory:'scrapbook',settings:'journal'}[menu]||'journal');if(menu==='roll')rollMenu(c);if(menu==='upgrades')upgradeMenu(c);if(menu==='flock')flockMenu(c);if(menu==='inventory')inventoryMenu(c);if(menu==='settings')settingsMenu(c)}
 function rollMenu(c){header('A NEW LITTLE FRIEND','Find a duck');let w=weights();c.innerHTML='<p class="intro">Every duck in the pond has a place on the wheel. Take a breath, give it a spin, and see which little friend finds you. Your luck upgrades still determine the real odds.</p><div class="card"><div class="mtitle">Your collection journey</div><div class="track"><span style="width:'+s.found.length/ducks.length*100+'%"></span></div><div class="meta">'+s.found.length+' / '+ducks.length+' unique ducks discovered</div></div><div class="wheel-card"><div class="wheel-wrap"><canvas id="duck-wheel" role="img" aria-label="Prize wheel showing every possible duck; the pointer marks the result" width="640" height="640"></canvas></div><div class="wheel-result" id="wheel-result">'+(rolling?'The wheel is spinning…':wheelOutcome?wheelResultText(wheelOutcome):'Who will waddle into your pond next? ♡')+'</div><div style="margin-top:11px">'+btn(rolling?'Spinning…':(wheelOutcome?'Invite another duck · ':'Spin for a duck · ')+fmt(rollCost())+' pennies','roll',rolling||s.money<rollCost())+'</div><p class="wheel-note">The wheel’s slices reflect each duck’s actual chance. Luck upgrades change the odds; the animation never changes the result.</p></div><p class="section">CURRENT RARITY ODDS</p><div class="wheel-odds">'+rarities.map(r=>'<div class="setting"><span class="pill '+r+'">'+r+'</span><strong>'+(w[r]*100).toFixed(w[r]<.01?2:1)+'%</strong></div>').join('')+'</div><p class="intro" style="margin-top:12px">Luck level '+s.up.luck+' · familiar friends bring a keepsake petal and a few bonus pennies.</p>';drawWheelElement();}
 function upgradeMenu(c){header('GROW AT YOUR OWN PACE','Pond upgrades');let defs=[['income','Bountiful pond','Every duck earns 12% more pennies per level.'],['luck','Lucky wildflowers','Improves the chance of rarer ducks by 18% per level.'],['defense','Brave little flock','Adds 1.5 flock power per level when visitors appear.'],['roll','Friendly invitations','Lowers duck invitation costs by 2.5% per level.'],['offline','Sleepytime savings','Improves offline earnings by 5% per level, up to 75%.']];c.innerHTML='<p class="intro">Small, thoughtful improvements make this pond lovelier over time. Every upgrade has a clear cost and lasting effect.</p><div class="list">'+defs.map(([k,t,d])=>card(t,d,'Level '+s.up[k]+' · Next cost: '+fmt(cost(k)),btn('Upgrade','up:'+k,s.money<cost(k)||s.up[k]>=50))).join('')+'</div>'}
 function flockMenu(c){header('EVERY DUCK IS SPECIAL','Your flock');const injured=s.ducks.filter(x=>{ensureDuckCombat(x);return x.injured||x.health<=0});const tabs='<div class="flock-tabs" role="group" aria-label="Flock sections"><button class="flock-tab" data-action="flocktab:ducks" aria-pressed="'+(flockTab==='ducks')+'">Your ducks · '+s.ducks.length+'</button><button class="flock-tab" data-action="flocktab:injured" aria-pressed="'+(flockTab==='injured')+'">Injured ducks · '+injured.length+'</button></div>';if(flockTab==='injured'){c.innerHTML='<p class="intro">A little rest after a tough encounter. Injured ducks stay safely in your pond and can recover when they catch a bug.</p>'+tabs+(injured.length?'<div class="list">'+injured.map(x=>{const v=def(x);return '<article class="card injured-card"><div class="row"><div class="avatar">'+v.e+'</div><div class="main"><div class="mtitle">'+v.name+' <span class="pill '+v.r+'">'+v.r+'</span></div><div class="desc">'+v.desc+'</div><div class="meta">Needs a little recovery · '+Math.ceil(x.health)+' / '+duckMaxHealth(x)+' health</div></div>'+btn('Check on duck','selectduck:'+x.uid,false,true)+'</div><div class="track"><span style="width:0%;background:#d87970"></span></div></article>'}).join('')+'</div>':'<div class="empty"><strong>No ducks need extra care</strong>Your whole flock is feeling well. May it stay that way. ♡</div>');return}if(!selected||!s.ducks.some(x=>x.uid===selected))selected=s.ducks[0].uid;let d=s.ducks.find(x=>x.uid===selected),v=def(d),uc=Math.floor(20*Math.pow(1.65,d.level-1)*v.i);c.innerHTML=tabs+'<p class="intro">Choose a duck to see their strengths, improve their skills, and equip a keepsake.</p><div class="section">CHOOSE YOUR DUCK</div><div class="duck-selector" role="group" aria-label="Choose your duck">'+s.ducks.map(x=>{const q=def(x);return '<button type="button" class="duck-choice '+(x.uid===d.uid?'selected':'')+'" data-action="selectduck:'+x.uid+'" aria-pressed="'+(x.uid===d.uid)+'"><span class="duck-choice-avatar">'+q.e+'</span><span class="duck-choice-name">'+q.name+'</span><span class="duck-choice-level">'+(x.injured?'Recovering · ':'')+'Lv '+x.level+'</span></button>'}).join('')+'</div><div class="card '+(d.injured?'injured-card':'')+'"><div class="row"><div class="avatar">'+v.e+'</div><div class="main"><div class="mtitle">'+v.name+' <span class="pill '+v.r+'">'+v.r+'</span>'+(d.injured?' <span class="pill">Injured</span>':'')+'</div><div class="desc">'+v.desc+'</div><div class="meta">Level '+d.level+' · '+fmt(incomeDuck(d))+' pennies/sec</div></div></div><div class="setting"><span>Attack</span><strong>'+duckAttack(d)+' damage</strong></div><div class="setting"><span>Health</span><strong>'+Math.ceil(ensureDuckCombat(d).health)+' / '+duckMaxHealth(d)+'</strong></div><div style="margin-top:12px">'+btn('Care for '+v.name+' · '+fmt(uc), 'duckup:'+d.uid,s.money<uc||d.level>=50)+'</div></div><p class="section">KEEPSAKE SLOTS</p><p class="intro">Swap keepsakes any time without losing them.</p>'+['Charm','Ribbon','Shell'].map(slot=>{let equipped=item(d.equipment[slot]),available=items.filter(x=>x.s===slot&&(s.inv[x.id]||0)>0);return '<div class="card"><div class="row"><div class="main"><div class="mtitle">'+slot+'</div><div class="desc">'+(equipped?equipped.e+' '+equipped.n+' · '+equipped.d:'Nothing tucked in here yet.')+'</div></div>'+(equipped?btn('Remove','off:'+d.uid+':'+slot,false,true):'')+'</div>'+(available.length&&!equipped?'<select class="select" data-slot="'+slot+'" data-duck="'+d.uid+'"><option value="">Choose a keepsake…</option>'+available.map(x=>'<option value="'+x.id+'">'+x.n+' · '+x.d+' ('+s.inv[x.id]+')</option>').join('')+'</select>':'')+'</div>'}).join('')}
