@@ -370,3 +370,12 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Successful courtship creates a juvenile strider at the pair's midpoint. Juveniles begin at reduced visual scale and gradually grow to adult size over approximately 45 seconds. They cannot mate until mature.
 - The strider population is now dynamic rather than limited to the original three. Keep the rendering and movement lightweight for mobile, and preserve lily-pad reservations, shoreline safeguards, duck behavior, and existing pond visuals.
 - Verification note for this implementation: repository edits were committed, but browser-based interaction and visual regression testing still need to be performed before the feature can be considered fully verified.
+
+
+## 18. Duck insect-eating animations (2026-10-16)
+
+- Successful flying-insect catches now trigger a short forward neck-and-bill reach; successful water-strider catches trigger a head-and-bill dip toward the water.
+- A small cream-colored “nom nom nom” speech bubble appears briefly above the duck only after a successful catch.
+- Ducks can catch nearby water striders probabilistically. A caught strider briefly disappears and then returns to the pond, preserving the ongoing ambient strider population rather than permanently reducing it.
+- These are presentation and ambient-life changes only; existing duck collection, economy, save data, and insect respawn behavior remain unchanged.
+- Verification note: the source was committed to GitHub, but browser-based visual testing and live Pages deployment have not been independently verified.
