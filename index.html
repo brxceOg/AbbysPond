@@ -1613,7 +1613,7 @@ const rarities=['Common','Uncommon','Rare','Epic','Legendary','Mythic'],base={Co
 const items=[{id:'clover-charm',n:'Clover Charm',e:'☘️',s:'Charm',r:'Uncommon',d:'+12% income',i:.12,a:0,h:0},{id:'rose-ribbon',n:'Rose Ribbon',e:'🎀',s:'Ribbon',r:'Rare',d:'+3 attack',i:0,a:3,h:0},{id:'pearl-shell',n:'Pearl Shell',e:'🐚',s:'Shell',r:'Rare',d:'+8 health',i:0,a:0,h:8},{id:'moon-pendant',n:'Moon Pendant',e:'🌙',s:'Charm',r:'Epic',d:'+25% income and +5 attack',i:.25,a:5,h:0},{id:'petal-token',n:'Keepsake Petal',e:'🌸',s:'Keepsake',r:'Uncommon',d:'A tiny petal from a familiar duck. A little reminder that every visit matters.',i:0,a:0,h:0}];
 const predators=[{n:'Snapping turtle',e:'🐢',lv:1,p:8,reward:12,speed:.012},{n:'Water snake',e:'🐍',lv:2,p:22,reward:35,speed:.02},{n:'Raccoon',e:'🦝',lv:3,p:55,reward:90,speed:.024},{n:'Red fox',e:'🦊',lv:5,p:120,reward:240,speed:.03},{n:'Hawk',e:'🦅',lv:8,p:260,reward:650,speed:.038},{n:'Coyote',e:'🐺',lv:12,p:550,reward:1600,speed:.028}];
 const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true});
-let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,duckPositions=[],ripples=[],impactClouds=[],confetti=[],flockCheerAt=0,victoryBanner=null,toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
+let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,rolling=false,lureOutcome=null,flockTab='ducks',scratchChoiceIndex=null,duckPositions=[],ripples=[],impactClouds=[],confetti=[],flockCheerAt=0,victoryBanner=null,toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
 
 const attackRanges={Common:[1,10],Uncommon:[10,20],Rare:[20,35],Epic:[35,50],Legendary:[50,70],Mythic:[70,100]};
 function duckMaxHealth(d){const v=def(d);return Math.max(1,Math.round(v.h+(Math.max(1,Number(d.level)||1)-1)*4+Object.values(d.equipment||{}).reduce((n,id)=>n+(item(id)?item(id).h:0),0)))}
@@ -1640,6 +1640,15 @@ function card(title,desc,meta,button,extra=''){return '<article class="card"><di
 function open(k){if(rolling&&k!=='roll')return;if(k==='roll'&&!rolling){scratchChoiceIndex=null;lureOutcome=null}menu=k;opened=true;const backdrop=$('backdrop');backdrop.classList.remove('journal-closing');backdrop.hidden=false;render();$('close').disabled=rolling;$('close').focus()}
 function close(){if(rolling||!opened)return;opened=false;menu=null;const backdrop=$('backdrop');backdrop.classList.add('journal-closing');setTimeout(()=>{if(!opened){backdrop.hidden=true;backdrop.classList.remove('journal-closing')}},190)}
 function render(){const c=$('content');c.innerHTML='';const modalEl=document.querySelector('.modal');if(modalEl)modalEl.dataset.theme=({roll:'meadow',upgrades:'botanical',flock:'field-guide',inventory:'scrapbook',settings:'journal'}[menu]||'journal');if(menu==='roll')rollMenu(c);if(menu==='upgrades')upgradeMenu(c);if(menu==='flock')flockMenu(c);if(menu==='inventory')inventoryMenu(c);if(menu==='settings')settingsMenu(c)}
+function lureOutcomeMarkup(out){
+  if(!out)return '';
+  if(out.type==='duck'){
+    const d=out.duck;
+    return '<div class="polaroid"><div class="polaroid-stamp">VISITING FRIEND</div><div class="polaroid-photo"><span class="polaroid-duck">'+d.e+'</span></div><div class="polaroid-caption"><p>'+(out.duplicate?'A familiar face returned':'A new little visitor')+'</p><h3>'+d.name+'</h3><span class="pill '+d.r+'">'+d.r+'</span><div class="polaroid-stats"><span>'+d.a+' ATK</span><span>'+d.h+' HP</span></div>'+(out.duplicate?'<p class="prize-caption">Keepsake Petal + '+fmt(out.bonus)+' Pond Pennies</p>':'')+'</div></div>';
+  }
+  if(out.type==='petal')return '<div class="polaroid"><div class="polaroid-stamp">TINY TREASURE</div><div class="prize-art">🌸</div><div class="prize-caption">A Keepsake Petal</div></div>';
+  return '<div class="polaroid"><div class="polaroid-stamp">TINY TREASURE</div><div class="prize-art">🪙</div><div class="prize-caption">Pond Pennies +'+fmt(out.bonus)+'</div></div>';
+}
 function rollMenu(c){
   header('A NEW LITTLE FRIEND','Find a duck');
   let w=weights();
