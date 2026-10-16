@@ -127,7 +127,7 @@ button,input,select,option,textarea{font-size:1.05rem}
 .polaroid-wrap{display:flex;justify-content:center;align-items:flex-start}
 .polaroid{position:relative;width:min(100%,270px);margin:8px auto 5px;padding:10px 10px 13px;border:1px solid #e0d0b8;background:linear-gradient(145deg,#fffefa,#f5eee0);box-shadow:0 3px 0 #d7c4a9,0 8px 15px rgba(65,47,30,.16);transform:rotate(-1deg);animation:polaroid-pop .52s cubic-bezier(.18,1.35,.35,1) both}
 .polaroid:after{content:"";position:absolute;left:50%;top:-5px;width:48px;height:12px;transform:translateX(-50%) rotate(2deg);background:repeating-linear-gradient(135deg,#e9cda0 0 5px,#f6e4c4 5px 10px);box-shadow:0 1px 2px #6d513322}
-.polaroid-stamp{position:absolute;right:-8px;top:8px;z-index:3;padding:4px 7px;border:2px solid #8a9d70;border-radius:3px 8px 4px 7px;color:#62784f;background:#f4f3df;font:700 .92rem 'Caveat','Patrick Hand',cursive;letter-spacing:.04em;transform:rotate(7deg);animation:stamp-pop .4s .18s cubic-bezier(.2,1.4,.4,1) both}
+.polaroid-stamp{position:absolute;right:4px;top:8px;z-index:3;padding:4px 7px;border:2px solid #8a9d70;border-radius:3px 8px 4px 7px;color:#62784f;background:#f4f3df;font:700 .92rem 'Caveat','Patrick Hand',cursive;letter-spacing:.04em;transform:rotate(7deg);animation:stamp-pop .4s .18s cubic-bezier(.2,1.4,.4,1) both}
 .polaroid-photo{height:104px;display:grid;place-items:center;position:relative;background:radial-gradient(ellipse at 50% 70%,#d8e5bd,#a9c28e 75%);border:4px solid #fff;border-bottom-width:7px;box-shadow:inset 0 0 0 1px #8aa574}
 .polaroid-duck{font-size:62px;filter:drop-shadow(0 3px 1px #536e4b44);animation:duck-photo-bob 1.8s ease-in-out infinite alternate}
 .photo-heart{position:absolute;right:12px;top:5px;color:#fff5dd;font-size:20px}
