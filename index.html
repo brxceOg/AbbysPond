@@ -1325,7 +1325,7 @@ function draw(now){
   ctx.restore();ctx.globalAlpha=1;
  }
  for(let i=0;i<duckLimit;i++){
-  const d=swimmers[i].d,v=def(d),x=swimmers[i].x,y=swimmers[i].y,dir=(-Math.sin(swimmers[i].angle)*swimmers[i].swimDir)>=0?1:-1,bob=Math.sin(now*.0029+i*2.1)*.65+(flockCheerAt&&now-flockCheerAt<1050?Math.sin(Math.max(0,now-flockCheerAt)/1050*Math.PI*4)*2.1:0),feedingNow=duckFeeding[swimmers[i].key],growthFeedAge=feedingNow?Math.min(1,Math.max(0,(now-feedingNow.start)/720)):1,growthPopPulse=feedingNow&&growthFeedAge<1?Math.sin(growthFeedAge*Math.PI*3.2)*Math.exp(-growthFeedAge*1.8):0,feedScaleX=1-growthPopPulse*.28,feedScaleY=1+growthPopPulse*.38;
+  const d=swimmers[i].d,v=def(d),x=swimmers[i].x,y=swimmers[i].y,dir=(-Math.sin(swimmers[i].angle)*swimmers[i].swimDir)>=0?1:-1,bob=Math.sin(now*.0029+i*2.1)*.65+(flockCheerAt&&now-flockCheerAt<1450?Math.sin(Math.max(0,now-flockCheerAt)/1450*Math.PI*4)*3:0),feedingNow=duckFeeding[swimmers[i].key],growthFeedAge=feedingNow?Math.min(1,Math.max(0,(now-feedingNow.start)/720)):1,growthPopPulse=feedingNow&&growthFeedAge<1?Math.sin(growthFeedAge*Math.PI*3.2)*Math.exp(-growthFeedAge*1.8):0,feedScaleX=1-growthPopPulse*.28,feedScaleY=1+growthPopPulse*.38;
   if(duckFeeding[swimmers[i].key]&&now-duckFeeding[swimmers[i].key].start>720)delete duckFeeding[swimmers[i].key];
   duckPositions.push({x,y,d});
   ctx.globalAlpha=.18;ellipse(x,y+7,11,3,'#326e70');ctx.globalAlpha=1;
@@ -1688,13 +1688,13 @@ function draw(now){
      // to bounce repeatedly between the same two ducks on the pond's edge.
      battle.hits++;
      ripples.push({x:swimmer.x,y:swimmer.y,t:now,kind:'combat-hit',power:1.15});
-     if(battle.health<=0){battle.health=0;battle.phase='defeated';battle.phaseAt=now;flockCheerAt=now;for(const duck of swimmers){for(let c=0;c<4;c++){confetti.push({x:duck.x+(Math.random()-.5)*24,y:duck.y-5+(Math.random()-.5)*15,vx:(Math.random()-.5)*.75,vy:-.9-Math.random()*1.5,spin:(Math.random()-.5)*.16,size:2+Math.random()*2.2,color:['#f7d56e','#f3a8bd','#a8d9cf','#fff1c5','#c4b2e8'][Math.floor(Math.random()*5)],t:now,life:1050+Math.random()*450});}}break;}
+     if(battle.health<=0){battle.health=0;battle.phase='defeated';battle.phaseAt=now;flockCheerAt=now;for(const duck of swimmers){for(let c=0;c<6;c++){confetti.push({x:duck.x+(Math.random()-.5)*28,y:duck.y-5+(Math.random()-.5)*17,vx:(Math.random()-.5)*.9,vy:-.9-Math.random()*1.7,spin:(Math.random()-.5)*.2,size:2.4+Math.random()*2.5,color:['#f7d56e','#f3a8bd','#a8d9cf','#fff1c5','#c4b2e8'][Math.floor(Math.random()*5)],t:now,life:1450+Math.random()*500});}}break;}
      if(battle.flockDefeated)break;
     }
    }
    if(battle.phase==='active'&&now-battle.start>30000){battle.phase='escaped';battle.phaseAt=now;}
   }
-  if((battle.phase==='defeated'||battle.phase==='escaped')&&now-battle.phaseAt>(battle.phase==='defeated'?1000:650)){
+  if((battle.phase==='defeated'||battle.phase==='escaped')&&now-battle.phaseAt>(battle.phase==='defeated'?1250:650)){
    if(battle.phase==='defeated'){
     s.money+=battle.reward;s.total+=battle.reward;
     if(Math.random()<.28){const it=items[Math.floor(Math.random()*items.length)];s.inv[it.id]=(s.inv[it.id]||0)+1;victoryBanner={title:'Enemy defeated!',detail:'+'+fmt(battle.reward)+' pennies · found '+it.n,t:now};}
@@ -1704,11 +1704,11 @@ function draw(now){
    encounterAnim=null;save();hud();
   }
   if(encounterAnim){
-   const age=Math.min(1,(now-battle.start)/2700),win=battle.phase==='defeated',deathAge=win?Math.max(0,now-battle.phaseAt):0,deathProgress=win?Math.min(1,deathAge/1000):0,x=battle.x,y=battle.y;
+   const age=Math.min(1,(now-battle.start)/2700),win=battle.phase==='defeated',deathAge=win?Math.max(0,now-battle.phaseAt):0,deathProgress=win?Math.min(1,deathAge/1250):0,x=battle.x,y=battle.y;
 
  ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx*.947,ry*.947,0,0,Math.PI*2);ctx.clip();
  if(age<.48){ctx.strokeStyle='#f2fff0';ctx.globalAlpha=1-age*1.3;ctx.lineWidth=1.5;for(let k=0;k<2;k++){ctx.beginPath();ctx.ellipse(x-8-k*5,y+8,5+age*14+k*3,2+age*5,0,0,Math.PI*2);ctx.stroke()}}ctx.globalAlpha=1;
- ctx.save();ctx.globalAlpha=battle.phase==='active'?1:win?Math.max(0,1-deathProgress):Math.max(0,1-(now-battle.phaseAt)/650);ctx.translate(x,y-deathProgress*13);ctx.rotate(win?deathProgress*1.15:0);ctx.scale(1.25*(win?1+deathProgress*.55:1),1.25*(win?1-deathProgress*.45:1));
+ ctx.save();ctx.globalAlpha=battle.phase==='active'?1:win?Math.max(0,1-deathProgress):Math.max(0,1-(now-battle.phaseAt)/650);ctx.translate(x,y-deathProgress*16);ctx.rotate(win?deathProgress*1.4:0);ctx.scale(1.25*(win?1+deathProgress*.7:1),1.25*(win?1-deathProgress*.55:1));
  const name=p.n||'Raccoon',blink=Math.sin(now*.018)>.96;
  if(name==='Snapping turtle'){
   ellipse(-2,0,12,7,'#4f7653','#355b45',1);ellipse(-2,-2,9,5,'#88a96b','#486d4d',1);ctx.strokeStyle='#53784e';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(-7,-5);ctx.lineTo(-3,2);ctx.lineTo(2,-5);ctx.stroke();ellipse(9,-1,5,4,'#87ad69','#4c714e',1);ellipse(10,-2,1,1,blink?'#87ad69':'#fff2cf');ellipse(13,1,3,1.5,'#d8a66e');ellipse(-8,6,3,2,'#52764d');ellipse(3,6,3,2,'#52764d');
@@ -1754,7 +1754,7 @@ function draw(now){
  confetti=confetti.filter(piece=>now-piece.t<piece.life);
  for(const piece of confetti){const age=(now-piece.t)/piece.life,dt=(now-piece.t)/16.67;ctx.save();ctx.globalAlpha=Math.max(0,1-age);ctx.translate(piece.x+piece.vx*dt,piece.y+piece.vy*dt+.045*dt*dt);ctx.rotate(piece.spin*dt);ctx.fillStyle=piece.color;ctx.fillRect(-piece.size/2,-piece.size/2,piece.size,piece.size*1.7);ctx.restore();}
  // Victory copy sits over the pond itself, independent of the bottom event/UI lane.
- if(victoryBanner){const age=(now-victoryBanner.t)/2600;if(age>=1)victoryBanner=null;else{const fade=Math.min(1,age*5,(1-age)*3);ctx.save();ctx.globalAlpha=Math.max(0,fade);ctx.textAlign='center';ctx.textBaseline='middle';const bx=cx,by=cy-4;ctx.font='bold 17px system-ui,sans-serif';const titleWidth=ctx.measureText(victoryBanner.title).width,detailWidth=Math.min(W-36,ctx.measureText(victoryBanner.detail).width),boxW=Math.min(W-24,Math.max(titleWidth,detailWidth)+30),boxH=52;ctx.fillStyle='rgba(255,248,232,.94)';ctx.strokeStyle='#c7a779';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(bx-boxW/2,by-boxH/2,boxW,boxH,9);ctx.fill();ctx.stroke();ctx.fillStyle='#6f8b58';ctx.fillText(victoryBanner.title,bx,by-10);ctx.font='600 11px system-ui,sans-serif';ctx.fillStyle='#74594b';ctx.fillText(victoryBanner.detail,bx,by+11,boxW-14);ctx.restore();}}
+ if(victoryBanner){const age=(now-victoryBanner.t)/3200;if(age>=1)victoryBanner=null;else{const fade=Math.min(1,age*5,(1-age)*3);ctx.save();ctx.globalAlpha=Math.max(0,fade);ctx.textAlign='center';ctx.textBaseline='middle';const bx=cx,by=cy-4;ctx.font='bold 17px system-ui,sans-serif';const titleWidth=ctx.measureText(victoryBanner.title).width,detailWidth=Math.min(W-36,ctx.measureText(victoryBanner.detail).width),boxW=Math.min(W-24,Math.max(titleWidth,detailWidth)+30),boxH=52;ctx.fillStyle='rgba(255,248,232,.94)';ctx.strokeStyle='#c7a779';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(bx-boxW/2,by-boxH/2,boxW,boxH,9);ctx.fill();ctx.stroke();ctx.fillStyle='#6f8b58';ctx.fillText(victoryBanner.title,bx,by-10);ctx.font='600 11px system-ui,sans-serif';ctx.fillStyle='#74594b';ctx.fillText(victoryBanner.detail,bx,by+11,boxW-14);ctx.restore();}}
  ctx.globalAlpha=1;
 }
 
