@@ -840,3 +840,13 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Replaced the abrupt reveal with a soft upward paper-unfold animation for the Polaroid, followed by a subtle stamp appearance. The visitor uses translate-based movement and a small idle hop, without scale/stretch effects.
 - Non-duck consolation rewards retain their existing rewards and reveal after the 1.5-second lure phase; duck rewards, duplicate compensation, rarity weights, costs, save schema, and collection mechanics remain unchanged.
 - Added reduced-motion CSS handling and refreshed the stylesheet cache-buster. Source checks verified the sequence hooks, reed and crumb animations, delayed card class, and absence of skew/scaleX effects. Live iPhone Safari visual verification remains pending.
+
+
+## Find a Duck scratch-off field notes replacement (2026-10-16)
+
+- Replaced the breadcrumb picnic and lure interaction with a weathered field-journal page titled “Uncharted Footprints,” containing three tactile muddy-seal scratch panels.
+- A player chooses one panel by tapping or pressing/dragging across it. The selected seal peels away with a soft paper-like fade; the other two panels fade and lock, preventing multiple rewards from one invitation.
+- The revealed reward appears within the selected panel: duck Polaroids show the duck, rarity, attack and health stats; alternate rewards show Keepsake Petals or Pond Pennies.
+- Preserved the existing invitation cost, luck-upgrade rarity weights, 90% duck / 10% consolation split, duplicate petal and 15%-of-cost penny compensation, collection behavior, reward amounts, and save schema. No save migration was introduced.
+- Added responsive, handwritten-font styling, textured moss/grey seals, paper grain, torn journal edges, tactile feedback, and reduced-motion support. Refreshed the stylesheet cache key.
+- Source-level checks passed before commit; live iPhone Safari appearance and GitHub Pages propagation still need verification.
