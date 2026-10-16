@@ -1252,55 +1252,8 @@ html,body{width:100%;height:100%;min-height:100%;overflow:hidden}
 .flock-tab[aria-pressed="true"]{background:linear-gradient(150deg,#eaf0dc,#dce7cd)!important;border:1px solid #b4c6a2!important;color:#4f7047!important;box-shadow:0 3px 0 #bdcda9!important}
 @media(max-width:390px){.content{padding:14px 14px 20px!important}.mhead{padding:16px 16px 13px!important}.card{padding:15px 16px!important}.wheel-card{padding:13px 14px 16px!important}.duck-choice{flex-basis:85px!important;min-width:85px!important}}
 
-/* Hosted storybook assets: public-domain parchment and botanical divider SVGs.
-   Keep warm gradients underneath so the menus remain legible if external assets are unavailable. */
-.modal{
- background-color:#faf3e5!important;
- background-image:linear-gradient(rgba(250,245,235,.89),rgba(250,245,235,.91)),url('https://freesvg.org/download/131854')!important;
- background-size:cover!important;
- background-position:center!important;
- background-repeat:no-repeat!important;
- box-shadow:0 16px 36px rgba(45,30,20,.3),inset 0 1px 0 rgba(255,255,245,.92)!important;
-}
-.mhead{
- background-image:linear-gradient(110deg,rgba(253,250,241,.96),rgba(246,235,213,.91)),url('https://freesvg.org/download/77185')!important;
- background-size:auto,112px auto!important;
- background-position:center,right 12px center!important;
- background-repeat:no-repeat!important;
-}
-.mhead h2,.mhead .title,.modal h2{
- font-family:Caveat,'Patrick Hand',cursive!important;
- font-size:clamp(27px,6vw,34px)!important;
- font-weight:700!important;
- letter-spacing:.1px!important;
-}
-.mhead .intro,.mhead p,.modal .intro{
- font-family:'Patrick Hand',Nunito,sans-serif!important;
- font-size:15px!important;
- letter-spacing:.1px!important;
-}
-.modal .card h3,.modal .card .name,.modal .card strong,
-.modal .flock-tab,.modal .duck-choice .duck-name{
- font-family:'Patrick Hand',Nunito,sans-serif!important;
-}
-.modal .card{background-color:rgba(255,254,249,.94)!important}
-.modal .card:after{
- content:"";position:absolute;right:12px;top:10px;width:23px;height:23px;
- pointer-events:none;opacity:.2;
- background:url('https://freesvg.org/download/77185') center/contain no-repeat;
-}
-.modal .card .row,.modal .card .main{position:relative;z-index:1}
-.modal .action,.modal button.primary,.modal .btn-primary{
- transition:transform .12s ease,filter .12s ease,box-shadow .12s ease!important;
-}
-.modal .action:active,.modal button.primary:active,.modal .btn-primary:active{
- transform:translateY(3px)!important;
- filter:saturate(1.06) brightness(.98)!important;
- box-shadow:0 1px 0 #78383e,0 2px 5px rgba(79,44,37,.16)!important;
-}
-@media(prefers-reduced-motion:reduce){
- .modal .action,.modal button.primary,.modal .btn-primary{transition:none!important}
-}
+/* Previous externally hosted texture overrides removed; modal art is now inline SVG/CSS only. */
+
 
 
 /* Inline-SVG field journal pass: all ornamentation is self-contained, with no external assets. */
