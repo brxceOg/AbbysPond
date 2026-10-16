@@ -337,3 +337,7 @@ Lily pads now respond to nearby duck body positions with a gradual, damped push 
 
 ## Lily pad edge clearance update
 Lily pad boundary handling constrains the full visible sprite footprint (leaf, shadow, and flowers) inside the water ellipse rather than only keeping the pad center inside. The existing edge response projects the pad inward and damps/reflexes outward momentum, allowing it to bounce or settle along the edge without its art being clipped by the pond's water boundary.
+
+
+## Pond shoreline sprite clipping correction
+The water-texture clipping region is now closed immediately after drawing the water surface marks. Lily pads, ducks, water striders (including their legs and jump arcs), and flying insects render without being cut off by the pond ellipse. Water striders retain their existing shoreline-avoidance steering; water texture itself remains clipped to the pond.
