@@ -737,3 +737,12 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Replaced the native duck selector in Your Flock with horizontally scrolling duck-avatar tiles. Each tile uses the existing `selectduck:` action, preserving selection behavior and save data. Existing keepsake slot selectors remain unchanged.
 - Added a brass/wood wheel rim and pointer treatment, plus a soft green water/vine-style collection progress meter. No roll probabilities, economy values, combat, or saved-data fields were changed.
 - Source-level checks confirm the custom selector and modal styles are present. Live GitHub Pages and mobile Safari visual behavior still need confirmation.
+
+
+### Hosted storybook asset pass (2026-10-16)
+
+- Added Google Fonts Patrick Hand alongside the existing Caveat/Lora/Nunito families; modal titles use Caveat and supporting/card text uses Patrick Hand for a warmer hand-lettered journal feel.
+- Modal paper now layers a translucent warm wash over the public-domain FreeSVG parchment asset (https://freesvg.org/download/131854); modal header and small card accents use the public-domain botanical divider SVG (https://freesvg.org/download/77185). The CSS retains cream gradients as graceful fallbacks if remote assets fail to load.
+- Tightened modal shadow to the requested warm 0 16px 36px rgba(45,30,20,.3) treatment and added a more tactile pressed state for primary modal actions. Reduced-motion users do not receive the transition.
+- Asset licensing checked against FreeSVG's public-domain/CC0 notice on the asset pages; Patrick Hand is listed in the Google Fonts repository under the SIL Open Font License. External assets are hosted remotely, so they require an internet connection and their host must remain available.
+- No gameplay, duck data, odds, economy, or save schema changed.
