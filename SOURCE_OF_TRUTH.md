@@ -499,7 +499,7 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Duck health uses each species' existing base-health value, with level and equipped health bonuses. Existing version-1 saves are migrated in place by filling in missing combat fields; the save version and species IDs remain unchanged.
 - On predator contact, the duck loses health and strikes back using its attack stat. Health bars appear while a fight is active or when a duck is injured. At zero health, a duck is exhausted and cannot damage the predator until a bug meal restores health; ducks are not permanently lost.
 - Successful insect meals restore up to 32% of that duck's maximum health (at least 4 points, capped at full health) while preserving the existing insect-eating and growth behavior. Healthy ducks can continue eating bugs for growth.
-- A defeated visitor fades away before the victory event/reward is queued. If the visitor lasts 22 seconds, it escapes and the flock receives a recovery message instead of a victory reward. Existing encounter cooldown, reward table, keepsakes, currency, and auto-save behavior remain in place.
+- A defeated visitor fades away before the victory event/reward is queued. If the visitor lasts 30 seconds, it escapes and the flock receives a recovery message instead of a victory reward. Existing encounter cooldown, reward table, keepsakes, currency, and auto-save behavior remain in place.
 - Validation target: syntax checks, old-save migration, combat collision timing, health caps, bug healing, victory/escape reward gating, and iPhone Safari layout/animation behavior.
 
 
