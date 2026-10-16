@@ -848,5 +848,5 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - A player chooses one panel by tapping or pressing/dragging across it. The selected seal peels away with a soft paper-like fade; the other two panels fade and lock, preventing multiple rewards from one invitation.
 - The revealed reward appears within the selected panel: duck Polaroids show the duck, rarity, attack and health stats; alternate rewards show Keepsake Petals or Pond Pennies.
 - Preserved the existing invitation cost, luck-upgrade rarity weights, 90% duck / 10% consolation split, duplicate petal and 15%-of-cost penny compensation, collection behavior, reward amounts, and save schema. No save migration was introduced.
-- Added responsive, handwritten-font styling, textured moss/grey seals, paper grain, torn journal edges, tactile feedback, and reduced-motion support. Refreshed the stylesheet cache key.
+- Added responsive, handwritten-font styling, textured moss/grey seals, paper grain, torn journal edges, tactile feedback, and reduced-motion support. Removed the obsolete picnic-lure stylesheet block and refreshed the stylesheet cache key.
 - Source-level checks passed before commit; live iPhone Safari appearance and GitHub Pages propagation still need verification.
