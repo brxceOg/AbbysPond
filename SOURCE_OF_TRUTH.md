@@ -313,3 +313,7 @@ The surface water striders keep their tiny body and looping movement. Their midd
 ## 21. Keep water strider legs level during turns (2026-10-16)
 
 During heading changes, rotate only the tiny strider body; keep its legs and paddle strokes in the pond's horizontal screen plane so the propulsion limbs do not spin with the body. Preserve alternating fore-and-aft paddle strokes and the faint ripple effect. This is decorative animation only. Inline JavaScript syntax compilation passed; live rendering and Pages deployment were not independently verified.
+
+## 22. Separate flying insect and water strider paths from ducks (2026-10-16)
+
+Render the tiny winged pond insects after the duck sprites so they visually sit above the ducks instead of appearing to collide with or pass behind them. Water striders use a soft repulsion zone around current duck positions, bending their rendered paths away before the sprites overlap. Keep the strider's horizontal leg/paddle animation and turn-only body rotation. These are cosmetic avoidance/layering changes; duck mechanics and economy are unchanged. Inline JavaScript syntax compilation passed; live rendering and Pages deployment were not independently verified.
