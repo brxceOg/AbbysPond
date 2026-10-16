@@ -404,3 +404,10 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Increased the duck's feeding squash/stretch pulse so the growth response is more noticeable while preserving the duck's species-specific sprite and movement.
 - The effect still triggers only on a successful fly or water-strider catch; catch probabilities and growth progression are unchanged.
 - Inline JavaScript syntax compilation passed. GitHub Pages publication and live browser behavior have not been independently verified.
+
+## 22. Queued, fading HUD event messages (2026-10-16)
+
+- The status message below the money and flock cards now shows one event at a time. Each message fades in, remains readable for about 3.2 seconds, fades out, and then the next queued message appears.
+- Messages generated close together are queued instead of overwriting or stacking on top of one another. Repeated consecutive messages are deduplicated, and the local-storage warning is only queued once if browser storage is unavailable.
+- The initial peaceful-pond message uses the same lifecycle. All event-message producers route through the queue; the separate bottom toast notifications keep their existing behavior.
+- Inline JavaScript syntax compilation passed. GitHub Pages publication and live browser timing have not been independently verified.
