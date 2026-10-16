@@ -487,3 +487,8 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Anchored settings independently in the top-right safe-area corner with a dedicated torn-paper surface, matching the scrapbook styling while preserving its existing ID and settings-menu behavior.
 - Kept the title centered and separate, and preserved gameplay, save data, HUD, and bottom navigation.
 
+## 31. Event messages below the HUD (2026-10-16)
+- Repositioned the event/status note to a centered lane directly below the Pond Pennies and Your Flock paper scraps, rather than near the bottom navigation.
+- Styled it as a compact matching paper note and added shorter-screen responsive positions to keep the message clear of the HUD and controls.
+- Preserved the event queue, fade behavior, status semantics, gameplay, and save data.
+
