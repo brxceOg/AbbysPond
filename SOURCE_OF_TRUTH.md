@@ -819,3 +819,14 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - The Toss Breadcrumbs action runs a 1.5-second rustling/ripple animation (shortened for reduced-motion accessibility) before revealing the result in a taped Polaroid-style card. Duck cards show name, rarity, and base attack/health stats; new ducks waddle/pop into view.
 - Existing luck-upgrade rarity weights, invitation cost, duplicate compensation, collection data, and save schema are preserved. Added a 10% consolation outcome for a Keepsake Petal or small Pond Pennies pouch; this makes 90% of tosses duck outcomes, with the displayed rarity percentages applying conditionally to those duck outcomes. Duplicate ducks still award a Keepsake Petal and the existing 15%-of-cost penny bonus.
 - Updated the stylesheet cache-buster. All changes are UI/roll interaction logic only; no save schema migration was introduced. Live iPhone Safari verification remains pending.
+
+
+## Find a Duck picnic layout and reveal polish (2026-10-16)
+
+- Added 28px left padding to the Meadow modal content to keep text and cards clear of the scrapbook binder edge, with extra top spacing before the “THE LITTLE PICNIC” heading.
+- Restyled the meadow illustration as a rounded 18px window with a 3px sage-green border and clipped contents. The gingham blanket now has softer rounded corners and a cloth-like shadow.
+- Moved “a little snack, with love” into its own caption below the illustration. The idle scene contains only the meadow grass, flowers, water ripples, picnic blanket, and breadcrumbs; the lured duck is no longer duplicated inside the scene and appears only in its Polaroid reveal card.
+- Refined the “VISITING FRIEND” / new-friend reveal card with a creamy #fffdfa paper surface, subtle shadow, taped top edge, and more breathing room around the duck, name, rarity, and stats.
+- Moved the primary “Place Breadcrumbs” action to the end of the scrollable content and made it sticky near the bottom while scrolling. The button uses a tactile wood gradient, engraved lower edge, press-down feedback, disabled styling, and reduced-motion support.
+- Updated the stylesheet cache-buster. Existing lure rewards, rarity odds, invitation cost, duplicate compensation, duck collection, and save schema are unchanged.
+- Source checks confirmed the idle scene no longer contains a duck sprite, the Polaroid markup remains the only duck-reveal location, the new button and styling hooks exist, and the updated cache key is linked. Live iPhone Safari appearance and GitHub Pages propagation still need visual confirmation.
