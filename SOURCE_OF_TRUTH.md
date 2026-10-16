@@ -379,3 +379,11 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Ducks can catch nearby water striders probabilistically. A caught strider briefly disappears and then returns to the pond, preserving the ongoing ambient strider population rather than permanently reducing it.
 - These are presentation and ambient-life changes only; existing duck collection, economy, save data, and insect respawn behavior remain unchanged.
 - Verification note: the source was committed to GitHub, but browser-based visual testing and live Pages deployment have not been independently verified.
+
+
+## 19. Duck growth from successful insect catches (2026-10-16)
+
+- Each duck tracks its own successful insect meals in the existing duck save object, so growth persists across reloads without changing the save version or disrupting older saves.
+- Every successful catch of a flying insect or water strider adds one meal and increases that duck's rendered size by 2.2%, up to 16 meals (a maximum of about 35% larger than its original size). Failed catch attempts do not increase size.
+- Growth scales the duck sprite as a whole, keeping its species-specific body, head, tail, feet, and markings in proportion. The existing feeding animations, speech bubble, catch odds, insect respawns, strider respawns, movement, and economy remain intact.
+- Validation: inline JavaScript syntax compilation passed if confirmed by the implementation check; live visual testing and GitHub Pages deployment should still be verified in the browser.
