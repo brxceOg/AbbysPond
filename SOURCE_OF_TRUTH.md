@@ -617,3 +617,13 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The Z formation now travels around a gentle oval route across the pond: its center moves with the lead duck's swim angle while each duck stays in its assigned position along the Z, mirroring the circle formation's movement without losing the Z shape.
 - Embedded JavaScript syntax compilation passed. Please verify the formation visually in-game, especially with different flock sizes, because visual browser testing has not been performed here.
 
+
+
+## 47. Expanded animated duck formations (2026-10-16)
+
+- Expanded automatic flock switching from two formations to five: circle, capital-Z zigzag, V-shaped vee, diamond loop, and a shallow curved arc.
+- New non-circle shapes distribute ducks along their paths by measured pixel distance, including diagonal segments, to keep spacing even and avoid bunching.
+- Each formation moves as a coordinated flock around a broad oval route; the non-circle shapes also drift through a subtle shared heading change rather than remaining fixed on the pond.
+- Formation changes blend between the previous and next shape over 2.8 seconds with eased interpolation, avoiding sudden teleports. Existing shared swim speed, predator encounter speed-up, duck limits, and save data remain unchanged.
+- New ponds retain a 30% chance to start in the Z formation; otherwise they start in one of the other four shapes. Automatic switching selects a different formation at each change.
+- JavaScript syntax compilation passed after the implementation. As with the previous movement work, the new shapes still need visual verification in a live browser at several flock sizes to confirm spacing and transitions.
