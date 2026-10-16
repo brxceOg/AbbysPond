@@ -716,7 +716,30 @@ body{
  .top{min-height:48px}
  .hud .stat{padding:7px 9px 6px}
 }
-</style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
+
+/* Give settings its own unclipped corner position, separate from the title paper. */
+.app > #settings{
+ position:fixed!important;
+ top:calc(env(safe-area-inset-top) + 8px)!important;
+ right:8px!important;left:auto!important;
+ z-index:12!important;
+ display:flex;align-items:center;justify-content:center;
+ width:40px;height:40px;min-width:40px;flex:0 0 40px;
+ padding:0;
+ border:0!important;border-radius:0!important;
+ clip-path:polygon(6% 8%,18% 4%,31% 7%,43% 3%,56% 7%,69% 4%,82% 8%,96% 6%,93% 27%,97% 48%,94% 70%,97% 91%,76% 94%,55% 91%,34% 96%,13% 92%,4% 95%,7% 72%,3% 50%,6% 28%);
+ color:#704e4a!important;
+ background-color:#fff8e8!important;
+ background-image:repeating-linear-gradient(0deg,transparent 0 17px,#dfc9a955 17px 18px),linear-gradient(145deg,#fffdf4,#f5e5ca)!important;
+ box-shadow:none!important;
+ filter:drop-shadow(0 3px 2px #624a4038);
+ transform:none!important;
+}
+.app > #settings:active{transform:translateY(2px)!important}
+@media(max-width:390px){.app > #settings{top:calc(env(safe-area-inset-top) + 8px)!important;right:6px!important;width:37px;height:37px;min-width:37px;flex-basis:37px}}
+
+</style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div></header>
+<button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
 <section class="actions" aria-label="Pond journal">
