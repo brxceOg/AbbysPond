@@ -610,3 +610,6 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - All ducks retain the shared movement controller and encounter speed-up. The circle remains available as the alternate formation; no save-format changes.
 - Fixed a segment interpolation bug that pinned every duck in the final third of the path to the bottom-right endpoint. Each duck now interpolates across the full bottom stroke, as it already does across the top stroke and diagonal.
 - Embedded JavaScript syntax compilation passed. Formation transitions, Z legibility, and sprite spacing still need visual verification in a live browser.
+- Improved Z-slot assignment: ducks are now distributed evenly by actual screen-space distance along the entire capital-Z path, rather than splitting the flock into three equal index groups. Because the diagonal stroke is longer than the horizontal strokes, this keeps the gaps more consistent and ensures the ducks progress to their proper positions along the top, diagonal, and bottom strokes. No save-format or gameplay-mechanic changes.
+- Embedded JavaScript syntax compilation passed. Please verify the formation visually in-game, especially with different flock sizes, because visual browser testing has not been performed here.
+
