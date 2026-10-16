@@ -1027,7 +1027,7 @@ function draw(now){
  for(let i=0;i<4;i++){let x=cx+(i-1.5)*rx*.39,y=cy+(i%2?1:-1)*ry*.74;ctx.strokeStyle='#528a68';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+7);ctx.quadraticCurveTo(x-4,y-2,x-2,y-9);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y+3);ctx.quadraticCurveTo(x+5,y-2,x+6,y-6);ctx.stroke();}
  // Ducks follow continuous swim paths. Collision only changes their direction;
  // each duck's angle is advanced incrementally so a turn never teleports it.
- duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=29;
+ duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=37;
  for(let i=0;i<duckLimit;i++){
   const d=s.ducks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
   if(!duckAvoidance[key]){
@@ -1047,7 +1047,10 @@ function draw(now){
    duckAvoidance[key]={angle:bestAngle,direction:baseDir,lastTime:now,lastHit:-10000};
   }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
-  state.angle+=dt*.000048*state.direction;state.lastTime=now;
+  // A duck that yields briefly swims away faster, so it clears its flock mate
+  // before the pair can visually overlap or immediately collide again.
+  const swimRate=now<(state.avoidUntil||0)?.00013:.000048;
+  state.angle+=dt*swimRate*state.direction;state.lastTime=now;
   const a=state.angle;
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x:cx+Math.cos(a)*rx*.53,y:cy+Math.sin(a)*ry*.48+Math.sin(now*.0034+i*1.7)*.65});
  }
@@ -1058,9 +1061,12 @@ function draw(now){
    // Do not reverse both ducks together: that preserves their relative motion
    // and makes them meet again, producing a visible bounce loop. Let one duck
    // yield at a time, while both receive a shared cooldown so they can separate.
-   if(now-sa.lastHit>2600&&now-sb.lastHit>2600){
-    const yielding=(i+j+Math.floor(now/2600))%2===0?sa:sb;
+   if(now-sa.lastHit>1000&&now-sb.lastHit>1000){
+    // Pick a consistent duck to yield, then give it a short burst of speed
+    // away from the encounter. The other duck keeps its continuous swim path.
+    const yielding=(i+j+Math.floor(now/1800))%2===0?sa:sb;
     yielding.direction*=-1;
+    yielding.avoidUntil=now+1100;
     sa.lastHit=now;sb.lastHit=now;
    }
   }
