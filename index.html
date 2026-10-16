@@ -1055,8 +1055,13 @@ function draw(now){
   const a=swimmers[i],b=swimmers[j],dist=Math.hypot(b.x-a.x,b.y-a.y);
   if(dist<minDuckGap){
    const sa=duckAvoidance[a.key],sb=duckAvoidance[b.key];
-   if(now-sa.lastHit>1100&&now-sb.lastHit>1100){
-    sa.direction*=-1;sb.direction*=-1;sa.lastHit=now;sb.lastHit=now;
+   // Do not reverse both ducks together: that preserves their relative motion
+   // and makes them meet again, producing a visible bounce loop. Let one duck
+   // yield at a time, while both receive a shared cooldown so they can separate.
+   if(now-sa.lastHit>2600&&now-sb.lastHit>2600){
+    const yielding=(i+j+Math.floor(now/2600))%2===0?sa:sb;
+    yielding.direction*=-1;
+    sa.lastHit=now;sb.lastHit=now;
    }
   }
  }
