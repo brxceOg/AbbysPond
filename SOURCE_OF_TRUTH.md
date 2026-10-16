@@ -830,3 +830,13 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Moved the primary “Place Breadcrumbs” action to the end of the scrollable content and made it sticky near the bottom while scrolling. The button uses a tactile wood gradient, engraved lower edge, press-down feedback, disabled styling, and reduced-motion support.
 - Updated the stylesheet cache-buster. Existing lure rewards, rarity odds, invitation cost, duplicate compensation, duck collection, and save schema are unchanged.
 - Source checks confirmed the idle scene no longer contains a duck sprite, the Polaroid markup remains the only duck-reveal location, the new button and styling hooks exist, and the updated cache key is linked. Live iPhone Safari appearance and GitHub Pages propagation still need visual confirmation.
+
+
+## Find a Duck storybook reveal animation rewrite (2026-10-16)
+
+- Reworked the lure interaction into a staged sequence: breadcrumbs and illustrated reeds rustle for 1.5 seconds; for duck outcomes, a visitor sprite slides into the picnic scene, performs a small idle hop/pause for one second, and only then reveals the Polaroid card.
+- Added static illustrated reed/cattail clusters around the sides and front of the picnic window. During the lure phase they sway gently between -3 and 3 degrees, while breadcrumbs glint in a staggered sequence.
+- Removed the rubbery grass/blanket animation and removed all skewX, skewY, and scaleX CSS from the stylesheet. The blanket remains still; the grass no longer warps.
+- Replaced the abrupt reveal with a soft upward paper-unfold animation for the Polaroid, followed by a subtle stamp appearance. The visitor uses translate-based movement and a small idle hop, without scale/stretch effects.
+- Non-duck consolation rewards retain their existing rewards and reveal after the 1.5-second lure phase; duck rewards, duplicate compensation, rarity weights, costs, save schema, and collection mechanics remain unchanged.
+- Added reduced-motion CSS handling and refreshed the stylesheet cache-buster. Source checks verified the sequence hooks, reed and crumb animations, delayed card class, and absence of skew/scaleX effects. Live iPhone Safari visual verification remains pending.
