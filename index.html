@@ -449,6 +449,18 @@ body{padding:0;overscroll-behavior:none}
 .top{width:calc(100% - 76px);max-width:420px}
 .top .brand{width:100%}
 @media(max-width:390px){.top{width:calc(100% - 66px);max-width:300px}}
+/* Four evenly spaced controls along the bottom, leaving the pond's center open. */
+.action,.action:not(:first-child),.action:first-child{left:auto;right:auto;top:auto;bottom:calc(env(safe-area-inset-bottom) + 12px);width:22%;min-width:0;max-width:112px;height:72px;min-height:72px;padding:7px 3px;gap:4px;transform:none}
+.action:nth-child(1){left:2%}.action:nth-child(2){left:26%}.action:nth-child(3){left:50%}.action:nth-child(4){left:74%}
+.action:first-child{flex-direction:column;justify-content:center;text-align:center}
+.action:active,.action:nth-child(1):active,.action:nth-child(3):active{transform:translateY(2px)}
+.action .tile,.action:first-child .tile{width:29px;height:29px;flex-basis:29px;font-size:17px}
+.action strong,.action:first-child strong{font-size:clamp(8px,2.4vw,11px);line-height:1.15}
+.event{bottom:calc(env(safe-area-inset-bottom) + 94px);max-width:calc(100% - 24px)}
+@media(max-width:390px){.action,.action:not(:first-child),.action:first-child{width:23%;height:67px;min-height:67px;bottom:calc(env(safe-area-inset-bottom) + 9px);padding:6px 2px}.action:nth-child(1){left:1%}.action:nth-child(2){left:25%}.action:nth-child(3){left:49%}.action:nth-child(4){left:73%}.action .tile,.action:first-child .tile{width:26px;height:26px;flex-basis:26px;font-size:16px}.action strong,.action:first-child strong{font-size:8px}.event{bottom:calc(env(safe-area-inset-bottom) + 84px)}}
+@media(max-height:700px){.action,.action:not(:first-child),.action:first-child{height:60px;min-height:60px;bottom:calc(env(safe-area-inset-bottom) + 7px)}.action .tile,.action:first-child .tile{width:23px;height:23px;flex-basis:23px}.event{bottom:calc(env(safe-area-inset-bottom) + 73px)}}
+@media(max-height:600px){.action,.action:not(:first-child),.action:first-child{height:52px;min-height:52px;flex-direction:row;gap:4px}.action .tile,.action:first-child .tile{width:20px;height:20px;flex-basis:20px;font-size:13px}.action strong,.action:first-child strong{font-size:8px}.event{bottom:calc(env(safe-area-inset-bottom) + 62px)}}
+@media(min-width:700px){.action,.action:not(:first-child),.action:first-child{width:22%;max-width:150px;height:84px;min-height:84px;bottom:calc(env(safe-area-inset-bottom) + 20px)}.action:nth-child(1){left:2%}.action:nth-child(2){left:26%}.action:nth-child(3){left:50%}.action:nth-child(4){left:74%}.action .tile,.action:first-child .tile{width:34px;height:34px;flex-basis:34px;font-size:20px}.action strong,.action:first-child strong{font-size:12px}.event{bottom:calc(env(safe-area-inset-bottom) + 118px)}}
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
