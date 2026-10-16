@@ -1422,11 +1422,17 @@ function draw(now){
    ctx.strokeStyle=feather;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(-6,-.5);ctx.quadraticCurveTo(-2,-2.8,3,-1.1);ctx.moveTo(-5,1.2);ctx.quadraticCurveTo(-1,-.3,3,1);ctx.stroke();
   }
   ctx.restore();
-  // Faces have their own expression language; injured ducks wince with gently squeezed-shut eyes.
+  // Injured ducks squeeze their eye into a tense, uneven pain-squint rather than their usual cheerful closed-eye look.
   if(d.injured){
-   ctx.strokeStyle='#51443d';ctx.lineWidth=1.05;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(5.1,-8.2);ctx.quadraticCurveTo(7,-10.1,9,-8.2);ctx.stroke();
-   ctx.strokeStyle='#786052';ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(5,-10.5);ctx.lineTo(6.2,-10.9);ctx.moveTo(8,-10.9);ctx.lineTo(9.2,-10.5);ctx.stroke();
-   ctx.strokeStyle='rgba(191,116,105,.8)';ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(4.8,-5.4);ctx.quadraticCurveTo(5.5,-4.9,6.2,-5.4);ctx.stroke();
+   // Pinched, angular eyelid with a downward kink at the outer corner.
+   ctx.strokeStyle='#44352f';ctx.lineWidth=1.35;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
+   ctx.moveTo(4.9,-8.4);ctx.lineTo(6.1,-7.7);ctx.lineTo(7.2,-8.35);ctx.lineTo(8.8,-8.8);ctx.stroke();
+   // Furrowed brows slant inward and down, making the expression visibly strained.
+   ctx.strokeStyle='#59433a';ctx.lineWidth=1.05;ctx.beginPath();
+   ctx.moveTo(4.8,-10.8);ctx.lineTo(6.35,-9.9);ctx.moveTo(7.2,-9.95);ctx.lineTo(9.25,-10.85);ctx.stroke();
+   // Small tension crease and a warmer, worried cheek mark.
+   ctx.strokeStyle='#8b6a58';ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(6.5,-11.05);ctx.lineTo(7.1,-11.35);ctx.stroke();
+   ctx.strokeStyle='rgba(190,104,94,.9)';ctx.lineWidth=.85;ctx.beginPath();ctx.moveTo(4.5,-5.5);ctx.lineTo(5.2,-5.15);ctx.lineTo(6,-5.55);ctx.stroke();
   }else if(species==='puddle'){
    ellipse(7,-8,1.65,1.8,'#fff9ed');ellipse(7.35,-8,1,1.2,'#4a4135');ellipse(7.55,-8.5,.3,.35,'#fff');
    ellipse(4.8,-5.4,2.1,1.1,'#f7bd83');
