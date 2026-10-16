@@ -434,3 +434,10 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Reserved a dedicated centered title lane between the upper-left heart control and upper-right settings control. The title scales down and wraps only as needed on narrow screens; the buttons remain independently anchored at the corners with their own tap targets.
 - Kept the sketch-led side-button layout and all game behavior unchanged.
 - Inline JavaScript syntax compilation passed. Live device visual verification has not been independently performed.
+
+
+## 26. Removed redundant heart control (2026-10-16)
+
+- Removed the heart button from the header because tapping the pond already triggers the same interaction. Removed its click listener as well, avoiding a duplicate path for the same action.
+- Recentered the title within the remaining header space while keeping the settings button in the upper-right. All pond-tap effects and hidden tap-secret behavior remain intact.
+- Inline JavaScript syntax compilation passed. Live browser/device verification has not been independently performed.
