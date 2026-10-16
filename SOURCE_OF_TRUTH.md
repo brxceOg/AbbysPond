@@ -481,3 +481,9 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Removed their prior rounded card borders and glass-like backgrounds in favor of consistent paper colors, hand-inked dashed accents, and softly irregular edges.
 - Preserved the title, settings interaction, live currency/income and flock/collection fields, responsive layout, gameplay, and save data.
 - Validation: JavaScript syntax compilation passed; expected menu action attributes remain intact and CSS braces balance. Live iPhone Safari visual verification has not been performed.
+
+## 30. Independent settings corner (2026-10-16)
+- Moved the settings control outside the clipped title-paper header so its own shape cannot be cut off by the title's torn-paper silhouette.
+- Anchored settings independently in the top-right safe-area corner with a dedicated torn-paper surface, matching the scrapbook styling while preserving its existing ID and settings-menu behavior.
+- Kept the title centered and separate, and preserved gameplay, save data, HUD, and bottom navigation.
+
