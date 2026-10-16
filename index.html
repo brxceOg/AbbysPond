@@ -1096,7 +1096,8 @@ function draw(now){
   // rather than assigning one third of the flock to each stroke. The diagonal
   // is longer than either horizontal, so equal thirds leave visibly uneven gaps.
   // Slightly widen and deepen the Z so neighboring ducks have more room without changing its shape.
-   const zPoints=[[-.36,-.23],[.36,-.23],[-.36,.23],[.36,.23]];
+   // Give each duck a little more personal space, closer to the circle's roomy spacing.
+   const zPoints=[[-.43,-.28],[.43,-.28],[-.43,.28],[.43,.28]];
   const zLengths=[];
   let zTotalLength=0;
   for(let segment=0;segment<3;segment++){
