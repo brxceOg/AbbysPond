@@ -746,3 +746,13 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Tightened modal shadow to the requested warm 0 16px 36px rgba(45,30,20,.3) treatment and added a more tactile pressed state for primary modal actions. Reduced-motion users do not receive the transition.
 - Asset licensing checked against FreeSVG's public-domain/CC0 notice on the asset pages; Patrick Hand is listed in the Google Fonts repository under the SIL Open Font License. External assets are hosted remotely, so they require an internet connection and their host must remain available.
 - No gameplay, duck data, odds, economy, or save schema changed.
+
+
+### Inline-SVG wood-and-parchment modal pass (2026-10-16)
+
+- Removed the prior remotely hosted parchment and botanical background CSS so modal styling no longer depends on external image assets.
+- Added an 8px dark wood journal frame (with a slightly slimmer mobile breakpoint), layered parchment radial gradients and fine grain, and an inline-SVG botanical flourish above modal titles with a matching vine divider.
+- Restyled item cards with the requested warm moss/cream border and inset/outer shadows; primary buttons now use the deep terracotta-to-wood gradient, engraved dark lower edge, light lettering, and pressed state.
+- Updated collection meters to a moss-green gradient with an inline-SVG leaf accent and restyled selected flock tabs as pressed-paper tags with rounded tops.
+- Preserved existing modal structure, duck selector actions, button actions, game mechanics, economy, and saved data. No external image URLs remain in the modal texture styling.
+- Source-level checks confirmed the inline SVG ornamentation, frame, button treatment, leaf meter, and selected tab styles. Live iPhone Safari visual verification remains pending.
