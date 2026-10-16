@@ -551,24 +551,30 @@ function draw(now){
    }
    let delta=((targetHeading-st.heading+Math.PI*3)%(Math.PI*2))-Math.PI;
    st.heading+=Math.max(-.075*striderDt,Math.min(.075*striderDt,delta));
-   st.x+=Math.cos(st.heading)*.46*striderDt;st.y+=Math.sin(st.heading)*.46*striderDt;
-   if(now>=st.nextPadTime&&nearest>=34){
-    let padNear=Infinity,padIndex=-1;
-    for(let p=0;p<lilyPadPositions.length;p++){
-     const occupied=waterStriderStates.some(other=>other&&other!==st&&other.padIndex===p&&(other.mode==='landing'||other.mode==='resting'||other.mode==='takeoff'));
-     if(occupied)continue;
-     const pad=lilyPadPositions[p],dist=Math.hypot(st.x-pad.x,st.y-pad.y);
-     if(dist<padNear){padNear=dist;padIndex=p;}
-    }
-    // Claim the pad immediately on takeoff toward it; the reservation remains
-    // through landing, resting, and the full jump-off animation.
-    if(padIndex>=0&&padNear<19){
-     const pad=lilyPadPositions[padIndex];
-     st.mode='landing';st.padIndex=padIndex;st.modeStart=now;
-     st.jumpFromX=st.x;st.jumpFromY=st.y;st.jumpToX=pad.x;st.jumpToY=pad.y;
-     st.restDuration=950+Math.random()*1750;
-    }
+   const moveX=st.x+Math.cos(st.heading)*.46*striderDt,moveY=st.y+Math.sin(st.heading)*.46*striderDt;
+   let blockedPad=null,blockedIndex=-1,blockedDist=Infinity,boardPad=null,boardDist=Infinity;
+   for(let p=0;p<lilyPadPositions.length;p++){
+    const pad=lilyPadPositions[p],dist=Math.hypot(st.x-pad.x,st.y-pad.y);
+    const occupied=waterStriderStates.some(other=>other&&other!==st&&other.padIndex===p&&(other.mode==='landing'||other.mode==='resting'||other.mode==='takeoff'));
+    if(!occupied&&now>=st.nextPadTime&&nearest>=34&&dist<boardDist){boardDist=dist;boardPad=pad;blockedIndex=p;}
+    const nextDist=Math.hypot(moveX-pad.x,moveY-pad.y);
+    if(nextDist<17&&nextDist<blockedDist){blockedDist=nextDist;blockedPad=pad;}
    }
+   // A free pad can be boarded only via the hop animation; otherwise its leaf
+   // is a solid obstacle and swimming striders steer around its edge.
+   if(boardPad&&boardDist<23){
+    st.mode='landing';st.padIndex=blockedIndex;st.modeStart=now;
+    st.jumpFromX=st.x;st.jumpFromY=st.y;st.jumpToX=boardPad.x;st.jumpToY=boardPad.y;
+    st.restDuration=950+Math.random()*1750;
+   }else if(blockedPad){
+    let dx=moveX-blockedPad.x,dy=moveY-blockedPad.y,dist=Math.hypot(dx,dy)||.001;
+    const nx=dx/dist,ny=dy/dist;
+    st.x=blockedPad.x+nx*17;st.y=blockedPad.y+ny*17;
+    const tangentA=Math.atan2(ny,nx)+Math.PI/2,tangentB=tangentA+Math.PI;
+    const turnA=Math.abs(((tangentA-st.heading+Math.PI*3)%(Math.PI*2))-Math.PI);
+    const turnB=Math.abs(((tangentB-st.heading+Math.PI*3)%(Math.PI*2))-Math.PI);
+    st.heading=turnA<=turnB?tangentA:tangentB;
+   }else{st.x=moveX;st.y=moveY;}
   }else if(st.mode==='landing'){
    const pad=lilyPadPositions[st.padIndex];
    if(!pad){st.mode='water';st.nextPadTime=now+900;}
