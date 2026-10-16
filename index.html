@@ -404,6 +404,7 @@ function drawPredatorSprite(p,x,y,win,now){
  if(win){q(-7,7,4,2,'#e6b0a6');q(2,7,4,2,'#e6b0a6')}else{q(-7,7,3,2,'#b98b63');q(2,7,3,2,'#b98b63')}ctx.restore();
 }
 const waterStriderStates=[null,null,null];let waterStriderLastTime=0;
+const lilyPadMotion=Array.from({length:6},()=>({x:0,y:0,vx:0,vy:0}));
 function draw(now){
  const rect=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2),w=Math.max(1,Math.floor(rect.width*dpr)),h=Math.max(1,Math.floor(rect.height*dpr));
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
@@ -460,11 +461,22 @@ function draw(now){
  // Clearly visible buoyant drift: each pad wanders on its own slow, overlapping current.
  // The larger path is intentional so movement reads on a phone screen at normal scale.
  const lilyPadPositions=[];
+ const previousDuckPositions=duckPositions.slice();
+ const padDt=Math.min(2.5,Math.max(.4,(now-(draw.lastPadTime||now-16.67))/16.67||1));draw.lastPadTime=now;
  for(let i=0;i<6;i++){
   const a=i*.97+.25;
   const driftX=Math.sin(now*.00031+i*1.7)*12+Math.sin(now*.00017+i*2.3)*4.5;
   const driftY=Math.sin(now*.00027+i*1.31)*8+Math.cos(now*.00019+i*1.9)*3;
-  const x=cx+Math.cos(a)*rx*.72+driftX,y=cy+Math.sin(a)*ry*.68+driftY;
+  const baseX=cx+Math.cos(a)*rx*.72+driftX,baseY=cy+Math.sin(a)*ry*.68+driftY;
+  const motion=lilyPadMotion[i];
+  for(const duck of previousDuckPositions){
+   const dx=baseX+motion.x-duck.x,dy=baseY+motion.y-duck.y,dist=Math.hypot(dx,dy)||.001,influence=31-dist;
+   if(influence>0){const push=Math.min(.34,influence*.014)*padDt;motion.vx+=dx/dist*push;motion.vy+=dy/dist*push;}
+  }
+  motion.vx*=Math.pow(.94,padDt);motion.vy*=Math.pow(.94,padDt);motion.x+=motion.vx*padDt;motion.y+=motion.vy*padDt;
+  let x=baseX+motion.x,y=baseY+motion.y;
+  const boundX=rx*.89,boundY=ry*.87,nx=(x-cx)/boundX,ny=(y-cy)/boundY,edge=nx*nx+ny*ny;
+  if(edge>1){const scale=1/Math.sqrt(edge);x=cx+(x-cx)*scale;y=cy+(y-cy)*scale;motion.x=x-baseX;motion.y=y-baseY;const nxv=(x-cx)/(boundX*boundX),nyv=(y-cy)/(boundY*boundY),outward=motion.vx*nxv+motion.vy*nyv,denom=nxv*nxv+nyv*nyv||1;if(outward>0){motion.vx-=2*outward*nxv/denom;motion.vy-=2*outward*nyv/denom;}motion.vx*=.35;motion.vy*=.35;}
   lilyPadPositions.push({x,y,angle:Math.sin(a)*.24+Math.sin(now*.00025+i*1.4)*.11});
   ctx.save();ctx.translate(x,y);
   const padAngle=Math.sin(a)*.24+Math.sin(now*.00025+i*1.4)*.11;
@@ -563,9 +575,12 @@ function draw(now){
    if(!pad){st.mode='water';st.nextPadTime=now+900;}
    else{
     st.x=pad.x;st.y=pad.y;jumpHeight=.25+Math.sin(now*.009+i)*.25;
-    if(now-st.modeStart>=st.restDuration){
+    let intrudingDuck=null,intrusionDist=Infinity;
+    for(const duck of swimmers){const dist=Math.hypot(duck.x-pad.x,duck.y-pad.y);if(dist<29&&dist<intrusionDist){intrusionDist=dist;intrudingDuck=duck;}}
+    if(intrudingDuck||now-st.modeStart>=st.restDuration){
      st.mode='takeoff';st.modeStart=now;st.jumpFromX=pad.x;st.jumpFromY=pad.y;
-     st.heading+=(Math.random()-.5)*1.5;st.jumpToX=pad.x+Math.cos(st.heading)*24;st.jumpToY=pad.y+Math.sin(st.heading)*24;
+     if(intrudingDuck)st.heading=Math.atan2(pad.y-intrudingDuck.y,pad.x-intrudingDuck.x);else st.heading+=(Math.random()-.5)*1.5;
+     st.jumpToX=pad.x+Math.cos(st.heading)*24;st.jumpToY=pad.y+Math.sin(st.heading)*24;
     }
    }
   }else if(st.mode==='takeoff'){
