@@ -387,3 +387,11 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Every successful catch of a flying insect or water strider adds one meal and increases that duck's rendered size by 2.2%, up to 16 meals (a maximum of about 35% larger than its original size). Failed catch attempts do not increase size.
 - Growth scales the duck sprite as a whole, keeping its species-specific body, head, tail, feet, and markings in proportion. The existing feeding animations, speech bubble, catch odds, insect respawns, strider respawns, movement, and economy remain intact.
 - Validation: inline JavaScript syntax compilation passed if confirmed by the implementation check; live visual testing and GitHub Pages deployment should still be verified in the browser.
+
+
+## 20. Duck growth feedback animation (2026-10-16)
+
+- Every successful flying-insect or water-strider meal now triggers a green outlined up-arrow beside the duck's head. It floats upward and fades away over about one second.
+- The duck also performs a quick whole-body squash-and-stretch pop during its existing 720 ms feeding animation, emphasizing the size increase without distorting its species-specific proportions.
+- The arrow and pop reuse the existing feeding events; growth caps, save persistence, catch chances, insect respawns, speech bubbles, and other gameplay remain unchanged.
+- Validation: inline JavaScript syntax compilation fail: identifier 'feedage' has already been declared; live browser visual testing and GitHub Pages deployment have not been independently verified.
