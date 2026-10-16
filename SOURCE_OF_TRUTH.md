@@ -501,3 +501,12 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Successful insect meals restore up to 32% of that duck's maximum health (at least 4 points, capped at full health) while preserving the existing insect-eating and growth behavior. Healthy ducks can continue eating bugs for growth.
 - A defeated visitor fades away before the victory event/reward is queued. If the visitor lasts 22 seconds, it escapes and the flock receives a recovery message instead of a victory reward. Existing encounter cooldown, reward table, keepsakes, currency, and auto-save behavior remain in place.
 - Validation target: syntax checks, old-save migration, combat collision timing, health caps, bug healing, victory/escape reward gating, and iPhone Safari layout/animation behavior.
+
+
+## 33. Mini-boss animal encounters (2026-10-16)
+
+- Predator health now scales much more meaningfully with the visitor's tier, the combined attack power of the owned flock, and the number of ducks. Even the snapping turtle has a minimum 35 health, preventing a single high-roll duck from immediately one-tapping it.
+- The enemy health bar is slightly larger and easier to read during the fight.
+- The active battle window is 30 seconds instead of 22 seconds, giving the flock more time to land repeated hits while keeping the visitor's escape outcome and reward gating intact.
+- Individual ducks still take damage on contact and only strike back while they have health; bug meals can restore them. Existing attack rolls, duck health, encounter cooldown, reward table, keepsakes, currency, save format, and scrapbook UI are preserved.
+- Validation target: JavaScript syntax, scaled boss health across flock sizes and enemy tiers, combat timeout, and reward/escape behavior. Live iPhone Safari battle pacing and GitHub Pages deployment should be checked in-browser.
