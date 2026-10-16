@@ -799,3 +799,10 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Source-level CSS and structure review completed; live iPhone Safari visual verification remains pending.
 
 - Extracted the scrapbook skin into `scrapbook-ui.css` and linked it after the base inline stylesheet in `index.html`, so the complete new override stylesheet is independently readable/editable while GitHub Pages remains a single-page game.
+
+
+## Cozy font system polish (2026-10-16)
+- Added Google Fonts imports for Caveat (600/700), Patrick Hand, and Quicksand (500/600/700) at the top of `scrapbook-ui.css`, and updated the early font import in `index.html` so these fonts are requested consistently.
+- Enforced a global cozy font stack on all elements, including nested UI and browser-native controls, with explicit inherited font declarations for buttons, inputs, selects, options, textareas, role buttons, and tabs.
+- Applied Caveat to display headings, tab labels, and primary action labels; Patrick Hand to descriptions, helper notes, rarity tags, HUD labels, and numeric/stat text. Increased baseline UI text to 1.05rem and key stat values to 1.2rem for mobile readability.
+- Updated the stylesheet cache-buster. This is a typography-only change; gameplay, duck data, economy, probabilities, and save schema remain unchanged. Live iPhone Safari verification is still pending.
