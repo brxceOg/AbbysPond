@@ -808,7 +808,7 @@ const rarities=['Common','Uncommon','Rare','Epic','Legendary','Mythic'],base={Co
 const items=[{id:'clover-charm',n:'Clover Charm',e:'☘️',s:'Charm',r:'Uncommon',d:'+12% income',i:.12,a:0,h:0},{id:'rose-ribbon',n:'Rose Ribbon',e:'🎀',s:'Ribbon',r:'Rare',d:'+3 attack',i:0,a:3,h:0},{id:'pearl-shell',n:'Pearl Shell',e:'🐚',s:'Shell',r:'Rare',d:'+8 health',i:0,a:0,h:8},{id:'moon-pendant',n:'Moon Pendant',e:'🌙',s:'Charm',r:'Epic',d:'+25% income and +5 attack',i:.25,a:5,h:0},{id:'petal-token',n:'Keepsake Petal',e:'🌸',s:'Keepsake',r:'Uncommon',d:'A tiny petal from a familiar duck. A little reminder that every visit matters.',i:0,a:0,h:0}];
 const predators=[{n:'Snapping turtle',e:'🐢',lv:1,p:8,reward:12,speed:.012},{n:'Water snake',e:'🐍',lv:2,p:22,reward:35,speed:.02},{n:'Raccoon',e:'🦝',lv:3,p:55,reward:90,speed:.024},{n:'Red fox',e:'🦊',lv:5,p:120,reward:240,speed:.03},{n:'Hawk',e:'🦅',lv:8,p:260,reward:650,speed:.038},{n:'Coyote',e:'🐺',lv:12,p:550,reward:1600,speed:.028}];
 const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true});
-let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,duckPositions=[],ripples=[],toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,duckAvoidance={};
+let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,duckPositions=[],ripples=[],toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
 
 const attackRanges={Common:[1,10],Uncommon:[10,20],Rare:[20,35],Epic:[35,50],Legendary:[50,70],Mythic:[70,100]};
 function duckMaxHealth(d){const v=def(d);return Math.max(1,Math.round(v.h+(Math.max(1,Number(d.level)||1)-1)*4+Object.values(d.equipment||{}).reduce((n,id)=>n+(item(id)?item(id).h:0),0)))}
@@ -1025,9 +1025,29 @@ function draw(now){
   ctx.restore();
  }
  for(let i=0;i<4;i++){let x=cx+(i-1.5)*rx*.39,y=cy+(i%2?1:-1)*ry*.74;ctx.strokeStyle='#528a68';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+7);ctx.quadraticCurveTo(x-4,y-2,x-2,y-9);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y+3);ctx.quadraticCurveTo(x+5,y-2,x+6,y-6);ctx.stroke();}
- // Ducks follow continuous swim paths. Collision only changes their direction;
- // each duck's angle is advanced incrementally so a turn never teleports it.
+ // The flock periodically changes between a pond-wide circle and a shared
+ // zigzag line. Formation spacing and zigzag depth blend gradually to avoid snaps.
  duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=37;
+ const circleGap=duckLimit>1?Math.PI*2/duckLimit:0;
+ const lineGap=Math.max(.32,Math.min(.58,minDuckGap/Math.max(55,Math.min(rx*.53,ry*.48)*.9)));
+ if(duckLimit>1){
+  if(!duckFormation.nextSwitch)duckFormation.nextSwitch=now+14000+Math.random()*9000;
+  if(now>=duckFormation.nextSwitch){
+   const nextName=duckFormation.name==='circle'?'zigzag':'circle';
+   const progress=duckFormation.transitionAt?Math.min(1,(now-duckFormation.transitionAt)/2800):1;
+   const currentGap=duckFormation.fromGap==null?(duckFormation.name==='circle'?circleGap:lineGap):duckFormation.fromGap+(duckFormation.toGap-duckFormation.fromGap)*progress;
+   const currentZigzag=duckFormation.fromZigzag+(duckFormation.toZigzag-duckFormation.fromZigzag)*progress;
+   duckFormation.name=nextName;duckFormation.fromGap=currentGap;duckFormation.toGap=nextName==='circle'?circleGap:lineGap;
+   duckFormation.fromZigzag=currentZigzag;duckFormation.toZigzag=nextName==='zigzag'?1:0;
+   duckFormation.transitionAt=now;duckFormation.nextSwitch=now+18000+Math.random()*14000;
+  }
+ }else{
+  duckFormation.name='circle';duckFormation.nextSwitch=now+18000;
+  duckFormation.fromGap=duckFormation.toGap=0;duckFormation.fromZigzag=duckFormation.toZigzag=0;duckFormation.transitionAt=now;
+ }
+ const formProgress=duckFormation.transitionAt?Math.min(1,Math.max(0,(now-duckFormation.transitionAt)/2800)):1;
+ const baseGap=duckFormation.fromGap==null?(duckFormation.name==='circle'?circleGap:lineGap):duckFormation.fromGap+(duckFormation.toGap-duckFormation.fromGap)*formProgress;
+ const zigzagMix=duckFormation.fromZigzag+(duckFormation.toZigzag-duckFormation.fromZigzag)*formProgress;
  for(let i=0;i<duckLimit;i++){
   const d=s.ducks[i],key=d.uid||('duck-'+i),baseDir=i%2?1:-1;
   if(!duckAvoidance[key]){
@@ -1052,13 +1072,15 @@ function draw(now){
    duckAvoidance[key]={angle:bestAngle,direction:1,lastTime:now,lastHit:-10000,avoidUntil:0};
   }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
-  // Keep a consistent swim speed and shared direction so ducks maintain their
-  // spacing instead of overtaking, reversing, and repeatedly meeting head-on.
-  // Encounters speed the whole flock up together without changing relative spacing.
+  // The lead duck sets the route; every follower smoothly keeps its slot behind
+  // it. A shared angular gap preserves order while formations change.
   const swimRate=encounterAnim&&encounterAnim.phase==='active'?.00012:.000048;
-  state.direction=1;state.angle+=dt*swimRate;state.lastTime=now;
-  const a=state.angle;
-  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x:cx+Math.cos(a)*rx*.53,y:cy+Math.sin(a)*ry*.48+Math.sin(now*.0034+i*1.7)*.65});
+  if(i===0){state.angle+=dt*swimRate;duckFormation.leaderAngle=state.angle;}
+  else state.angle=duckFormation.leaderAngle+i*baseGap;
+  state.direction=1;state.lastTime=now;
+  const a=state.angle,zig=(i%2===0?-1:1)*zigzagMix*.052;
+  const radiusX=rx*(.53+zig),radiusY=ry*(.48+zig);
+  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:a,x:cx+Math.cos(a)*radiusX,y:cy+Math.sin(a)*radiusY});
  }
  // Duck paths are deliberately non-reactive here: the old collision response
  // reversed directions and applied uneven speed boosts, repeatedly compressing
