@@ -411,3 +411,11 @@ When a strider jumps off a lily pad near the pond edge, its takeoff direction is
 - Messages generated close together are queued instead of overwriting or stacking on top of one another. Repeated consecutive messages are deduplicated, and the local-storage warning is only queued once if browser storage is unavailable.
 - The initial peaceful-pond message uses the same lifecycle. All event-message producers route through the queue; the separate bottom toast notifications keep their existing behavior.
 - Inline JavaScript syntax compilation passed. GitHub Pages publication and live browser timing have not been independently verified.
+
+
+## 23. Cozy pond-first interface redesign (2026-10-16)
+
+- Refined the full-screen pond UI toward a soft storybook/cottagecore look: a compact floating title plaque with separate round utility buttons, two small stacked status lozenges on phones, and a warm translucent bottom dock with a prominent “Find a duck” action and three clearly labeled secondary actions.
+- Removed several ornamental pseudo-elements from the active HUD and action controls so they no longer compete with pond life. Reduced hard-edged/card-like visual weight, retained cream paper, warm wood, sage, and rose tones, and used softer organic corner shapes and subtle pressed states.
+- Preserved the full-viewport pond canvas, all existing controls/IDs, event-message queue/fade behavior, modal layouts, game mechanics, and save data. Responsive rules adapt the HUD and controls for narrow phones, short screens, and wider displays.
+- Inline JavaScript syntax compilation passed. This is a CSS presentation change; live visual inspection on device and GitHub Pages deployment have not been independently verified.
