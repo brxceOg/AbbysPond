@@ -573,3 +573,11 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - The placement check also applies when existing ducks are initialized after a reload or when the pond is first drawn, avoiding the same overlap issue for uninitialized swim states.
 - If the flock is too crowded for any sampled point to meet the preferred clearance, the system selects the candidate with the greatest available distance. Existing continuous swim movement and collision avoidance remain intact.
 - Embedded JavaScript syntax compilation passed. Live browser placement and small-screen crowding should still be verified in-game.
+
+## 42. Duck-to-duck path avoidance (2026-10-16)
+
+- Updated flock collision handling so two ducks do not reverse swimming direction together when they approach too closely. Reversing both preserved their relative motion and could make them repeatedly converge and bounce off each other.
+- A close encounter now makes one duck yield by reversing direction while both ducks share a 2.6-second cooldown, giving them time to separate before another avoidance response can trigger.
+- The swim paths remain continuous in position; no teleporting or save-data changes were introduced.
+- Kept the pond dimensions unchanged for now. The existing swim area should be evaluated with the improved avoidance before enlarging the pond, so the pond's visual balance is not changed without need.
+- Embedded JavaScript syntax compilation passed. Live flock behavior and crowded-pond performance still need an in-browser check.
