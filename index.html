@@ -1483,8 +1483,8 @@ function draw(now){
   ctx.restore();
   // After the brief knockout slump, tiny dizzy stars orbit tightly around the injured duck's head.
   if(d.injured&&d.knockoutAt&&Date.now()-d.knockoutAt>=900){
-   const dizzyAge=now*.0034+i*1.1,orbit=4.7+Math.sin(now*.004+i)*.35,headY=y+bob-15;
-   ctx.save();ctx.translate(x,headY);ctx.globalAlpha=.9;
+   const dizzyAge=now*.0034+i*1.1,orbit=4.7+Math.sin(now*.004+i)*.35,headX=x+dir*6.2,headY=y+bob-15;
+   ctx.save();ctx.translate(headX,headY);ctx.globalAlpha=.9;
    for(let k=0;k<3;k++){
     const a=dizzyAge+k*Math.PI*2/3, sx=Math.cos(a)*orbit, sy=Math.sin(a)*2.9;
     ctx.save();ctx.translate(sx,sy);ctx.rotate(-a*.75);
