@@ -695,3 +695,15 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 2. Apply the design consistently to existing UI surfaces without rewriting gameplay systems.
 3. Generate per-surface torn-edge variation at runtime, with a stable restrained range and safe fallback for reduced motion or unsupported features.
 4. Validate JavaScript syntax and inspect all existing menu render paths for CSS regressions. Live iPhone Safari verification remains a separate check if no browser is available.
+
+## Session 7 follow-up — Integrated HUD and tactile home controls (2026-10-16)
+
+The home screen now uses a compact, shared status bar for Pond Pennies and Your Flock. Each status uses a custom inline SVG coin or duck silhouette, while the existing live values remain bound to the original `money`, `income`, `count`, and `collection` elements. The settings control is integrated into the title row.
+
+The four existing menu actions remain their original buttons and retain their original `data-menu` destinations: Find a duck (`roll`), Pond upgrades (`upgrades`), Your flock (`flock`), and Keepsakes (`inventory`). Their visual treatment is now a four-column row of distinct, tactile wooden/ceramic tiles with layered depth, inset highlights, readable high-contrast labels, and a clear pressed state. Keep these real controls connected to the existing menu system; do not replace them with decorative demo buttons.
+
+The pond container blends into the moss/grass palette with a restrained green halo rather than a thick, high-contrast frame. The canvas and all existing pond-rendering layers remain intact. Duck health indicators are now small floating rounded pills; their displayed fill eases toward the real health ratio each frame, without changing combat health, damage, healing, encounter logic, or persisted duck data.
+
+The UI refinement is presentation-only. Preserve `abbys-pond-save-v1`, all current save migration/validation, economy, offline earnings, duck identities and rarity odds, upgrades, equipment, collection, inventory, predator behavior, combat rewards, duck and strider animation, canvas rendering, tap-to-ripple behavior, and existing modal actions. The title row, compact HUD, pond frame, and bottom tiles must not use the generic torn-paper clipping treatment; retain the per-instance handcrafted paper treatment for appropriate modal/content panels. Continue to support iPhone Safari safe areas, narrow widths, touch input, keyboard focus, and reduced-motion preferences.
+
+Validation performed for this commit: repository content checks confirmed the four original action buttons and their menu destinations remain in place, the original live HUD IDs are retained, and the new health-pill easing and custom SVG icons are present. A live iPhone Safari visual/playability pass is still required; do not treat source-level checks as proof of final device appearance or deployment completion.
