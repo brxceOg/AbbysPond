@@ -150,3 +150,122 @@ button,input,select,option,textarea{font-size:1.05rem}
 @keyframes prize-stamp{0%{opacity:0;transform:scale(.75) rotate(-8deg)}70%{opacity:1;transform:scale(1.06) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
 @media(max-width:390px){.lure-card{padding:9px}.lure-stage{height:208px}.picnic-blanket{width:82%;height:123px;top:28px}.lure-duck{font-size:48px}.polaroid{width:min(100%,250px)}.polaroid-photo,.prize-art{height:92px}.polaroid-caption h3{font-size:1.8rem}}
 @media(prefers-reduced-motion:reduce){.lure-stage.is-rustling .meadow-grass,.lure-stage.is-rustling .picnic-blanket,.lure-stage.is-rustling .water-ripples,.lure-stage.has-duck .lure-duck,.lure-stage.has-duck .lure-sparkle,.polaroid,.polaroid-stamp,.polaroid-duck,.prize-art{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+
+/* Find a Duck picnic polish: binder-safe spacing, quiet idle scene, and a docked wooden action. */
+.modal[data-theme="meadow"] .content{
+  padding-left:28px!important;
+}
+.modal[data-theme="meadow"] .lure-card{
+  margin-top:24px!important;
+  padding:15px 13px 13px!important;
+  overflow:visible!important;
+  border-radius:16px 20px 17px 19px;
+}
+.modal[data-theme="meadow"] .lure-heading{
+  margin-top:5px;
+  padding:7px 7px 12px;
+  line-height:1.2;
+  font-size:1.2rem;
+}
+.modal[data-theme="meadow"] .lure-stage{
+  border:3px solid #8ba888!important;
+  border-radius:18px!important;
+  overflow:hidden!important;
+  background:linear-gradient(180deg,#e1ebcd 0%,#bfd3a4 48%,#9fbd8c 100%);
+  box-shadow:inset 0 0 0 2px rgba(255,253,235,.72),inset 0 -25px 35px rgba(56,102,70,.13);
+}
+.modal[data-theme="meadow"] .picnic-blanket{
+  border-radius:18px!important;
+  box-shadow:0 4px 0 rgba(69,85,49,.16),0 9px 16px rgba(56,75,44,.2),inset 0 1px 0 rgba(255,255,255,.75);
+}
+.modal[data-theme="meadow"] .blanket-stitch{border-radius:12px!important}
+.picnic-caption{
+  margin:9px 4px 0;
+  color:#79644b;
+  text-align:center;
+  font:1.12rem 'Caveat','Patrick Hand',cursive;
+  letter-spacing:.02em;
+  line-height:1.2;
+}
+.modal[data-theme="meadow"] .roll-status{
+  min-height:0;
+  padding:12px 5px 3px;
+}
+.modal[data-theme="meadow"] .polaroid{
+  width:min(100%,290px);
+  margin:12px auto 7px;
+  padding:17px 13px 16px;
+  border:1px solid #e8ddcd;
+  border-radius:3px 4px 5px 4px;
+  background:#fffdfa!important;
+  box-shadow:0 2px 3px rgba(76,56,36,.08),0 9px 19px rgba(65,47,30,.14),inset 0 0 0 1px rgba(255,255,255,.9);
+  transform:rotate(-.6deg);
+}
+.modal[data-theme="meadow"] .polaroid:after{
+  top:-6px;
+  width:58px;
+  height:14px;
+  background:repeating-linear-gradient(135deg,#ead3a7 0 6px,#f8e8c8 6px 12px);
+  box-shadow:0 2px 3px rgba(65,47,30,.12);
+}
+.modal[data-theme="meadow"] .polaroid-photo{
+  height:122px;
+  margin-top:12px;
+  border:5px solid #fff;
+  border-bottom-width:8px;
+  border-radius:2px;
+  background:radial-gradient(ellipse at 50% 70%,#e2ebd0,#b6ca9d 78%);
+  box-shadow:inset 0 0 0 1px #8ba888,0 1px 2px rgba(75,90,57,.08);
+}
+.modal[data-theme="meadow"] .polaroid-duck{font-size:68px}
+.modal[data-theme="meadow"] .polaroid-caption{padding:10px 3px 0}
+.modal[data-theme="meadow"] .polaroid-caption p{margin:0 0 4px}
+.modal[data-theme="meadow"] .polaroid-caption h3{margin:2px 0 7px;font-size:2.15rem}
+.modal[data-theme="meadow"] .polaroid-stats{gap:8px;margin-top:10px}
+.modal[data-theme="meadow"] .polaroid-stats span{padding:5px 10px}
+.modal[data-theme="meadow"] .lure-action-dock{
+  position:sticky;
+  bottom:-1px;
+  z-index:12;
+  margin:14px 0 0;
+  padding:10px 0 max(8px,env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(247,241,227,0),rgba(247,241,227,.94) 20%,#f7f1e3 48%);
+}
+.modal[data-theme="meadow"] .lure-action-dock .primary{
+  width:100%;
+  min-height:52px;
+  padding:12px 15px!important;
+  border:1.5px solid #a27c57!important;
+  border-radius:13px 15px 12px 14px!important;
+  background:linear-gradient(180deg,#e3c69a 0%,#c6a077 52%,#b38a62 100%)!important;
+  color:#4f3827!important;
+  text-shadow:0 1px rgba(255,249,226,.65);
+  box-shadow:0 5px 0 #8a684a,inset 0 1px 0 rgba(255,255,255,.75),inset 0 -2px 0 rgba(104,70,42,.22)!important;
+  font:700 1.35rem 'Caveat','Patrick Hand',cursive!important;
+  letter-spacing:.02em;
+  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+}
+.modal[data-theme="meadow"] .lure-action-dock .primary:active:not(:disabled){
+  transform:translateY(4px)!important;
+  box-shadow:0 1px 0 #8a684a,inset 0 1px 2px rgba(104,70,42,.22)!important;
+  filter:saturate(.96);
+}
+.modal[data-theme="meadow"] .lure-action-dock .primary:disabled{
+  background:linear-gradient(180deg,#d9d0bd,#bcb09a)!important;
+  box-shadow:0 2px 0 #9e927d!important;
+  color:#665b4b!important;
+}
+@media(max-width:390px){
+  .modal[data-theme="meadow"] .content{padding-left:28px!important;padding-right:10px!important}
+  .modal[data-theme="meadow"] .lure-card{padding:12px 9px 11px!important;margin-top:21px!important}
+  .modal[data-theme="meadow"] .lure-stage{height:208px}
+  .modal[data-theme="meadow"] .picnic-blanket{width:82%;height:123px;top:28px}
+  .modal[data-theme="meadow"] .polaroid{width:min(100%,270px);padding:15px 10px 14px}
+  .modal[data-theme="meadow"] .polaroid-photo{height:108px}
+  .modal[data-theme="meadow"] .polaroid-caption h3{font-size:1.9rem}
+  .modal[data-theme="meadow"] .lure-action-dock .primary{min-height:50px}
+}
+@media(prefers-reduced-motion:reduce){
+  .modal[data-theme="meadow"] .lure-action-dock .primary{transition:none!important}
+}
