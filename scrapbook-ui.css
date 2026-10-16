@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&family=Quicksand:wght@500;600;700&display=swap');
+
+/* Global cozy type system: prevent native controls or nested components from reverting to system fonts. */
+*{font-family:'Patrick Hand','Caveat',cursive,sans-serif!important}
+html,body{font-family:'Patrick Hand','Caveat',cursive,sans-serif!important;font-size:1.05rem}
+h1,h2,h3,h4,h5,h6,.modal-title,.modal #title,.modal .mtitle,.section-title,.section-heading,.subheader,.brand h1,.brand h2,.mhead h2,.eyebrow,.flock-tab,.tab-label,.primary,.secondary,.danger,.action-button{font-family:'Caveat','Patrick Hand',cursive!important}
+button,input,select,option,textarea,[role='button'],[role='tab']{font-family:inherit!important}
+button,input,select,option,textarea{font-size:1.05rem}
+.stat label,.pill,.badge,.tag,.eyebrow,.helper,.note,.desc,.description,.flavor,.empty,.offline{font-family:'Patrick Hand','Caveat',cursive!important;font-size:1.05rem}
+.stat strong,.stat .value,.number,.amount,.health,.damage,.level,.cost,.currency,.count,.progress-label{font-family:'Patrick Hand','Caveat',cursive!important;font-size:1.2rem}
+
 /* DIY SCRAPBOOK FIELD JOURNAL: tactile paper, binder edge, clips, and stickers. */
 :root{--scrap-paper:#f7f1e3;--scrap-ink:#2b1d14;--scrap-pencil:#3d2e24;--scrap-edge:#d8c3a4}
 .modal{
