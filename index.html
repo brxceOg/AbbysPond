@@ -459,11 +459,13 @@ function draw(now){
  ctx.globalAlpha=1;
  // Clearly visible buoyant drift: each pad wanders on its own slow, overlapping current.
  // The larger path is intentional so movement reads on a phone screen at normal scale.
+ const lilyPadPositions=[];
  for(let i=0;i<6;i++){
   const a=i*.97+.25;
   const driftX=Math.sin(now*.00031+i*1.7)*12+Math.sin(now*.00017+i*2.3)*4.5;
   const driftY=Math.sin(now*.00027+i*1.31)*8+Math.cos(now*.00019+i*1.9)*3;
   const x=cx+Math.cos(a)*rx*.72+driftX,y=cy+Math.sin(a)*ry*.68+driftY;
+  lilyPadPositions.push({x,y,angle:Math.sin(a)*.24+Math.sin(now*.00025+i*1.4)*.11});
   ctx.save();ctx.translate(x,y);
   const padAngle=Math.sin(a)*.24+Math.sin(now*.00025+i*1.4)*.11;
   ctx.rotate(padAngle);
@@ -506,9 +508,8 @@ function draw(now){
    }
   }
  }
- // Water striders swim forward under their own momentum. When a duck gets
- // close, they turn their heading away and keep swimming in that direction
- // instead of being position-offset sideways like they are sliding on ice.
+ // Water striders swim under their own momentum, avoid ducks, and can
+ // hop onto a drifting lily pad for a short rest before jumping back off.
  const striderDt=Math.min(2.4,Math.max(.35,(now-waterStriderLastTime)/16.67||1));
  waterStriderLastTime=now;
  ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx*.94,ry*.93,0,0,Math.PI*2);ctx.clip();
@@ -517,46 +518,76 @@ function draw(now){
   let st=waterStriderStates[i];
   if(!st){
    const a=i*2.1;
-   st=waterStriderStates[i]={x:cx+Math.sin(a)*rx*.42,y:cy+Math.cos(a*1.25)*ry*.46,heading:Math.atan2(-Math.sin(a*1.25),Math.cos(a))};
+   st=waterStriderStates[i]={x:cx+Math.sin(a)*rx*.42,y:cy+Math.cos(a*1.25)*ry*.46,heading:Math.atan2(-Math.sin(a*1.25),Math.cos(a)),mode:'water',padIndex:-1,modeStart:now,restDuration:1200+Math.random()*1500,nextPadTime:now+Math.random()*1800,jumpFromX:0,jumpFromY:0,jumpToX:0,jumpToY:0};
   }
-  let targetHeading=st.heading,nearest=Infinity,awayX=0,awayY=0;
-  for(const swimmer of swimmers){
-   const dx=st.x-swimmer.x,dy=st.y-swimmer.y,dist=Math.hypot(dx,dy)||.001;
-   if(dist<34&&dist<nearest){nearest=dist;awayX=dx/dist;awayY=dy/dist;}
+  let jumpHeight=0;
+  if(st.mode==='water'){
+   let targetHeading=st.heading,nearest=Infinity,awayX=0,awayY=0;
+   for(const swimmer of swimmers){
+    const dx=st.x-swimmer.x,dy=st.y-swimmer.y,dist=Math.hypot(dx,dy)||.001;
+    if(dist<34&&dist<nearest){nearest=dist;awayX=dx/dist;awayY=dy/dist;}
+   }
+   if(nearest<34)targetHeading=Math.atan2(awayY,awayX);
+   else{
+    const nx=(st.x-cx)/(rx*.84||1),ny=(st.y-cy)/(ry*.83||1);
+    if(nx*nx+ny*ny>.78)targetHeading=Math.atan2(cy-st.y,cx-st.x);
+    else if(Math.sin(seed*.7+i)>.997)targetHeading+=.9;
+   }
+   let delta=((targetHeading-st.heading+Math.PI*3)%(Math.PI*2))-Math.PI;
+   st.heading+=Math.max(-.075*striderDt,Math.min(.075*striderDt,delta));
+   st.x+=Math.cos(st.heading)*.46*striderDt;st.y+=Math.sin(st.heading)*.46*striderDt;
+   if(now>=st.nextPadTime&&nearest>=34){
+    let padNear=Infinity,padIndex=-1;
+    for(let p=0;p<lilyPadPositions.length;p++){
+     const pad=lilyPadPositions[p],dist=Math.hypot(st.x-pad.x,st.y-pad.y);
+     if(dist<padNear){padNear=dist;padIndex=p;}
+    }
+    if(padIndex>=0&&padNear<19){
+     const pad=lilyPadPositions[padIndex];
+     st.mode='landing';st.padIndex=padIndex;st.modeStart=now;
+     st.jumpFromX=st.x;st.jumpFromY=st.y;st.jumpToX=pad.x;st.jumpToY=pad.y;
+     st.restDuration=950+Math.random()*1750;
+    }
+   }
+  }else if(st.mode==='landing'){
+   const pad=lilyPadPositions[st.padIndex];
+   if(!pad){st.mode='water';st.nextPadTime=now+900;}
+   else{
+    const t=Math.min(1,(now-st.modeStart)/420),ease=t*t*(3-2*t);
+    st.x=st.jumpFromX+(pad.x-st.jumpFromX)*ease;st.y=st.jumpFromY+(pad.y-st.jumpFromY)*ease;
+    jumpHeight=Math.sin(t*Math.PI)*10;
+    if(t>=1){st.mode='resting';st.modeStart=now;st.x=pad.x;st.y=pad.y;}
+   }
+  }else if(st.mode==='resting'){
+   const pad=lilyPadPositions[st.padIndex];
+   if(!pad){st.mode='water';st.nextPadTime=now+900;}
+   else{
+    st.x=pad.x;st.y=pad.y;jumpHeight=.25+Math.sin(now*.009+i)*.25;
+    if(now-st.modeStart>=st.restDuration){
+     st.mode='takeoff';st.modeStart=now;st.jumpFromX=pad.x;st.jumpFromY=pad.y;
+     st.heading+=(Math.random()-.5)*1.5;st.jumpToX=pad.x+Math.cos(st.heading)*24;st.jumpToY=pad.y+Math.sin(st.heading)*24;
+    }
+   }
+  }else if(st.mode==='takeoff'){
+   const t=Math.min(1,(now-st.modeStart)/360),ease=t*t*(3-2*t);
+   st.x=st.jumpFromX+(st.jumpToX-st.jumpFromX)*ease;st.y=st.jumpFromY+(st.jumpToY-st.jumpFromY)*ease;
+   jumpHeight=Math.sin(t*Math.PI)*9;
+   if(t>=1){st.mode='water';st.modeStart=now;st.nextPadTime=now+1100;st.padIndex=-1;}
   }
-  if(nearest<34){
-   // Commit to a genuine turn away from the nearest duck; movement follows
-   // this heading so the strider retreats rather than gliding sideways.
-   targetHeading=Math.atan2(awayY,awayX);
-  }else{
-   const nx=(st.x-cx)/(rx*.84||1),ny=(st.y-cy)/(ry*.83||1);
-   if(nx*nx+ny*ny>.78)targetHeading=Math.atan2(cy-st.y,cx-st.x);
-   else if(Math.sin(seed*.7+i)>0.997)targetHeading+=.9;
-  }
-  let delta=((targetHeading-st.heading+Math.PI*3)%(Math.PI*2))-Math.PI;
-  st.heading+=Math.max(-.075*striderDt,Math.min(.075*striderDt,delta));
-  const speed=.46;
-  st.x+=Math.cos(st.heading)*speed*striderDt;
-  st.y+=Math.sin(st.heading)*speed*striderDt;
-  const bx=st.x,by=st.y;
-  const movement=1;
+  const bx=st.x,by=st.y,drawY=by-jumpHeight;
+  const movement=st.mode==='water'?1:st.mode==='resting'?.12:.7;
   const facing=st.heading;
   const strokeLeft=Math.sin(now*.009*(.12+.88*movement)+i*2.4);
   const strokeRight=Math.sin(now*.009*(.12+.88*movement)+i*2.4+Math.PI);
+  if(jumpHeight>1){ctx.globalAlpha=.18;ctx.fillStyle='#285f5c';ctx.beginPath();ctx.ellipse(bx+2,by+3,4,1.5,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}
   ctx.strokeStyle='#416b61';ctx.lineWidth=.8;ctx.beginPath();
-  ctx.moveTo(bx,by-1);ctx.lineTo(bx-6,by-5);
-  ctx.moveTo(bx+1,by-1);ctx.lineTo(bx+7,by-5);
-  ctx.moveTo(bx,by+1);ctx.lineTo(bx-6,by+5);
-  ctx.moveTo(bx+1,by+1);ctx.lineTo(bx+7,by+5);
-  const leftTipX=bx-5.5-Math.max(0,strokeLeft)*1.2,leftTipY=by+strokeLeft*2.5;
-  const rightTipX=bx+6.5+Math.max(0,strokeRight)*1.2,rightTipY=by+strokeRight*2.5;
-  ctx.moveTo(bx,by);ctx.lineTo(leftTipX,leftTipY);
-  ctx.moveTo(bx+1,by);ctx.lineTo(rightTipX,rightTipY);
-  ctx.stroke();
-  ctx.save();ctx.translate(bx,by);ctx.rotate(facing);
-  ctx.fillStyle='#34584e';ctx.fillRect(-1,-1,3,2);
-  ctx.restore();
-  ctx.globalAlpha=.34;ctx.strokeStyle='#e7fff0';ctx.beginPath();ctx.ellipse(bx,by+2,5+((Math.sin(seed*2)+1)*1.2),2,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
+  ctx.moveTo(bx-1,drawY-1);ctx.lineTo(bx-6,drawY-5);ctx.moveTo(bx+1,drawY-1);ctx.lineTo(bx+7,drawY-5);
+  ctx.moveTo(bx,drawY+1);ctx.lineTo(bx-6,drawY+5);ctx.moveTo(bx+1,drawY+1);ctx.lineTo(bx+7,drawY+5);
+  const leftTipX=bx-5.5-Math.max(0,strokeLeft)*1.2,leftTipY=drawY+strokeLeft*2.5;
+  const rightTipX=bx+6.5+Math.max(0,strokeRight)*1.2,rightTipY=drawY+strokeRight*2.5;
+  ctx.moveTo(bx,drawY);ctx.lineTo(leftTipX,leftTipY);ctx.moveTo(bx+1,drawY);ctx.lineTo(rightTipX,rightTipY);ctx.stroke();
+  ctx.save();ctx.translate(bx,drawY);ctx.rotate(facing);ctx.fillStyle='#34584e';ctx.fillRect(-1,-1,3,2);ctx.restore();
+  ctx.globalAlpha=.34;ctx.strokeStyle='#e7fff0';ctx.beginPath();ctx.ellipse(bx,drawY+2,5+((Math.sin(seed*2)+1)*1.2),2,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;
  }
  ctx.restore();
  // Gentle concentric rings travel outward from each floating duck. Draw them before
