@@ -341,3 +341,7 @@ Lily pad boundary handling constrains the full visible sprite footprint (leaf, s
 
 ## Pond shoreline sprite clipping correction
 The water-texture clipping region is now closed immediately after drawing the water surface marks. Lily pads, ducks, water striders (including their legs and jump arcs), and flying insects render without being cut off by the pond ellipse. Water striders retain their existing shoreline-avoidance steering; water texture itself remains clipped to the pond.
+
+
+## Water strider animation boundary safeguard
+After every water-strider movement or animation update, each strider is constrained to an inner safe-water ellipse with room for its legs and jump arc. If an animation reaches the boundary, its position is projected back inside and an outward heading is redirected inward. Takeoff targets are adjusted to avoid carrying a strider outside the pond.
