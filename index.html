@@ -475,7 +475,9 @@ function draw(now){
   }
   motion.vx*=Math.pow(.94,padDt);motion.vy*=Math.pow(.94,padDt);motion.x+=motion.vx*padDt;motion.y+=motion.vy*padDt;
   let x=baseX+motion.x,y=baseY+motion.y;
-  const boundX=rx*.89,boundY=ry*.87,nx=(x-cx)/boundX,ny=(y-cy)/boundY,edge=nx*nx+ny*ny;
+  // Constrain the whole pad sprite (including its shadow and flowers), not just its center,
+  // to the water ellipse. This leaves a safe margin inside the visible shoreline.
+  const boundX=Math.max(1,rx*.947-20),boundY=Math.max(1,ry*.947-13),nx=(x-cx)/boundX,ny=(y-cy)/boundY,edge=nx*nx+ny*ny;
   if(edge>1){const scale=1/Math.sqrt(edge);x=cx+(x-cx)*scale;y=cy+(y-cy)*scale;motion.x=x-baseX;motion.y=y-baseY;const nxv=(x-cx)/(boundX*boundX),nyv=(y-cy)/(boundY*boundY),outward=motion.vx*nxv+motion.vy*nyv,denom=nxv*nxv+nyv*nyv||1;if(outward>0){motion.vx-=2*outward*nxv/denom;motion.vy-=2*outward*nyv/denom;}motion.vx*=.35;motion.vy*=.35;}
   lilyPadPositions.push({x,y,angle:Math.sin(a)*.24+Math.sin(now*.00025+i*1.4)*.11});
   ctx.save();ctx.translate(x,y);
