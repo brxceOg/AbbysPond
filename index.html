@@ -461,6 +461,155 @@ body{padding:0;overscroll-behavior:none}
 @media(max-height:700px){.action,.action:not(:first-child),.action:first-child{height:60px;min-height:60px;bottom:calc(env(safe-area-inset-bottom) + 7px)}.action .tile,.action:first-child .tile{width:23px;height:23px;flex-basis:23px}.event{bottom:calc(env(safe-area-inset-bottom) + 73px)}}
 @media(max-height:600px){.action,.action:not(:first-child),.action:first-child{height:52px;min-height:52px;flex-direction:row;gap:4px}.action .tile,.action:first-child .tile{width:20px;height:20px;flex-basis:20px;font-size:13px}.action strong,.action:first-child strong{font-size:8px}.event{bottom:calc(env(safe-area-inset-bottom) + 62px)}}
 @media(min-width:700px){.action,.action:not(:first-child),.action:first-child{width:22%;max-width:150px;height:84px;min-height:84px;bottom:calc(env(safe-area-inset-bottom) + 20px)}.action:nth-child(1){left:2%}.action:nth-child(2){left:26%}.action:nth-child(3){left:50%}.action:nth-child(4){left:74%}.action .tile,.action:first-child .tile{width:34px;height:34px;flex-basis:34px;font-size:20px}.action strong,.action:first-child strong{font-size:12px}.event{bottom:calc(env(safe-area-inset-bottom) + 118px)}}
+
+/* Session 5 — nature scrapbook: illustrated paper ephemera around the living pixel pond. */
+:root{
+ --scrap-paper:#fff8e9;--scrap-paper-light:#fffdf4;--scrap-edge:#d8bd98;
+ --scrap-ink:#624a40;--scrap-muted:#927766;--scrap-sage:#738b68;--scrap-rose:#a85f6e;
+}
+body{
+ background-color:#e8ddc7;
+ background-image:
+  radial-gradient(ellipse at 12% 12%,#fff9e9 0,transparent 28%),
+  radial-gradient(ellipse at 88% 76%,#dbe4ce88 0,transparent 25%),
+  linear-gradient(135deg,#f1e5d1,#e8dbc6);
+}
+.top{
+ width:min(275px,calc(100% - 104px));
+ min-height:50px;
+ padding:5px 10px 6px 6px;
+ border:1px solid #d8bd98;
+ border-radius:7px 17px 8px 16px;
+ background:
+  radial-gradient(circle at 8px 8px,#d5b99a 0 1px,transparent 1.5px),
+  linear-gradient(115deg,#fff9e9f5,#fff2dff0);
+ box-shadow:0 3px 0 #bfa27d55,0 8px 17px #5143331c;
+ backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.top:before{
+ content:"";position:absolute;left:48px;right:9px;top:4px;height:3px;
+ background:repeating-linear-gradient(90deg,#d6b899 0 3px,transparent 3px 7px);
+ opacity:.62;pointer-events:none;
+}
+.top .flower{border-radius:50%;background:#f8e7d4;border:1px solid #dfc3a2;box-shadow:0 2px 0 #cbb08e}
+.top .flower:after{inset:3px;border:1px dashed #cba98a}
+.brand h1{font-family:Lora,Georgia,serif;font-size:clamp(19px,4.9vw,23px);font-weight:600;letter-spacing:-.6px;color:#704e4a}
+.brand .eyebrow{font-family:Caveat,cursive;font-size:15px;line-height:1;letter-spacing:.35px;color:#a17d68}
+.top .icon{
+ border-radius:50% 45% 50% 43%;background:#fff6e6f5;border:1px solid #d8bd98;
+ box-shadow:0 3px 0 #bfa27d77,0 6px 12px #51433318;color:#876454;
+}
+.hud{top:calc(env(safe-area-inset-top) + 72px);left:12px;right:12px;width:auto;height:0;display:block}
+.hud .stat{
+ position:absolute;top:0;width:min(145px,40vw);padding:8px 11px 7px;
+ border:1px solid #d7bd9d;border-radius:5px 15px 6px 14px;
+ background:
+  repeating-linear-gradient(0deg,#fff9e9f2 0,#fff9e9f2 19px,#f1e1c9b0 20px,#fff9e9f2 21px),
+  linear-gradient(145deg,#fffaf0,#f8ead4);
+ box-shadow:0 3px 0 #bfa27d66,0 7px 14px #51433318;
+ backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.hud .stat:first-child{left:0;right:auto}
+.hud .stat:nth-child(2){right:0;left:auto}
+.hud .stat:before{display:block;content:"";position:absolute;right:8px;top:-4px;width:42px;height:10px;border:0;border-radius:1px;background:#d8c5a0aa;transform:rotate(3deg);box-shadow:0 1px 1px #8d725133}
+.hud .stat:after{display:none}
+.stat label{font-family:Caveat,cursive;font-size:16px;letter-spacing:.1px;color:#927461}
+.stat strong{font-family:Lora,Georgia,serif;font-size:clamp(18px,4.8vw,22px);color:#704e4a;line-height:1.22}
+.stat small{font-size:9px;color:#718565}
+.actions{
+ background:linear-gradient(145deg,#fff8e9ed,#fff1dfdf);
+ border:1px solid #d6b995;
+ border-radius:8px 19px 9px 17px;
+ box-shadow:0 3px 0 #b99c7855,0 9px 20px #51433320;
+}
+.actions:after{
+ content:"";position:absolute;left:calc(50% - 24px);top:-5px;width:48px;height:9px;
+ background:#d8c5a0c9;border:1px solid #c8ad8b;border-bottom:0;
+ transform:rotate(-2deg);pointer-events:none;
+}
+.actions:before{font-family:Caveat,cursive;font-size:17px;letter-spacing:.35px;color:#8d715d}
+.action,.action:not(:first-child){
+ border:1px solid #ddc4a4;border-radius:7px 13px 8px 12px;
+ background:linear-gradient(145deg,#fffaf0f5,#f9ecd9f2);
+ box-shadow:0 2px 0 #d1b69288;
+}
+.action:before{inset:3px;border:1px dashed #d8c09f;border-radius:5px 10px 6px 9px;opacity:.66}
+.action:after{content:"✿";right:5px;top:3px;font-family:Georgia,serif;font-size:9px;color:#bd8e80;opacity:.8}
+.action:first-child{
+ border:1px solid #c99591;border-radius:8px 17px 9px 15px;
+ background:linear-gradient(110deg,#f3d8d0f5,#f8e8d5f5 68%,#f4e6c6f5);
+ box-shadow:0 3px 0 #c89f91b8,0 5px 12px #8d655315;
+}
+.action:first-child:before{border-color:#d3a7a0;inset:4px}
+.action:first-child:after{content:"♡";font-size:15px;color:#b97981;right:10px;top:5px}
+.tile,.action:first-child .tile{
+ border-radius:50%;border:1px solid #dfbfb0;background:#f6e1d7;color:#a96873;
+ box-shadow:inset 0 0 0 2px #fff5e7;
+}
+.action .tile.sage{background:#e2ead8;color:#6c8662;border-color:#c7d3b8}
+.action .tile.blue{background:#dcebed;color:#638e94;border-color:#c1d9d8}
+.action .tile.gold{background:#f3e7c9;color:#a2844c;border-color:#e2d1a8}
+.action strong{font-family:Lora,Georgia,serif;color:#6d5048}
+.action small{color:#927a68}
+.action:active{filter:brightness(.98);transform:translateY(2px)}
+.event{
+ border:1px dashed #d4b38f;border-radius:5px 14px 6px 13px;
+ background:#fff8e9e8;color:#74594b;
+ box-shadow:0 3px 0 #b99c7840,0 6px 13px #51433318;
+}
+.modal{
+ border:1px solid #cdb08b;border-radius:7px 21px 8px 18px;
+ background:
+  radial-gradient(circle at 12px 12px,#d7bd9d 0 1px,transparent 1.5px),
+  linear-gradient(145deg,#fffaf0,#fff3df);
+ box-shadow:0 0 0 4px #fff5e3,0 0 0 5px #cdb08b,0 7px 0 #b99c7866,0 25px 65px #38262245;
+}
+.modal:before{inset:7px;border:1px dashed #ddc6a5;border-radius:4px 14px 5px 12px}
+.mhead{
+ min-height:88px;border-bottom:1px solid #dfc6a5;
+ background:
+  radial-gradient(circle at 91% 18%,#d5dfc4 0 3px,transparent 3.5px),
+  radial-gradient(circle at 95% 29%,#e7bfc0 0 3px,transparent 3.5px),
+  linear-gradient(115deg,#f8ead7,#fff8e9 65%,#f5e2d5);
+}
+.mhead .eyebrow{font-family:Caveat,cursive;font-size:17px;letter-spacing:.2px;color:#98715e}
+.mhead h2{font-family:Lora,Georgia,serif;color:#704e4a}
+.close{border-radius:50%;background:#fff6e6;border:1px solid #d8bd98;box-shadow:0 2px 0 #bfa27d66}
+.intro{border:0;border-left:3px solid #a8b995;border-radius:2px 10px 10px 2px;background:#f4ecd9;padding:10px 12px;box-shadow:none}
+.card{
+ border:1px solid #ddc6a5;border-radius:5px 13px 6px 12px;
+ background:linear-gradient(145deg,#fffaf0,#fff5e5);
+ box-shadow:0 2px 0 #d7c09f88;
+}
+.card:before{width:3px;background:repeating-linear-gradient(180deg,#b4c29e 0 7px,#d9b8a5 7px 14px,#d9c69b 14px 21px)}
+.card:after{content:"";display:none}
+.mtitle{font-family:Lora,Georgia,serif;color:#704e4a}
+.section{font-family:Caveat,cursive;font-size:19px;color:#98715e}
+.section:after{background:repeating-linear-gradient(90deg,#d7bea0 0 4px,transparent 4px 7px);height:1px}
+.primary{background:linear-gradient(180deg,#bd7b83,#a85f6e);box-shadow:0 3px 0 #8f4e5b}
+.secondary{background:#e4ecd9;border-color:#cbd9be;box-shadow:0 2px 0 #c5d3b7}
+.wheel-card{border-radius:8px 18px 9px 16px;background:linear-gradient(145deg,#fff9ee,#f7e8d9);box-shadow:0 3px 0 #d0b391}
+.wheel-card:before{font-family:Caveat,cursive;font-size:18px}
+.wheel-result{border-radius:5px 12px 6px 11px;background:#fff9ed}
+.setting{background:transparent;border-radius:0}
+.empty{border-radius:7px 16px 8px 15px}
+@media(max-width:390px){
+ .top{width:min(258px,calc(100% - 100px));left:9px}
+ .hud{left:9px;right:9px;top:calc(env(safe-area-inset-top) + 68px)}
+ .hud .stat{width:min(137px,41vw);padding:7px 9px 6px}
+ .stat label{font-size:15px}.stat strong{font-size:clamp(16px,4.5vw,19px)}
+ .actions{left:7px;right:7px}
+ .actions:before{font-size:15px}
+ .action strong{font-size:9px}.action small{font-size:8px}
+}
+@media(max-height:600px){
+ .hud{top:calc(env(safe-area-inset-top) + 61px)}
+ .stat label{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+ .top,.hud .stat,.actions,.action,.event{backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+
 </style></head><body><main class="app"><header class="top"><div class="flower">✿</div><div class="brand"><p class="eyebrow">A LITTLE WORLD, MADE WITH LOVE</p><h1>Abby's Pond</h1></div><button class="icon" id="settings" aria-label="Pond settings" title="Pond settings">☼</button></header>
 <section class="hud"><div class="stat"><label>Pond pennies</label><strong id="money">30</strong><small id="income">+1 / sec</small></div><div class="stat"><label>Your flock</label><strong id="count">1 duck</strong><small id="collection">1 of 12 found</small></div></section>
 <section class="pond" aria-label="Your pond"><canvas id="water" aria-label="Animated full-screen pond with ducks; tap the water to make ripples"></canvas><div class="pondfoot"><span id="mood">The water is lovely today.</span></div></section>
