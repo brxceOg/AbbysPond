@@ -665,3 +665,12 @@ The active visual direction is **nature scrapbook with balanced texture and an i
 - Gave the enemy's defeat exit an extra quarter-second and a more pronounced rise, rotation, and squash/stretch before fading away.
 - Extended the centered victory banner from 2.6 to 3.2 seconds before it fades out.
 - Validation: embedded JavaScript syntax check passed. Live browser visual testing was not performed.
+
+
+## 53. Cheerful duck expressions during victory celebrations (2026-10-16)
+
+- During the existing victory cheer, healthy ducks now switch from their normal species-specific eye to a clearly visible happy, closed-eye smile.
+- Added a lifted brow, warmer rosy cheek with tiny highlights, and a small curved smile accent so the emotional change reads at pond scale alongside the bounce and confetti.
+- The expression lasts for the same 1.45-second celebration window, then returns automatically to each species' normal face. Injured ducks keep their existing pain expression.
+- No combat, rewards, duck stats, save data, or celebration timing changed.
+- Embedded JavaScript syntax compilation passed. Live browser visual testing was not performed.
