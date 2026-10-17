@@ -709,7 +709,6 @@ body{
  color:#69543d!important;
  font-size:1rem!important;
 }
-#pond, .pond, #water{mix-blend-mode:normal!important}
 /* Four matching journal tiles; the first action is no longer a visually oversized banner. */
 .actions{
  grid-template-columns:repeat(4,minmax(0,1fr))!important;
