@@ -405,3 +405,114 @@ body::before{
 @media(prefers-reduced-motion:reduce){
   .action,.icon,.flower{transition:none!important}
 }
+
+
+/* MEADOW WORLD OVERHAUL — give the pond a lived-in storybook landscape.
+   All scenery is layered CSS paint; it stays behind the game UI and never intercepts taps. */
+body{
+  background:
+    radial-gradient(ellipse at 50% 2%,rgba(255,252,221,.98) 0%,rgba(255,244,202,.62) 20%,transparent 48%),
+    radial-gradient(ellipse at 8% 18%,rgba(255,255,236,.78) 0 2%,transparent 20%),
+    radial-gradient(ellipse at 88% 12%,rgba(255,255,230,.6) 0 3%,transparent 22%),
+    radial-gradient(ellipse at 8% 46%,rgba(158,184,117,.36),transparent 35%),
+    radial-gradient(ellipse at 94% 52%,rgba(176,187,116,.34),transparent 36%),
+    radial-gradient(ellipse at 50% 100%,rgba(105,141,77,.3),transparent 52%),
+    linear-gradient(180deg,#f3e8bd 0%,#dce3ae 32%,#c8d79d 68%,#b4c88d 100%)!important;
+  background-attachment:fixed!important;
+}
+.app{
+  isolation:isolate;
+  position:relative;
+}
+.app:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+  inset:74px -13px 48px;
+  border-radius:48% 44% 20px 20px;
+  background:
+    /* sunlit distant meadow and rolling banks */
+    radial-gradient(ellipse 68% 11% at 50% 28%,rgba(241,225,161,.6) 0 45%,transparent 48%),
+    radial-gradient(ellipse 66% 14% at 4% 38%,#a9bd7c 0 48%,transparent 51%),
+    radial-gradient(ellipse 61% 15% at 98% 43%,#9fb875 0 48%,transparent 51%),
+    radial-gradient(ellipse 60% 13% at 12% 72%,rgba(124,157,91,.45) 0 48%,transparent 52%),
+    radial-gradient(ellipse 62% 15% at 95% 80%,rgba(130,158,91,.42) 0 47%,transparent 52%),
+    /* little painted flower heads */
+    radial-gradient(circle at 4% 17%,#fff3c8 0 2px,transparent 2.8px),
+    radial-gradient(circle at 7% 19%,#f1d5a6 0 2px,transparent 2.8px),
+    radial-gradient(circle at 95% 21%,#f7e7bd 0 2px,transparent 2.8px),
+    radial-gradient(circle at 91% 24%,#e6b8b4 0 2.2px,transparent 3px),
+    radial-gradient(circle at 2% 56%,#f7edcf 0 2.2px,transparent 3px),
+    radial-gradient(circle at 6% 59%,#e9c1bd 0 2px,transparent 2.8px),
+    radial-gradient(circle at 97% 60%,#fff0c5 0 2px,transparent 3px),
+    radial-gradient(circle at 93% 64%,#e7b6b0 0 2px,transparent 2.8px),
+    radial-gradient(circle at 4% 87%,#f4e5b6 0 2px,transparent 2.8px),
+    radial-gradient(circle at 96% 90%,#f4e5b6 0 2px,transparent 2.8px),
+    /* hand-painted stems and grass tufts */
+    linear-gradient(77deg,transparent 48%,rgba(83,120,64,.48) 49% 51%,transparent 52%) 0 14%/22px 54px no-repeat,
+    linear-gradient(104deg,transparent 48%,rgba(83,120,64,.42) 49% 51%,transparent 52%) 5px 15%/22px 48px no-repeat,
+    linear-gradient(75deg,transparent 48%,rgba(83,120,64,.5) 49% 51%,transparent 52%) 100% 45%/24px 66px no-repeat,
+    linear-gradient(103deg,transparent 48%,rgba(83,120,64,.4) 49% 51%,transparent 52%) calc(100% - 5px) 46%/24px 58px no-repeat,
+    radial-gradient(ellipse at 0% 100%,rgba(83,119,60,.25),transparent 38%),
+    radial-gradient(ellipse at 100% 100%,rgba(83,119,60,.25),transparent 38%);
+  opacity:.94;
+}
+.app:after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+  left:3%;
+  right:3%;
+  bottom:4px;
+  height:34px;
+  opacity:.72;
+  background:
+    radial-gradient(ellipse at 8% 95%,#8ca66b 0 13%,transparent 14%),
+    radial-gradient(ellipse at 16% 100%,#a4b97a 0 15%,transparent 16%),
+    radial-gradient(ellipse at 83% 100%,#9bb574 0 15%,transparent 16%),
+    radial-gradient(ellipse at 93% 95%,#819f64 0 13%,transparent 14%),
+    radial-gradient(circle at 11% 42%,#fff0c6 0 3px,transparent 4px),
+    radial-gradient(circle at 14% 52%,#e5b6ae 0 2px,transparent 3px),
+    radial-gradient(circle at 87% 40%,#fff0c6 0 3px,transparent 4px),
+    radial-gradient(circle at 90% 53%,#e5b6ae 0 2px,transparent 3px);
+}
+.top,.hud,.pond,.actions,.event,.footer{position:relative;z-index:1}
+/* Soft edge lighting makes the pond feel set into the meadow rather than pasted on. */
+.pond{
+  box-shadow:
+    0 0 0 2px rgba(248,239,204,.92),
+    0 0 0 6px rgba(140,163,98,.22),
+    0 7px 0 #c6b087,
+    0 15px 30px rgba(64,83,43,.2),
+    0 0 34px rgba(255,244,197,.38)!important;
+}
+.pond:after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  pointer-events:none;
+  inset:5px;
+  border:1px solid rgba(255,248,216,.56);
+  border-radius:18px 14px 20px 15px;
+  box-shadow:inset 0 0 24px rgba(255,245,200,.12);
+}
+/* A small meadow-glow behind the resource notes and buttons keeps the whole screen cohesive. */
+.hud .stat,.action{
+  backdrop-filter:saturate(1.04);
+}
+.action{
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.88),
+    inset 0 -3px rgba(111,81,48,.08),
+    0 4px 0 #bca27d,
+    0 8px 16px rgba(66,79,42,.13)!important;
+}
+@media(max-width:390px){
+  .app:before{inset:70px -7px 40px}
+  .app:after{left:1%;right:1%;height:25px}
+}
+@media(prefers-reduced-motion:reduce){
+  .app:before,.app:after{scroll-behavior:auto}
+}
