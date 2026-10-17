@@ -2649,12 +2649,28 @@ function draw(now){
  });
  // Animated ripples stay within the pond edge.
  ripples=ripples.filter(r=>now-r.t<2600);ripples.forEach(r=>{let age=Math.max(0,(now-r.t)/2600),power=r.power||1;for(let ring=0;ring<2;ring++){let p=(age+ring*.24)%1;ctx.globalAlpha=Math.max(0,1-p)*(.58-ring*.12);ctx.strokeStyle=r.heart?'#fff1f2':'#e8fff0';ctx.lineWidth=1.1;ctx.beginPath();ctx.ellipse(r.x,r.y,(4+p*20)*power,(2+p*9)*power,0,0,Math.PI*2);ctx.stroke()}if(r.heart){ctx.globalAlpha=1-age;ctx.font='13px serif';ctx.fillStyle='#fff4f1';ctx.fillText('♡',r.x-5,r.y-8-age*12)}ctx.globalAlpha=1});
- // Soft leaves and flowers around the shore complete the illustrated storybook garden.
+ // Shore plants belong in the meadow, not on the pond's inked edge.
+ // Use side-local coordinates for the exclusion zone; comparing mirrored x values
+ // with the screen center allowed small grass tufts to creep into the shoreline.
  for(let side=0;side<2;side++){ctx.save();if(side){ctx.translate(W,0);ctx.scale(-1,1)}
-  for(let i=0;i<Math.ceil(H/42);i++){let y=rand(i+10,side+5)*H,x=rand(i+31,side+9)*Math.min(37,W*.105);if(Math.abs(x-W*.5)<rx+12&&y>cy-ry-10&&y<cy+ry+10)continue;ctx.save();ctx.translate(x,y);ctx.rotate((rand(i,8)-.5)*.7);ellipse(-2,2,4,8,'#4f8659');ellipse(3,-1,4,7,'#79a86b');ellipse(6,4,4,6,'#a1bd79');if(i%3===0)flower(3,-5,3.2);ctx.restore()}
-  for(let i=0;i<4;i++){let x=6+i*9+rand(i,side)*4,y=top+rand(i+5,side)*Math.max(30,H*.7);if(Math.abs(x-W*.5)<rx+10&&y>cy-ry-10&&y<cy+ry+10)continue;ctx.strokeStyle='#4d7b4e';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x-2,y-10,x,y-18);ctx.stroke();ellipse(x-3,y-19,3,6,'#76a568');ellipse(x+3,y-15,3,5,'#91b775')}
-  ctx.restore()}
- for(let i=0;i<14;i++){let a=i/14*Math.PI*2,x=cx+Math.cos(a)*(rx+rand(i,6)*4),y=cy+Math.sin(a)*(ry+rand(i,8)*4);if(x<2||x>W-8||y<1||y>H-6)continue;ellipse(x,y,3+rand(i,4)*3,2+rand(i,9)*1.5,i%3?'#b8b194':'#929f7c')}
+  const bankClearance=Math.max(48,W*.13);
+  for(let i=0;i<Math.ceil(H/42);i++){
+   let y=rand(i+10,side+5)*H,x=rand(i+31,side+9)*Math.min(37,W*.105);
+   if(x<bankClearance&&y>cy-ry*1.08&&y<cy+ry*1.08)continue;
+   ctx.save();ctx.translate(x,y);ctx.rotate((rand(i,8)-.5)*.7);
+   ellipse(-2,2,4,8,'#4f8659');ellipse(3,-1,4,7,'#79a86b');ellipse(6,4,4,6,'#a1bd79');
+   if(i%3===0)flower(3,-5,3.2);ctx.restore()
+  }
+  for(let i=0;i<4;i++){
+   let x=6+i*9+rand(i,side)*4,y=top+rand(i+5,side)*Math.max(30,H*.7);
+   if(x<bankClearance&&y>cy-ry*1.08&&y<cy+ry*1.08)continue;
+   ctx.strokeStyle='#4d7b4e';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x-2,y-10,x,y-18);ctx.stroke();
+   ellipse(x-3,y-19,3,6,'#76a568');ellipse(x+3,y-15,3,5,'#91b775')
+  }
+  ctx.restore()
+ }
+ // Removed the decorative stone ring: its old ellipse-based placement crossed
+ // the hand-shaped pond outline and made rocks appear embedded in the waterline.
  if(s.motion)for(let i=0;i<4;i++){let t=(now*.000025+i*.27)%1,x=W*(.14+t*.72),y=H*(.12+rand(i,3)*.1);ellipse(x,y,1.5,1.5,'#fff2cf')}
  // Active battle: the visitor loops rapidly around the pond and reverses course on contact.
  if(encounterAnim){
