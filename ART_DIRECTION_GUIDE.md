@@ -489,3 +489,8 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Corrected the foreground meadow plants' bank-clearance test to use the mirrored side-local coordinates, with a wider clear zone beside the water.
 - Kept the pond surface, ducks, lily pads, striders, and game interactions unchanged.
 - Commit: `4ded780f5464ae9ced8f0ce8118d4e96c1d93146`.
+
+
+## Session 9E — Clear the lower pond edge
+- Increased the side-bank plant exclusion width and extended its vertical coverage to account for the pond's lower curve on short mobile canvases.
+- Applied the same boundary clearance to both leafy ground tufts and narrow reed sprites; no changes to water, ducks, lily pads, or interactions.
