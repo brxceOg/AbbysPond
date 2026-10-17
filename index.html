@@ -1903,14 +1903,33 @@ function draw(now){
  }
  const top=Math.max(28,H*.10),bottom=Math.max(30,H*.11),cx=W*.5,cy=top+(H-top-bottom)*.50;
  const rx=Math.min(W*.335,(W-64)*.5),ry=Math.min((H-top-bottom)*.345,Math.max(58,H*.30));
- // Layered soft shoreline and a watercolor-like blue-green pond.
- // A soft offset shadow gives the oval waterline natural depth in the grassy bank.
- ctx.save();ctx.shadowColor='rgba(0,0,0,.15)';ctx.shadowBlur=24;ctx.shadowOffsetY=8;
- ellipse(cx,cy+5,rx+10,ry+10,'#527c5d');ctx.restore();
- ellipse(cx,cy+2,rx+5,ry+6,'#d9c59b');
- ellipse(cx,cy,rx+1,ry+2,'#8bb58a');
- const water=ctx.createRadialGradient(cx-rx*.28,cy-ry*.4,4,cx,cy,Math.max(rx,ry)*1.2);water.addColorStop(0,'#b5e6d5');water.addColorStop(.48,'#83c9c4');water.addColorStop(1,'#4e9da0');ellipse(cx,cy,rx*.98,ry*.98,water);
- ctx.save();ctx.beginPath();ctx.ellipse(cx,cy,rx*.947,ry*.947,0,0,Math.PI*2);ctx.clip();
+ // Organic, hand-shaped shoreline. Keep the irregularity broad and gentle so the
+ // existing ellipse-based duck movement remains safely inside the painted water.
+ const organicPond=(scale=1,dy=0)=>{
+  const x=rx*scale,y=ry*scale;
+  ctx.beginPath();
+  ctx.moveTo(cx-x*.79,cy+dy-y*.57);
+  ctx.bezierCurveTo(cx-x*.94,cy+dy-y*.82,cx-x*.62,cy+dy-y*.99,cx-x*.30,cy+dy-y*.91);
+  ctx.bezierCurveTo(cx-x*.02,cy+dy-y*1.01,cx+x*.25,cy+dy-y*.92,cx+x*.48,cy+dy-y*.79);
+  ctx.bezierCurveTo(cx+x*.78,cy+dy-y*.73,cx+x*.99,cy+dy-y*.46,cx+x*.94,cy+dy-y*.15);
+  ctx.bezierCurveTo(cx+x*1.01,cy+dy+y*.13,cx+x*.80,cy+dy+y*.43,cx+x*.59,cy+dy+y*.59);
+  ctx.bezierCurveTo(cx+x*.39,cy+dy+y*.83,cx+x*.10,cy+dy+y*.91,cx-x*.16,cy+dy+y*.88);
+  ctx.bezierCurveTo(cx-x*.42,cy+dy+y*.99,cx-x*.70,cy+dy+y*.78,cx-x*.81,cy+dy+y*.54);
+  ctx.bezierCurveTo(cx-x*1.01,cy+dy+y*.30,cx-x*.97,cy+dy-y*.24,cx-x*.79,cy+dy-y*.57);
+  ctx.closePath();
+ };
+ // Offset shadow, textured bank, shallows, and rich blue-green water.
+ ctx.save();ctx.shadowColor='rgba(37,58,40,.28)';ctx.shadowBlur=18;ctx.shadowOffsetY=8;
+ organicPond(1.10,7);ctx.fillStyle='#4d704c';ctx.fill();ctx.restore();
+ organicPond(1.075,3);ctx.fillStyle='#8a815e';ctx.fill();
+ organicPond(1.035,1);ctx.fillStyle='#d1bd91';ctx.fill();
+ organicPond(1.005,0);ctx.fillStyle='#91ad79';ctx.fill();
+ const water=ctx.createRadialGradient(cx-rx*.23,cy-ry*.36,3,cx,cy,Math.max(rx,ry)*1.12);
+ water.addColorStop(0,'#a9d8c5');water.addColorStop(.28,'#79b9ad');water.addColorStop(.68,'#4d9690');water.addColorStop(1,'#315f5b');
+ organicPond(.975,0);ctx.fillStyle=water;ctx.fill();
+ // Fine shallow edge wash gives the water a soft, hand-painted shoreline.
+ organicPond(.942,0);ctx.strokeStyle='rgba(202,222,174,.32)';ctx.lineWidth=3.5;ctx.stroke();
+ ctx.save();organicPond(.942,0);ctx.clip();
  // These are the pond's free-floating surface texture marks (not duck ripples).
  // Give each mark a clear, slow lateral-and-vertical wave drift so the texture visibly flows.
  for(let i=0;i<34;i++){
@@ -1921,11 +1940,13 @@ function draw(now){
   const y=cy+Math.sin(a)*ry*r+Math.sin(crossWave)*3.1;
   const breathe=(Math.sin(now*.00062+i*1.6)+1)*.5;
   ctx.globalAlpha=.16+rand(i,9)*.17+breathe*.09;
-  ctx.strokeStyle=i%2?'#e5fff0':'#3e9294';
+  ctx.strokeStyle=i%2?'rgba(226,247,220,.88)':'rgba(43,116,112,.52)';
   ctx.lineWidth=.7+rand(i,11)*1.2;
   ctx.beginPath();
   ctx.ellipse(x,y,4+rand(i,12)*7,1.5+rand(i,13)*2,a*.08+Math.sin(phase)*.28,Math.PI*.1,Math.PI*.9);
   ctx.stroke();
+  // A few broader, very faint light bands give the surface a slow living shimmer.
+  if(i%4===0){ctx.globalAlpha=.07+Math.sin(phase)*.025;ctx.strokeStyle='#eff6d9';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x-4,y+2,11+rand(i,14)*9,3,a*.08,Math.PI*.15,Math.PI*.85);ctx.stroke();ctx.globalAlpha=1;}
  }
  ctx.globalAlpha=1;
  // Close the surface-texture clip here; moving sprites must not be clipped by the shoreline.
