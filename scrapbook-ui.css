@@ -522,3 +522,10 @@ body{
 .app{isolation:isolate;position:relative}
 .app:before,.app:after{z-index:0!important;pointer-events:none!important}
 .app>.top,.app>.hud,.app>.pond,.app>.actions,.app>.event,.app>.footer{position:relative;z-index:1}
+
+
+/* Visual cleanup: remove broken full-screen pond overlays and keep the menu background clear. */
+.app > .pond:before,.app > .pond:after{display:none!important;content:none!important}
+.app > .pond{background:radial-gradient(ellipse at 50% 50%,#397f91 0%,#4a9fa9 38%,#68b9b9 72%,#9ad2c9 100%)!important}
+.app > .actions{background:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.app > .actions:before,.app > .actions:after{display:none!important;content:none!important}
