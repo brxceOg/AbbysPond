@@ -1966,9 +1966,9 @@ function draw(now){
   }
   motion.vx*=Math.pow(.94,padDt);motion.vy*=Math.pow(.94,padDt);motion.x+=motion.vx*padDt;motion.y+=motion.vy*padDt;
   let x=baseX+motion.x,y=baseY+motion.y;
-  // Constrain the whole pad sprite (including its shadow and flowers), not just its center,
-  // to the water ellipse. This leaves a safe margin inside the visible shoreline.
-  const boundX=Math.max(1,rx*.947-20),boundY=Math.max(1,ry*.947-13),nx=(x-cx)/boundX,ny=(y-cy)/boundY,edge=nx*nx+ny*ny;
+  // Keep the whole leaf, shadow, and flowers inside the irregular shoreline,
+  // with extra clearance at the pond's narrower shoulders.
+  const boundX=Math.max(1,rx*.76-20),boundY=Math.max(1,ry*.76-15),nx=(x-cx)/boundX,ny=(y-cy)/boundY,edge=nx*nx+ny*ny;
   if(edge>1){const scale=1/Math.sqrt(edge);x=cx+(x-cx)*scale;y=cy+(y-cy)*scale;motion.x=x-baseX;motion.y=y-baseY;const nxv=(x-cx)/(boundX*boundX),nyv=(y-cy)/(boundY*boundY),outward=motion.vx*nxv+motion.vy*nyv,denom=nxv*nxv+nyv*nyv||1;if(outward>0){motion.vx-=2*outward*nxv/denom;motion.vy-=2*outward*nyv/denom;}motion.vx*=.35;motion.vy*=.35;}
   lilyPadPositions.push({x,y,angle:Math.sin(a)*.24+Math.sin(now*.00025+i*1.4)*.11});
   ctx.save();ctx.translate(x,y);
@@ -2196,7 +2196,7 @@ function draw(now){
      if(intrudingDuck)st.heading=Math.atan2(pad.y-intrudingDuck.y,pad.x-intrudingDuck.x);else st.heading+=(Math.random()-.5)*1.5;
      // Near the shoreline, aim the hop along the pond's inward normal instead
      // of letting the boundary correction snap the strider to a different point.
-     const takeoffRx=Math.max(1,rx*.94-12),takeoffRy=Math.max(1,ry*.93-12);
+     const takeoffRx=Math.max(1,rx*.76-17),takeoffRy=Math.max(1,ry*.76-16);
      const edgeNX=(pad.x-cx)/(takeoffRx*takeoffRx),edgeNY=(pad.y-cy)/(takeoffRy*takeoffRy);
      const edgeScore=((pad.x-cx)/takeoffRx)**2+((pad.y-cy)/takeoffRy)**2;
      const inwardHeading=Math.atan2(-edgeNY,-edgeNX);
@@ -2219,8 +2219,8 @@ function draw(now){
    jumpHeight=Math.sin(t*Math.PI)*9;
    if(t>=1){st.mode='water';st.modeStart=now;st.nextPadTime=now+1100;st.padIndex=-1;}
   }
-  // Keep every strider animation inside a safe-water ellipse, including its legs and jump arc.
-  const safeRx=Math.max(1,rx*.94-12),safeRy=Math.max(1,ry*.93-12);
+  // Keep the body, legs, and jump arc inside the inset safe-water boundary.
+  const safeRx=Math.max(1,rx*.76-17),safeRy=Math.max(1,ry*.76-16);
   const safeNX=(st.x-cx)/safeRx,safeNY=(st.y-cy)/safeRy,safeEdge=safeNX*safeNX+safeNY*safeNY;
   if(safeEdge>1){
    const inv=1/Math.sqrt(safeEdge);
