@@ -590,3 +590,79 @@ body{
   background:none!important;
   box-shadow:none!important;
 }
+
+
+/* SESSION 9 — warm handcrafted pond polish.
+   Real element backgrounds/borders only: no blend modes, no pond pseudo-element overlays,
+   and no transforms on the pond/canvas itself. */
+:root{
+ --pond-deep:#167eb0;
+ --pond-mid:#269bc0;
+ --pond-shallows:#75c9c5;
+ --meadow-light:#e4edce;
+ --meadow-mid:#c9dcb0;
+ --meadow-deep:#b1ca97;
+}
+html{background:#d8e6c5!important}
+body{
+ background:
+  radial-gradient(ellipse at 12% 8%,rgba(255,250,224,.86) 0,transparent 37%),
+  radial-gradient(ellipse at 90% 82%,rgba(173,202,145,.45) 0,transparent 35%),
+  linear-gradient(155deg,var(--meadow-light) 0%,var(--meadow-mid) 54%,var(--meadow-deep) 100%)!important;
+}
+/* Paper-tag resource counters: texture comes from the element's own background. */
+.hud .stat{
+ background:
+  repeating-linear-gradient(0deg,rgba(123,83,49,.025) 0 1px,transparent 1px 4px),
+  linear-gradient(145deg,#fff9e9 0%,#f8e8c9 100%)!important;
+ border:1.5px solid #cdb18b!important;
+ border-radius:13px 17px 12px 16px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 0 0 3px rgba(255,250,232,.62),0 3px 0 #b99a73,0 7px 13px rgba(83,62,39,.12)!important;
+ color:#59402f!important;
+}
+.hud .stat label{color:#805f43!important}
+.hud .stat strong{color:#5b402d!important;text-shadow:0 1px rgba(255,255,255,.65)}
+.hud .stat small{color:#55764d!important}
+/* Shoreline frame is confined to the existing pond box. */
+.pond{
+ border:6px solid #f7e9c9!important;
+ border-radius:28px 25px 30px 24px!important;
+ outline:1px solid #b68b5f!important;
+ outline-offset:1px!important;
+ background:radial-gradient(ellipse at 50% 48%,var(--pond-deep) 0%,var(--pond-mid) 48%,var(--pond-shallows) 100%)!important;
+ box-shadow:0 0 0 2px #d0b18a,0 0 0 5px #e4d2ae,0 5px 0 #9b7a52,0 12px 23px rgba(75,87,53,.2)!important;
+}
+/* Water, ducks, and pads are canvas-rendered. Preserve its geometry and pointer coordinates. */
+canvas#water{transform:none!important;filter:none!important}
+/* Wooden / painted keepsake tiles with a tactile pressed state. */
+.actions .action{
+ border:1.5px solid #b78c61!important;
+ border-radius:15px 18px 14px 17px!important;
+ background:
+  repeating-linear-gradient(0deg,rgba(103,67,37,.025) 0 1px,transparent 1px 5px),
+  linear-gradient(145deg,#fff4dc 0%,#ecd4ad 100%)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.88),inset 0 0 0 3px rgba(255,249,226,.4),0 4px 0 #9d754d,0 7px 12px rgba(72,52,32,.12)!important;
+ color:#553b2b!important;
+ transition:transform .13s ease,box-shadow .13s ease,filter .16s ease!important;
+}
+.actions .action:first-child{
+ border-color:#ad766e!important;
+ background:
+  repeating-linear-gradient(0deg,rgba(116,66,53,.025) 0 1px,transparent 1px 5px),
+  linear-gradient(120deg,#f4d3c9 0%,#f8e5c9 62%,#f3e3b5 100%)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 4px 0 #ad8274,0 8px 15px rgba(94,56,45,.14)!important;
+}
+.actions .action .tile{
+ border:1px solid #c69b74!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -2px 0 rgba(111,74,42,.08)!important;
+}
+.actions .action strong{color:#62432f!important}
+.actions .action small{color:#82664d!important}
+.actions .action:active,.actions .action:first-child:active{
+ transform:scale(.95)!important;
+ box-shadow:inset 0 2px 4px rgba(83,54,31,.16),0 1px 0 #9d754d!important;
+ filter:saturate(.96);
+}
+.actions .action:focus-visible{outline:3px solid #587b4e!important;outline-offset:3px!important}
+@media(hover:hover){.actions .action:hover{filter:brightness(1.025) saturate(1.025)}}
+@media(prefers-reduced-motion:reduce){.actions .action{transition:none!important}}
