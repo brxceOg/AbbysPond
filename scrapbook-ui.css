@@ -159,3 +159,47 @@ button,input,select,option,textarea{font-size:1.05rem}
 .scratch-panel.sticker-note.is-spinning .scratch-cover{opacity:.08;transform:translateY(-12px) rotate(12deg) scale(.84)}
 @media(max-width:390px){.scratch-panel.sticker-note{min-height:128px;padding:7px 3px 10px}.scratch-panel.sticker-note .scratch-cover.sticker-cover{inset:6px 3px 8px;gap:4px;border-width:2px}.scratch-panel.sticker-note .sticker-art{width:42px;height:42px;font-size:1.85rem}.scratch-panel.sticker-note .sticker-title{font-size:.78rem}.scratch-panel.sticker-note .sticker-peel{font-size:.61rem;padding:3px 5px}}
 @media(prefers-reduced-motion:reduce){.scratch-panel.sticker-note .scratch-cover.sticker-cover,.scratch-panel.sticker-note .sticker-art{transition:none!important}}
+
+
+/* Sticker-only choice: no cards or grey scratch boxes behind the symbols. */
+.scratch-panels{gap:12px;align-items:center;padding:10px 2px 14px}
+.scratch-panel.sticker-note{
+  min-height:112px!important;height:112px;padding:0!important;
+  display:grid;place-items:center;overflow:visible!important;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;isolation:isolate;
+}
+.scratch-panel.sticker-note:nth-child(2){transform:translateY(5px) rotate(2deg)}
+.scratch-panel.sticker-note:nth-child(3){transform:rotate(-3deg)}
+.scratch-panel.sticker-note:before{display:none!important}
+.scratch-panel.sticker-note .scratch-cover.sticker-cover{
+  position:absolute;inset:0!important;z-index:3;
+  display:grid!important;place-items:center!important;gap:0!important;
+  overflow:visible!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  transform:rotate(var(--sticker-tilt,-2deg));
+  transition:opacity .34s ease,transform .48s cubic-bezier(.2,.75,.25,1.25),filter .34s ease!important;
+}
+.scratch-panel.sticker-note-1{--sticker-tilt:-7deg}
+.scratch-panel.sticker-note-2{--sticker-tilt:5deg}
+.scratch-panel.sticker-note-3{--sticker-tilt:-4deg}
+.scratch-panel.sticker-note .sticker-art{
+  width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
+  display:block!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+  font-size:clamp(4.2rem,16vw,6rem)!important;line-height:1!important;
+  filter:drop-shadow(0 3px 0 #fffdf7) drop-shadow(2px 0 0 #fffdf7) drop-shadow(-2px 0 0 #fffdf7) drop-shadow(0 -2px 0 #fffdf7) drop-shadow(0 6px 5px rgba(74,51,30,.2))!important;
+  transition:transform .2s ease!important;
+}
+.scratch-panel.sticker-note:active:not(:disabled) .sticker-art{transform:scale(.9) rotate(-7deg)}
+.scratch-panel.sticker-note.is-scratching .scratch-cover.sticker-cover{
+  opacity:0;filter:blur(.3px);
+  transform:translate(18px,-34px) rotate(32deg) scale(.42)!important;
+}
+.scratch-panel.sticker-note.is-spinning .scratch-cover.sticker-cover{opacity:0!important}
+.scratch-panel.sticker-note.is-locked{opacity:.45!important;filter:saturate(.6)}
+.scratch-panel.sticker-note.is-revealed{min-height:0!important;height:auto!important;align-self:stretch;padding:5px!important;background:#f8f1df!important;border:1px solid #d6c4a4!important;border-radius:5px!important;box-shadow:0 3px 0 #c7b18d!important;overflow:hidden!important}
+.scratch-panel.sticker-note.is-revealed .scratch-cover{display:none!important}
+.scratch-panel.sticker-note .scratch-hidden{display:none!important}
+@media(max-width:390px){.scratch-panels{gap:7px;padding-left:0;padding-right:0}.scratch-panel.sticker-note{height:94px;min-height:94px!important}.scratch-panel.sticker-note .sticker-art{font-size:clamp(3.8rem,17vw,4.8rem)!important}}
+@media(prefers-reduced-motion:reduce){.scratch-panel.sticker-note .scratch-cover.sticker-cover{transition:none!important}}
