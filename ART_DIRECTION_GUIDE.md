@@ -463,3 +463,15 @@ The art overhaul is successful when:
 ---
 
 **Implementation note:** This is an art-direction and prototype-code guide. The snippets are examples to integrate into the existing structure, not a claim that the live game has already been redesigned.
+
+## Implementation log — Session 9 visual pass (2026-10-17)
+
+This pass implements a first substantial slice of the guide's pond and journal direction while preserving the existing gameplay renderer and event handlers.
+
+- Replaced the bright blue water palette with the guide's muted deep-pond / pond-teal / shallow-water family (#315F5B, #477F78, #79A99A).
+- Added slow, low-contrast hand-painted water strokes and reflected-sky patches clipped to the existing organic water path. These are canvas details within the pond, not page or CSS overlays.
+- Added a fine ink contour and retained the layered moss, soil, aged-paper, and grass bank rings around the existing organic shoreline.
+- Replaced flat oval lily-pad fills with notched leaf silhouettes, shaded leaf gradients, and central/branch veins. Existing drift, collision avoidance, and pad motion remain in place.
+- Refined the four bottom actions into a consistent four-tile field-journal row with the existing custom inline SVG illustrations, tactile painted-paper surfaces, legible labels, and pressed states. The first action no longer gets a separate oversized banner treatment.
+- Kept decorations attached to the pond canvas or their own UI elements. No new full-screen overlays or mix-blend-mode effects were added by this pass.
+- Remaining art-direction work: more hand-varied shoreline plants and stones, more anatomically illustrated duck silhouettes and feather details, and iPhone visual/performance verification. The active renderer still needs a device-size visual QA pass before calling the overall art overhaul complete.
