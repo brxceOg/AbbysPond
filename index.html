@@ -1674,9 +1674,39 @@ function startScratch(index){
   const panel=document.querySelector('.scratch-panel[data-action="scratch:'+index+'"]'),status=$('scratch-status');
   if(panel){panel.classList.add('is-scratching');panel.disabled=true}
   document.querySelectorAll('.scratch-panel').forEach((el,i)=>{if(i!==index){el.classList.add('is-locked');el.disabled=true}});
-  if(status)status.textContent='A little rubbing… the muddy seal is coming loose.';
+  if(status)status.textContent='Tiny footprints are appearing… who could it be?';
   const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  window.setTimeout(()=>finishLure(outcome,price),reduced?80:1050);
+  let spinTimer=null;
+  if(panel&&!reduced){
+    const stage=document.createElement('span');
+    stage.className='scratch-spin-stage';
+    stage.setAttribute('aria-hidden','true');
+    stage.innerHTML='<span class="spin-duck">🦆</span><span class="spin-name">A mystery visitor…</span>';
+    panel.appendChild(stage);
+    panel.classList.add('is-spinning');
+    let tick=0;
+    const spinPool=ducks.slice();
+    spinTimer=window.setInterval(()=>{
+      const pick=spinPool[Math.floor(Math.random()*spinPool.length)];
+      stage.innerHTML='<span class="spin-duck" style="--spin-color:'+pick.c+';--spin-belly:'+pick.b+'">'+pick.e+'</span><span class="spin-name">'+pick.name+'</span>';
+      stage.classList.remove('spin-pop');void stage.offsetWidth;stage.classList.add('spin-pop');
+      tick++;
+      if(tick>=10){
+        window.clearInterval(spinTimer);spinTimer=null;
+        if(outcome.type==='duck'){
+          stage.innerHTML='<span class="spin-duck winner-duck" style="--spin-color:'+outcome.duck.c+';--spin-belly:'+outcome.duck.b+'">'+outcome.duck.e+'</span><span class="spin-name">'+outcome.duck.name+'!</span>';
+        }else{
+          stage.innerHTML='<span class="spin-duck winner-duck">'+(outcome.type==='petal'?'🌸':'🪙')+'</span><span class="spin-name">'+(outcome.type==='petal'?'Keepsake Petal':'Pond Pennies')+'!</span>';
+        }
+        stage.classList.add('spin-landed');
+        if(status)status.textContent='The footprints have stopped… a little visitor has been found!';
+      }
+    },75);
+  }
+  window.setTimeout(()=>{
+    if(spinTimer!==null)window.clearInterval(spinTimer);
+    finishLure(outcome,price);
+  },reduced?80:1050);
 }
 function finishLure(outcome,price){
   if(outcome.type==='duck'){
