@@ -203,3 +203,35 @@ button,input,select,option,textarea{font-size:1.05rem}
 .scratch-panel.sticker-note .scratch-hidden{display:none!important}
 @media(max-width:390px){.scratch-panels{gap:7px;padding-left:0;padding-right:0}.scratch-panel.sticker-note{height:94px;min-height:94px!important}.scratch-panel.sticker-note .sticker-art{font-size:clamp(3.8rem,17vw,4.8rem)!important}}
 @media(prefers-reduced-motion:reduce){.scratch-panel.sticker-note .scratch-cover.sticker-cover{transition:none!important}}
+
+
+/* Final targeted correction: the three unpeeled choices are stickers, not cards. */
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed){
+  background:transparent!important;
+  border:0!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed)::before{
+  display:none!important;
+  content:none!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed) .scratch-cover.sticker-cover{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed) .sticker-art{
+  display:block!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  width:auto!important;
+  height:auto!important;
+  font-size:clamp(4.2rem,16vw,6rem)!important;
+  filter:drop-shadow(0 0 2px #fffdf7) drop-shadow(0 0 2px #fffdf7) drop-shadow(0 4px 4px rgba(74,51,30,.18))!important;
+}
