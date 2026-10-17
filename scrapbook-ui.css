@@ -124,3 +124,18 @@ button,input,select,option,textarea{font-size:1.05rem}
 @keyframes scratch-paper-reveal{0%{opacity:0;transform:translateY(7px) rotate(.5deg)}100%{opacity:1;transform:translateY(0) rotate(0)}}
 @media(max-width:390px){.modal[data-theme="meadow"] .content{padding-left:23px!important;padding-right:10px!important}.field-journal{padding:14px 9px 11px;margin-top:16px}.scratch-panels{gap:5px}.scratch-panel{min-height:125px;padding:5px 3px}.scratch-cover{inset:4px;gap:6px}.scratch-number{font-size:.82rem}.scratch-rub{font-size:.76rem;padding:3px 5px}.scratch-reward .polaroid{padding:6px 3px 7px}.scratch-reward .polaroid-photo{height:46px}.scratch-reward .polaroid-duck{font-size:31px}.scratch-reward .polaroid-caption h3{font-size:1.12rem}.scratch-reward .polaroid-stats span{font-size:.64rem}.field-footnote{font-size:.68rem}}
 @media(prefers-reduced-motion:reduce){.scratch-cover,.scratch-panel,.scratch-reward .polaroid{transition:none!important;animation:none!important}.scratch-panel.is-scratching .scratch-cover,.scratch-panel.is-revealed .scratch-cover{opacity:0}}
+
+
+/* Uncharted Footprints reveal: a quick, tactile duck shuffle before the real reward lands. */
+.scratch-panel{position:relative;overflow:hidden}
+.scratch-spin-stage{position:absolute;inset:8px;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:2px solid #c4a56e;border-radius:12px;background:radial-gradient(ellipse at 50% 28%,#fffdf2 0,#f0dfb9 72%,#dfc69a 100%);box-shadow:inset 0 0 0 3px rgba(255,255,255,.55),0 4px 12px rgba(55,40,23,.2);pointer-events:none;color:#493523}
+.scratch-spin-stage .spin-duck{display:flex;align-items:center;justify-content:center;min-width:68px;min-height:58px;font-size:clamp(2.7rem,8vw,4.2rem);line-height:1;filter:drop-shadow(0 4px 1px rgba(75,54,30,.16));transform-origin:50% 80%}
+.scratch-spin-stage .spin-name{font-size:1.05rem;font-weight:700;line-height:1.1;text-align:center;padding:3px 8px;border-radius:10px;background:rgba(255,250,232,.82);max-width:100%;overflow-wrap:anywhere}
+.scratch-spin-stage.spin-pop .spin-duck{animation:footprintDuckPop .14s ease-out}
+.scratch-spin-stage.spin-landed{animation:footprintLand .34s cubic-bezier(.2,1.5,.4,1)}
+.scratch-spin-stage .winner-duck{animation:footprintWinner .38s cubic-bezier(.2,1.6,.35,1);filter:drop-shadow(0 0 10px rgba(246,207,103,.8))}
+.scratch-panel.is-spinning .scratch-cover{opacity:.12;transform:scale(.96);transition:opacity .15s ease,transform .15s ease}
+@keyframes footprintDuckPop{0%{transform:translateY(4px) scale(.78) rotate(-7deg)}70%{transform:translateY(-3px) scale(1.12) rotate(5deg)}100%{transform:translateY(0) scale(1) rotate(0)}}
+@keyframes footprintLand{0%{transform:scale(.82) rotate(-3deg)}65%{transform:scale(1.04) rotate(1deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes footprintWinner{0%{transform:scale(.5) translateY(8px)}70%{transform:scale(1.18) translateY(-3px)}100%{transform:scale(1) translateY(0)}}
+@media(prefers-reduced-motion:reduce){.scratch-spin-stage,.scratch-spin-stage *{animation:none!important;transition:none!important}}
