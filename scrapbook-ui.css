@@ -278,3 +278,22 @@ button,input,select,option,textarea{font-size:1.05rem}
   .modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed){height:94px!important;min-height:94px!important}
   .modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed) .sticker-art{font-size:clamp(3.8rem,17vw,4.8rem)!important}
 }
+
+
+/* Sticker Peel roll choices: clear, compact price tags and multi-roll reward grids. */
+.scratch-panel.sticker-note{padding-top:27px!important}
+.scratch-panel.sticker-note .sticker-price{position:absolute;z-index:4;top:5px;right:4px;display:flex;align-items:center;gap:2px;max-width:calc(100% - 8px);padding:3px 5px;border:1px solid #d8bd8d;border-radius:7px 6px 7px 5px;background:#fff9e9;color:#765632;font:800 clamp(.62rem,2.2vw,.76rem)/1.1 Nunito,system-ui,sans-serif;box-shadow:0 2px 0 #d4bd97;white-space:nowrap}
+.scratch-panel.sticker-note .sticker-price small{font-size:.62em;color:#b18b4c}
+.scratch-panel.sticker-note .sticker-roll-count{position:absolute;z-index:3;left:50%;bottom:3px;transform:translateX(-50%);padding:2px 6px;border-radius:999px;background:#fff8e8d9;color:#70563a;font:700 .72rem/1.2 'Patrick Hand',cursive;white-space:nowrap;pointer-events:none}
+.scratch-panel.sticker-note .sticker-art{margin-top:4px}
+.scratch-panel.sticker-note.is-revealed .sticker-price,.scratch-panel.sticker-note.is-revealed .sticker-roll-count{display:none}
+.multi-reward-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;align-items:stretch}
+.multi-reward{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;padding:6px 3px;border:1px solid #e3d1b7;border-radius:8px;background:#fffaf0;text-align:center;overflow:hidden}
+.multi-reward-art{display:flex;align-items:center;justify-content:center;width:100%;height:38px;font-size:27px;overflow:hidden}
+.multi-reward-art svg{width:40px;height:34px;max-width:100%}
+.multi-reward strong{max-width:100%;font:700 .77rem/1.1 'Patrick Hand',cursive;color:#70504b;overflow-wrap:anywhere}
+.multi-reward .pill{font-size:.56rem;padding:2px 4px;white-space:normal}
+.multi-reward small{font-size:.62rem;line-height:1.1;color:#8a765f}
+.scratch-panel.is-revealed:has(.multi-reward-grid){width:100%;grid-column:1/-1}
+.scratch-panels:has(.scratch-panel.is-revealed .multi-reward-grid){grid-template-columns:1fr}
+@media(max-width:390px){.scratch-panel.sticker-note .sticker-price{top:5px;right:3px;padding:3px 4px;font-size:.61rem}.scratch-panel.sticker-note .sticker-roll-count{font-size:.65rem}.multi-reward-grid{gap:4px}.multi-reward{padding:5px 2px}.multi-reward-art{height:32px}.multi-reward-art svg{height:29px}.multi-reward strong{font-size:.7rem}}
