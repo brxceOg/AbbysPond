@@ -516,3 +516,9 @@ body{
 @media(prefers-reduced-motion:reduce){
   .app:before,.app:after{scroll-behavior:auto}
 }
+
+
+/* Layering correction: keep meadow art inside the app's stacking context, above the page background. */
+.app{isolation:isolate;position:relative}
+.app:before,.app:after{z-index:0!important;pointer-events:none!important}
+.app>.top,.app>.hud,.app>.pond,.app>.actions,.app>.event,.app>.footer{position:relative;z-index:1}
