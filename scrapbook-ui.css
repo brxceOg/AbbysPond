@@ -666,3 +666,120 @@ canvas#water{transform:none!important;filter:none!important}
 .actions .action:focus-visible{outline:3px solid #587b4e!important;outline-offset:3px!important}
 @media(hover:hover){.actions .action:hover{filter:brightness(1.025) saturate(1.025)}}
 @media(prefers-reduced-motion:reduce){.actions .action{transition:none!important}}
+
+
+/* SESSION 9B — field-journal composition polish from ART_DIRECTION_GUIDE.md.
+   Keep decoration on its owning element; no scene-wide overlay layers. */
+:root{
+ --field-ink:#443a30;
+ --field-paper:#f4ebd7;
+ --field-aged:#e5d5b8;
+ --field-moss:#687b4a;
+ --field-teal:#477f78;
+}
+body{
+ color:var(--field-ink)!important;
+ background:
+  radial-gradient(ellipse at 7% 10%,rgba(255,250,224,.9) 0,transparent 34%),
+  radial-gradient(ellipse at 93% 88%,rgba(151,177,111,.22) 0,transparent 34%),
+  linear-gradient(155deg,#e7edcf 0%,#d2e0b8 54%,#b7cc9e 100%)!important;
+}
+.top .brand h1{color:#5c6747!important;text-shadow:0 1px rgba(255,255,255,.6)}
+.top .eyebrow{color:#8b7659!important;letter-spacing:1.5px!important}
+.top .flower,.top .icon{
+ border:1.5px solid #c9b18a!important;
+ background:linear-gradient(145deg,#fff9e9,#ead9b8)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 3px 0 #b89b71,0 5px 10px rgba(69,58,40,.1)!important;
+}
+.pond{
+ border:5px solid #f4ebd7!important;
+ border-radius:25px 29px 24px 30px!important;
+ outline:1px solid #80634a!important;
+ outline-offset:2px!important;
+ box-shadow:0 0 0 2px #e5d5b8,0 0 0 4px #b2a078,0 5px 0 #80634a,0 13px 22px rgba(49,54,37,.18)!important;
+}
+.pond .pondfoot{
+ position:relative!important;
+ min-height:42px!important;
+ padding:8px 12px!important;
+ background:
+  repeating-linear-gradient(0deg,rgba(111,82,48,.025) 0 1px,transparent 1px 4px),
+  linear-gradient(135deg,#f8f0dd,#e9d8b8)!important;
+ border-top:1px solid #c4aa80!important;
+ color:#69543d!important;
+ font-size:1rem!important;
+}
+#pond, .pond, #water{mix-blend-mode:normal!important}
+/* Four matching journal tiles; the first action is no longer a visually oversized banner. */
+.actions{
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:7px!important;
+ margin-top:18px!important;
+ padding-top:5px!important;
+}
+.actions .action,.actions .action:first-child{
+ grid-column:auto!important;
+ min-width:0!important;
+ min-height:105px!important;
+ padding:9px 4px 8px!important;
+ display:flex!important;
+ flex-direction:column!important;
+ justify-content:center!important;
+ align-items:center!important;
+ gap:5px!important;
+ text-align:center!important;
+ border:1.5px solid #8a6947!important;
+ border-radius:12px 9px 13px 10px!important;
+ background:
+  repeating-linear-gradient(0deg,rgba(102,76,48,.025) 0 1px,transparent 1px 5px),
+  linear-gradient(155deg,#f7edda 0%,#e8d4ad 72%,#d9c093 100%)!important;
+ box-shadow:inset 0 1px rgba(255,255,255,.7),inset 0 -3px rgba(102,76,48,.1),0 3px 0 rgba(89,65,44,.24),0 6px 10px rgba(61,54,38,.08)!important;
+ color:#443a30!important;
+}
+.actions .action:first-child{
+ border-color:#a86f6a!important;
+ background:
+  repeating-linear-gradient(0deg,rgba(116,66,53,.022) 0 1px,transparent 1px 5px),
+  linear-gradient(150deg,#f8e6d7,#edcfc1 72%,#dfb8aa)!important;
+}
+.actions .action:before,.actions .action:after{content:none!important;display:none!important}
+.actions .button-sketch{
+ display:block!important;
+ width:clamp(27px,7vw,39px)!important;
+ height:auto!important;
+ max-width:100%!important;
+ flex:0 0 auto!important;
+ filter:drop-shadow(0 1px 0 rgba(255,255,255,.45));
+}
+.actions .button-label{display:block!important;min-width:0!important;width:100%!important}
+.actions .button-label strong{
+ display:block!important;
+ font:700 clamp(10px,2.7vw,13px)/1.08 'Patrick Hand',cursive!important;
+ color:#443a30!important;
+ overflow-wrap:anywhere!important;
+}
+.actions .button-label small{
+ display:block!important;
+ margin-top:3px!important;
+ font:500 clamp(8px,2.1vw,10px)/1.1 'Patrick Hand',cursive!important;
+ color:#79644c!important;
+ overflow-wrap:anywhere!important;
+}
+.actions .action:active,.actions .action:first-child:active{
+ transform:translateY(2px) scale(.97)!important;
+ box-shadow:inset 0 2px 4px rgba(61,45,31,.16),0 1px 0 rgba(89,65,44,.2)!important;
+}
+.actions .action:focus-visible{outline:3px solid #477f78!important;outline-offset:3px!important}
+@media(max-width:370px){
+ .actions{gap:5px!important}
+ .actions .action,.actions .action:first-child{min-height:94px!important;padding:7px 2px!important}
+ .actions .button-label small{display:none!important}
+ .actions .button-sketch{width:29px!important}
+}
+@media(min-width:480px){
+ .actions .action,.actions .action:first-child{min-height:112px!important}
+ .actions .button-sketch{width:39px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .actions .action{transition:none!important}
+}
