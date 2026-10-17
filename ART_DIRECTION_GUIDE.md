@@ -475,3 +475,10 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Refined the four bottom actions into a consistent four-tile field-journal row with the existing custom inline SVG illustrations, tactile painted-paper surfaces, legible labels, and pressed states. The first action no longer gets a separate oversized banner treatment.
 - Kept decorations attached to the pond canvas or their own UI elements. No new full-screen overlays or mix-blend-mode effects were added by this pass.
 - Remaining art-direction work: more hand-varied shoreline plants and stones, more anatomically illustrated duck silhouettes and feather details, and iPhone visual/performance verification. The active renderer still needs a device-size visual QA pass before calling the overall art overhaul complete.
+
+
+### Session 9C — Pond object boundary correction (2026-10-17)
+- Tightened lily-pad center limits and accounted for the full leaf/shadow footprint so drifting pads stay inside the visible, irregular shoreline.
+- Tightened water-strider swimming and takeoff safety limits to keep their bodies, legs, and jump animations inside the pond instead of relying on the previous broad ellipse.
+- Kept the existing duck formation paths, lily-pad drift/collision behavior, and insect movement intact.
+- Commit: `ccc1b072d798eaaca84418b2a90e5c8d6a82dce2`.
