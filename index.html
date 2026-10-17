@@ -1725,7 +1725,7 @@ function rollMenu(c){
 function startScratch(index){
   if(rolling||scratchChoiceIndex!==null||!Number.isInteger(index)||index<0||index>2)return;
   const price=rollCost();
-  if(s.money<price)return say('A few more pennies first, sweet pea.');
+  if(s.money<price)return say('This sticker needs '+fmt(price)+' Pond Pennies, sweet pea.');
   s.money-=price;s.rolls++;
   let outcome;
   if(Math.random()<.10){outcome=Math.random()<.5?{type:'petal'}:{type:'pennies',bonus:Math.max(2,Math.floor(price*(.25+Math.random()*.25)))}}
