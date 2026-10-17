@@ -863,3 +863,14 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 
 - Follow-up testing showed that Find a Duck worked, but settings, upgrades, flock, and keepsakes did not render. The scratch-off replacement had inadvertently removed the four existing menu renderer functions (`settingsMenu`, `upgradeMenu`, `flockMenu`, and `inventoryMenu`). Restored the original menu renderers from the pre-replacement source while leaving the new scratch-off flow intact.
 - Source checks confirmed all four menu renderer declarations are present again. Live iPhone Safari verification is still pending.
+
+
+## 23. Session 9 — warm handcrafted visual polish (2026-10-17)
+
+- Keep the home scene's existing pond, ducks, lily pads, canvas coordinates, animations, and gameplay logic unchanged.
+- Warm the surrounding meadow with a soft pastel-green gradient using the page background, without full-screen pseudo-element overlays.
+- Style resource counters as warm paper tags and bottom navigation as tactile painted/wooden tiles with restrained texture, clear dark typography, layered physical shadows, and a pressed scale state.
+- Add a warm, layered shoreline frame through the existing pond element's border/outline/shadow only; it must not cover or intercept the water canvas.
+- The water, duck sprites, and lily pads are drawn inside the existing canvas. CSS must not scale or transform the canvas to fake individual ripples, as that would move the rendered scene relative to its interaction coordinates and crop the organic shoreline. Preserve the renderer's existing in-pond ripples and slow water/pad motion; only add per-sprite CSS animation if those sprites become separate DOM elements.
+- Avoid mix-blend-mode and any new pond-container pseudo-element overlays. Do not change element IDs, event handlers, game logic, save data, canvas sizing, or interaction geometry.
+- Validate CSS and inline JavaScript syntax, confirm all existing IDs/handlers are unchanged, and inspect the live page before claiming visual verification.
