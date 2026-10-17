@@ -482,3 +482,10 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Tightened water-strider swimming and takeoff safety limits to keep their bodies, legs, and jump animations inside the pond instead of relying on the previous broad ellipse.
 - Kept the existing duck formation paths, lily-pad drift/collision behavior, and insect movement intact.
 - Commit: `ccc1b072d798eaaca84418b2a90e5c8d6a82dce2`.
+
+
+### Session 9D — Clean pond edge (2026-10-17)
+- Removed the decorative stone ring that was positioned on an ellipse and visibly crossed the organic pond shoreline.
+- Corrected the foreground meadow plants' bank-clearance test to use the mirrored side-local coordinates, with a wider clear zone beside the water.
+- Kept the pond surface, ducks, lily pads, striders, and game interactions unchanged.
+- Commit: `4ded780f5464ae9ced8f0ce8118d4e96c1d93146`.
