@@ -139,3 +139,23 @@ button,input,select,option,textarea{font-size:1.05rem}
 @keyframes footprintLand{0%{transform:scale(.82) rotate(-3deg)}65%{transform:scale(1.04) rotate(1deg)}100%{transform:scale(1) rotate(0)}}
 @keyframes footprintWinner{0%{transform:scale(.5) translateY(8px)}70%{transform:scale(1.18) translateY(-3px)}100%{transform:scale(1) translateY(0)}}
 @media(prefers-reduced-motion:reduce){.scratch-spin-stage,.scratch-spin-stage *{animation:none!important;transition:none!important}}
+
+
+/* Playful peel-off stickers for the three Uncharted Footprints notes. */
+.scratch-panel.sticker-note{border:0;border-radius:18px;background:transparent;box-shadow:none;overflow:visible;min-height:145px;padding:9px 5px 12px}
+.scratch-panel.sticker-note:nth-child(2){transform:translateY(5px) rotate(.6deg)}
+.scratch-panel.sticker-note:nth-child(3){transform:rotate(-.7deg)}
+.scratch-panel.sticker-note .scratch-cover.sticker-cover{inset:7px 5px 10px;gap:5px;overflow:hidden;display:flex;justify-content:center;border:3px solid #fffdf6;border-radius:20px 16px 21px 15px;background:linear-gradient(145deg,#fffdf5 0%,var(--sticker-light,#ffe6a5) 100%);box-shadow:0 3px 0 rgba(84,63,43,.14),0 6px 9px rgba(67,47,29,.16),inset 0 0 0 1px var(--sticker-edge,#e9bd63);transform:rotate(var(--sticker-tilt,-2deg));transition:opacity .38s ease,transform .48s cubic-bezier(.2,.75,.25,1.25),filter .38s ease}
+.scratch-panel.sticker-note-1{--sticker-light:#f8df9d;--sticker-edge:#e6b955;--sticker-tilt:-2deg}
+.scratch-panel.sticker-note-2{--sticker-light:#cfe3b8;--sticker-edge:#8eae76;--sticker-tilt:2deg}
+.scratch-panel.sticker-note-3{--sticker-light:#cce8eb;--sticker-edge:#8abfc4;--sticker-tilt:-1deg}
+.scratch-panel.sticker-note .sticker-art{position:relative;z-index:1;display:grid;place-items:center;width:clamp(46px,12vw,62px);height:clamp(46px,12vw,62px);flex:0 0 auto;border:3px solid #fffdf6;border-radius:50%;background:rgba(255,255,255,.48);box-shadow:0 2px 0 rgba(76,56,33,.12);font-size:clamp(1.8rem,6vw,2.65rem);line-height:1;filter:drop-shadow(0 2px 0 rgba(94,66,35,.12));transition:transform .2s ease}
+.scratch-panel.sticker-note .sticker-title{position:relative;z-index:1;color:#58472f;font:700 clamp(.78rem,2.7vw,.98rem) 'Caveat','Patrick Hand',cursive;line-height:1.05;text-align:center;text-shadow:0 1px rgba(255,255,255,.65)}
+.scratch-panel.sticker-note .sticker-peel{position:relative;z-index:1;padding:3px 7px 2px;border:1px solid rgba(116,87,49,.18);border-radius:999px;background:rgba(255,255,255,.66);color:#70563a;font:700 .68rem 'Patrick Hand',cursive;letter-spacing:.05em;line-height:1.1}
+.scratch-panel.sticker-note .sticker-corner{position:absolute;right:-1px;bottom:-1px;width:24px;height:24px;border-radius:9px 0 0 0;background:linear-gradient(135deg,rgba(255,255,255,.15) 0 48%,#fffdf6 50%,#e8d7b7 100%);box-shadow:-1px -1px 2px rgba(86,63,39,.12);transform-origin:bottom right}
+.scratch-panel.sticker-note:before{content:"";position:absolute;z-index:2;inset:4px 2px 7px;border:2px dashed rgba(255,255,255,.9);border-radius:22px 18px 23px 17px;pointer-events:none;opacity:.7}
+.scratch-panel.sticker-note:active:not(:disabled) .sticker-art{transform:scale(.9) rotate(-6deg)}
+.scratch-panel.sticker-note.is-scratching .scratch-cover,.scratch-panel.sticker-note.is-revealed .scratch-cover{opacity:0;filter:blur(1px);transform:translateY(-22px) rotate(9deg) scale(.82)}
+.scratch-panel.sticker-note.is-spinning .scratch-cover{opacity:.08;transform:translateY(-12px) rotate(12deg) scale(.84)}
+@media(max-width:390px){.scratch-panel.sticker-note{min-height:128px;padding:7px 3px 10px}.scratch-panel.sticker-note .scratch-cover.sticker-cover{inset:6px 3px 8px;gap:4px;border-width:2px}.scratch-panel.sticker-note .sticker-art{width:42px;height:42px;font-size:1.85rem}.scratch-panel.sticker-note .sticker-title{font-size:.78rem}.scratch-panel.sticker-note .sticker-peel{font-size:.61rem;padding:3px 5px}}
+@media(prefers-reduced-motion:reduce){.scratch-panel.sticker-note .scratch-cover.sticker-cover,.scratch-panel.sticker-note .sticker-art{transition:none!important}}
