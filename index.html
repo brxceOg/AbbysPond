@@ -2653,17 +2653,17 @@ function draw(now){
  // Use side-local coordinates for the exclusion zone; comparing mirrored x values
  // with the screen center allowed small grass tufts to creep into the shoreline.
  for(let side=0;side<2;side++){ctx.save();if(side){ctx.translate(W,0);ctx.scale(-1,1)}
-  const bankClearance=Math.max(48,W*.13);
+  const bankClearance=Math.max(64,W*.16);
   for(let i=0;i<Math.ceil(H/42);i++){
    let y=rand(i+10,side+5)*H,x=rand(i+31,side+9)*Math.min(37,W*.105);
-   if(x<bankClearance&&y>cy-ry*1.08&&y<cy+ry*1.08)continue;
+   if(x<bankClearance&&y>cy-ry*1.4&&y<cy+ry*1.4)continue;
    ctx.save();ctx.translate(x,y);ctx.rotate((rand(i,8)-.5)*.7);
    ellipse(-2,2,4,8,'#4f8659');ellipse(3,-1,4,7,'#79a86b');ellipse(6,4,4,6,'#a1bd79');
    if(i%3===0)flower(3,-5,3.2);ctx.restore()
   }
   for(let i=0;i<4;i++){
    let x=6+i*9+rand(i,side)*4,y=top+rand(i+5,side)*Math.max(30,H*.7);
-   if(x<bankClearance&&y>cy-ry*1.08&&y<cy+ry*1.08)continue;
+   if(x<bankClearance&&y>cy-ry*1.4&&y<cy+ry*1.4)continue;
    ctx.strokeStyle='#4d7b4e';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x-2,y-10,x,y-18);ctx.stroke();
    ellipse(x-3,y-19,3,6,'#76a568');ellipse(x+3,y-15,3,5,'#91b775')
   }
