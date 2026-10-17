@@ -529,3 +529,64 @@ body{
 .app > .pond{background:radial-gradient(ellipse at 50% 50%,#397f91 0%,#4a9fa9 38%,#68b9b9 72%,#9ad2c9 100%)!important}
 .app > .actions{background:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important;border-radius:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .app > .actions:before,.app > .actions:after{display:none!important;content:none!important}
+
+/* SURGICAL POND OVERLAY FIX — keep scenery pseudo-layers from painting over the full-screen pond. */
+.app::before,
+.app::after,
+.app > .pond::before,
+.app > .pond::after,
+.pond::before,
+.pond::after,
+#pond::before,
+#pond::after,
+#water::before,
+#water::after,
+.pond-shimmer,
+.water-highlight,
+.reflection,
+.caustic {
+  display:none!important;
+  content:none!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  mix-blend-mode:normal!important;
+}
+
+/* The canvas draws the organic shoreline and ducks; this is only its clean fallback water color. */
+.app > .pond,
+.pond,
+#pond {
+  background:radial-gradient(circle at center,#3baad6 0%,#1e70a0 100%)!important;
+  box-shadow:none!important;
+  mix-blend-mode:normal!important;
+}
+
+/* Keep the navigation wrapper invisible; individual button tiles retain their own styling. */
+.app > .actions,
+.actions,
+.bottom-bar,
+.footer-menu,
+.nav-container {
+  background:transparent!important;
+  background-image:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+  border-color:transparent!important;
+  mix-blend-mode:normal!important;
+}
+.app > .actions::before,
+.app > .actions::after,
+.actions::before,
+.actions::after,
+.bottom-bar::before,
+.bottom-bar::after,
+.footer-menu::before,
+.footer-menu::after,
+.nav-container::before,
+.nav-container::after {
+  display:none!important;
+  content:none!important;
+  background:none!important;
+  box-shadow:none!important;
+}
