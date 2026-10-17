@@ -1711,11 +1711,11 @@ function startScratch(index){
     return;
   }
   // Let the sticker peel away first; only then begin the duck shuffle.
-  window.setTimeout(beginShuffle,460);
+  window.setTimeout(beginShuffle,540);
   window.setTimeout(()=>{
     if(spinTimer!==null)window.clearInterval(spinTimer);
     finishLure(outcome,price);
-  },1600);
+  },1680);
 }
 function finishLure(outcome,price){
   if(outcome.type==='duck'){
