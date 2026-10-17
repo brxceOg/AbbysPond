@@ -1888,7 +1888,7 @@ function draw(now){
  // Their trunks stay rooted while the layered crowns sway gently in the breeze.
  for(let side=0;side<2;side++){
   ctx.save();if(side){ctx.translate(W,0);ctx.scale(-1,1)}
-  const trees=[{x:4,y:H*.17,s:.9,p:.4},{x:W*.105,y:H*.48,s:.68,p:2.1}];
+  const trees=[{x:3,y:H*.16,s:.82,p:.4},{x:W*.028,y:H*.47,s:.5,p:2.1}];
   for(const tr of trees){
    ctx.save();ctx.translate(tr.x,tr.y);
    ctx.fillStyle='#765a42';ctx.beginPath();ctx.moveTo(-4*tr.s,43*tr.s);ctx.lineTo(-2*tr.s,-4*tr.s);ctx.lineTo(3*tr.s,-4*tr.s);ctx.lineTo(6*tr.s,43*tr.s);ctx.closePath();ctx.fill();
