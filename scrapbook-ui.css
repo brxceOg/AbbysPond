@@ -235,3 +235,32 @@ button,input,select,option,textarea{font-size:1.05rem}
   font-size:clamp(4.2rem,16vw,6rem)!important;
   filter:drop-shadow(0 0 2px #fffdf7) drop-shadow(0 0 2px #fffdf7) drop-shadow(0 4px 4px rgba(74,51,30,.18))!important;
 }
+
+
+/* Actual sticker assets: the clickable choice is transparent; only the sticker artwork is rendered. */
+.modal[data-theme="meadow"] .scratch-panels{align-items:center!important}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed){
+  appearance:none!important;-webkit-appearance:none!important;display:grid!important;place-items:center!important;
+  width:100%!important;min-width:0!important;height:112px!important;min-height:112px!important;
+  margin:0!important;padding:0!important;background:transparent!important;background-image:none!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed)::before,
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed)::after{
+  content:none!important;display:none!important;background:none!important;border:0!important;box-shadow:none!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed) .sticker-art{
+  position:relative!important;display:block!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
+  padding:0!important;margin:0!important;color:initial!important;background:transparent!important;background-image:none!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;font-size:clamp(4.2rem,16vw,6rem)!important;
+  line-height:1!important;filter:drop-shadow(0 0 2px #fffdf7) drop-shadow(0 0 2px #fffdf7) drop-shadow(0 4px 4px rgba(74,51,30,.18))!important;
+  transition:transform .48s cubic-bezier(.2,.75,.25,1.25),opacity .34s ease,filter .34s ease!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note.is-scratching .sticker-art{
+  opacity:0!important;filter:blur(.3px)!important;transform:translate(18px,-34px) rotate(32deg) scale(.42)!important;
+}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note.is-spinning .sticker-art{opacity:0!important;visibility:hidden!important}
+@media(max-width:390px){
+  .modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed){height:94px!important;min-height:94px!important}
+  .modal[data-theme="meadow"] .scratch-panel.sticker-note:not(.is-revealed) .sticker-art{font-size:clamp(3.8rem,17vw,4.8rem)!important}
+}
