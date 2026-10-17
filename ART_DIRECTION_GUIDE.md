@@ -494,3 +494,8 @@ This pass implements a first substantial slice of the guide's pond and journal d
 ## Session 9E — Clear the lower pond edge
 - Increased the side-bank plant exclusion width and extended its vertical coverage to account for the pond's lower curve on short mobile canvases.
 - Applied the same boundary clearance to both leafy ground tufts and narrow reed sprites; no changes to water, ducks, lily pads, or interactions.
+
+
+## Session 9F — Forest glade framing
+- Pulled the inner pair of mirrored trees outward and scaled them down so crowns and trunks stay in the surrounding woodland instead of crowding or slipping under the pond bank.
+- Kept the larger outer trees as a forest frame, preserving the open glade around the water and all gameplay/rendering behavior.
