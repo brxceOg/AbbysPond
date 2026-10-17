@@ -297,3 +297,111 @@ button,input,select,option,textarea{font-size:1.05rem}
 .scratch-panel.is-revealed:has(.multi-reward-grid){width:100%;grid-column:1/-1}
 .scratch-panels:has(.scratch-panel.is-revealed .multi-reward-grid){grid-template-columns:1fr}
 @media(max-width:390px){.scratch-panel.sticker-note .sticker-price{top:5px;right:3px;padding:3px 4px;font-size:.61rem}.scratch-panel.sticker-note .sticker-roll-count{font-size:.65rem}.multi-reward-grid{gap:4px}.multi-reward{padding:5px 2px}.multi-reward-art{height:32px}.multi-reward-art svg{height:29px}.multi-reward strong{font-size:.7rem}}
+
+
+/* PHASE 1–3: Warm handcrafted pond scene and tactile field-journal HUD.
+   Decorative layers deliberately preserve existing IDs, canvas, handlers and state. */
+:root{
+  --meadow-cream:#f4edcf;
+  --pond-ink:#443b30;
+  --pond-paper:#f8f0dc;
+  --pond-wood:#92704d;
+  --pond-moss:#718354;
+  --pond-shadow:0 5px 0 rgba(93,72,48,.13),0 10px 22px rgba(73,64,42,.13);
+}
+html{background:#e8dfc1!important}
+body{
+  color:var(--pond-ink)!important;
+  background:
+    radial-gradient(ellipse at 50% 10%,rgba(255,251,222,.94) 0%,rgba(255,251,222,.2) 43%,transparent 69%),
+    radial-gradient(ellipse at 0% 80%,rgba(172,188,126,.26),transparent 43%),
+    radial-gradient(ellipse at 100% 70%,rgba(188,166,112,.23),transparent 45%),
+    linear-gradient(155deg,#e7e4bd 0%,#d5d9a7 48%,#c3ce9c 100%)!important;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 46%,rgba(77,79,49,.12) 100%);
+}
+.app{position:relative}
+.top{padding-inline:3px}
+.flower,.icon{
+  border:1px solid #c7b18a!important;
+  background:linear-gradient(145deg,#fff8e6,#e9d7b1)!important;
+  color:#76583d!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.8),0 3px 0 rgba(113,83,52,.16),0 6px 13px rgba(78,66,44,.1)!important;
+}
+.brand h1,.brand h2{color:#536744!important;text-shadow:0 1px rgba(255,255,255,.65)}
+.eyebrow{color:#7f8558!important}
+.hud .stat{
+  position:relative;isolation:isolate;overflow:hidden;
+  border:1.5px solid #bca47c!important;
+  border-radius:13px 16px 12px 15px!important;
+  background:
+    radial-gradient(ellipse at 12% 0%,rgba(255,255,255,.72),transparent 54%),
+    repeating-linear-gradient(0deg,rgba(126,98,58,.025) 0 1px,transparent 1px 4px),
+    linear-gradient(145deg,#fff7e3,#ead9b7)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.85),inset 0 -3px rgba(116,83,49,.07),var(--pond-shadow)!important;
+}
+.stat label{color:#82775c!important}
+.stat strong{color:#5a6843!important}
+.stat small{color:#78875d!important}
+.pond{
+  position:relative;
+  border:5px solid #d6c19a!important;
+  border-radius:24px 19px 26px 20px!important;
+  background:#819b68!important;
+  box-shadow:inset 0 0 0 2px rgba(255,250,223,.72),0 0 0 2px #f5e8c9,var(--pond-shadow)!important;
+}
+.pond canvas#water{
+  border-radius:17px 14px 19px 15px;
+  background:linear-gradient(145deg,#c4d3a0,#7e9e70);
+}
+.pondfoot{
+  position:relative;
+  border-top:1px solid #c4ae85!important;
+  background:
+    repeating-linear-gradient(0deg,rgba(105,80,48,.025) 0 1px,transparent 1px 4px),
+    linear-gradient(100deg,#f8f0dc,#e9d9b7)!important;
+  color:#74634d!important;
+}
+.tiny{
+  border:1.5px solid #a88b63!important;
+  border-radius:9px 7px 10px 8px!important;
+  background:linear-gradient(145deg,#f5e2bb,#dfc18c)!important;
+  color:#695038!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.7),0 2px 0 rgba(107,79,47,.18)!important;
+}
+.actions{gap:10px!important}
+.action{
+  position:relative;
+  border:1.5px solid #c6ae87!important;
+  border-radius:13px 17px 12px 16px!important;
+  background:
+    radial-gradient(ellipse at 18% 0%,rgba(255,255,255,.82),transparent 60%),
+    repeating-linear-gradient(0deg,rgba(111,82,47,.025) 0 1px,transparent 1px 4px),
+    linear-gradient(145deg,#fff6df,#e8d5af)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.85),inset 0 -3px rgba(111,81,48,.08),0 3px 0 #bca27d,0 7px 13px rgba(81,66,42,.11)!important;
+  color:#514332!important;
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease!important;
+}
+.action .tile{
+  border:1px solid rgba(127,102,64,.24);
+  box-shadow:inset 0 1px rgba(255,255,255,.62),0 2px 0 rgba(95,75,48,.08);
+}
+.action strong{color:#4f6140!important}
+.action small{color:#83745b!important}
+@media(hover:hover){
+  .action:hover{transform:translateY(-2px);filter:saturate(1.04);box-shadow:inset 0 1px rgba(255,255,255,.9),0 5px 0 #bca27d,0 10px 17px rgba(81,66,42,.15)!important}
+  .icon:hover,.flower:hover{filter:brightness(1.035)}
+}
+.action:active,.primary:active{
+  transform:translateY(2px)!important;
+  box-shadow:inset 0 2px 5px rgba(79,59,37,.13),0 1px 0 #bca27d!important;
+}
+@media(max-width:390px){
+  .pond{border-width:4px!important}
+  .actions{gap:8px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .action,.icon,.flower{transition:none!important}
+}
