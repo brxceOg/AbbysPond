@@ -1658,7 +1658,7 @@ function rollMenu(c){
   let w=weights();
   const panels=[0,1,2].map(i=>{
     const revealed=scratchChoiceIndex===i&&!!lureOutcome;
-    return '<button type="button" class="scratch-panel sticker-note sticker-note-'+(i+1)+' '+(revealed?'is-revealed':scratchChoiceIndex===i&&rolling?'is-scratching':scratchChoiceIndex!==null?'is-locked':'')+'" data-action="scratch:'+i+'" aria-label="'+(revealed?'Revealed sticker note':'Peel sticker '+(i+1))+'" '+(rolling||scratchChoiceIndex!==null?'disabled':'')+'><span class="scratch-cover sticker-cover" aria-hidden="true"><span class="sticker-art">'+(['🌼','🐾','🪷'][i])+'</span><span class="sticker-title">'+(['Pond Bloom','Tiny Tracks','Lily Secret'][i])+'</span><span class="sticker-peel">PEEL ME!</span><span class="sticker-corner"></span></span>'+(revealed?'<span class="scratch-reward">'+lureOutcomeMarkup(lureOutcome)+'</span>':'<span class="scratch-hidden" aria-hidden="true">A little secret waits beneath…</span>')+'</button>';
+    return '<button type="button" class="scratch-panel sticker-note sticker-note-'+(i+1)+' '+(revealed?'is-revealed':scratchChoiceIndex===i&&rolling?'is-scratching':scratchChoiceIndex!==null?'is-locked':'')+'" data-action="scratch:'+i+'" aria-label="'+(revealed?'Revealed sticker':'Peel sticker '+(i+1))+'" '+(rolling||scratchChoiceIndex!==null?'disabled':'')+'><span class="scratch-cover sticker-cover" aria-hidden="true"><span class="sticker-art">'+(['🌼','🐾','🪷'][i])+'</span></span>'+(revealed?'<span class="scratch-reward">'+lureOutcomeMarkup(lureOutcome)+'</span>':'')+'</button>';
   }).join('');
   c.innerHTML='<p class="intro">Rub away the moss to see who visited today. Choose one little field note and gently scratch its muddy seal to uncover a surprise.</p><div class="card scratch-progress"><div class="mtitle">Your collection journey</div><div class="track"><span style="width:'+s.found.length/ducks.length*100+'%"></span></div><div class="meta">'+s.found.length+' / '+ducks.length+' unique ducks discovered</div></div><section class="field-journal" aria-label="Scratch-off field notes"><div class="field-journal-top"><span class="journal-kicker">POND-SIDE OBSERVATIONS · NO. 03</span><span class="journal-seal" aria-hidden="true">✿</span></div><h3>Uncharted Footprints</h3><p class="field-subtitle">A pocket page of curious visitors and tiny treasures.</p><div class="field-rule" aria-hidden="true"></div><p class="scratch-instruction" id="scratch-status" aria-live="polite">'+(lureOutcome?'Your note has been opened. Choose another note whenever you are ready.':'Rub away the moss to see who visited today…')+'</p><div class="scratch-panels">'+panels+'</div><div class="field-footnote"><span>FIELD NOTE</span><span>KEEP DRY · HANDLE WITH CARE</span></div></section>'+(lureOutcome?'<div class="lure-action lure-action-dock">'+btn('Choose Another Note','scratch-reset',rolling)+'</div>':'')+'<p class="wheel-note scratch-odds-note">Your luck level is '+s.up.luck+'. Duck rarity odds are unchanged; occasionally the notes hold a Keepsake Petal or a small pouch of Pond Pennies. Familiar ducks leave a petal and bonus pennies.</p><p class="section">CURRENT DUCK RARITY ODDS</p><div class="wheel-odds">'+rarities.map(r=>'<div class="setting"><span class="pill '+r+'">'+r+'</span><strong>'+(w[r]*100).toFixed(w[r]<.01?2:1)+'%</strong></div>').join('')+'</div>'
 }
@@ -1674,39 +1674,48 @@ function startScratch(index){
   const panel=document.querySelector('.scratch-panel[data-action="scratch:'+index+'"]'),status=$('scratch-status');
   if(panel){panel.classList.add('is-scratching');panel.disabled=true}
   document.querySelectorAll('.scratch-panel').forEach((el,i)=>{if(i!==index){el.classList.add('is-locked');el.disabled=true}});
-  if(status)status.textContent='Tiny footprints are appearing… who could it be?';
+  if(status)status.textContent='Peeling your little sticker…';
   const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let spinTimer=null;
-  if(panel&&!reduced){
-    const stage=document.createElement('span');
-    stage.className='scratch-spin-stage';
-    stage.setAttribute('aria-hidden','true');
-    stage.innerHTML='<span class="spin-duck">🦆</span><span class="spin-name">A mystery visitor…</span>';
-    panel.appendChild(stage);
-    panel.classList.add('is-spinning');
-    let tick=0;
-    const spinPool=ducks.slice();
-    spinTimer=window.setInterval(()=>{
-      const pick=spinPool[Math.floor(Math.random()*spinPool.length)];
-      stage.innerHTML='<span class="spin-duck" style="--spin-color:'+pick.c+';--spin-belly:'+pick.b+'">'+pick.e+'</span><span class="spin-name">'+pick.name+'</span>';
-      stage.classList.remove('spin-pop');void stage.offsetWidth;stage.classList.add('spin-pop');
-      tick++;
-      if(tick>=10){
-        window.clearInterval(spinTimer);spinTimer=null;
-        if(outcome.type==='duck'){
-          stage.innerHTML='<span class="spin-duck winner-duck" style="--spin-color:'+outcome.duck.c+';--spin-belly:'+outcome.duck.b+'">'+outcome.duck.e+'</span><span class="spin-name">'+outcome.duck.name+'!</span>';
-        }else{
-          stage.innerHTML='<span class="spin-duck winner-duck">'+(outcome.type==='petal'?'🌸':'🪙')+'</span><span class="spin-name">'+(outcome.type==='petal'?'Keepsake Petal':'Pond Pennies')+'!</span>';
+  const beginShuffle=()=>{
+    if(panel&&!reduced){
+      const stage=document.createElement('span');
+      stage.className='scratch-spin-stage';
+      stage.setAttribute('aria-hidden','true');
+      stage.innerHTML='<span class="spin-duck">🦆</span><span class="spin-name">A mystery visitor…</span>';
+      panel.appendChild(stage);
+      panel.classList.add('is-spinning');
+      if(status)status.textContent='Tiny footprints are appearing… who could it be?';
+      let tick=0;
+      const spinPool=ducks.slice();
+      spinTimer=window.setInterval(()=>{
+        const pick=spinPool[Math.floor(Math.random()*spinPool.length)];
+        stage.innerHTML='<span class="spin-duck" style="--spin-color:'+pick.c+';--spin-belly:'+pick.b+'">'+pick.e+'</span><span class="spin-name">'+pick.name+'</span>';
+        stage.classList.remove('spin-pop');void stage.offsetWidth;stage.classList.add('spin-pop');
+        tick++;
+        if(tick>=10){
+          window.clearInterval(spinTimer);spinTimer=null;
+          if(outcome.type==='duck'){
+            stage.innerHTML='<span class="spin-duck winner-duck" style="--spin-color:'+outcome.duck.c+';--spin-belly:'+outcome.duck.b+'">'+outcome.duck.e+'</span><span class="spin-name">'+outcome.duck.name+'!</span>';
+          }else{
+            stage.innerHTML='<span class="spin-duck winner-duck">'+(outcome.type==='petal'?'🌸':'🪙')+'</span><span class="spin-name">'+(outcome.type==='petal'?'Keepsake Petal':'Pond Pennies')+'!</span>';
+          }
+          stage.classList.add('spin-landed');
+          if(status)status.textContent='The footprints have stopped… a little visitor has been found!';
         }
-        stage.classList.add('spin-landed');
-        if(status)status.textContent='The footprints have stopped… a little visitor has been found!';
-      }
-    },75);
+      },75);
+    }
+  };
+  if(reduced){
+    window.setTimeout(()=>finishLure(outcome,price),80);
+    return;
   }
+  // Let the sticker peel away first; only then begin the duck shuffle.
+  window.setTimeout(beginShuffle,460);
   window.setTimeout(()=>{
     if(spinTimer!==null)window.clearInterval(spinTimer);
     finishLure(outcome,price);
-  },reduced?80:1050);
+  },1600);
 }
 function finishLure(outcome,price){
   if(outcome.type==='duck'){
