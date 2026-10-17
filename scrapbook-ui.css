@@ -256,8 +256,22 @@ button,input,select,option,textarea{font-size:1.05rem}
   line-height:1!important;filter:drop-shadow(0 0 2px #fffdf7) drop-shadow(0 0 2px #fffdf7) drop-shadow(0 4px 4px rgba(74,51,30,.18))!important;
   transition:transform .48s cubic-bezier(.2,.75,.25,1.25),opacity .34s ease,filter .34s ease!important;
 }
+/* Lift the sticker from the page, flex it upward, then let it drop away like a discarded peel. */
+.modal[data-theme="meadow"] .scratch-panel.sticker-note.is-scratching .scratch-cover.sticker-cover{
+  opacity:1!important;filter:none!important;transform:none!important;
+}
 .modal[data-theme="meadow"] .scratch-panel.sticker-note.is-scratching .sticker-art{
-  opacity:0!important;filter:blur(.3px)!important;transform:translate(18px,-34px) rotate(32deg) scale(.42)!important;
+  transform-origin:50% 88%!important;
+  transform-style:preserve-3d;
+  animation:sticker-peel-discard .52s cubic-bezier(.35,.05,.7,.35) forwards!important;
+  will-change:transform,opacity,filter;
+}
+@keyframes sticker-peel-discard{
+  0%{opacity:1;transform:perspective(240px) rotateX(0) rotateZ(0) translateY(0) scale(1);filter:drop-shadow(0 4px 2px rgba(50,35,20,.08))}
+  18%{opacity:1;transform:perspective(240px) rotateX(-24deg) rotateZ(-2deg) translateY(-5px) scale(1.04);filter:drop-shadow(0 8px 4px rgba(50,35,20,.22))}
+  42%{opacity:1;transform:perspective(240px) rotateX(42deg) rotateZ(3deg) translateY(-10px) scale(.98);filter:drop-shadow(0 10px 5px rgba(50,35,20,.2))}
+  64%{opacity:.9;transform:perspective(240px) rotateX(12deg) rotateZ(5deg) translateY(5px) scale(.82);filter:drop-shadow(0 5px 3px rgba(50,35,20,.12))}
+  100%{opacity:0;transform:perspective(240px) rotateX(8deg) rotateZ(10deg) translateY(34px) scale(.35);filter:blur(1.5px) drop-shadow(0 0 0 transparent)}
 }
 .modal[data-theme="meadow"] .scratch-panel.sticker-note.is-spinning .sticker-art{opacity:0!important;visibility:hidden!important}
 @media(max-width:390px){
