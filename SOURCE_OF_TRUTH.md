@@ -890,3 +890,8 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Duck knockback now uses a damped spring back toward the current formation target, so a hit duck visibly scrambles back into place instead of keeping a permanent displacement.
 - Before rendering, five pair-separation passes push overlapping ducks apart and keep corrected positions inside a hard interior ellipse (69% of pond route radii). Recent hit ducks are drawn last for clear hit readability.
 - Spacing corrections are fed back into each duck's spring offset so separation and recovery remain smooth. Applied to the flock positions used by the pond renderer; JavaScript syntax checked, live visual/gameplay verification pending.
+
+## Knockback spring correction (2026-10-21)
+- Fixed continuous bouncing by separating temporary pair-spacing corrections from knockback displacement; spacing no longer feeds energy back into the spring each frame.
+- Replaced the underdamped spring with a critically damped return and a dedicated capped `knockMotionAt` timestep, so ducks settle into formation smoothly after a hit.
+- JavaScript syntax checked; live visual/gameplay verification pending.
