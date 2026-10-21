@@ -562,4 +562,4 @@ The pond renderer uses CSS-pixel coordinates for duck positions even when the ca
 
 For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, dy / edgeY)`. If `r > 1`, project to `(cx + dx / r, cy + dy / r)`. Do not multiply by the ellipse radii a second time. Do not persist pairwise separation/boundary corrections as another movement offset; that feeds the correction into the next frame and can cause jitter or discontinuity. This note documents the implemented correction; visual stability still requires runtime testing across flock sizes and mobile Safari resizing.
 
-- **V/arrow formation:** use the same restrained 1.25 path scale as the other non-circle formations. Do not add a special expansion to the V; its sharp apex and wide wings can crowd ducks against the pond boundary and create visually explosive separation corrections.
+- **V/arrow formation:** use a dedicated 1.0 path scale; other non-circle formations remain at 1.25. The V's sharp apex and wide wings, combined with shared route drift, can crowd ducks against the pond boundary and create visually explosive separation corrections.
