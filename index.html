@@ -2205,7 +2205,7 @@ function draw(now){
     const ux=dx/dist,uy=dy/dist;
     const push=(flockGap-dist)*.52;
     a.x-=ux*push;a.y-=uy*push;b.x+=ux*push;b.y+=uy*push;
-    if(morphingFormation&&dist<dodgeRange){
+    if(morphingFormation&&dist<dodgeRange&&pass<3){
      // When target paths cross during a formation morph, add a small,
      // deterministic sidestep perpendicular to the flock's travel direction.
      // The sign is stable per pair, so ducks pass around each other instead
@@ -2218,7 +2218,7 @@ function draw(now){
      if(hlen<.01){hx=-(a.baseY-b.baseY);hy=a.baseX-b.baseX;hlen=Math.hypot(hx,hy)||1;}
      hx/=hlen;hy/=hlen;
      const side=((i+j)%2===0)?1:-1;
-     const dodge=Math.min(5,(dodgeRange-dist)*.22);
+     const dodge=Math.min(2.5,(dodgeRange-dist)*.12);
      a.x+=-hy*dodge*side;a.y+=hx*dodge*side;
      b.x+=hy*dodge*side;b.y+=-hx*dodge*side;
     }
