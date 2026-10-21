@@ -885,3 +885,8 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Formation changes snapshot every currently rendered duck position before switching shapes. The 2.8-second eased transition now starts from those real positions and converges each duck into its new evenly spaced slot, instead of interpolating incompatible positions along unrelated formation paths.
 - Each duck caches its last rendered coordinates for the next switch. Newly added ducks without a snapshot safely fall back to the current formation path; transition snapshots are cleared when the blend completes.
 - This is intended to prevent flock shearing/separation during formation changes, especially with larger flocks. JavaScript syntax checked; visual gameplay verification remains pending.
+
+## Knockback, flock recovery, and pond containment (2026-10-21)
+- Duck knockback now uses a damped spring back toward the current formation target, so a hit duck visibly scrambles back into place instead of keeping a permanent displacement.
+- Before rendering, five pair-separation passes push overlapping ducks apart and keep corrected positions inside a hard interior ellipse (69% of pond route radii). Recent hit ducks are drawn last for clear hit readability.
+- Spacing corrections are fed back into each duck's spring offset so separation and recovery remain smooth. Applied to the flock positions used by the pond renderer; JavaScript syntax checked, live visual/gameplay verification pending.
