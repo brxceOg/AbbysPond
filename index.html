@@ -2093,11 +2093,28 @@ function draw(now){
    const nextType=nextTypeOptions[Math.floor(Math.random()*nextTypeOptions.length)];
    // Snapshot each duck's actual rendered position before switching. Morphing two
    // unrelated path parameterizations directly makes the flock shear apart mid-switch.
-   for(let j=0;j<Math.min(s.ducks.length,14);j++){
-    const duck=s.ducks[j],k=duck.uid||('duck-'+j),st=duckAvoidance[k];
-    if(st&&Number.isFinite(st.renderX)&&Number.isFinite(st.renderY)){
+   // Reassign destination slots to minimize travel and avoid unnecessary path crossings.
+   // Each duck keeps its identity, but its target slot can change between formations.
+   const transitionDucks=s.ducks.slice(0,14);
+   const targetSlots=transitionDucks.map((duck,slotIndex)=>{
+    const t=nextType===0?slotIndex/Math.max(1,transitionDucks.length):slotIndex/Math.max(1,transitionDucks.length-1);
+    return {slotIndex,point:formationPoint(nextType,t,duckFormation.leaderAngle,cx,cy,rx,ry),claimed:false};
+   });
+   for(let j=0;j<transitionDucks.length;j++){
+    const duck=transitionDucks[j],k=duck.uid||('duck-'+j),st=duckAvoidance[k];
+    if(!st)continue;
+    const startX=Number.isFinite(st.renderX)?st.renderX:cx;
+    const startY=Number.isFinite(st.renderY)?st.renderY:cy;
+    let best=null,bestCost=Infinity;
+    for(const candidate of targetSlots){
+     if(candidate.claimed)continue;
+     const cost=(candidate.point.x-startX)**2+(candidate.point.y-startY)**2;
+     if(cost<bestCost){bestCost=cost;best=candidate;}
+    }
+    if(best){best.claimed=true;st.transitionSlot=best.slotIndex;}
+    if(Number.isFinite(st.renderX)&&Number.isFinite(st.renderY)){
      st.transitionStartX=st.renderX;st.transitionStartY=st.renderY;
-    }else if(st){delete st.transitionStartX;delete st.transitionStartY;}
+    }else{delete st.transitionStartX;delete st.transitionStartY;}
    }
    duckFormation.fromType=targetType;
    duckFormation.toType=nextType;
@@ -2150,7 +2167,10 @@ function draw(now){
   const slot=duckLimit>1?i/(duckLimit-1):.5;
   const circleSlot=duckLimit>1?i/duckLimit:0;
   const fromPoint=formationPoint(fromType,(fromType===0||fromType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
-  const toPoint=formationPoint(targetType,(targetType===0||targetType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
+  const assignedSlot=Number.isFinite(state.transitionSlot)?state.transitionSlot:i;
+  const assignedCircleSlot=duckLimit>1?assignedSlot/duckLimit:0;
+  const assignedLinearSlot=duckLimit>1?assignedSlot/(duckLimit-1):.5;
+  const toPoint=formationPoint(targetType,(targetType===0||targetType===3)?assignedCircleSlot:assignedLinearSlot,duckFormation.leaderAngle,cx,cy,rx,ry);
   // Start from each duck's exact prior position, then converge to evenly spaced slots.
   // This avoids the snap/shear caused by interpolating mismatched path coordinates.
   // Sanitize both ends of every formation morph before interpolation. A stale
@@ -2166,7 +2186,7 @@ function draw(now){
    safeStart.y+(safeTarget.y-safeStart.y)*blend,cx,cy,rx,ry
   );
   const baseX=baseSafe.x,baseY=baseSafe.y;
-  if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;}
+  if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;delete state.transitionSlot;}
   const knockDt=Math.max(0,Math.min(34,now-(state.knockMotionAt||now)));state.knockMotionAt=now;
   const step=knockDt/1000;
   // A critically damped return avoids the energetic bounce of a loose spring.
