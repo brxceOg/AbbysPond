@@ -528,3 +528,11 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - The legacy `#event` element is retained to avoid disturbing page structure, but is hidden and no longer used as a notification surface.
 - Commits: `44ba243141e563b4c3b0614ac97508be4e91225a` (shared queue), `989393eead718f450699b74064ddcaa434125e8f` (hide duplicate surface), `b1d7ef5ed9d03ea33677e4789ac21fc468243114` (stylesheet cache refresh).
 - JavaScript syntax checked successfully; visual deployment verification remains outstanding.
+
+## Session 10 — Unique duck ownership safeguard (2026-10-21)
+
+- Repaired save loading so the flock contains at most one owned duck per species. When older saves contain duplicates, the highest-level copy is retained; duplicate copies' equipped keepsakes are returned to inventory rather than lost.
+- Recruitment now checks the actual owned flock as well as the discovered-species list before granting a new duck, so stale collection data cannot create another copy.
+- Duplicate invitations continue to grant the existing Keepsake Petal and Pond Penny compensation instead of adding another duck sprite to the pond.
+- JavaScript syntax check passed. Live visual/gameplay verification remains outstanding.
+- Implementation commit: `78f2772cf36dd1c8d26d7626299aae029bee3629`.
