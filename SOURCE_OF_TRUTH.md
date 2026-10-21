@@ -32,6 +32,12 @@ Pillars:
 
 The loop should be understandable within the first minute, with new systems introduced progressively rather than dumping every menu and mechanic on the player at once.
 
+### Active pond discovery loop (first gameplay expansion)
+- While the pond is open, small interactive discoveries should appear directly inside the water at a gentle, non-intrusive cadence. Initial discovery types: a water glimmer (Pond Pennies), a floating keepsake petal (collection item), and tiny tracks (a clue-style discovery).
+- Discoveries must be visibly distinct, tappable with comfortable mobile hit areas, and award their reward exactly once. They should not spawn over an open modal or during an active predator encounter. Missed discoveries may expire without penalty; no progress is lost.
+- The Keepsakes screen also acts as a Pond Journal, recording total discoveries and counts by type and showing the next collection milestones. Milestones award small, clearly communicated rewards and persist in the existing local save.
+- Build this loop incrementally: pond discoveries and journal first; then duck bonding/friendship and more elaborate flock activities. Keep existing recruitment odds, predator combat, economy, save compatibility, and the four main menu destinations intact.
+
 ## 3. Pond and visual presentation
 
 - The pond occupies the dominant play area and is the visual heart of the game.
