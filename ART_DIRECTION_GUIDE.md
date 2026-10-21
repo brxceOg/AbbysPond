@@ -536,3 +536,11 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Duplicate invitations continue to grant the existing Keepsake Petal and Pond Penny compensation instead of adding another duck sprite to the pond.
 - JavaScript syntax check passed. Live visual/gameplay verification remains outstanding.
 - Implementation commit: `78f2772cf36dd1c8d26d7626299aae029bee3629`.
+
+## Session 10 — Enemy combat readability and impact (2026-10-21)
+
+- Active predators now display a pulsing cream-and-rust exclamation warning as they approach a living duck within 82 canvas pixels, making imminent contact easier to anticipate.
+- Predator health bar enlarged from 42×4 to 68×9 canvas pixels, while duck health bars remain unchanged at 25×4.
+- Enemy collisions now apply directional velocity and a small immediate displacement to the duck away from the predator. Velocity decays smoothly, returning the duck to its established swimming path without changing health, injury, knockout, or reward rules.
+- JavaScript syntax check passed. Live visual/gameplay verification remains outstanding.
+- Implementation commit: `ba22ab2d4b686275d8e7ceca70f9002ba25e2db9`.
