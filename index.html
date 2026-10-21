@@ -2119,7 +2119,7 @@ function draw(now){
      if(nearest>=spawnClearance){bestAngle=candidate;break;}
     }
    }
-   duckAvoidance[key]={angle:bestAngle,direction:1,lastTime:now,lastHit:-10000,avoidUntil:0};
+   duckAvoidance[key]={angle:bestAngle,direction:1,lastTime:now,lastHit:-10000,avoidUntil:0,kx:0,ky:0,kvx:0,kvy:0};
   }
   const state=duckAvoidance[key],dt=Math.max(0,Math.min(50,now-state.lastTime));
   const swimRate=encounterAnim&&encounterAnim.phase==='active'?.00015:.000075;
@@ -2140,9 +2140,13 @@ function draw(now){
   const circleSlot=duckLimit>1?i/duckLimit:0;
   const fromPoint=formationPoint(fromType,(fromType===0||fromType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
   const toPoint=formationPoint(targetType,(targetType===0||targetType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
-  const x=fromPoint.x+(toPoint.x-fromPoint.x)*blend;
-  const y=fromPoint.y+(toPoint.y-fromPoint.y)*blend;
-  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y});
+  const baseX=fromPoint.x+(toPoint.x-fromPoint.x)*blend,baseY=fromPoint.y+(toPoint.y-fromPoint.y)*blend;
+  const knockDt=Math.max(0,Math.min(50,now-(state.knockAt||now)));state.knockAt=now;
+  state.kx=(state.kx||0)+(state.kvx||0)*knockDt/1000;state.ky=(state.ky||0)+(state.kvy||0)*knockDt/1000;
+  const damping=Math.exp(-5.2*knockDt/1000);state.kvx=(state.kvx||0)*damping;state.kvy=(state.kvy||0)*damping;
+  if(Math.abs(state.kx)+Math.abs(state.ky)<.12&&Math.abs(state.kvx)+Math.abs(state.kvy)<1){state.kx=state.ky=state.kvx=state.kvy=0;}
+  const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
+  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state});
  }
  // Duck paths are deliberately non-reactive here: same-direction shared motion
  // prevents head-on bounce loops and keeps neighboring ducks from compressing.
@@ -2713,6 +2717,8 @@ function draw(now){
     const d=ensureDuckCombat(swimmer.d),key=swimmer.key,dist=Math.hypot(swimmer.x-battle.x,swimmer.y-battle.y);
     if(dist<23&&d.health>0&&now-(battle.hitAt[key]||0)>720){
      battle.hitAt[key]=now;
+     const pushX=(swimmer.x-battle.x)/(dist||1),pushY=(swimmer.y-battle.y)/(dist||1);
+     swimmer.state.kvx=(swimmer.state.kvx||0)+pushX*178;swimmer.state.kvy=(swimmer.state.kvy||0)+pushY*145;swimmer.state.kx=(swimmer.state.kx||0)+pushX*2;swimmer.state.ky=(swimmer.state.ky||0)+pushY*2;swimmer.state.knockAt=now;
      const beforeHealth=d.health;d.health=Math.max(0,d.health-battle.damage);swimmer.d.lastCombatHit=now;swimmer.d.hitFlashAt=now;impactClouds.push({x:swimmer.x,y:swimmer.y-2,t:now});
      if(d.health>0)battle.health=Math.max(0,battle.health-duckAttack(d));
      else if(beforeHealth>0){d.injured=true;d.knockoutAt=Date.now();queueEvent(def(d).name+' was knocked out and needs a little recovery.');save();if(opened)render();
@@ -2761,7 +2767,7 @@ function draw(now){
  ellipse(0,9,13,2.5,'rgba(39,87,79,.2)');if(win){for(let k=0;k<6;k++){const a=k*Math.PI/3+deathProgress*.7,rr=8+deathProgress*12;ctx.globalAlpha=Math.max(0,1-deathProgress*.9);flower(Math.cos(a)*rr,Math.sin(a)*rr-5,1.6,['#fff0c8','#f8c8d3','#f5d36d']);}}ctx.restore();ctx.restore();
    ctx.globalAlpha=1;
    if(battle.phase==='active'){
-    const bw=42,bh=4,bx=Math.round(x-bw/2),by=Math.round(y-27),ratio=Math.max(0,battle.health/battle.maxHealth),radius=bh/2;
+    const bw=68,bh=9,bx=Math.round(x-bw/2),by=Math.round(y-35),ratio=Math.max(0,battle.health/battle.maxHealth),radius=bh/2;
     ctx.save();ctx.shadowColor='rgba(35,38,28,.22)';ctx.shadowBlur=3;ctx.shadowOffsetY=1;
     ctx.fillStyle='rgba(47,55,43,.86)';ctx.strokeStyle='#3a2e2b';ctx.lineWidth=1;
     ctx.beginPath();ctx.roundRect(bx-1,by-1,bw+2,bh+2,radius+1);ctx.fill();ctx.stroke();
@@ -2770,6 +2776,9 @@ function draw(now){
     ctx.save();ctx.beginPath();ctx.roundRect(bx,by,bw,bh,radius);ctx.clip();
     ctx.fillStyle=ratio>.55?'#c86d61':'#d4a35b';if(ratio>0){ctx.beginPath();ctx.roundRect(bx,by,Math.max(bh,Math.round(bw*ratio)),bh,radius);ctx.fill();}
     ctx.restore();ctx.restore();
+     let closestDuck=null,closestDist=Infinity;for(const swimmer of swimmers){if(swimmer.d.health<=0)continue;const distance=Math.hypot(swimmer.x-x,swimmer.y-y);if(distance<closestDist){closestDist=distance;closestDuck=swimmer;}}
+     if(closestDuck&&closestDist<82&&closestDist>22){const pulse=.5+.5*Math.sin(now*.018),wy=y-48-pulse*2;ctx.save();ctx.globalAlpha=.78+.22*pulse;ctx.fillStyle='#fff3d7';ctx.strokeStyle='#b94d43';ctx.lineWidth=1.8;ctx.beginPath();ctx.arc(x,wy,8+pulse*1.8,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#a43d36';ctx.font='900 12px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('!',x,wy+.2);ctx.restore();}
+
    }
   }
  }
