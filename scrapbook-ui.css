@@ -828,3 +828,7 @@ body{
   overflow-wrap:anywhere!important;
   font-size:clamp(.52rem,2vw,.65rem)!important;
 }
+
+/* Keep names in the sticker shuffle on one line. */
+.modal[data-theme="meadow"] .scratch-spin-stage .spin-name{display:block!important;width:max-content!important;max-width:calc(100% - 12px)!important;min-width:0!important;box-sizing:border-box!important;padding:3px 5px!important;font-size:clamp(.68rem,2.8vw,.9rem)!important;line-height:1.05!important;letter-spacing:-.025em!important;white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important;hyphens:none!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.modal[data-theme="meadow"] .scratch-panel.sticker-note.is-revealed .polaroid-caption h3{display:block!important;width:100%!important;min-width:0!important;font-size:clamp(.68rem,2.7vw,.94rem)!important;line-height:1.05!important;letter-spacing:-.045em!important;white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important;hyphens:none!important;overflow:hidden!important;text-overflow:ellipsis!important}
