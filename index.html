@@ -2186,7 +2186,7 @@ function draw(now){
    safeStart.y+(safeTarget.y-safeStart.y)*blend,cx,cy,rx,ry
   );
   const baseX=baseSafe.x,baseY=baseSafe.y;
-  if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;delete state.transitionSlot;}
+  if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;}
   const knockDt=Math.max(0,Math.min(34,now-(state.knockMotionAt||now)));state.knockMotionAt=now;
   const step=knockDt/1000;
   // A critically damped return avoids the energetic bounce of a loose spring.
