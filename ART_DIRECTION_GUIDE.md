@@ -510,3 +510,11 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Preserved existing gameplay handlers and state; this pass changes presentation and journal layout, not recruitment, upgrade prices, combat, or discovery rewards.
 - Implementation commits: `37f9f252389b276716b2051c3232203c98236206` (journal structure), `e45e81de1f3ca3815341d817d9eef50d6717c20b` (game UI styling), `b1d57c05e8d230cd95d4a79a87175f0cde756ea5` (stylesheet cache refresh).
 - Remaining QA: inspect the deployed page at actual iPhone viewport sizes and verify long duck names, scratch-off cards, scroll behavior, and all menu actions visually.
+
+
+## Session 10 — Notification placement follow-up (2026-10-21)
+
+- Moved transient toast notifications from the bottom safe-area position to the upper play area, below the top HUD and away from the four bottom navigation buttons.
+- Restyled notifications as compact, readable cream-and-moss game toasts with constrained width, safe-area spacing, wrapping for longer messages, and a shorter-screen adjustment.
+- Updated the stylesheet cache key in `index.html` so the deployed page requests the new CSS.
+- Commits: `ec1fc5ee422fedfd3379c02b0c29888aa3797188` (notification styles), `f86a789d523c700fd5602fb0391803ce05707441` (cache refresh).
