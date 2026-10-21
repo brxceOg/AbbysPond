@@ -1671,7 +1671,7 @@ const ducks=[
 const rarities=['Common','Uncommon','Rare','Epic','Legendary','Mythic'],base={Common:55,Uncommon:25,Rare:12,Epic:5.5,Legendary:2,Mythic:.5};
 const items=[{id:'clover-charm',n:'Clover Charm',e:'☘️',s:'Charm',r:'Uncommon',d:'+12% income',i:.12,a:0,h:0},{id:'rose-ribbon',n:'Rose Ribbon',e:'🎀',s:'Ribbon',r:'Rare',d:'+3 attack',i:0,a:3,h:0},{id:'pearl-shell',n:'Pearl Shell',e:'🐚',s:'Shell',r:'Rare',d:'+8 health',i:0,a:0,h:8},{id:'moon-pendant',n:'Moon Pendant',e:'🌙',s:'Charm',r:'Epic',d:'+25% income and +5 attack',i:.25,a:5,h:0},{id:'petal-token',n:'Keepsake Petal',e:'🌸',s:'Keepsake',r:'Uncommon',d:'A tiny petal from a familiar duck. A little reminder that every visit matters.',i:0,a:0,h:0}];
 const predators=[{n:'Snapping turtle',e:'🐢',lv:1,p:8,reward:12,speed:.012},{n:'Water snake',e:'🐍',lv:2,p:22,reward:35,speed:.02},{n:'Raccoon',e:'🦝',lv:3,p:55,reward:90,speed:.024},{n:'Red fox',e:'🦊',lv:5,p:120,reward:240,speed:.03},{n:'Hawk',e:'🦅',lv:8,p:260,reward:650,speed:.038},{n:'Coyote',e:'🐺',lv:12,p:550,reward:1600,speed:.028}];
-const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0,healing:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true,journal:{discoveries:0,glimmers:0,petals:0,tracks:0,claimed:[]}});
+const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0,healing:0,bugBloom:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true,journal:{discoveries:0,glimmers:0,petals:0,tracks:0,claimed:[]}});
 let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,rolling=false,lureOutcome=null,flockTab='ducks',scratchChoiceIndex=null,duckPositions=[],ripples=[],impactClouds=[],confetti=[],flockCheerAt=0,victoryBanner=null,toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,pondDiscovery=null,pondDiscoveryNextAt=performance.now()+9000,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
 
 const attackRanges={Common:[1,10],Uncommon:[10,20],Rare:[20,35],Epic:[35,50],Legendary:[50,70],Mythic:[70,100]};
@@ -1714,7 +1714,7 @@ function duckIcon(d,cls=''){
 function incomeDuck(d){let bonus=0;Object.values(d.equipment||{}).forEach(id=>{if(item(id))bonus+=item(id).i});return def(d).i*(1+(d.level-1)*.22)*(1+s.up.income*.12)*(1+bonus)}
 function income(){return s.ducks.reduce((a,d)=>a+incomeDuck(d),0)}
 function power(){return s.ducks.reduce((a,d)=>a+def(d).a+(d.level-1)*2+Object.values(d.equipment||{}).reduce((v,id)=>v+(item(id)?item(id).a+item(id).h*.15:0),0),0)+s.up.defense*1.5}
-function cost(k){return Math.floor(({income:35,luck:55,defense:45,roll:70,offline:80,healing:65})[k]*Math.pow(k==='luck'?1.78:1.62,s.up[k]))}
+function cost(k){return Math.floor(({income:35,luck:55,defense:45,roll:70,offline:80,healing:65,bugBloom:75})[k]*Math.pow(k==='luck'?1.78:1.62,s.up[k]))}
 function rollCost(){return Math.max(1,Math.floor(35*Math.pow(1.13,s.rolls)*(1-s.up.roll*.025)))}
 function rollPrice(count){let total=0;for(let i=0;i<count;i++)total+=Math.max(1,Math.floor(35*Math.pow(1.13,s.rolls+i)*(1-s.up.roll*.025)));return total}
 function weights(){let w={...base};['Uncommon','Rare','Epic','Legendary','Mythic'].forEach(r=>w[r]*=1+s.up.luck*.18);let total=Object.values(w).reduce((a,b)=>a+b,0);return Object.fromEntries(rarities.map(r=>[r,w[r]/total]))}
@@ -1738,7 +1738,8 @@ function upgradeMenu(c){
   {k:'defense',t:'Brave little flock',d:'Adds 1.5 flock power per level when visitors appear.',g:'🛡️'},
   {k:'roll',t:'Friendly invitations',d:'Lowers duck invitation costs by 2.5% per level.',g:'🪶'},
   {k:'offline',t:'Sleepytime savings',d:'Improves offline earnings by 5% per level, up to 75%.',g:'🌙'},
-   {k:'healing',t:'Healing Instinct',d:'When below 65% health, ducks seek nearby bugs more eagerly: wider catch range and a better chance to eat them. Each level boosts both.',g:'💚'}
+   {k:'healing',t:'Healing Instinct',d:'When below 65% health, ducks seek nearby bugs more eagerly: wider catch range and a better chance to eat them. Each level boosts both.',g:'💚'},
+   {k:'bugBloom',t:'Bug Bloom',d:'Encourages bugs to return to the pond faster after being eaten. Each level cuts their respawn wait by 1.4%, up to 70% faster.',g:'🪰'}
  ];
  const node=({k,t,d,g,root=false})=>'<article class="skill-node '+(root?'skill-root':'skill-branch')+'"><div class="skill-node-top"><span class="skill-glyph" aria-hidden="true">'+g+'</span><span class="skill-node-title">'+t+'</span><span class="skill-rank">Lv '+s.up[k]+'/50</span></div><div class="skill-desc">'+d+'</div><div class="skill-foot"><span class="skill-cost">'+(s.up[k]>=50?'MAX RANK':'Next · '+fmt(cost(k))+' pennies')+'</span>'+btn(s.up[k]>=50?'Maxed':'Upgrade','up:'+k,s.money<cost(k)||s.up[k]>=50)+' </div></article>';
  c.innerHTML='<p class="intro skill-tree-intro">Choose where your pond grows next. Follow the branches that fit your playstyle — every branch is available to invest in at any time.</p><div class="skill-tree" aria-label="Pond upgrade skill tree"><div class="skill-root-wrap">'+node(defs[0],true)+'</div><div class="skill-branches">'+defs.slice(1).map(x=>node(x)).join('')+'</div><p class="skill-independent">Branches are independent · mix and match your build</p></div>';
@@ -2813,7 +2814,7 @@ function draw(now){
    const healingFocus=s.up.healing>0&&caughtHealthRatio<.65;
    const catchChance=Math.min(.88,.38+(healingFocus?Math.min(.42,s.up.healing*.085):0));
    if(Math.random()<catchChance){
-    bug.alive=false;bug.respawnAt=now+5000+Math.random()*6500;
+    bug.alive=false;const respawnReduction=Math.min(.70,Math.max(0,Number(s.up.bugBloom)||0)*.014);bug.respawnAt=now+(5000+Math.random()*6500)*(1-respawnReduction);
     bug.eatenAt=now;bug.eatenX=fx;bug.eatenY=fy;
     ripples.push({x:fx,y:fy,t:now,heart:false,power:.7});
     bug.catchDuck=caughtBy;
