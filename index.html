@@ -2067,7 +2067,10 @@ function draw(now){
   // Gentle shared heading drift makes each formation feel like a swimming flock,
   // while the whole shape follows a broad oval route around the pond.
   const turn=Math.sin(leaderAngle*.42)*.10;
-  const formationScale=type===2?1.48:1.25;
+  // The V's sharp apex and wide wings were being pushed onto the safety
+  // ellipse together; neighbor separation then repeatedly shoved ducks along
+  // the boundary. Keep the V at the same restrained scale as other paths.
+  const formationScale=1.25;
   const rotX=(lx*Math.cos(turn)-ly*Math.sin(turn))*formationScale,rotY=(lx*Math.sin(turn)+ly*Math.cos(turn))*formationScale;
   const driftX=Math.cos(leaderAngle)*routeX*.28,driftY=Math.sin(leaderAngle)*routeY*.21;
   return pondSafePoint(centerX+driftX+rotX,centerY+driftY+rotY,centerX,centerY,routeX,routeY);
