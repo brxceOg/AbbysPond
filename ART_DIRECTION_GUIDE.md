@@ -499,3 +499,14 @@ This pass implements a first substantial slice of the guide's pond and journal d
 ## Session 9F — Forest glade framing
 - Pulled the inner pair of mirrored trees outward and scaled them down so crowns and trunks stay in the surrounding woodland instead of crowding or slipping under the pond bank.
 - Kept the larger outer trees as a forest frame, preserving the open glade around the water and all gameplay/rendering behavior.
+
+
+## Session 10 — Game menu UI rebuild (2026-10-21)
+
+- Replaced the heavy notebook-page visual treatment across game menus with a coherent, polished game-panel system: rounded moss/cream surfaces, a clear colored header, calm borders, consistent button hierarchy, and subtle tactile pressed states.
+- Improved mobile comfort with a bottom-sheet modal, larger close and action targets, safe-area-aware padding, a stable scroll region, and more predictable spacing on narrow screens.
+- Rebuilt Keepsakes into a readable Pond Journal dashboard: overall discovery progress, three compact discovery counters, milestone reward rows with locked/claimed states, a keepsake basket, and a two-column duck field guide.
+- Added distinct but related header tints for upgrades, flock, discoveries, settings, and the duck invitation flow while keeping a shared game UI language.
+- Preserved existing gameplay handlers and state; this pass changes presentation and journal layout, not recruitment, upgrade prices, combat, or discovery rewards.
+- Implementation commits: `37f9f252389b276716b2051c3232203c98236206` (journal structure), `e45e81de1f3ca3815341d817d9eef50d6717c20b` (game UI styling), `b1d57c05e8d230cd95d4a79a87175f0cde756ea5` (stylesheet cache refresh).
+- Remaining QA: inspect the deployed page at actual iPhone viewport sizes and verify long duck names, scratch-off cards, scroll behavior, and all menu actions visually.
