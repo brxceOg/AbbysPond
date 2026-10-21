@@ -549,3 +549,8 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Kept pair-spacing corrections in dedicated damped `sepX`/`sepY` offsets, separate from knockback displacement, so each frame starts from the previous corrected position rather than snapping back to formation coordinates.
 - Removed per-frame recent-hit array reordering, avoiding unnecessary render-order changes while preserving stable duck identity and draw order.
 - JavaScript syntax checked; live visual verification pending.
+
+## Formation containment hardening (2026-10-21)
+- Clamp both transition snapshots and destination formation points to the safe pond ellipse before interpolation, preventing stale/off-pond coordinates from becoming launch vectors.
+- Bound knockback velocity/displacement and temporary spacing offsets to stop malformed or accumulated offsets from pushing ducks outside the flock's movement envelope.
+- JavaScript syntax checked; live visual verification pending.
