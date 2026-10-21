@@ -554,3 +554,10 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Clamp both transition snapshots and destination formation points to the safe pond ellipse before interpolation, preventing stale/off-pond coordinates from becoming launch vectors.
 - Bound knockback velocity/displacement and temporary spacing offsets to stop malformed or accumulated offsets from pushing ducks outside the flock's movement envelope.
 - JavaScript syntax checked; live visual verification pending.
+
+
+## Duck movement stability — implementation constraint (2026-10-21)
+
+The pond renderer uses CSS-pixel coordinates for duck positions even when the canvas backing store is scaled for device-pixel ratio. Keep that separation intact. Formation interpolation and knockback determine desired positions; spacing and pond-edge projection are final positional constraints, not additional velocity sources.
+
+For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, dy / edgeY)`. If `r > 1`, project to `(cx + dx / r, cy + dy / r)`. Do not multiply by the ellipse radii a second time. Do not persist pairwise separation/boundary corrections as another movement offset; that feeds the correction into the next frame and can cause jitter or discontinuity. This note documents the implemented correction; visual stability still requires runtime testing across flock sizes and mobile Safari resizing.
