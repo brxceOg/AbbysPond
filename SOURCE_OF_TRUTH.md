@@ -895,3 +895,14 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - Fixed continuous bouncing by separating temporary pair-spacing corrections from knockback displacement; spacing no longer feeds energy back into the spring each frame.
 - Replaced the underdamped spring with a critically damped return and a dedicated capped `knockMotionAt` timestep, so ducks settle into formation smoothly after a hit.
 - JavaScript syntax checked; live visual/gameplay verification pending.
+
+
+## Duck movement architecture — active implementation note (2026-10-21)
+
+The active pond renderer is the later `draw(now)` declaration in `index.html` (around line 1902). An earlier `draw(now)` declaration around line 1818 is legacy code shadowed by the later function declaration; it is not a second animation loop. The active `frame(now)` schedules one recurring `requestAnimationFrame` callback.
+
+Movement pipeline: calculate formation targets in CSS-pixel canvas coordinates; interpolate transitions from the last rendered positions; add temporary knockback displacement; apply pairwise spacing and pond-interior projection; then publish the final positions for drawing and pointer hit-testing. Canvas backing dimensions use a capped device-pixel ratio while world positions remain in CSS pixels.
+
+Boundary projection must use normalized ellipse coordinates consistently. For `r = hypot(dx / edgeX, dy / edgeY)`, when `r > 1`, the correct projection is `x = cx + dx / r`, `y = cy + dy / r`. Multiplying by `edgeX` or `edgeY` again is dimensionally incorrect and can throw corrected ducks far outside the pond. Spacing/boundary corrections are frame-local constraints and must not be copied back into the next frame's movement offsets as a second hidden movement layer.
+
+Verification limitation: static inspection and JavaScript syntax checks do not establish visual stability. Validate on iPhone Safari and desktop with formation switches, combat knockback, viewport resize/orientation changes, and flock counts below and above 14. Current renderer intentionally draws at most 14 ducks; revisit that cap separately if full-collection visibility is required.
