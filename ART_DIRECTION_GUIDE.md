@@ -570,5 +570,5 @@ For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, d
 ## Formation destination assignment correction (2026-10-21)
 - At the start of each formation morph, destination slots are now greedily matched to the nearest duck's last rendered position, rather than forcing every duck to travel to the same ordinal slot in every formation.
 - Each slot is claimed once and the assignment remains stable for the duration of the morph, reducing avoidable crossings caused by fixed-index slot mapping. Duck identity and rendering order are unchanged.
-- Existing eased interpolation, knockback offsets, bounded separation, and pond projection remain in place as secondary constraints. The assignment is cleared when the transition completes.
+- Existing eased interpolation, knockback offsets, bounded separation, and pond projection remain in place as secondary constraints. The slot assignment remains stable after the transition so ducks do not snap back to their former ordinal slots; it is recomputed at the next formation change.
 - Source-level patch applied in index.html; runtime visual QA is still required. This is not a claim that collisions are fully resolved.
