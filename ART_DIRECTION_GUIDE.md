@@ -572,3 +572,10 @@ For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, d
 - Each slot is claimed once and the assignment remains stable for the duration of the morph, reducing avoidable crossings caused by fixed-index slot mapping. Duck identity and rendering order are unchanged.
 - Existing eased interpolation, knockback offsets, bounded separation, and pond projection remain in place as secondary constraints. The slot assignment remains stable after the transition so ducks do not snap back to their former ordinal slots; it is recomputed at the next formation change.
 - Source-level patch applied in index.html; runtime visual QA is still required. This is not a claim that collisions are fully resolved.
+
+
+## Skill tree upgrade menu (2026-10-21)
+- The main upgrade menu is labeled Skill tree and presents all five existing upgrades as a compact connected tree: Bountiful pond is the visual hub, with Lucky wildflowers, Brave little flock, Friendly invitations, and Sleepytime savings as branches.
+- Branches are visual groupings only; all five upgrades remain independently purchasable. Existing upgrade keys, prices, levels, effects, save data, and purchase action are unchanged.
+- The tree uses compact two-column branch nodes, clear rank/cost labels, restrained connectors, and touch-friendly vertical scrolling within the modal. The tree remains responsive on narrow phones and supports keyboard focus on upgrade buttons.
+- Syntax was checked after the source update. The deployed menu has not yet been visually verified across devices.
