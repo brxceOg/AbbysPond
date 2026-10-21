@@ -1049,3 +1049,9 @@ body{background:radial-gradient(ellipse at 4% 0%,#fff8e9 0,transparent 40%),line
  .toast{top:calc(env(safe-area-inset-top) + 145px)!important;max-width:calc(100vw - 32px)!important;padding:10px 13px!important;font-size:11px!important}
 }
 @media(max-height:600px){.toast{top:calc(env(safe-area-inset-top) + 120px)!important}}
+
+
+/* Single notification surface: the legacy inline event line is no longer a second toast. */
+.app > .event{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.toast{z-index:45!important}
+.toast.show{pointer-events:none!important}
