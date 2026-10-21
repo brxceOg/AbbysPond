@@ -926,3 +926,10 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Branches are visual groupings only; all five upgrades remain independently purchasable. Existing upgrade keys, prices, levels, effects, save data, and purchase action are unchanged.
 - The tree uses compact two-column branch nodes, clear rank/cost labels, restrained connectors, and touch-friendly vertical scrolling within the modal. The tree remains responsive on narrow phones and supports keyboard focus on upgrade buttons.
 - Syntax was checked after the source update. The deployed menu has not yet been visually verified across devices.
+
+
+## Healing Instinct upgrade (2026-10-21)
+- Added a sixth independently purchasable skill-tree branch, **Healing Instinct**, starting at 65 Pond Pennies and using the existing exponential upgrade-cost curve, capped at level 50 like other upgrades.
+- When a duck is below 65% health, this upgrade increases its effective bug-catching radius (up to +18 px) and gives it priority for nearby bugs; it also increases the bug-eating chance by 8.5 percentage points per level, capped at 88%.
+- The flock stays on its existing formation paths; this is a local bug-foraging preference, not a forced movement/teleport, and the existing bug healing amount remains unchanged.
+- Existing saves migrate safely through the default upgrade merge; no save version change required. Inline JavaScript syntax checked successfully; no visual or live gameplay QA performed.
