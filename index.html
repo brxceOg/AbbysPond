@@ -2154,13 +2154,14 @@ function draw(now){
   const startY=Number.isFinite(state.transitionStartY)?state.transitionStartY:fromPoint.y;
   const baseX=startX+(toPoint.x-startX)*blend,baseY=startY+(toPoint.y-startY)*blend;
   if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;}
-  const knockDt=Math.max(0,Math.min(50,now-(state.knockAt||now)));state.knockAt=now;
+  const knockDt=Math.max(0,Math.min(34,now-(state.knockMotionAt||now)));state.knockMotionAt=now;
   const step=knockDt/1000;
-  // Knockback is a spring-displacement, not a permanent offset: after the impact,
-  // the duck actively paddles back toward its assigned formation slot.
-  state.kvx=(state.kvx||0)-(state.kx||0)*17*step;
-  state.kvy=(state.kvy||0)-(state.ky||0)*17*step;
-  const damping=Math.exp(-6.4*step);state.kvx*=damping;state.kvy*=damping;
+  // A critically damped return avoids the energetic bounce of a loose spring.
+  // The displacement is only knockback; neighbor-spacing corrections stay separate.
+  const stiffness=25,dampingRate=2*Math.sqrt(stiffness);
+  state.kvx=(state.kvx||0)-(state.kx||0)*stiffness*step;
+  state.kvy=(state.kvy||0)-(state.ky||0)*stiffness*step;
+  const damping=Math.exp(-dampingRate*step);state.kvx*=damping;state.kvy*=damping;
   state.kx=(state.kx||0)+state.kvx*step;state.ky=(state.ky||0)+state.kvy*step;
   if(Math.abs(state.kx)+Math.abs(state.ky)<.18&&Math.abs(state.kvx)+Math.abs(state.kvy)<1.8){state.kx=state.ky=state.kvx=state.kvy=0;}
   const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
@@ -2186,9 +2187,8 @@ function draw(now){
  }
  for(const swimmer of swimmers){
   clampDuckToPond(swimmer);
-  // Store corrected coordinates as spring offsets so spacing corrections are smooth
-  // and each duck naturally scrambles back into its formation rather than snapping.
-  swimmer.state.kx=swimmer.x-swimmer.baseX;swimmer.state.ky=swimmer.y-swimmer.baseY;
+  // Keep collision-spacing corrections visual and temporary; feeding them back into
+  // knockback displacement was repeatedly re-injecting energy into the spring.
   swimmer.state.renderX=swimmer.x;swimmer.state.renderY=swimmer.y;
  }
  // Draw the recently hit duck last so nearby ducks cannot cover its knockback animation.
