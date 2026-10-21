@@ -565,3 +565,10 @@ For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, d
 - **V/arrow formation:** use a dedicated 1.0 path scale; other non-circle formations remain at 1.25. The V's sharp apex and wide wings, combined with shared route drift, can crowd ducks against the pond boundary and create visually explosive separation corrections.
 
 - **Formation transitions:** when ducks cross paths while switching formations, favor small, smooth, deterministic sidesteps around neighbors rather than visibly overlapping or bouncing. Keep the sidesteps restrained, stable between frames, and clamped inside the pond boundary.
+
+
+## Formation destination assignment correction (2026-10-21)
+- At the start of each formation morph, destination slots are now greedily matched to the nearest duck's last rendered position, rather than forcing every duck to travel to the same ordinal slot in every formation.
+- Each slot is claimed once and the assignment remains stable for the duration of the morph, reducing avoidable crossings caused by fixed-index slot mapping. Duck identity and rendering order are unchanged.
+- Existing eased interpolation, knockback offsets, bounded separation, and pond projection remain in place as secondary constraints. The assignment is cleared when the transition completes.
+- Source-level patch applied in index.html; runtime visual QA is still required. This is not a claim that collisions are fully resolved.
