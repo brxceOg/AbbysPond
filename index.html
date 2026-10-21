@@ -2164,7 +2164,11 @@ function draw(now){
   const damping=Math.exp(-dampingRate*step);state.kvx*=damping;state.kvy*=damping;
   state.kx=(state.kx||0)+state.kvx*step;state.ky=(state.ky||0)+state.kvy*step;
   if(Math.abs(state.kx)+Math.abs(state.ky)<.18&&Math.abs(state.kvx)+Math.abs(state.kvy)<1.8){state.kx=state.ky=state.kvx=state.kvy=0;}
-  const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
+  // Separation has its own gentle offset so it never feeds energy into knockback.
+  const sepDt=Math.max(0,Math.min(34,now-(state.sepAt||now)));state.sepAt=now;
+  const sepDamp=Math.exp(-5.5*sepDt/1000);
+  state.sepX=(state.sepX||0)*sepDamp;state.sepY=(state.sepY||0)*sepDamp;
+  const x=baseX+(state.kx||0)+(state.sepX||0),y=baseY+(state.ky||0)+(state.sepY||0);
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state,baseX,baseY});
  }
  // Keep the flock physically together: separate overlapping bodies before drawing,
@@ -2187,15 +2191,11 @@ function draw(now){
  }
  for(const swimmer of swimmers){
   clampDuckToPond(swimmer);
-  // Keep collision-spacing corrections visual and temporary; feeding them back into
-  // knockback displacement was repeatedly re-injecting energy into the spring.
+  // Preserve the spacing correction as an independent, damped offset. This keeps
+  // position continuous between frames without contaminating the knockback spring.
+  swimmer.state.sepX=swimmer.x-(swimmer.baseX+(swimmer.state.kx||0));
+  swimmer.state.sepY=swimmer.y-(swimmer.baseY+(swimmer.state.ky||0));
   swimmer.state.renderX=swimmer.x;swimmer.state.renderY=swimmer.y;
- }
- // Draw the recently hit duck last so nearby ducks cannot cover its knockback animation.
- const recentlyHit=swimmers.filter(p=>now-(p.state.knockAt||0)<420);
- if(recentlyHit.length){
-  for(const hit of recentlyHit){const i=swimmers.indexOf(hit);if(i>=0)swimmers.splice(i,1);}
-  swimmers.push(...recentlyHit);
  }
  // Duck paths are deliberately non-reactive here: same-direction shared motion
  // prevents head-on bounce loops and keeps neighboring ducks from compressing.
