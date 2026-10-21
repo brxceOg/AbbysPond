@@ -2088,7 +2088,15 @@ function draw(now){
    const targetType=duckFormation.toType==null?currentType:duckFormation.toType;
    const nextTypeOptions=[0,1,2,3,4].filter(type=>type!==targetType);
    const nextType=nextTypeOptions[Math.floor(Math.random()*nextTypeOptions.length)];
-   duckFormation.fromType=currentProgress>=1?targetType:targetType;
+   // Snapshot each duck's actual rendered position before switching. Morphing two
+   // unrelated path parameterizations directly makes the flock shear apart mid-switch.
+   for(let j=0;j<Math.min(s.ducks.length,14);j++){
+    const duck=s.ducks[j],k=duck.uid||('duck-'+j),st=duckAvoidance[k];
+    if(st&&Number.isFinite(st.renderX)&&Number.isFinite(st.renderY)){
+     st.transitionStartX=st.renderX;st.transitionStartY=st.renderY;
+    }else if(st){delete st.transitionStartX;delete st.transitionStartY;}
+   }
+   duckFormation.fromType=targetType;
    duckFormation.toType=nextType;
    duckFormation.name=formationNames[nextType];
    duckFormation.fromGap=duckFormation.toGap=nextType===0?circleGap:lineGap;
@@ -2140,12 +2148,18 @@ function draw(now){
   const circleSlot=duckLimit>1?i/duckLimit:0;
   const fromPoint=formationPoint(fromType,(fromType===0||fromType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
   const toPoint=formationPoint(targetType,(targetType===0||targetType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
-  const baseX=fromPoint.x+(toPoint.x-fromPoint.x)*blend,baseY=fromPoint.y+(toPoint.y-fromPoint.y)*blend;
+  // Start from each duck's exact prior position, then converge to evenly spaced slots.
+  // This avoids the snap/shear caused by interpolating mismatched path coordinates.
+  const startX=Number.isFinite(state.transitionStartX)?state.transitionStartX:fromPoint.x;
+  const startY=Number.isFinite(state.transitionStartY)?state.transitionStartY:fromPoint.y;
+  const baseX=startX+(toPoint.x-startX)*blend,baseY=startY+(toPoint.y-startY)*blend;
+  if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;}
   const knockDt=Math.max(0,Math.min(50,now-(state.knockAt||now)));state.knockAt=now;
   state.kx=(state.kx||0)+(state.kvx||0)*knockDt/1000;state.ky=(state.ky||0)+(state.kvy||0)*knockDt/1000;
   const damping=Math.exp(-5.2*knockDt/1000);state.kvx=(state.kvx||0)*damping;state.kvy=(state.kvy||0)*damping;
   if(Math.abs(state.kx)+Math.abs(state.ky)<.12&&Math.abs(state.kvx)+Math.abs(state.kvy)<1){state.kx=state.ky=state.kvx=state.kvy=0;}
   const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
+  state.renderX=x;state.renderY=y;
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state});
  }
  // Duck paths are deliberately non-reactive here: same-direction shared motion
