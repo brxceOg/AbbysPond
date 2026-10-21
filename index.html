@@ -2150,9 +2150,19 @@ function draw(now){
   const toPoint=formationPoint(targetType,(targetType===0||targetType===3)?circleSlot:slot,duckFormation.leaderAngle,cx,cy,rx,ry);
   // Start from each duck's exact prior position, then converge to evenly spaced slots.
   // This avoids the snap/shear caused by interpolating mismatched path coordinates.
-  const startX=Number.isFinite(state.transitionStartX)?state.transitionStartX:fromPoint.x;
-  const startY=Number.isFinite(state.transitionStartY)?state.transitionStartY:fromPoint.y;
-  const baseX=startX+(toPoint.x-startX)*blend,baseY=startY+(toPoint.y-startY)*blend;
+  // Sanitize both ends of every formation morph before interpolation. A stale
+  // off-pond snapshot must never become a launch vector during a formation switch.
+  const safeStart=pondSafePoint(
+   Number.isFinite(state.transitionStartX)?state.transitionStartX:fromPoint.x,
+   Number.isFinite(state.transitionStartY)?state.transitionStartY:fromPoint.y,
+   cx,cy,rx,ry
+  );
+  const safeTarget=pondSafePoint(toPoint.x,toPoint.y,cx,cy,rx,ry);
+  const baseSafe=pondSafePoint(
+   safeStart.x+(safeTarget.x-safeStart.x)*blend,
+   safeStart.y+(safeTarget.y-safeStart.y)*blend,cx,cy,rx,ry
+  );
+  const baseX=baseSafe.x,baseY=baseSafe.y;
   if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;}
   const knockDt=Math.max(0,Math.min(34,now-(state.knockMotionAt||now)));state.knockMotionAt=now;
   const step=knockDt/1000;
@@ -2162,12 +2172,16 @@ function draw(now){
   state.kvx=(state.kvx||0)-(state.kx||0)*stiffness*step;
   state.kvy=(state.kvy||0)-(state.ky||0)*stiffness*step;
   const damping=Math.exp(-dampingRate*step);state.kvx*=damping;state.kvy*=damping;
-  state.kx=(state.kx||0)+state.kvx*step;state.ky=(state.ky||0)+state.kvy*step;
+  // Bound old/corrupt impulses so a formation change cannot sling a duck away.
+  state.kvx=Math.max(-260,Math.min(260,state.kvx));state.kvy=Math.max(-220,Math.min(220,state.kvy));
+  state.kx=Math.max(-58,Math.min(58,(state.kx||0)+state.kvx*step));
+  state.ky=Math.max(-48,Math.min(48,(state.ky||0)+state.kvy*step));
   if(Math.abs(state.kx)+Math.abs(state.ky)<.18&&Math.abs(state.kvx)+Math.abs(state.kvy)<1.8){state.kx=state.ky=state.kvx=state.kvy=0;}
   // Separation has its own gentle offset so it never feeds energy into knockback.
   const sepDt=Math.max(0,Math.min(34,now-(state.sepAt||now)));state.sepAt=now;
   const sepDamp=Math.exp(-5.5*sepDt/1000);
-  state.sepX=(state.sepX||0)*sepDamp;state.sepY=(state.sepY||0)*sepDamp;
+  state.sepX=Math.max(-32,Math.min(32,(state.sepX||0)*sepDamp));
+  state.sepY=Math.max(-28,Math.min(28,(state.sepY||0)*sepDamp));
   const x=baseX+(state.kx||0)+(state.sepX||0),y=baseY+(state.ky||0)+(state.sepY||0);
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state,baseX,baseY});
  }
