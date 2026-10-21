@@ -912,3 +912,10 @@ V/arrow formation safeguard: use a dedicated 1.0 path scale for the V while othe
 Formation-change collision avoidance: while a formation morph is active, the flock uses a slightly wider pairwise avoidance radius and a deterministic, short sidestep perpendicular to the ducks' shared travel direction. The sidestep is limited to the early separation passes to avoid accumulating excessive lateral motion. Every correction is projected through `clampDuckToPond`, and the final positions are clamped again before rendering.
 
 Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are carried in each duck's bounded `sepX`/`sepY` offset, so the next frame's formation interpolation does not erase the dodge and recreate the same collision. During morphs, the minimum separation target is 34 px with nine gentle solver passes; offsets remain bounded and every correction is clamped to the pond interior. The sideways dodge is deliberately smaller and stable to avoid oversteering or flock jumbling.
+
+
+## Formation destination assignment correction (2026-10-21)
+- At the start of each formation morph, destination slots are now greedily matched to the nearest duck's last rendered position, rather than forcing every duck to travel to the same ordinal slot in every formation.
+- Each slot is claimed once and the assignment remains stable for the duration of the morph, reducing avoidable crossings caused by fixed-index slot mapping. Duck identity and rendering order are unchanged.
+- Existing eased interpolation, knockback offsets, bounded separation, and pond projection remain in place as secondary constraints. The assignment is cleared when the transition completes.
+- Source-level patch applied in index.html; runtime visual QA is still required. This is not a claim that collisions are fully resolved.
