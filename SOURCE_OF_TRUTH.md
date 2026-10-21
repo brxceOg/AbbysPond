@@ -880,3 +880,8 @@ Do not reintroduce generic torn-paper clipping on the header, HUD, pond, or bott
 - The water, duck sprites, and lily pads are drawn inside the existing canvas. CSS must not scale or transform the canvas to fake individual ripples, as that would move the rendered scene relative to its interaction coordinates and crop the organic shoreline. Preserve the renderer's existing in-pond ripples and slow water/pad motion; only add per-sprite CSS animation if those sprites become separate DOM elements.
 - Avoid mix-blend-mode and any new pond-container pseudo-element overlays. Do not change element IDs, event handlers, game logic, save data, canvas sizing, or interaction geometry.
 - Validate CSS and inline JavaScript syntax, confirm all existing IDs/handlers are unchanged, and inspect the live page before claiming visual verification.
+
+## Formation transition stability (2026-10-21)
+- Formation changes snapshot every currently rendered duck position before switching shapes. The 2.8-second eased transition now starts from those real positions and converges each duck into its new evenly spaced slot, instead of interpolating incompatible positions along unrelated formation paths.
+- Each duck caches its last rendered coordinates for the next switch. Newly added ducks without a snapshot safely fall back to the current formation path; transition snapshots are cleared when the blend completes.
+- This is intended to prevent flock shearing/separation during formation changes, especially with larger flocks. JavaScript syntax checked; visual gameplay verification remains pending.
