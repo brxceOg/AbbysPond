@@ -933,3 +933,9 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - When a duck is below 65% health, this upgrade increases its effective bug-catching radius (up to +18 px) and gives it priority for nearby bugs; it also increases the bug-eating chance by 8.5 percentage points per level, capped at 88%.
 - The flock stays on its existing formation paths; this is a local bug-foraging preference, not a forced movement/teleport, and the existing bug healing amount remains unchanged.
 - Existing saves migrate safely through the default upgrade merge; no save version change required. Inline JavaScript syntax checked successfully; no visual or live gameplay QA performed.
+
+
+## Bug Bloom upgrade (2026-10-21)
+- Added a skill-tree upgrade, **Bug Bloom**, starting at 75 Pond Pennies and using the existing exponential cost curve; max rank 50.
+- Each rank reduces bug respawn wait by 1.4 percentage points, capped at 70% faster. The base wait remains randomized from 5 to 11.5 seconds before the reduction, so bugs return sooner without changing their healing value or existing bug-catching behavior.
+- Existing saves receive a zero-level default for the new upgrade. Inline JavaScript syntax checked after the change; no visual/live gameplay QA performed.
