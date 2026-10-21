@@ -2182,7 +2182,7 @@ function draw(now){
   const sepDamp=Math.exp(-5.5*sepDt/1000);
   state.sepX=Math.max(-32,Math.min(32,(state.sepX||0)*sepDamp));
   state.sepY=Math.max(-28,Math.min(28,(state.sepY||0)*sepDamp));
-  const x=baseX+(state.kx||0)+(state.sepX||0),y=baseY+(state.ky||0)+(state.sepY||0);
+  const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state,baseX,baseY});
  }
  // Keep the flock physically together: separate overlapping bodies before drawing,
@@ -2191,7 +2191,7 @@ function draw(now){
  const flockGap=25,pondEdgeX=Math.max(18,rx*.69),pondEdgeY=Math.max(18,ry*.69);
  function clampDuckToPond(p){
   const dx=p.x-cx,dy=p.y-cy,nx=dx/pondEdgeX,ny=dy/pondEdgeY,r=Math.hypot(nx,ny);
-  if(r>1){p.x=cx+dx/r/Math.max(1,r)*pondEdgeX;p.y=cy+dy/r/Math.max(1,r)*pondEdgeY;}
+  if(r>1){p.x=cx+dx/r;p.y=cy+dy/r;}
  }
  for(let pass=0;pass<5;pass++){
   for(let i=0;i<swimmers.length;i++)for(let j=i+1;j<swimmers.length;j++){
@@ -2205,10 +2205,9 @@ function draw(now){
  }
  for(const swimmer of swimmers){
   clampDuckToPond(swimmer);
-  // Preserve the spacing correction as an independent, damped offset. This keeps
-  // position continuous between frames without contaminating the knockback spring.
-  swimmer.state.sepX=swimmer.x-(swimmer.baseX+(swimmer.state.kx||0));
-  swimmer.state.sepY=swimmer.y-(swimmer.baseY+(swimmer.state.ky||0));
+  // Separation and boundary projection are frame-local positional constraints.
+  // Do not feed corrections back into movement state: that creates a hidden second
+  // movement layer and can inject jitter/energy into the flock.
   swimmer.state.renderX=swimmer.x;swimmer.state.renderY=swimmer.y;
  }
  // Duck paths are deliberately non-reactive here: same-direction shared motion
