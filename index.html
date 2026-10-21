@@ -2196,12 +2196,32 @@ function draw(now){
   const dx=p.x-cx,dy=p.y-cy,nx=dx/pondEdgeX,ny=dy/pondEdgeY,r=Math.hypot(nx,ny);
   if(r>1){p.x=cx+dx/r;p.y=cy+dy/r;}
  }
- for(let pass=0;pass<5;pass++){
+ const morphingFormation=formProgress<1;
+ for(let pass=0;pass<7;pass++){
   for(let i=0;i<swimmers.length;i++)for(let j=i+1;j<swimmers.length;j++){
    const a=swimmers[i],b=swimmers[j],dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy)||.001;
-   if(dist<flockGap){
-    const push=(flockGap-dist)*.52,ux=dx/dist,uy=dy/dist;
+   const dodgeRange=morphingFormation?flockGap+15:flockGap;
+   if(dist<dodgeRange){
+    const ux=dx/dist,uy=dy/dist;
+    const push=(flockGap-dist)*.52;
     a.x-=ux*push;a.y-=uy*push;b.x+=ux*push;b.y+=uy*push;
+    if(morphingFormation&&dist<dodgeRange){
+     // When target paths cross during a formation morph, add a small,
+     // deterministic sidestep perpendicular to the flock's travel direction.
+     // The sign is stable per pair, so ducks pass around each other instead
+     // of swapping sides every frame or bouncing back and forth.
+     const avx=a.baseX-(Number.isFinite(a.state.renderX)?a.state.renderX:a.baseX);
+     const avy=a.baseY-(Number.isFinite(a.state.renderY)?a.state.renderY:a.baseY);
+     const bvx=b.baseX-(Number.isFinite(b.state.renderX)?b.state.renderX:b.baseX);
+     const bvy=b.baseY-(Number.isFinite(b.state.renderY)?b.state.renderY:b.baseY);
+     let hx=avx+bvx,hy=avy+bvy,hlen=Math.hypot(hx,hy);
+     if(hlen<.01){hx=-(a.baseY-b.baseY);hy=a.baseX-b.baseX;hlen=Math.hypot(hx,hy)||1;}
+     hx/=hlen;hy/=hlen;
+     const side=((i+j)%2===0)?1:-1;
+     const dodge=Math.min(5,(dodgeRange-dist)*.22);
+     a.x+=-hy*dodge*side;a.y+=hx*dodge*side;
+     b.x+=hy*dodge*side;b.y+=-hx*dodge*side;
+    }
     clampDuckToPond(a);clampDuckToPond(b);
    }
   }
