@@ -544,3 +544,8 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Enemy collisions now apply directional velocity and a small immediate displacement to the duck away from the predator. Velocity decays smoothly, returning the duck to its established swimming path without changing health, injury, knockout, or reward rules.
 - JavaScript syntax check passed. Live visual/gameplay verification remains outstanding.
 - Implementation commit: `ba22ab2d4b686275d8e7ceca70f9002ba25e2db9`.
+
+## Duck position continuity correction (2026-10-21)
+- Kept pair-spacing corrections in dedicated damped `sepX`/`sepY` offsets, separate from knockback displacement, so each frame starts from the previous corrected position rather than snapping back to formation coordinates.
+- Removed per-frame recent-hit array reordering, avoiding unnecessary render-order changes while preserving stable duck identity and draw order.
+- JavaScript syntax checked; live visual verification pending.
