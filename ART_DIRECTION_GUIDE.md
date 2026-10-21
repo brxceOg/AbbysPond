@@ -518,3 +518,13 @@ This pass implements a first substantial slice of the guide's pond and journal d
 - Restyled notifications as compact, readable cream-and-moss game toasts with constrained width, safe-area spacing, wrapping for longer messages, and a shorter-screen adjustment.
 - Updated the stylesheet cache key in `index.html` so the deployed page requests the new CSS.
 - Commits: `ec1fc5ee422fedfd3379c02b0c29888aa3797188` (notification styles), `f86a789d523c700fd5602fb0391803ce05707441` (cache refresh).
+
+
+## Session 10 — Unified notification queue (2026-10-21)
+
+- Unified transient feedback previously split between `say()` (bottom/upper toast) and `queueEvent()` (inline pond event line).
+- Both public entry points now feed the same FIFO queue and render through the single `#toast` element, so two messages cannot be visible on top of one another.
+- Notifications display one at a time for about 2.7 seconds, fade out, then advance to the next queued message. Consecutive duplicate messages are suppressed.
+- The legacy `#event` element is retained to avoid disturbing page structure, but is hidden and no longer used as a notification surface.
+- Commits: `44ba243141e563b4c3b0614ac97508be4e91225a` (shared queue), `989393eead718f450699b74064ddcaa434125e8f` (hide duplicate surface), `b1d7ef5ed9d03ea33677e4789ac21fc468243114` (stylesheet cache refresh).
+- JavaScript syntax checked successfully; visual deployment verification remains outstanding.
