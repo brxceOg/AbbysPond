@@ -2155,12 +2155,47 @@ function draw(now){
   const baseX=startX+(toPoint.x-startX)*blend,baseY=startY+(toPoint.y-startY)*blend;
   if(formProgress>=1){delete state.transitionStartX;delete state.transitionStartY;}
   const knockDt=Math.max(0,Math.min(50,now-(state.knockAt||now)));state.knockAt=now;
-  state.kx=(state.kx||0)+(state.kvx||0)*knockDt/1000;state.ky=(state.ky||0)+(state.kvy||0)*knockDt/1000;
-  const damping=Math.exp(-5.2*knockDt/1000);state.kvx=(state.kvx||0)*damping;state.kvy=(state.kvy||0)*damping;
-  if(Math.abs(state.kx)+Math.abs(state.ky)<.12&&Math.abs(state.kvx)+Math.abs(state.kvy)<1){state.kx=state.ky=state.kvx=state.kvy=0;}
+  const step=knockDt/1000;
+  // Knockback is a spring-displacement, not a permanent offset: after the impact,
+  // the duck actively paddles back toward its assigned formation slot.
+  state.kvx=(state.kvx||0)-(state.kx||0)*17*step;
+  state.kvy=(state.kvy||0)-(state.ky||0)*17*step;
+  const damping=Math.exp(-6.4*step);state.kvx*=damping;state.kvy*=damping;
+  state.kx=(state.kx||0)+state.kvx*step;state.ky=(state.ky||0)+state.kvy*step;
+  if(Math.abs(state.kx)+Math.abs(state.ky)<.18&&Math.abs(state.kvx)+Math.abs(state.kvy)<1.8){state.kx=state.ky=state.kvx=state.kvy=0;}
   const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
-  state.renderX=x;state.renderY=y;
-  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state});
+  swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state,baseX,baseY});
+ }
+ // Keep the flock physically together: separate overlapping bodies before drawing,
+ // and project every correction back inside the pond's hard interior boundary.
+ // Repeated small passes prevent a knocked duck from being painted underneath a neighbor.
+ const flockGap=25,pondEdgeX=Math.max(18,rx*.69),pondEdgeY=Math.max(18,ry*.69);
+ function clampDuckToPond(p){
+  const dx=p.x-cx,dy=p.y-cy,nx=dx/pondEdgeX,ny=dy/pondEdgeY,r=Math.hypot(nx,ny);
+  if(r>1){p.x=cx+dx/r/Math.max(1,r)*pondEdgeX;p.y=cy+dy/r/Math.max(1,r)*pondEdgeY;}
+ }
+ for(let pass=0;pass<5;pass++){
+  for(let i=0;i<swimmers.length;i++)for(let j=i+1;j<swimmers.length;j++){
+   const a=swimmers[i],b=swimmers[j],dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy)||.001;
+   if(dist<flockGap){
+    const push=(flockGap-dist)*.52,ux=dx/dist,uy=dy/dist;
+    a.x-=ux*push;a.y-=uy*push;b.x+=ux*push;b.y+=uy*push;
+    clampDuckToPond(a);clampDuckToPond(b);
+   }
+  }
+ }
+ for(const swimmer of swimmers){
+  clampDuckToPond(swimmer);
+  // Store corrected coordinates as spring offsets so spacing corrections are smooth
+  // and each duck naturally scrambles back into its formation rather than snapping.
+  swimmer.state.kx=swimmer.x-swimmer.baseX;swimmer.state.ky=swimmer.y-swimmer.baseY;
+  swimmer.state.renderX=swimmer.x;swimmer.state.renderY=swimmer.y;
+ }
+ // Draw the recently hit duck last so nearby ducks cannot cover its knockback animation.
+ const recentlyHit=swimmers.filter(p=>now-(p.state.knockAt||0)<420);
+ if(recentlyHit.length){
+  for(const hit of recentlyHit){const i=swimmers.indexOf(hit);if(i>=0)swimmers.splice(i,1);}
+  swimmers.push(...recentlyHit);
  }
  // Duck paths are deliberately non-reactive here: same-direction shared motion
  // prevents head-on bounce loops and keeps neighboring ducks from compressing.
