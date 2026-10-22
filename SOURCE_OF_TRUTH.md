@@ -981,3 +981,9 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - A small **BUGS n/12** pond indicator communicates current population pressure, with a warmer warning color at ten or more bugs.
 - Frog count is saved in the existing upgrade-state object and migrated automatically for existing saves. Frog hiring is capped at eight ranks; other upgrades retain their existing 50-rank cap.
 - Implementation check: embedded JavaScript syntax passed. This change has not yet been visually or gameplay-tested in a live browser.
+
+
+## Storybook frog sprite refinement (2026-10-22)
+- Refined the on-pond Frog Friends sprites to match the ducks' watercolor-and-ink storybook language: warm brown contours, softly layered greens, a curved cream belly, rounded expressive eyes with catchlights, blush, tiny freckles, and more readable curled forearms and splayed feet.
+- Added a subtle grounding shadow and a restrained hop lift while preserving the existing frog positions, bug-eating timers, population logic, and skill-tree behavior.
+- The frog remains a compact canvas-drawn sprite; this source change was syntax-checked, but the live pond appearance still needs visual QA.
