@@ -952,3 +952,8 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Increased the formation spacing solver from 9 to 14 gentle passes and slightly strengthened each pairwise correction so crowded path targets are resolved before duck sprites are drawn.
 - Expanded the bounded per-duck separation offsets to allow the flock to spread out of tightly packed zigzag, V, diamond, and arc path points without introducing unbounded motion. The V's smaller footprint, nearest-slot assignment, knockback spring, and pond-boundary projection are preserved.
 - Existing formations and gameplay remain unchanged. Source-level patch applied and requires live visual testing with a large flock, all five formations, formation switches, and knockback; static checks do not prove the animation is overlap-free.
+
+## Duck formation jitter fix (2026-10-22)
+- Removed persistent writes of pairwise separation corrections into each duck's movement state. Corrections now adjust only the current frame's working positions, while the formation target and knockback state remain independent.
+- This resolves a feedback loop where the same ducks were repeatedly nudged away from crowded bends, then carried those offsets into the next frame and fought their moving targets, causing visible jitter.
+- Existing adaptive spacing, 14-pass solver, nearest-slot transition assignment, knockback, and pond-boundary projection remain in place. JavaScript syntax checked; live visual/gameplay QA is still required.
