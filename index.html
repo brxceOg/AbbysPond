@@ -2907,6 +2907,17 @@ function draw(now){
      if(battle.flockDefeated)break;
     }
    }
+   if(battle.phase==='active'){
+    const shotDt=Math.min(.05,Math.max(0,(now-(battle.projectileFrameAt||now))/1000));battle.projectileFrameAt=now;
+    for(let pi=spitballs.length-1;pi>=0;pi--){
+     const shot=spitballs[pi];shot.x+=shot.vx*shotDt;shot.y+=shot.vy*shotDt;
+     if(Math.hypot(shot.x-battle.x,shot.y-battle.y)<13){
+      battle.health=Math.max(0,battle.health-shot.damage);impactClouds.push({x:battle.x,y:battle.y-2,t:now});
+      ripples.push({x:battle.x,y:battle.y,t:now,kind:'spitball-hit',power:.72});spitballs.splice(pi,1);
+      if(battle.health<=0){battle.health=0;battle.phase='defeated';battle.phaseAt=now;flockCheerAt=now;}
+     }else if(now-shot.createdAt>2600||shot.x<0||shot.x>W||shot.y<0||shot.y>H){spitballs.splice(pi,1);}
+    }
+   }
    if(battle.phase==='active'&&now-battle.start>30000){battle.phase='escaped';battle.phaseAt=now;}
   }
   if((battle.phase==='defeated'||battle.phase==='escaped')&&now-battle.phaseAt>(battle.phase==='defeated'?1250:650)){
@@ -2956,6 +2967,16 @@ function draw(now){
    }
   }
  }
+ // Draw the tiny, pale-blue pixel spitballs over the active encounter.
+ if(encounterAnim&&encounterAnim.phase==='active'){
+  for(const shot of spitballs){
+   ctx.save();ctx.translate(Math.round(shot.x),Math.round(shot.y));
+   ctx.globalAlpha=.3;ctx.fillStyle='#1e7180';ctx.fillRect(-5,2,7,2);ctx.globalAlpha=1;
+   ctx.fillStyle='#d8fff0';ctx.strokeStyle='#287f88';ctx.lineWidth=1;
+   ctx.beginPath();ctx.ellipse(0,0,4.2,3.1,Math.atan2(shot.vy,shot.vx),0,Math.PI*2);ctx.fill();ctx.stroke();
+   ctx.fillStyle='#fffef0';ctx.fillRect(-1,-2,2,2);ctx.restore();
+  }
+ }else if(!encounterAnim)spitballs.length=0;
  // Growth feedback is deliberately painted LAST, after shoreline foliage, ripples,
  // and encounter sprites. This prevents later scene layers from covering the arrow.
  for(let n=growthIndicators.length-1;n>=0;n--){
