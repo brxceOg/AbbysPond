@@ -2253,12 +2253,10 @@ function draw(now){
   state.kx=Math.max(-58,Math.min(58,(state.kx||0)+state.kvx*step));
   state.ky=Math.max(-48,Math.min(48,(state.ky||0)+state.kvy*step));
   if(Math.abs(state.kx)+Math.abs(state.ky)<.18&&Math.abs(state.kvx)+Math.abs(state.kvy)<1.8){state.kx=state.ky=state.kvx=state.kvy=0;}
-  // Separation has its own gentle offset so it never feeds energy into knockback.
-  const sepDt=Math.max(0,Math.min(34,now-(state.sepAt||now)));state.sepAt=now;
-  const sepDamp=Math.exp(-5.5*sepDt/1000);
-  state.sepX=Math.max(-32,Math.min(32,(state.sepX||0)*sepDamp));
-  state.sepY=Math.max(-28,Math.min(28,(state.sepY||0)*sepDamp));
-  const x=baseX+(state.kx||0)+(state.sepX||0),y=baseY+(state.ky||0)+(state.sepY||0);
+  // Separation is solved as a frame-local positional constraint below.
+  // Do not carry neighbor corrections into the next frame: persistent offsets
+  // fight the moving formation targets and make ducks jitter at crowded path bends.
+  const x=baseX+(state.kx||0),y=baseY+(state.ky||0);
   swimmers.push({d,key,baseDir,swimDir:state.direction,angle:state.angle,x,y,state,baseX,baseY});
  }
  // Keep the flock physically together: separate overlapping bodies before drawing,
@@ -2272,13 +2270,11 @@ function draw(now){
  }
  const morphingFormation=formProgress<1;
  const transitionGap=morphingFormation?Math.min(42,flockGap+4):flockGap;
- // Keep separation corrections in the per-duck offset, not just this frame's
- // temporary draw coordinates. Otherwise the next frame's interpolated target
- // erases the dodge and the same ducks collide repeatedly along the same paths.
+ // Apply separation only to this frame's working positions. The formation
+ // targets remain authoritative on the next frame, preventing accumulated
+ // correction offsets from fighting the path and creating positional jitter.
  function nudgeDuck(p,dx,dy){
   p.x+=dx;p.y+=dy;
-  p.state.sepX=Math.max(-48,Math.min(48,(p.state.sepX||0)+dx));
-  p.state.sepY=Math.max(-42,Math.min(42,(p.state.sepY||0)+dy));
  }
  for(let pass=0;pass<14;pass++){
   for(let i=0;i<swimmers.length;i++)for(let j=i+1;j<swimmers.length;j++){
