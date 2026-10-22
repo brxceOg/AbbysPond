@@ -2853,10 +2853,41 @@ function draw(now){
    frogNextEatAt[fi]=now+34000;
   }
   const fa=frogCount===1?.5:fi/(frogCount-1),fx=cx-rx*.43+fa*rx*.86,fy=cy+ry*.67+Math.sin(now*.002+fi)*1.5;
-  ctx.save();ctx.translate(Math.round(fx),Math.round(fy));ctx.scale(1.35,1.35);const blink=Math.sin(now*.004+fi*2)>0.985;
-  ctx.fillStyle='#355d43';ctx.fillRect(-7,1,14,5);ctx.fillRect(-5,-3,10,6);ctx.fillStyle='#4f9259';ctx.fillRect(-6,-3,12,6);ctx.fillRect(-7,-5,4,4);ctx.fillRect(3,-5,4,4);
-  ctx.fillStyle='#f4f0c8';ctx.fillRect(-6,-5,3,3);ctx.fillRect(4,-5,3,3);ctx.fillStyle='#263c2c';if(!blink){ctx.fillRect(-5,-5,1,2);ctx.fillRect(5,-5,1,2);}else{ctx.fillRect(-5,-4,2,1);ctx.fillRect(4,-4,2,1);}
-  ctx.fillStyle='#e9c6a0';ctx.fillRect(-5,5,4,2);ctx.fillRect(2,5,4,2);ctx.restore();
+  // Rounded, storybook frog sprite: warm ink outline, plump silhouette,
+  // cream belly, bright eyes, blush cheeks and tiny toe details to match the ducks.
+  ctx.save();ctx.translate(Math.round(fx),Math.round(fy));ctx.scale(1.35,1.35);
+  const blink=Math.sin(now*.004+fi*2)>0.985,hop=Math.sin(now*.003+fi*1.7);
+  ctx.lineJoin='round';ctx.lineCap='round';
+  // Back feet peek out from the body.
+  ctx.fillStyle='#4d874e';ctx.strokeStyle='#354d38';ctx.lineWidth=1.25;
+  ctx.beginPath();ctx.ellipse(-5,4.5,4.2,2.3,-.22,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.ellipse(5,4.5,4.2,2.3,.22,0,Math.PI*2);ctx.fill();ctx.stroke();
+  // Feet and little toes.
+  ctx.strokeStyle='#354d38';ctx.lineWidth=1;
+  for(const side of [-1,1]){ctx.beginPath();ctx.moveTo(side*5,4.8);ctx.lineTo(side*7,6);ctx.moveTo(side*3.8,5);ctx.lineTo(side*4,6.1);ctx.stroke();}
+  // Soft, rounded body with a cream tummy.
+  ctx.fillStyle='#4f9259';ctx.strokeStyle='#354d38';ctx.lineWidth=1.35;
+  ctx.beginPath();ctx.ellipse(0,1.2,7.2,5.1,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#f2dfb0';ctx.strokeStyle='#354d38';ctx.lineWidth=.85;
+  ctx.beginPath();ctx.ellipse(0,2.5,4.5,3.1,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  // Head and raised eye bumps are one friendly silhouette.
+  ctx.fillStyle='#68aa63';ctx.strokeStyle='#354d38';ctx.lineWidth=1.35;
+  ctx.beginPath();ctx.moveTo(-6.7,-2.3);ctx.quadraticCurveTo(-8.1,-6.7,-4.2,-7);ctx.quadraticCurveTo(-2.4,-7.1,-1.9,-5.3);ctx.quadraticCurveTo(0,-6.1,1.9,-5.3);ctx.quadraticCurveTo(2.5,-7.1,4.3,-7);ctx.quadraticCurveTo(8.1,-6.7,6.7,-2.3);ctx.quadraticCurveTo(5.9,1.1,0,1.1);ctx.quadraticCurveTo(-5.9,1.1,-6.7,-2.3);ctx.closePath();ctx.fill();ctx.stroke();
+  // Tiny leaf-like highlight makes the green feel softly painted.
+  ctx.fillStyle='#a4d77b';ctx.beginPath();ctx.ellipse(-3.2,-3.9,1.7,.8,-.5,0,Math.PI*2);ctx.fill();
+  // Big cream eyes, glossy pupils, or little curved closed eyes when blinking.
+  for(const side of [-1,1]){
+   ctx.fillStyle='#fff4d5';ctx.strokeStyle='#354d38';ctx.lineWidth=.8;
+   ctx.beginPath();ctx.ellipse(side*3.8,-5.1,2.05,2.35,side*.08,0,Math.PI*2);ctx.fill();ctx.stroke();
+   if(!blink){ctx.fillStyle='#253a2d';ctx.beginPath();ctx.ellipse(side*3.95,-5,0.9,1.45,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fffdf0';ctx.fillRect(side*3.65,-5.85,.65,.65);}
+   else{ctx.strokeStyle='#354d38';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(side*2.5,-5);ctx.quadraticCurveTo(side*3.8,-4.1,side*5.1,-5);ctx.stroke();}
+  }
+  // A tiny smile and rosy cheeks give the frog the same affectionate expression as the ducks.
+  ctx.strokeStyle='#354d38';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-2.1,-1.5);ctx.quadraticCurveTo(0,.35,2.1,-1.5);ctx.stroke();
+  ctx.fillStyle='#e9a1a0';ctx.globalAlpha=.82;ctx.beginPath();ctx.ellipse(-5,-1.1,1.2,.65,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(5,-1.1,1.2,.65,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+  // Two subtle freckles add personality without clutter at pond scale.
+  ctx.fillStyle='#3f7948';ctx.fillRect(-1.7,1.8,1,1);ctx.fillRect(1.2,2.5,1,1);
+  ctx.restore();
  }
  // A quiet population label lets players see when the pond is getting buggy.
  const bugPopulation=pondBugs.filter(b=>!b.retired).length;ctx.save();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';const label='BUGS '+bugPopulation+'/12',labelW=ctx.measureText(label).width+16,bx=cx,by=cy+ry*.84;
