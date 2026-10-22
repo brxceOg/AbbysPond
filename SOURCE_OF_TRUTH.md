@@ -987,3 +987,11 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Refined the on-pond Frog Friends sprites to match the ducks' watercolor-and-ink storybook language: warm brown contours, softly layered greens, a curved cream belly, rounded expressive eyes with catchlights, blush, tiny freckles, and more readable curled forearms and splayed feet.
 - Added a subtle grounding shadow and a restrained hop lift while preserving the existing frog positions, bug-eating timers, population logic, and skill-tree behavior.
 - The frog remains a compact canvas-drawn sprite; this source change was syntax-checked, but the live pond appearance still needs visual QA.
+
+
+## Frog hopping and lily-pad tongue hunting (2026-10-22)
+- Frog Friends now have individual movement state and hop between safe pond points and the six drifting lily pads. Each hop eases between endpoints with a visible arc; target positions are clamped inside the pond.
+- Frogs scan moving lily pads for live bugs and prioritize a pad with an insect on or near it. Bugs can be reserved by one frog so several frogs do not all claim the same insect.
+- On arrival, the frog extends a long, curved pink tongue toward the bug, briefly reaches it, and retracts while visually pulling the insect to the frog's mouth. The bug remains hidden from duck-catching during the animation and is permanently removed only when the tongue pull completes; a small water ripple marks the catch.
+- Frogs continue wandering when no pad has a bug. Bug-population growth, frog purchasing, duck bug-catching, lily-pad drift, and pond-boundary constraints are preserved.
+- Embedded JavaScript syntax check passed. Live visual/gameplay QA is still required to tune hop readability, bug-on-pad detection frequency, and tongue timing at phone scale.
