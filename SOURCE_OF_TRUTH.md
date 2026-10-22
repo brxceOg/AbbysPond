@@ -945,3 +945,10 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Added pairwise repulsion between all six independently drifting lily pads, maintaining a 32 CSS-pixel center-spacing target before each frame's motion integration.
 - The force uses the pads' current drift offsets, is timestep-scaled, and includes a deterministic fallback direction for near-identical positions so overlapping pads do not remain stuck together.
 - Existing duck-avoidance, shoreline projection, pad artwork, and water-strider landing/occupancy behavior remain unchanged. Source-level patch applied; live visual/gameplay verification is still required.
+
+
+## Duck formation spacing cleanup (2026-10-22)
+- Raised the normal flock separation target from 25 px to an adaptive 29–38 px based on pond size, and made formation transitions use a slightly wider target (up to 42 px).
+- Increased the formation spacing solver from 9 to 14 gentle passes and slightly strengthened each pairwise correction so crowded path targets are resolved before duck sprites are drawn.
+- Expanded the bounded per-duck separation offsets to allow the flock to spread out of tightly packed zigzag, V, diamond, and arc path points without introducing unbounded motion. The V's smaller footprint, nearest-slot assignment, knockback spring, and pond-boundary projection are preserved.
+- Existing formations and gameplay remain unchanged. Source-level patch applied and requires live visual testing with a large flock, all five formations, formation switches, and knockback; static checks do not prove the animation is overlap-free.
