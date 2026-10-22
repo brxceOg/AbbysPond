@@ -971,3 +971,12 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Prevented the skill-card footer from wrapping the button onto a second row when the next-level cost changes after a purchase.
 - Gave all skill-tree upgrade buttons a consistent 72 px width and kept the cost label flexible, so changing price digits does not shift the button horizontally.
 - JavaScript syntax checked; layout should still be visually checked on narrow mobile screens.
+
+## Frog Friends and bug-population management (2026-10-22)
+
+- Added **Frog Friends** as an independent skill-tree purchase. Each rank hires one small pixel-art frog, up to eight frogs; the starting price is 110 Pond Pennies and subsequent ranks scale by 1.72×.
+- The pond's insect population now grows naturally from the starting four bugs toward a cap of twelve, with one new bug arriving about every twelve seconds when below the cap.
+- Frogs appear along the lower pond edge and periodically eat bugs permanently, lowering the tracked population and leaving room for new insects to return. Ducks can still catch bugs for their existing healing/feeding effects; those bugs return on their usual respawn timer.
+- A small **BUGS n/12** pond indicator communicates current population pressure, with a warmer warning color at ten or more bugs.
+- Frog count is saved in the existing upgrade-state object and migrated automatically for existing saves. Frog hiring is capped at eight ranks; other upgrades retain their existing 50-rank cap.
+- Implementation check: embedded JavaScript syntax passed. This change has not yet been visually or gameplay-tested in a live browser.
