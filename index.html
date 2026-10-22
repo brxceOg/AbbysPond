@@ -1672,7 +1672,7 @@ const ducks=[
 const rarities=['Common','Uncommon','Rare','Epic','Legendary','Mythic'],base={Common:55,Uncommon:25,Rare:12,Epic:5.5,Legendary:2,Mythic:.5};
 const items=[{id:'clover-charm',n:'Clover Charm',e:'☘️',s:'Charm',r:'Uncommon',d:'+12% income',i:.12,a:0,h:0},{id:'rose-ribbon',n:'Rose Ribbon',e:'🎀',s:'Ribbon',r:'Rare',d:'+3 attack',i:0,a:3,h:0},{id:'pearl-shell',n:'Pearl Shell',e:'🐚',s:'Shell',r:'Rare',d:'+8 health',i:0,a:0,h:8},{id:'moon-pendant',n:'Moon Pendant',e:'🌙',s:'Charm',r:'Epic',d:'+25% income and +5 attack',i:.25,a:5,h:0},{id:'petal-token',n:'Keepsake Petal',e:'🌸',s:'Keepsake',r:'Uncommon',d:'A tiny petal from a familiar duck. A little reminder that every visit matters.',i:0,a:0,h:0}];
 const predators=[{n:'Snapping turtle',e:'🐢',lv:1,p:8,reward:12,speed:.012},{n:'Water snake',e:'🐍',lv:2,p:22,reward:35,speed:.02},{n:'Raccoon',e:'🦝',lv:3,p:55,reward:90,speed:.024},{n:'Red fox',e:'🦊',lv:5,p:120,reward:240,speed:.03},{n:'Hawk',e:'🦅',lv:8,p:260,reward:650,speed:.038},{n:'Coyote',e:'🐺',lv:12,p:550,reward:1600,speed:.028}];
-const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0,healing:0,bugBloom:0,spitball:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true,journal:{discoveries:0,glimmers:0,petals:0,tracks:0,claimed:[]}});
+const fresh=()=>({version:1,money:30,ducks:[{uid:'duck-1',species:'meadow',level:1,equipment:{}}],nextUid:2,up:{income:0,luck:0,defense:0,roll:0,offline:0,healing:0,bugBloom:0,spitball:0,frogs:0},inv:{},found:['meadow'],rolls:0,saved:Date.now(),encounter:Date.now(),taps:0,secret:false,total:0,motion:true,journal:{discoveries:0,glimmers:0,petals:0,tracks:0,claimed:[]}});
 let s=fresh(),canvas,ctx,last=Date.now(),selected=null,menu=null,opened=false,rolling=false,lureOutcome=null,flockTab='ducks',scratchChoiceIndex=null,duckPositions=[],ripples=[],impactClouds=[],spitballs=[],confetti=[],flockCheerAt=0,victoryBanner=null,toastTime=0,eventTimer=0,eventQueue=[],eventShowing=false,currentEventMessage='',storageWarningShown=false,loopCount=0,encounterAnim=null,pondDiscovery=null,pondDiscoveryNextAt=performance.now()+9000,duckAvoidance={},duckFormation={name:'circle',nextSwitch:0,fromGap:null,toGap:null,transitionAt:0,fromZigzag:0,toZigzag:0,leaderAngle:0};
 
 const attackRanges={Common:[1,10],Uncommon:[10,20],Rare:[20,35],Epic:[35,50],Legendary:[50,70],Mythic:[70,100]};
@@ -1715,7 +1715,8 @@ function duckIcon(d,cls=''){
 function incomeDuck(d){let bonus=0;Object.values(d.equipment||{}).forEach(id=>{if(item(id))bonus+=item(id).i});return def(d).i*(1+(d.level-1)*.22)*(1+s.up.income*.12)*(1+bonus)}
 function income(){return s.ducks.reduce((a,d)=>a+incomeDuck(d),0)}
 function power(){return s.ducks.reduce((a,d)=>a+def(d).a+(d.level-1)*2+Object.values(d.equipment||{}).reduce((v,id)=>v+(item(id)?item(id).a+item(id).h*.15:0),0),0)+s.up.defense*1.5}
-function cost(k){return Math.floor(({income:35,luck:55,defense:45,roll:70,offline:80,healing:65,bugBloom:75,spitball:90})[k]*Math.pow(k==='luck'?1.78:1.62,s.up[k]))}
+function maxUpgradeLevel(k){return k==='frogs'?8:50}
+function cost(k){return Math.floor(({income:35,luck:55,defense:45,roll:70,offline:80,healing:65,bugBloom:75,spitball:90,frogs:110})[k]*Math.pow(k==='luck'?1.78:k==='frogs'?1.72:1.62,s.up[k]))}
 function rollCost(){return Math.max(1,Math.floor(35*Math.pow(1.13,s.rolls)*(1-s.up.roll*.025)))}
 function rollPrice(count){let total=0;for(let i=0;i<count;i++)total+=Math.max(1,Math.floor(35*Math.pow(1.13,s.rolls+i)*(1-s.up.roll*.025)));return total}
 function weights(){let w={...base};['Uncommon','Rare','Epic','Legendary','Mythic'].forEach(r=>w[r]*=1+s.up.luck*.18);let total=Object.values(w).reduce((a,b)=>a+b,0);return Object.fromEntries(rarities.map(r=>[r,w[r]/total]))}
@@ -1741,9 +1742,10 @@ function upgradeMenu(c){
   {k:'offline',t:'Sleepytime savings',d:'Improves offline earnings by 5% per level, up to 75%.',g:'🌙'},
    {k:'healing',t:'Healing Instinct',d:'When below 65% health, ducks seek nearby bugs more eagerly: wider catch range and a better chance to eat them. Each level boosts both.',g:'💚'},
    {k:'bugBloom',t:'Bug Bloom',d:'Encourages bugs to return to the pond faster after being eaten. Each level cuts their respawn wait by 1.4%, up to 70% faster.',g:'🪰'},
-  {k:'spitball',t:'Spitball',d:'Your ducks spit little water pellets at predators during encounters. Each level increases projectile damage and slightly improves firing speed.',g:'💦'}
+  {k:'spitball',t:'Spitball',d:'Your ducks spit little water pellets at predators during encounters. Each level increases projectile damage and slightly improves firing speed.',g:'💦'},
+  {k:'frogs',t:'Frog Friends',d:'Buy up to 8 little pond frogs. Bugs naturally multiply toward 12; each frog hops in to eat bugs over time and keep the pond from getting overrun.',g:'🐸',max:8}
  ];
- const node=({k,t,d,g,root=false})=>'<article class="skill-node '+(root?'skill-root':'skill-branch')+'"><div class="skill-node-top"><span class="skill-glyph" aria-hidden="true">'+g+'</span><span class="skill-node-title">'+t+'</span><span class="skill-rank">Lv '+s.up[k]+'/50</span></div><div class="skill-desc">'+d+'</div><div class="skill-foot"><span class="skill-cost">'+(s.up[k]>=50?'MAX RANK':'Next · '+fmt(cost(k))+' pennies')+'</span>'+btn(s.up[k]>=50?'Maxed':'Upgrade','up:'+k,s.money<cost(k)||s.up[k]>=50).replace('class="primary"','class="primary skill-buy"')+' </div></article>';
+ const node=({k,t,d,g,root=false,max=50})=>'<article class="skill-node '+(root?'skill-root':'skill-branch')+'"><div class="skill-node-top"><span class="skill-glyph" aria-hidden="true">'+g+'</span><span class="skill-node-title">'+t+'</span><span class="skill-rank">Lv '+s.up[k]+'/'+max+'</span></div><div class="skill-desc">'+d+'</div><div class="skill-foot"><span class="skill-cost">'+(s.up[k]>=max?'MAX RANK':'Next · '+fmt(cost(k))+' pennies')+'</span>'+btn(s.up[k]>=max?'Maxed':'Upgrade','up:'+k,s.money<cost(k)||s.up[k]>=max).replace('class="primary"','class="primary skill-buy"')+' </div></article>';
  c.innerHTML='<p class="intro skill-tree-intro">Choose where your pond grows next. Follow the branches that fit your playstyle — every branch is available to invest in at any time.</p><div class="skill-tree" aria-label="Pond upgrade skill tree"><div class="skill-root-wrap">'+node(defs[0],true)+'</div><div class="skill-branches">'+defs.slice(1).map(x=>node(x)).join('')+'</div><p class="skill-independent">Branches are independent · mix and match your build</p></div>';
 }
 function flockMenu(c){header('EVERY DUCK IS SPECIAL','Your flock');const injured=s.ducks.filter(x=>{ensureDuckCombat(x);return x.injured||x.health<=0});const tabs='<div class="flock-tabs" role="group" aria-label="Flock sections"><button class="flock-tab" data-action="flocktab:ducks" aria-pressed="'+(flockTab==='ducks')+'">Your ducks · '+s.ducks.length+'</button><button class="flock-tab" data-action="flocktab:injured" aria-pressed="'+(flockTab==='injured')+'">Injured ducks · '+injured.length+'</button></div>';if(flockTab==='injured'){c.innerHTML='<p class="intro">A little rest after a tough encounter. Injured ducks stay safely in your pond and can recover when they catch a bug.</p>'+tabs+(injured.length?'<div class="list">'+injured.map(x=>{const v=def(x);return '<article class="card injured-card"><div class="row"><div class="avatar">'+duckIcon(v)+'</div><div class="main"><div class="mtitle">'+v.name+' <span class="pill '+v.r+'">'+v.r+'</span></div><div class="desc">'+v.desc+'</div><div class="meta">Needs a little recovery · '+Math.ceil(x.health)+' / '+duckMaxHealth(x)+' health</div></div>'+btn('Check on duck','selectduck:'+x.uid,false,true)+'</div><div class="track"><span style="width:0%;background:#d87970"></span></div></article>'}).join('')+'</div>':'<div class="empty"><strong>No ducks need extra care</strong>Your whole flock is feeling well. May it stay that way. ♡</div>');return}if(!selected||!s.ducks.some(x=>x.uid===selected))selected=s.ducks[0].uid;let d=s.ducks.find(x=>x.uid===selected),v=def(d),uc=Math.floor(20*Math.pow(1.65,d.level-1)*v.i);c.innerHTML=tabs+'<p class="intro">Choose a duck to see their strengths, improve their skills, and equip a keepsake.</p><div class="section">CHOOSE YOUR DUCK</div><div class="duck-selector" role="group" aria-label="Choose your duck">'+s.ducks.map(x=>{const q=def(x);return '<button type="button" class="duck-choice '+(x.uid===d.uid?'selected':'')+'" data-action="selectduck:'+x.uid+'" aria-pressed="'+(x.uid===d.uid)+'"><span class="duck-choice-avatar">'+duckIcon(q)+'</span><span class="duck-choice-name">'+q.name+'</span><span class="duck-choice-level">'+(x.injured?'Recovering · ':'')+'Lv '+x.level+'</span></button>'}).join('')+'</div><div class="card '+(d.injured?'injured-card':'')+'"><div class="row"><div class="avatar">'+duckIcon(v)+'</div><div class="main"><div class="mtitle">'+v.name+' <span class="pill '+v.r+'">'+v.r+'</span>'+(d.injured?' <span class="pill">Injured</span>':'')+'</div><div class="desc">'+v.desc+'</div><div class="meta">Level '+d.level+' · '+fmt(incomeDuck(d))+' pennies/sec</div></div></div><div class="setting"><span>Attack</span><strong>'+duckAttack(d)+' damage</strong></div><div class="setting"><span>Health</span><strong>'+Math.ceil(ensureDuckCombat(d).health)+' / '+duckMaxHealth(d)+'</strong></div><div style="margin-top:12px">'+btn('Care for '+v.name+' · '+fmt(uc), 'duckup:'+d.uid,s.money<uc||d.level>=50)+'</div></div><p class="section">KEEPSAKE SLOTS</p><p class="intro">Swap keepsakes any time without losing them.</p>'+['Charm','Ribbon','Shell'].map(slot=>{let equipped=item(d.equipment[slot]),available=items.filter(x=>x.s===slot&&(s.inv[x.id]||0)>0);return '<div class="card"><div class="row"><div class="main"><div class="mtitle">'+slot+'</div><div class="desc">'+(equipped?equipped.e+' '+equipped.n+' · '+equipped.d:'Nothing tucked in here yet.')+'</div></div>'+(equipped?btn('Remove','off:'+d.uid+':'+slot,false,true):'')+'</div>'+(available.length&&!equipped?'<select class="select" data-slot="'+slot+'" data-duck="'+d.uid+'"><option value="">Choose a keepsake…</option>'+available.map(x=>'<option value="'+x.id+'">'+x.n+' · '+x.d+' ('+s.inv[x.id]+')</option>').join('')+'</select>':'')+'</div>'}).join('')}
@@ -1852,7 +1854,7 @@ function finishLure(outcomes,prices){
   }
   rolling=false;save();hud();render();
 }
-function buy(k){let price=cost(k);if(s.money<price||s.up[k]>=50)return;s.money-=price;s.up[k]++;say('Your pond feels a little lovelier already.');hud();save();render()}
+function buy(k){let price=cost(k),max=maxUpgradeLevel(k);if(s.money<price||s.up[k]>=max)return;s.money-=price;s.up[k]++;if(k==='frogs'){frogNextEatAt[s.up[k]-1]=performance.now()+6000;queueEvent('A little frog has settled into your pond! It will snack on bugs as they gather.');}else say('Your pond feels a little lovelier already.');hud();save();render()}
 function care(uid){let d=s.ducks.find(x=>x.uid===uid),price=Math.floor(20*Math.pow(1.65,d.level-1)*def(d).i);if(!d||s.money<price||d.level>=50)return;s.money-=price;const oldMax=duckMaxHealth(d);d.level++;ensureDuckCombat(d);d.health=Math.min(d.maxHealth,d.health+(d.maxHealth-oldMax));say(def(d).name+' grew a little braver!');hud();save();render()}
 function equip(uid,slot,id){let d=s.ducks.find(x=>x.uid===uid),it=item(id);if(!d||!it||it.s!==slot||(s.inv[id]||0)<1)return;if(d.equipment[slot])s.inv[d.equipment[slot]]=(s.inv[d.equipment[slot]]||0)+1;s.inv[id]--;if(!s.inv[id])delete s.inv[id];d.equipment[slot]=id;save();render();say(it.n+' tucked safely into place.')}
 function unequip(uid,slot){let d=s.ducks.find(x=>x.uid===uid);if(!d||!d.equipment[slot])return;s.inv[d.equipment[slot]]=(s.inv[d.equipment[slot]]||0)+1;delete d.equipment[slot];save();render();say('Keepsake safely returned to your basket.')}
@@ -1939,7 +1941,7 @@ function drawPredatorSprite(p,x,y,win,now){
  if(win){q(-7,7,4,2,'#e6b0a6');q(2,7,4,2,'#e6b0a6')}else{q(-7,7,3,2,'#b98b63');q(2,7,3,2,'#b98b63')}ctx.restore();
 }
 const waterStriderStates=[null,null,null];let waterStriderLastTime=0;
-const pondBugs=Array.from({length:4},(_,i)=>({phase:i*1.57,offset:i,alive:true,respawnAt:0,lastChance:0,x:0,y:0}));
+const pondBugs=Array.from({length:4},(_,i)=>({phase:i*1.57,offset:i,alive:true,respawnAt:0,lastChance:0,x:0,y:0,retired:false}));let bugSpawnAt=performance.now()+12000,frogNextEatAt=[];
 const striderHearts=[];
 const duckFeeding=Object.create(null),nomTexts=[],growthIndicators=[];
 const lilyPadMotion=Array.from({length:6},()=>({x:0,y:0,vx:0,vy:0}));
@@ -2799,10 +2801,13 @@ function draw(now){
   if(shownRatio>0){ctx.beginPath();ctx.roundRect(bx,by,Math.max(bh,Math.round(bw*shownRatio)),bh,radius);ctx.fill();}
   ctx.restore();
  }
+ // Bugs slowly multiply until the pond reaches its busy population cap.
+ // Purchased frogs permanently remove bugs, opening room for new insects to arrive.
+ if(now>=bugSpawnAt){const population=pondBugs.filter(b=>!b.retired).length;if(population<12)pondBugs.push({phase:Math.random()*Math.PI*2,offset:Math.random()*8,alive:true,respawnAt:0,lastChance:0,x:cx,y:cy,retired:false});bugSpawnAt=now+12000;}
  // Living insect population: ducks can catch bugs, and each eaten insect
  // returns after a short respawn delay so the pond never becomes permanently empty.
  for(let i=0;i<pondBugs.length;i++){
-  const bug=pondBugs[i];
+  const bug=pondBugs[i];if(bug.retired)continue;
   if(!bug.alive){if(now>=bug.respawnAt){bug.alive=true;bug.phase=Math.random()*Math.PI*2;bug.offset=Math.random()*8;}else continue;}
   const a=now*.00029+bug.phase,fx=cx+Math.sin(a)*rx*.58,fy=cy+Math.sin(a*1.65+bug.offset)*ry*.59-7;
   bug.x=fx;bug.y=fy;
@@ -2837,6 +2842,25 @@ function draw(now){
   ctx.strokeStyle='#536e61';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(fx-1,fy);ctx.lineTo(fx-4,fy-2-flap);ctx.moveTo(fx+1,fy);ctx.lineTo(fx+4,fy-2+flap);ctx.stroke();
   ctx.fillStyle='#354f45';ctx.fillRect(fx-1,fy-1,3,2);ctx.fillStyle='#e6f1d4';ctx.fillRect(fx-3,fy-3,2,2);ctx.fillRect(fx+2,fy-3,2,2);
  }
+ // Frogs patrol the lower pond edge and permanently eat bugs at a steady pace.
+ const frogCount=Math.min(8,Math.max(0,Number(s.up.frogs)||0));
+ for(let fi=0;fi<frogCount;fi++){
+  if(!frogNextEatAt[fi])frogNextEatAt[fi]=now+7000+fi*2100;
+  if(now>=frogNextEatAt[fi]){
+   let target=null,best=Infinity;
+   for(const bug of pondBugs){if(bug.retired||!bug.alive)continue;const dist=Math.hypot(bug.x-(cx+Math.sin(fi*2.4)*rx*.34),bug.y-(cy+ry*.55));if(dist<best){best=dist;target=bug;}}
+   if(target){target.retired=true;target.alive=false;target.eatenAt=now;target.eatenX=target.x;target.eatenY=target.y;ripples.push({x:target.x,y:target.y,t:now,heart:false,power:.55});}
+   frogNextEatAt[fi]=now+34000;
+  }
+  const fa=frogCount===1?.5:fi/(frogCount-1),fx=cx-rx*.43+fa*rx*.86,fy=cy+ry*.67+Math.sin(now*.002+fi)*1.5;
+  ctx.save();ctx.translate(Math.round(fx),Math.round(fy));ctx.scale(1.35,1.35);const blink=Math.sin(now*.004+fi*2)>0.985;
+  ctx.fillStyle='#355d43';ctx.fillRect(-7,1,14,5);ctx.fillRect(-5,-3,10,6);ctx.fillStyle='#4f9259';ctx.fillRect(-6,-3,12,6);ctx.fillRect(-7,-5,4,4);ctx.fillRect(3,-5,4,4);
+  ctx.fillStyle='#f4f0c8';ctx.fillRect(-6,-5,3,3);ctx.fillRect(4,-5,3,3);ctx.fillStyle='#263c2c';if(!blink){ctx.fillRect(-5,-5,1,2);ctx.fillRect(5,-5,1,2);}else{ctx.fillRect(-5,-4,2,1);ctx.fillRect(4,-4,2,1);}
+  ctx.fillStyle='#e9c6a0';ctx.fillRect(-5,5,4,2);ctx.fillRect(2,5,4,2);ctx.restore();
+ }
+ // A quiet population label lets players see when the pond is getting buggy.
+ const bugPopulation=pondBugs.filter(b=>!b.retired).length;ctx.save();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';const label='BUGS '+bugPopulation+'/12',labelW=ctx.measureText(label).width+16,bx=cx,by=cy+ry*.84;
+ ctx.fillStyle=bugPopulation>=10?'rgba(115,65,48,.88)':'rgba(48,83,65,.78)';ctx.beginPath();ctx.roundRect(bx-labelW/2,by-8,labelW,16,7);ctx.fill();ctx.fillStyle='#fff7dc';ctx.fillText(label,bx,by+3);ctx.restore();
  // Brief sparkle bursts mark successful catches with a soft, readable pop.
  for(const bug of pondBugs){if(bug.eatenAt&&now-bug.eatenAt<430){const age=(now-bug.eatenAt)/430;ctx.globalAlpha=1-age;ctx.strokeStyle='#fff1c5';ctx.lineWidth=1.2;for(let k=0;k<4;k++){const a=k*Math.PI/2;ctx.beginPath();ctx.moveTo(bug.eatenX+Math.cos(a)*2,bug.eatenY+Math.sin(a)*2);ctx.lineTo(bug.eatenX+Math.cos(a)*(3+age*8),bug.eatenY+Math.sin(a)*(3+age*8));ctx.stroke();}ctx.globalAlpha=1;}}
  // A tiny speech bubble appears only after a successful catch.
