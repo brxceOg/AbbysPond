@@ -2809,10 +2809,10 @@ function draw(now){
  for(let i=0;i<pondBugs.length;i++){
   const bug=pondBugs[i];if(bug.retired)continue;
   if(!bug.alive){if(now>=bug.respawnAt){bug.alive=true;bug.phase=Math.random()*Math.PI*2;bug.offset=Math.random()*8;}else continue;}
+  // Freeze the insect at the moment the frog catches it, then draw it on the tongue.
+  if(bug.tongueCaughtBy!=null)continue;
   const a=now*.00029+bug.phase,fx=cx+Math.sin(a)*rx*.58,fy=cy+Math.sin(a*1.65+bug.offset)*ry*.59-7;
   bug.x=fx;bug.y=fy;
-  // A frog that has caught this insect owns it for the entire tongue animation.
-  if(bug.tongueCaughtBy!=null)continue;
   let caughtBy=null,caughtScore=Infinity;
   for(const swimmer of swimmers){
    const ratio=swimmer.d.maxHealth?swimmer.d.health/swimmer.d.maxHealth:1;
