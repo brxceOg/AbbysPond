@@ -2022,12 +2022,23 @@ function draw(now){
  const lilyPadPositions=[];
  const previousDuckPositions=duckPositions.slice();
  const padDt=Math.min(2.5,Math.max(.4,(now-(draw.lastPadTime||now-16.67))/16.67||1));draw.lastPadTime=now;
+ const lilyPadBases=Array.from({length:6},(_,i)=>{const a=i*.97+.25,driftX=Math.sin(now*.00031+i*1.7)*12+Math.sin(now*.00017+i*2.3)*4.5,driftY=Math.sin(now*.00027+i*1.31)*8+Math.cos(now*.00019+i*1.9)*3;return{x:cx+Math.cos(a)*rx*.72+driftX,y:cy+Math.sin(a)*ry*.68+driftY};});
  for(let i=0;i<6;i++){
   const a=i*.97+.25;
-  const driftX=Math.sin(now*.00031+i*1.7)*12+Math.sin(now*.00017+i*2.3)*4.5;
-  const driftY=Math.sin(now*.00027+i*1.31)*8+Math.cos(now*.00019+i*1.9)*3;
-  const baseX=cx+Math.cos(a)*rx*.72+driftX,baseY=cy+Math.sin(a)*ry*.68+driftY;
+  const {x:baseX,y:baseY}=lilyPadBases[i];
   const motion=lilyPadMotion[i];
+  // Lily pads are separate floating objects: actively repel neighboring pads
+  // before integrating their drift, instead of allowing their paths to overlap.
+  for(let j=0;j<6;j++){
+   if(j===i)continue;
+   const other=lilyPadMotion[j],otherBase=lilyPadBases[j];
+   let dx=baseX+motion.x-(otherBase.x+other.x),dy=baseY+motion.y-(otherBase.y+other.y),dist=Math.hypot(dx,dy);
+   if(dist<32){
+    if(dist<.001){dx=i<j?-1:1;dy=0;dist=1;}
+    const push=Math.min(1.1,(32-dist)*.09)*padDt;
+    motion.vx+=dx/dist*push;motion.vy+=dy/dist*push;
+   }
+  }
   for(const duck of previousDuckPositions){
    const dx=baseX+motion.x-duck.x,dy=baseY+motion.y-duck.y,dist=Math.hypot(dx,dy)||.001,influence=31-dist;
    if(influence>0){const push=Math.min(.34,influence*.014)*padDt;motion.vx+=dx/dist*push;motion.vy+=dy/dist*push;}
