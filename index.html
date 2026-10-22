@@ -2888,6 +2888,18 @@ function draw(now){
    const sweep=Math.sin(battle.angle*2.15+(now-battle.start)*.0011);
    battle.x=cx+Math.cos(battle.angle)*rx*(.39+.15*sweep);
    battle.y=cy+Math.sin(battle.angle)*ry*(.34+.14*sweep);
+   const spitLevel=Math.max(0,Math.min(50,Number(s.up.spitball)||0));
+   if(spitLevel>0){
+    const cooldown=Math.max(800,1800-spitLevel*20),damage=Math.max(1,Math.round(3+spitLevel*1.1));
+    for(let si=0;si<swimmers.length;si++){
+     const shooter=swimmers[si],duck=ensureDuckCombat(shooter.d);if(duck.health<=0)continue;
+     if(!Number.isFinite(shooter.state.nextSpitAt))shooter.state.nextSpitAt=now+si*115;
+     if(now>=shooter.state.nextSpitAt){
+      const sx=shooter.x+10,sy=shooter.y-5,dx=battle.x-sx,dy=battle.y-sy,len=Math.hypot(dx,dy)||1,speed=245;
+      spitballs.push({x:sx,y:sy,vx:dx/len*speed,vy:dy/len*speed,damage,createdAt:now});shooter.state.nextSpitAt=now+cooldown;
+     }
+    }
+   }
    for(const swimmer of swimmers){
     const d=ensureDuckCombat(swimmer.d),key=swimmer.key,dist=Math.hypot(swimmer.x-battle.x,swimmer.y-battle.y);
     if(dist<23&&d.health>0&&now-(battle.hitAt[key]||0)>720){
