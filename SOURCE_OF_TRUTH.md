@@ -45,6 +45,7 @@ The loop should be understandable within the first minute, with new systems intr
 - Water should feel gently animated through layered color, drifting highlights, small ripples, and duck wake trails; effects must remain performant on mobile.
 - Shoreline and surrounding details should include naturally varied, flowy grass, reeds, cattails, small flowers, stones, lily pads, and occasional decorative surprises. Avoid clutter that competes with ducks.
 - Ducks should visibly float/swim around the pond rather than act as static icons. Give them gentle bobbing, turning, movement variation, and appropriate reactions to events.
+- Supporting pond creatures, including purchased frogs, must use the same hand-crafted cartoon pixel-art language as the ducks: readable rounded silhouettes, deliberate dark outlines, soft highlights, expressive faces, and a restrained palette that fits the cozy cottagecore pond. Avoid crude block-only placeholder sprites; tiny details should remain legible at pond scale.
 - Keep important UI overlaid on the scene in calm, organized panels with clear spacing and hierarchy. Avoid covering the pond with permanent opaque UI.
 - Use a custom-feeling type pairing: a friendly display face for headings and a highly legible face for numbers/body text. Bundle or load fonts robustly; provide fallbacks and avoid layout shifts.
 - Visual tone: tender, playful, storybook-like, polished, and cozy. The affectionate identity should feel sincere rather than overly saccharine.
