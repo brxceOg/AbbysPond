@@ -598,3 +598,9 @@ For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, d
 - Frogs should feel like the same artist drew them beside the ducks: warm brown ink outlines rather than near-black green outlines, organic asymmetrical contours, muted pond greens, cream belly accents, soft painted highlights, tiny freckles, expressive cream eyes with dark pupils and catchlights, and restrained rosy cheeks.
 - At pond scale, prioritize a distinctive frog silhouette and readable face over dense detail. Use rounded limbs and feet, a light grounding shadow, and gentle motion; avoid emoji-like symbols, rigid geometry, neon greens, or glossy 3D shading.
 - Preserve the established watercolor-and-ink storybook aesthetic and do not alter duck art or gameplay to refine frog visuals.
+
+
+## Frog behavior — hopping and lily-pad hunting (2026-10-22)
+- Frog Friends should travel in distinct, readable little hops around the pond, with a short arc and soft landing rather than sliding continuously. All destination points must remain inside the pond boundary.
+- Treat lily pads as moving destinations: frogs inspect pads for insects and may hop toward a pad when a bug is present. Avoid multiple frogs visibly claiming the same bug.
+- Use a long, curved, rosy tongue with a clear extension and retract phase. The captured bug should travel back along the tongue into the frog's mouth, then disappear with a subtle water ripple. Keep the animation playful and readable at mobile scale; don't use a harsh laser-straight line or instantaneous bug deletion.
