@@ -1941,7 +1941,7 @@ function drawPredatorSprite(p,x,y,win,now){
  if(win){q(-7,7,4,2,'#e6b0a6');q(2,7,4,2,'#e6b0a6')}else{q(-7,7,3,2,'#b98b63');q(2,7,3,2,'#b98b63')}ctx.restore();
 }
 const waterStriderStates=[null,null,null];let waterStriderLastTime=0;
-const pondBugs=Array.from({length:4},(_,i)=>({phase:i*1.57,offset:i,alive:true,respawnAt:0,lastChance:0,x:0,y:0,retired:false}));let bugSpawnAt=performance.now()+12000,frogNextEatAt=[];
+const pondBugs=Array.from({length:4},(_,i)=>({phase:i*1.57,offset:i,alive:true,respawnAt:0,lastChance:0,x:0,y:0,retired:false}));let bugSpawnAt=performance.now()+12000;const frogStates=[];
 const striderHearts=[];
 const duckFeeding=Object.create(null),nomTexts=[],growthIndicators=[];
 const lilyPadMotion=Array.from({length:6},()=>({x:0,y:0,vx:0,vy:0}));
@@ -2811,6 +2811,8 @@ function draw(now){
   if(!bug.alive){if(now>=bug.respawnAt){bug.alive=true;bug.phase=Math.random()*Math.PI*2;bug.offset=Math.random()*8;}else continue;}
   const a=now*.00029+bug.phase,fx=cx+Math.sin(a)*rx*.58,fy=cy+Math.sin(a*1.65+bug.offset)*ry*.59-7;
   bug.x=fx;bug.y=fy;
+  // A frog that has caught this insect owns it for the entire tongue animation.
+  if(bug.tongueCaughtBy!=null)continue;
   let caughtBy=null,caughtScore=Infinity;
   for(const swimmer of swimmers){
    const ratio=swimmer.d.maxHealth?swimmer.d.health/swimmer.d.maxHealth:1;
@@ -2842,59 +2844,145 @@ function draw(now){
   ctx.strokeStyle='#536e61';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(fx-1,fy);ctx.lineTo(fx-4,fy-2-flap);ctx.moveTo(fx+1,fy);ctx.lineTo(fx+4,fy-2+flap);ctx.stroke();
   ctx.fillStyle='#354f45';ctx.fillRect(fx-1,fy-1,3,2);ctx.fillStyle='#e6f1d4';ctx.fillRect(fx-3,fy-3,2,2);ctx.fillRect(fx+2,fy-3,2,2);
  }
- // Frogs patrol the lower pond edge and permanently eat bugs at a steady pace.
+ // Frogs wander around the pond in little hops and actively inspect floating lily pads.
+ // If a live bug is on a pad, a frog can hop there, flick out its tongue, and reel it in.
  const frogCount=Math.min(8,Math.max(0,Number(s.up.frogs)||0));
- for(let fi=0;fi<frogCount;fi++){
-  if(!frogNextEatAt[fi])frogNextEatAt[fi]=now+7000+fi*2100;
-  if(now>=frogNextEatAt[fi]){
-   let target=null,best=Infinity;
-   for(const bug of pondBugs){if(bug.retired||!bug.alive)continue;const dist=Math.hypot(bug.x-(cx+Math.sin(fi*2.4)*rx*.34),bug.y-(cy+ry*.55));if(dist<best){best=dist;target=bug;}}
-   if(target){target.retired=true;target.alive=false;target.eatenAt=now;target.eatenX=target.x;target.eatenY=target.y;ripples.push({x:target.x,y:target.y,t:now,heart:false,power:.55});}
-   frogNextEatAt[fi]=now+34000;
+ const frogEase=t=>t*t*(3-2*t);
+ const bugOnPad=(padIndex,fi)=>{
+  const pad=lilyPadPositions[padIndex];if(!pad)return null;
+  let found=null,best=Infinity;
+  for(const bug of pondBugs){
+   if(bug.retired||!bug.alive||bug.tongueCaughtBy!=null||(bug.reservedBy!=null&&bug.reservedBy!==fi))continue;
+   const d=Math.hypot(bug.x-pad.x,bug.y-pad.y);
+   if(d<24&&d<best){found=bug;best=d;}
   }
-  const fa=frogCount===1?.5:fi/(frogCount-1),fx=cx-rx*.43+fa*rx*.86,fy=cy+ry*.67+Math.sin(now*.002+fi)*1.5;
-  // Hand-inked storybook frog: warm brown outlines, layered greens, soft cream,
-  // tiny painted skin marks, and a friendly expression that belongs beside the ducks.
-  const blink=Math.sin(now*.004+fi*2)>0.985,hop=Math.sin(now*.003+fi*1.7);
-  ctx.save();ctx.translate(Math.round(fx),Math.round(fy-Math.max(0,hop)*.8));ctx.scale(1.35,1.35);
+  return found;
+ };
+ const startFrogTongue=(state,bug,fi)=>{
+  if(!bug||bug.retired||!bug.alive||bug.tongueCaughtBy!=null)return false;
+  bug.tongueCaughtBy=fi;bug.reservedBy=fi;
+  state.tongueBug=bug;state.tongueStart=now;
+  return true;
+ };
+ for(let fi=0;fi<frogCount;fi++){
+  let state=frogStates[fi];
+  if(!state){state=frogStates[fi]={x:cx-rx*.34+(frogCount===1?0:fi/(frogCount-1)*rx*.68),y:cy+ry*.52,initialized:false,hopping:false,padIndex:null,targetPadIndex:null,targetBug:null,nextMoveAt:0,tongueStart:null,tongueBug:null};}
+  if(!state.initialized){state.initialized=true;state.nextMoveAt=now+450+fi*170;}
+  // Finish a tongue pull only after the bug visibly reaches the frog's mouth.
+  if(state.tongueStart!=null&&now-state.tongueStart>=960){
+   const bug=state.tongueBug;
+   if(bug&&!bug.retired){
+    bug.retired=true;bug.alive=false;bug.tongueCaughtBy=null;bug.reservedBy=null;
+    bug.eatenAt=now;bug.eatenX=state.x;bug.eatenY=state.y-2;
+    ripples.push({x:state.x,y:state.y,t:now,heart:false,power:.62});
+   }
+   state.tongueStart=null;state.tongueBug=null;state.nextMoveAt=now+650;
+  }
+  // Complete each hop with a soft landing. A target pad is checked again on arrival
+  // because insects keep fluttering while the frog is travelling toward them.
+  if(state.hopping){
+   const progress=Math.max(0,Math.min(1,(now-state.hopStart)/state.hopDuration));
+   const eased=frogEase(progress);
+   state.x=state.fromX+(state.targetX-state.fromX)*eased;
+   state.y=state.fromY+(state.targetY-state.fromY)*eased;
+   if(progress>=1){
+    state.x=state.targetX;state.y=state.targetY;state.hopping=false;
+    state.padIndex=state.targetPadIndex;state.targetPadIndex=null;
+    const candidate=state.targetBug&&state.targetBug.alive&&!state.targetBug.retired?state.targetBug:(state.padIndex==null?null:bugOnPad(state.padIndex,fi));
+    if(candidate&&state.padIndex!=null&&Math.hypot(candidate.x-lilyPadPositions[state.padIndex].x,candidate.y-lilyPadPositions[state.padIndex].y)<28){
+     startFrogTongue(state,candidate,fi);
+    }else{
+     if(state.targetBug&&state.targetBug.reservedBy===fi)state.targetBug.reservedBy=null;
+     state.targetBug=null;state.nextMoveAt=now+320+Math.random()*400;
+    }
+   }
+  }
+  // Once settled on a pad, keep an eye out for insects drifting onto it.
+  if(!state.hopping&&state.tongueStart==null&&state.padIndex!=null){
+   const waitingBug=bugOnPad(state.padIndex,fi);
+   if(waitingBug)startFrogTongue(state,waitingBug,fi);
+  }
+  // Pick a destination only when the frog is idle. Occupied pads take priority;
+  // otherwise the frog explores another lily pad or a safe point in open water.
+  if(!state.hopping&&state.tongueStart==null&&now>=state.nextMoveAt){
+   let targetPad=null,targetBug=null;
+   const bugPads=[];
+   for(let pi=0;pi<lilyPadPositions.length;pi++){
+    const bug=bugOnPad(pi,fi);if(bug)bugPads.push({pi,bug,d:Math.hypot(state.x-lilyPadPositions[pi].x,state.y-lilyPadPositions[pi].y)});
+   }
+   if(bugPads.length){
+    bugPads.sort((a,b)=>a.d-b.d);targetPad=bugPads[0].pi;targetBug=bugPads[0].bug;
+   }else if(lilyPadPositions.length&&Math.random()<.72){
+    const options=lilyPadPositions.map((p,pi)=>({pi,d:Math.hypot(state.x-p.x,state.y-p.y)})).filter(p=>p.pi!==state.padIndex);
+    if(options.length){const nearest=options.slice().sort((a,b)=>a.d-b.d).slice(0,Math.min(3,options.length));targetPad=nearest[Math.floor(Math.random()*nearest.length)].pi;}
+    else targetPad=Math.floor(Math.random()*lilyPadPositions.length);
+   }
+   let tx,ty;
+   if(targetPad!=null){tx=lilyPadPositions[targetPad].x;ty=lilyPadPositions[targetPad].y-1;}
+   else{
+    const angle=Math.random()*Math.PI*2,radius=Math.sqrt(Math.random())*.52;
+    tx=cx+Math.cos(angle)*rx*radius;ty=cy+Math.sin(angle)*ry*radius;
+   }
+   // Clamp every landing point to the pond's interior so hopping never escapes the water.
+   const nx=(tx-cx)/Math.max(1,rx*.82),ny=(ty-cy)/Math.max(1,ry*.82),rad=Math.hypot(nx,ny);
+   if(rad>1){tx=cx+nx/rad*rx*.82;ty=cy+ny/rad*ry*.82;}
+   state.fromX=state.x;state.fromY=state.y;state.targetX=tx;state.targetY=ty;
+   state.targetPadIndex=targetPad;state.targetBug=targetBug;
+   state.hopStart=now;state.hopDuration=460+Math.random()*260;state.hopping=true;
+   if(targetBug)targetBug.reservedBy=fi;
+  }
+  const hopProgress=state.hopping?Math.max(0,Math.min(1,(now-state.hopStart)/state.hopDuration)):0;
+  const hopLift=state.hopping?Math.sin(hopProgress*Math.PI)*(9+Math.min(10,Math.hypot(state.targetX-state.fromX,state.targetY-state.fromY)*.045)):Math.sin(now*.004+fi*1.8)*.65;
+  const fx=state.x,fy=state.y,drawY=fy-hopLift;
+  const blink=Math.sin(now*.004+fi*2)>0.985;
+  // Soft shadow stays close to the water while the frog springs above it.
+  ctx.save();ctx.globalAlpha=.16;ctx.fillStyle='#315d54';ctx.beginPath();ctx.ellipse(fx,fy+7,9.5,2.1,0,0,Math.PI*2);ctx.fill();ctx.restore();
+  // Storybook frog: warm ink contours, layered pond greens, cream belly and an expressive face.
+  ctx.save();ctx.translate(Math.round(fx),Math.round(drawY));ctx.scale(1.35,1.35);
   ctx.lineJoin='round';ctx.lineCap='round';
   const ink='#75594b',green='#5d9857',lightGreen='#7db96a',shadeGreen='#477c4b';
-  // Soft pond shadow keeps the little frog grounded in the same illustrated world.
-  ctx.fillStyle='rgba(55,83,65,.16)';ctx.beginPath();ctx.ellipse(0,8,9.5,2.1,0,0,Math.PI*2);ctx.fill();
-  // Splayed back feet, with rounded toes and small darker pads.
   ctx.fillStyle='#54874e';ctx.strokeStyle=ink;ctx.lineWidth=1.05;
   ctx.beginPath();ctx.ellipse(-5.5,4.1,4.4,2.5,-.3,0,Math.PI*2);ctx.fill();ctx.stroke();
   ctx.beginPath();ctx.ellipse(5.5,4.1,4.4,2.5,.3,0,Math.PI*2);ctx.fill();ctx.stroke();
-  ctx.fillStyle='#a4c978';
-  for(const side of [-1,1]){ctx.beginPath();ctx.ellipse(side*7.2,4.6,1.1,.65,side*.2,0,Math.PI*2);ctx.fill();}
-  // Plump body, outlined like the ducks rather than a flat geometric blob.
+  ctx.fillStyle='#a4c978';for(const side of [-1,1]){ctx.beginPath();ctx.ellipse(side*7.2,4.6,1.1,.65,side*.2,0,Math.PI*2);ctx.fill();}
   ctx.fillStyle=green;ctx.strokeStyle=ink;ctx.lineWidth=1.2;
   ctx.beginPath();ctx.moveTo(-6.4,1.1);ctx.quadraticCurveTo(-8.1,-1.6,-5.8,-3.1);ctx.quadraticCurveTo(-3.2,-5.1,0,-3.2);ctx.quadraticCurveTo(4.8,-5.3,6.4,-1.1);ctx.quadraticCurveTo(8.1,2.2,4.7,4.2);ctx.quadraticCurveTo(0,6.3,-4.8,4.1);ctx.quadraticCurveTo(-7.1,3.1,-6.4,1.1);ctx.closePath();ctx.fill();ctx.stroke();
-  // Cream belly has a curved upper edge and a small warm shadow for volume.
   ctx.fillStyle='#e8d4a6';ctx.strokeStyle='#a78365';ctx.lineWidth=.7;
   ctx.beginPath();ctx.moveTo(-4.2,.5);ctx.quadraticCurveTo(-3.3,-1.2,0,-.9);ctx.quadraticCurveTo(3.1,-1.1,4.1,.7);ctx.quadraticCurveTo(3.7,3.6,0,4);ctx.quadraticCurveTo(-3.6,3.8,-4.2,.5);ctx.closePath();ctx.fill();ctx.stroke();
   ctx.strokeStyle='#f7e8c4';ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(-2.6,.1);ctx.quadraticCurveTo(-.8,-.6,1.4,-.2);ctx.stroke();
-  // Forearms curl around the tummy; small rounded fingertips make the pose readable.
   ctx.strokeStyle=shadeGreen;ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(-5.1,-.5);ctx.quadraticCurveTo(-4.2,1.5,-2.4,1.7);ctx.moveTo(5.1,-.5);ctx.quadraticCurveTo(4.2,1.5,2.4,1.7);ctx.stroke();
   ctx.fillStyle=lightGreen;ctx.beginPath();ctx.ellipse(-2.4,1.7,1.1,.75,-.2,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(2.4,1.7,1.1,.75,.2,0,Math.PI*2);ctx.fill();
-  // Oversized, gently uneven head and eye bumps give the frog a clear silhouette.
   ctx.fillStyle=lightGreen;ctx.strokeStyle=ink;ctx.lineWidth=1.2;
   ctx.beginPath();ctx.moveTo(-6.7,-2.1);ctx.quadraticCurveTo(-8.3,-4.7,-6.4,-6.6);ctx.quadraticCurveTo(-4.9,-8.1,-3.1,-6.2);ctx.quadraticCurveTo(0,-7.1,3.1,-6.2);ctx.quadraticCurveTo(5.1,-8.2,6.6,-6.3);ctx.quadraticCurveTo(8.1,-4.5,6.6,-2);ctx.quadraticCurveTo(5.1,.5,0,.4);ctx.quadraticCurveTo(-5.2,.5,-6.7,-2.1);ctx.closePath();ctx.fill();ctx.stroke();
-  // Gentle painted highlights and scattered olive freckles add the handcrafted finish.
   ctx.fillStyle='#b5d987';ctx.beginPath();ctx.ellipse(-4.2,-4.7,1.7,.65,-.45,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#4d854c';for(const p of [[-5,-1.5],[-3.8,-.4],[4.8,-1.5],[3.8,-.5]]){ctx.beginPath();ctx.ellipse(p[0],p[1],.42,.55,.2,0,Math.PI*2);ctx.fill();}
-  // Cream eye whites, deep warm-green pupils, and tiny catchlights.
   for(const side of [-1,1]){
-   ctx.fillStyle='#fff2d5';ctx.strokeStyle=ink;ctx.lineWidth=.75;
-   ctx.beginPath();ctx.ellipse(side*3.55,-5.25,2.15,2.45,side*.07,0,Math.PI*2);ctx.fill();ctx.stroke();
+   ctx.fillStyle='#fff2d5';ctx.strokeStyle=ink;ctx.lineWidth=.75;ctx.beginPath();ctx.ellipse(side*3.55,-5.25,2.15,2.45,side*.07,0,Math.PI*2);ctx.fill();ctx.stroke();
    if(!blink){ctx.fillStyle='#283b2e';ctx.beginPath();ctx.ellipse(side*3.8,-5.05,.93,1.45,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fffdf2';ctx.beginPath();ctx.ellipse(side*3.55,-5.7,.48,.58,0,0,Math.PI*2);ctx.fill();}
    else{ctx.strokeStyle=ink;ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(side*2.2,-5.1);ctx.quadraticCurveTo(side*3.5,-4.1,side*4.9,-5.1);ctx.stroke();}
   }
-  // Tiny nostrils, a soft smile, and blush tie the frog's face to the duck expressions.
   ctx.fillStyle='#456f43';ctx.beginPath();ctx.ellipse(-1.25,-1.45,.38,.28,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(1.25,-1.45,.38,.28,0,0,Math.PI*2);ctx.fill();
   ctx.strokeStyle=ink;ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(-2.1,-.7);ctx.quadraticCurveTo(0,1.25,2.1,-.7);ctx.stroke();
   ctx.fillStyle='#e9a1a0';ctx.globalAlpha=.78;ctx.beginPath();ctx.ellipse(-5.25,-1.3,1.05,.58,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(5.25,-1.3,1.05,.58,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
   ctx.restore();
+  // Long, springy tongue: it shoots toward the bug, then curls back while pulling
+  // the little insect toward the frog's mouth before the bug is retired from the pond.
+  if(state.tongueStart!=null&&state.tongueBug&&!state.tongueBug.retired){
+   const bug=state.tongueBug,elapsed=Math.max(0,now-state.tongueStart),t=Math.min(1,elapsed/960);
+   const mouthX=fx,mouthY=drawY-1.2;
+   const targetX=Number.isFinite(bug.x)?bug.x:fx,targetY=Number.isFinite(bug.y)?bug.y:fy;
+   let tipX,tipY;
+   if(t<.34){const p=frogEase(t/.34);tipX=mouthX+(targetX-mouthX)*p;tipY=mouthY+(targetY-mouthY)*p;}
+   else{const p=frogEase((t-.34)/.66);tipX=targetX+(mouthX-targetX)*p;tipY=targetY+(mouthY-targetY)*p;}
+   const bendX=(mouthX+tipX)/2, bendY=(mouthY+tipY)/2-Math.min(12,Math.abs(tipY-mouthY)*.12);
+   ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+   ctx.strokeStyle='#b84f67';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(mouthX,mouthY);ctx.quadraticCurveTo(bendX,bendY,tipX,tipY);ctx.stroke();
+   ctx.strokeStyle='#f18b9b';ctx.lineWidth=1.65;ctx.beginPath();ctx.moveTo(mouthX,mouthY);ctx.quadraticCurveTo(bendX,bendY-1.2,tipX,tipY);ctx.stroke();
+   ctx.fillStyle='#f18b9b';ctx.beginPath();ctx.ellipse(tipX,tipY,2.1,1.5,Math.atan2(tipY-mouthY,tipX-mouthX),0,Math.PI*2);ctx.fill();
+   // Draw the captured bug riding the tongue's tip as it is sucked back in.
+   if(t>.22){ctx.save();ctx.translate(tipX,tipY);const wingBeat=Math.sin(now*.06)*.8;ctx.fillStyle='#fff1c9';ctx.beginPath();ctx.ellipse(-1.3,-1.4,1.3,1,.3+wingBeat*.1,0,Math.PI*2);ctx.ellipse(1.3,-1.4,1.3,1,-.3-wingBeat*.1,0,Math.PI*2);ctx.fill();ctx.fillStyle='#4c4337';ctx.beginPath();ctx.ellipse(0,0,1.8,1.1,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3b332d';ctx.beginPath();ctx.ellipse(1.7,-.2,.7,.7,0,0,Math.PI*2);ctx.fill();ctx.restore();}
+   ctx.restore();
+  }
  }
  // A quiet population label lets players see when the pond is getting buggy.
  const bugPopulation=pondBugs.filter(b=>!b.retired).length;ctx.save();ctx.font='bold 9px system-ui,sans-serif';ctx.textAlign='center';const label='BUGS '+bugPopulation+'/12',labelW=ctx.measureText(label).width+16,bx=cx,by=cy+ry*.84;
