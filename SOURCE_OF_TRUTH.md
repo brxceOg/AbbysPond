@@ -964,3 +964,10 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - During an active predator encounter, each healthy duck automatically fires small water-spit pellets toward the predator's current position. Pellets travel visibly across the pond, deal direct enemy-health damage on impact, and trigger the existing victory/escape flow when the predator is defeated.
 - Each rank increases pellet damage and slightly reduces firing cooldown; firing is staggered between ducks. The upgrade does not alter duck health, melee contact damage, enemy damage, or normal swimming.
 - Inline JavaScript syntax checked successfully. Live visual/gameplay QA is still required to verify projectile readability, targeting, balance across predator tiers, and mobile performance.
+
+
+## Skill-tree upgrade button alignment fix (2026-10-22)
+- Applied the intended `skill-buy` class to skill-tree purchase buttons so they use the compact upgrade-button styling.
+- Prevented the skill-card footer from wrapping the button onto a second row when the next-level cost changes after a purchase.
+- Gave all skill-tree upgrade buttons a consistent 72 px width and kept the cost label flexible, so changing price digits does not shift the button horizontally.
+- JavaScript syntax checked; layout should still be visually checked on narrow mobile screens.
