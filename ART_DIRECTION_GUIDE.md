@@ -592,3 +592,9 @@ For an elliptical boundary, calculate normalized radius `r = hypot(dx / edgeX, d
 - Added a skill-tree upgrade, **Bug Bloom**, starting at 75 Pond Pennies and using the existing exponential cost curve; max rank 50.
 - Each rank reduces bug respawn wait by 1.4 percentage points, capped at 70% faster. The base wait remains randomized from 5 to 11.5 seconds before the reduction, so bugs return sooner without changing their healing value or existing bug-catching behavior.
 - Existing saves receive a zero-level default for the new upgrade. Inline JavaScript syntax checked after the change; no visual/live gameplay QA performed.
+
+
+## Frog Friends — matching the duck illustration style (2026-10-22)
+- Frogs should feel like the same artist drew them beside the ducks: warm brown ink outlines rather than near-black green outlines, organic asymmetrical contours, muted pond greens, cream belly accents, soft painted highlights, tiny freckles, expressive cream eyes with dark pupils and catchlights, and restrained rosy cheeks.
+- At pond scale, prioritize a distinctive frog silhouette and readable face over dense detail. Use rounded limbs and feet, a light grounding shadow, and gentle motion; avoid emoji-like symbols, rigid geometry, neon greens, or glossy 3D shading.
+- Preserve the established watercolor-and-ink storybook aesthetic and do not alter duck art or gameplay to refine frog visuals.
