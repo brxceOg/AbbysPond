@@ -957,3 +957,10 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Removed persistent writes of pairwise separation corrections into each duck's movement state. Corrections now adjust only the current frame's working positions, while the formation target and knockback state remain independent.
 - This resolves a feedback loop where the same ducks were repeatedly nudged away from crowded bends, then carried those offsets into the next frame and fought their moving targets, causing visible jitter.
 - Existing adaptive spacing, 14-pass solver, nearest-slot transition assignment, knockback, and pond-boundary projection remain in place. JavaScript syntax checked; live visual/gameplay QA is still required.
+
+
+## Spitball ranged-attack upgrade (2026-10-22)
+- Added **Spitball** to the independent skill-tree branches. It starts at 90 Pond Pennies and uses the existing exponential upgrade-cost curve; it supports the same 50-rank cap and merges safely into existing saves through the default upgrade map.
+- During an active predator encounter, each healthy duck automatically fires small water-spit pellets toward the predator's current position. Pellets travel visibly across the pond, deal direct enemy-health damage on impact, and trigger the existing victory/escape flow when the predator is defeated.
+- Each rank increases pellet damage and slightly reduces firing cooldown; firing is staggered between ducks. The upgrade does not alter duck health, melee contact damage, enemy damage, or normal swimming.
+- Inline JavaScript syntax checked successfully. Live visual/gameplay QA is still required to verify projectile readability, targeting, balance across predator tiers, and mobile performance.
