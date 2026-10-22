@@ -2080,7 +2080,7 @@ function draw(now){
  // The flock rotates through five distinct formations. Every non-circle shape is
  // distributed by real pixel distance along its path so the ducks keep comfortable,
  // even spacing on horizontal and diagonal sections alike.
- duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=37;
+ duckPositions=[];const duckLimit=Math.min(s.ducks.length,14),swimmers=[],minDuckGap=38;
  const circleGap=duckLimit>1?Math.PI*2/duckLimit:0;
  const lineGap=Math.max(.32,Math.min(.58,minDuckGap/Math.max(55,Math.min(rx*.53,ry*.48)*.9)));
  const formationNames=['circle','zigzag','vee','diamond','arc'];
@@ -2264,27 +2264,28 @@ function draw(now){
  // Keep the flock physically together: separate overlapping bodies before drawing,
  // and project every correction back inside the pond's hard interior boundary.
  // Repeated small passes prevent a knocked duck from being painted underneath a neighbor.
- const flockGap=25,pondEdgeX=Math.max(18,rx*.69),pondEdgeY=Math.max(18,ry*.69);
+ // Keep a useful visible gap between sprites, adapting only on very small ponds so
+ const flockGap=Math.max(29,Math.min(38,Math.min(rx,ry)*.39)),pondEdgeX=Math.max(18,rx*.69),pondEdgeY=Math.max(18,ry*.69);
  function clampDuckToPond(p){
   const dx=p.x-cx,dy=p.y-cy,nx=dx/pondEdgeX,ny=dy/pondEdgeY,r=Math.hypot(nx,ny);
   if(r>1){p.x=cx+dx/r;p.y=cy+dy/r;}
  }
  const morphingFormation=formProgress<1;
- const transitionGap=morphingFormation?34:flockGap;
+ const transitionGap=morphingFormation?Math.min(42,flockGap+4):flockGap;
  // Keep separation corrections in the per-duck offset, not just this frame's
  // temporary draw coordinates. Otherwise the next frame's interpolated target
  // erases the dodge and the same ducks collide repeatedly along the same paths.
  function nudgeDuck(p,dx,dy){
   p.x+=dx;p.y+=dy;
-  p.state.sepX=Math.max(-36,Math.min(36,(p.state.sepX||0)+dx));
-  p.state.sepY=Math.max(-32,Math.min(32,(p.state.sepY||0)+dy));
+  p.state.sepX=Math.max(-48,Math.min(48,(p.state.sepX||0)+dx));
+  p.state.sepY=Math.max(-42,Math.min(42,(p.state.sepY||0)+dy));
  }
- for(let pass=0;pass<9;pass++){
+ for(let pass=0;pass<14;pass++){
   for(let i=0;i<swimmers.length;i++)for(let j=i+1;j<swimmers.length;j++){
    const a=swimmers[i],b=swimmers[j],dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy)||.001;
    if(dist<transitionGap){
     const ux=dx/dist,uy=dy/dist;
-    const push=(transitionGap-dist)*.46;
+    const push=(transitionGap-dist)*.48;
     nudgeDuck(a,-ux*push,-uy*push);nudgeDuck(b,ux*push,uy*push);
     if(morphingFormation&&pass<3){
      // Add a restrained, repeatable sideways route around neighbors while
