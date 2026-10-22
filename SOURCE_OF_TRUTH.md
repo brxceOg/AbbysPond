@@ -939,3 +939,9 @@ Formation-transition spacing fix (2026-10-21): pairwise spacing corrections are 
 - Added a skill-tree upgrade, **Bug Bloom**, starting at 75 Pond Pennies and using the existing exponential cost curve; max rank 50.
 - Each rank reduces bug respawn wait by 1.4 percentage points, capped at 70% faster. The base wait remains randomized from 5 to 11.5 seconds before the reduction, so bugs return sooner without changing their healing value or existing bug-catching behavior.
 - Existing saves receive a zero-level default for the new upgrade. Inline JavaScript syntax checked after the change; no visual/live gameplay QA performed.
+
+
+## Lily-pad separation safeguard (2026-10-22)
+- Added pairwise repulsion between all six independently drifting lily pads, maintaining a 32 CSS-pixel center-spacing target before each frame's motion integration.
+- The force uses the pads' current drift offsets, is timestep-scaled, and includes a deterministic fallback direction for near-identical positions so overlapping pads do not remain stuck together.
+- Existing duck-avoidance, shoreline projection, pad artwork, and water-strider landing/occupancy behavior remain unchanged. Source-level patch applied; live visual/gameplay verification is still required.
